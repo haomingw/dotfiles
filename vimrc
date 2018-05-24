@@ -57,6 +57,14 @@
             Plug 'tpope/vim-fugitive'
             Plug 'scrooloose/syntastic'
             Plug 'scrooloose/nerdcommenter'
+            Plug 'easymotion/vim-easymotion'
+            Plug 'nathanaelkane/vim-indent-guides'
+        endif
+    " }
+
+    " Auto-completion {
+        if count(g:xming_plug_groups, 'youcompleteme')
+            Plug 'Valloric/YouCompleteMe', {'do': 'python3 ./install.py --clang-completer', 'for': ['cpp', 'python']}
         endif
     " }
 
@@ -147,7 +155,7 @@
 " Formatting {
 
     set nowrap
-    set autoindent smartindent
+    set autoindent
 
     set shiftwidth=4                " Use indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs
@@ -178,21 +186,18 @@
             set background=dark
         endif
     endfunction
-    noremap <leader>bg :call ToggleBG()<CR>
+    nmap <leader>bg :call ToggleBG()<CR>
 
     " Visual shifting (does not exit Visual mode)
     vmap < <gv
     vmap > >gv
 
-    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+    cmap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
     map <leader>ew :e %%
     map <leader>es :sp %%
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
     map <leader>rp :%s/
-
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nmap Y y$
 
     " Switch between tabs
     map <a-h> gT
@@ -219,15 +224,21 @@
     nmap <c-j> <c-w>j
 
     " Fast editting
-    nnoremap ; :
     nmap <c-s> :w<CR>
     imap <c-s> <Esc>:w<CR>a
     imap <s-cr> <Esc>o
     imap <c-s-cr> <Esc>O
 
+    " utils
+    nmap ; :
+    nmap Y y$               " to be consistent with C and D.
+    nmap  '. `.             " move to last modification
+    cmap <c-v> <c-r>+       " yank text in command mode
+
 " }
 
 " Plugins {
+
     " Rainbow {
         if isdirectory(expand("~/.vim/bundle/rainbow/"))
             let g:rainbow_active = 1 " 0 if you want to enable it later via :RainbowToggle
@@ -266,6 +277,46 @@
         endif
     "}
 
+    " indent_guides {
+        if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+            let g:indent_guides_start_level = 2
+            let g:indent_guides_guide_size = 1
+            let g:indent_guides_enable_on_vim_startup = 1
+        endif
+    " }
+
+    " Easymotion {
+        let g:EasyMotion_leader_key = ','
+        let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
+        let g:EasyMotion_smartcase = 1
+
+        map <Leader>l <Plug>(easymotion-lineforward)
+        map <Leader>j <Plug>(easymotion-j)
+        map <Leader>k <Plug>(easymotion-k)
+        map <Leader>h <Plug>(easymotion-linebackward)
+        map <Leader>. <Plug>(easymotion-repeat)
+    " }
+
+    " YouCompleteMe {
+        if count(g:xming_plug_groups, 'youcompleteme')
+            let g:ycm_add_preview_to_completeopt = 0
+            let g:ycm_show_diagnostics_ui = 0
+            let g:ycm_server_log_level = 'info'
+            let g:ycm_min_num_identifier_candidate_chars = 2
+            let g:ycm_collect_identifiers_from_comments_and_strings = 1
+            let g:ycm_complete_in_strings=1
+            let g:ycm_key_invoke_completion = '<c-z>'
+            set completeopt=menu,menuone
+
+            noremap <c-z> <NOP>
+
+            let g:ycm_semantic_triggers =  {
+                        \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+                        \ 'cs,lua,javascript': ['re!\w{2}'],
+                        \ }
+        endif
+    " }
+
 
 " }
 
@@ -273,7 +324,7 @@
 
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
-        set guioptions=             " Remove the toolbar
+        set guioptions=             " remove all gui options
         set lines=40                " 40 lines of text instead of 24
         if LINUX()
             set guifont=Courier\ 10\ Pitch\ Regular\ 12,Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
