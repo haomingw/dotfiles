@@ -43,6 +43,7 @@
 
     " General {
         if count(g:xming_plug_groups, 'general')
+            Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
             Plug 'flazz/vim-colorschemes'
             Plug 'vim-airline/vim-airline'
@@ -52,7 +53,10 @@
 
     " Programming {
         if count(g:xming_plug_groups, 'programming')
+            Plug 'luochen1990/rainbow'
+            Plug 'tpope/vim-fugitive'
             Plug 'scrooloose/syntastic'
+            Plug 'scrooloose/nerdcommenter'
         endif
     " }
 
@@ -62,8 +66,7 @@
 
 " General {
 
-    set guioptions=
-    filetype plugin indent off
+    " filetype plugin indent on
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
@@ -112,8 +115,11 @@
 
 " Vim UI {
 
-    "set background=dark
-    color molokai
+    set background=dark
+    if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
+        " color jellybeans
+        color gruvbox
+    endif
 
     set number                      " Line numbers on
     set cursorline                  " Highlight current line
@@ -193,14 +199,14 @@
     map <a-l> gt
 
     " Fast move cursors
-    nmap <c-e> $
-    imap <c-h> <Left>
-    imap <c-j> <Down>
-    imap <c-k> <Up>
-    imap <c-l> <Right>
+    nmap <c-e> <End>
+    nmap <c-a> <Home>
     imap <c-e> <End>
-    imap <a-f> <Esc>wi
-    imap <a-b> <Esc>bi
+    imap <c-a> <Home>
+    imap <a-h> <Left>
+    imap <a-j> <Down>
+    imap <a-k> <Up>
+    imap <a-l> <Right>
 
     " Window:
     nmap <c-w><Right> 4<c-w>>
@@ -218,10 +224,69 @@
     imap <c-s> <Esc>:w<CR>a
     imap <s-cr> <Esc>o
     imap <c-s-cr> <Esc>O
+
 " }
 
 " Plugins {
+    " Rainbow {
+        if isdirectory(expand("~/.vim/bundle/rainbow/"))
+            let g:rainbow_active = 1 " 0 if you want to enable it later via :RainbowToggle
+        endif
+    " }
 
+    " Airline {
+        " let g:airline_left_sep='›'  " Slightly fancier than '>'
+        " let g:airline_right_sep='‹' " Slightly fancier than '<'
+    " }
+
+    " NerdCommenter {
+        nmap <c-_> <leader>c<Space>
+        vmap <c-_> <leader>c<Space>
+
+        " Add spaces after comment delimiters by default
+        let g:NERDSpaceDelims = 1
+        " Allow commenting and inverting empty lines (useful when commenting a region)
+        let g:NERDCommentEmptyLines = 1
+    " }
+
+    " Fugitive {
+        if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
+            nmap <silent> <leader>gs :Gstatus<CR>
+            nmap <silent> <leader>gd :Gdiff<CR>
+            nmap <silent> <leader>gc :Gcommit<CR>
+            nmap <silent> <leader>gb :Gblame<CR>
+            nmap <silent> <leader>gl :Glog<CR>
+            nmap <silent> <leader>gp :Git push<CR>
+            nmap <silent> <leader>gr :Gread<CR>
+            nmap <silent> <leader>gw :Gwrite<CR>
+            nmap <silent> <leader>ge :Gedit<CR>
+            " Mnemonic _i_nteractive
+            nmap <silent> <leader>gi :Git add -p %<CR>
+            nmap <silent> <leader>gg :SignifyToggle<CR>
+        endif
+    "}
+
+
+" }
+
+" GUI Settings {
+
+    " GVIM- (here instead of .gvimrc)
+    if has('gui_running')
+        set guioptions=             " Remove the toolbar
+        set lines=40                " 40 lines of text instead of 24
+        if LINUX()
+            set guifont=Courier\ 10\ Pitch\ Regular\ 12,Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+        elseif OSX()
+            set guifont=Andale\ Mono:h12,Menlo:h11,Consolas:h12,Courier\ New:h14
+        elseif WINDOWS()
+            set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
+        endif
+    else
+        if &term == 'xterm' || &term == 'screen'
+            set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+        endif
+    endif
 
 " }
 
