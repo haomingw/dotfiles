@@ -17,7 +17,7 @@ create_symlinks "$APP_PATH" \
 
 setup_vim_plug
 
-post_install
+post_install_vim
 
 msg             "\nThanks for installing $app_name."
 msg             "© `date +%Y` http://flyingmouse.github.io/"
