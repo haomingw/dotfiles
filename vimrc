@@ -55,7 +55,7 @@
         if count(g:xming_plug_groups, 'programming')
             Plug 'luochen1990/rainbow'
             Plug 'tpope/vim-fugitive'
-            Plug 'scrooloose/syntastic'
+            Plug 'w0rp/ale'
             Plug 'scrooloose/nerdcommenter'
             Plug 'easymotion/vim-easymotion'
             Plug 'nathanaelkane/vim-indent-guides'
@@ -154,7 +154,7 @@
 
 " Formatting {
 
-    set wrap
+    set nowrap
     set autoindent
 
     set shiftwidth=4                " Use indents of 4 spaces
@@ -312,6 +312,21 @@
             let g:ycm_collect_identifiers_from_comments_and_strings = 1
             let g:ycm_complete_in_strings=1
             set completeopt=menu,menuone
+            let g:ycm_key_invoke_completion = '<c-b>'
+            let g:ycm_semantic_triggers =  {
+            \ 'c,cpp,python,go': ['re!\w{3}'],
+            \ }
+        endif
+    " }
+
+    " Ale {
+        if isdirectory(expand("~/.vim/bundle/ale/"))
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            let g:ale_lint_on_text_changed = 'normal'
+            let g:ale_lint_on_insert_leave = 1
+            " let g:airline#extensions#ale#enabled = 1
         endif
     " }
 

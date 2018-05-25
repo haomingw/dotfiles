@@ -92,7 +92,7 @@ setup_vim_plug() {
     debug
 }
 
-post_install() {
+post_install_vim() {
     local ret='0'
     mkdir -p ~/.vim/undo
     success "Postpone installation finished."
