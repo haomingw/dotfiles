@@ -204,8 +204,8 @@
     map <leader>rp :%s/
 
     " Switch between tabs
-    map <a-h> gT
-    map <a-l> gt
+    nmap <a-h> gT
+    nmap <a-l> gt
 
     " Fast move cursors
     nmap <c-e> <End>
@@ -218,10 +218,7 @@
     imap <a-l> <Right>
 
     " Window:
-    nmap <c-w><Right> 4<c-w>>
-    nmap <c-w><Left> 4<c-w><
-    nmap <c-w><Down> 4<c-w>+
-    nmap <c-w><Up> 4<c-w>-
+    map <leader>= <C-w>=    " Adjust viewports to the same size
     nmap <c-h> <c-w>h
     nmap <c-l> <c-w>l
     nmap <c-k> <c-w>k
@@ -230,13 +227,14 @@
     " Fast editting
     nmap <c-s> :w<CR>
     imap <c-s> <Esc>:w<CR>a
+    imap <c-v> <Esc>pa
     imap <s-cr> <Esc>o
     imap <c-s-cr> <Esc>O
+    imap <c-k> <c-o>D
 
     " utils
     nmap ; :
     nmap Y y$               " to be consistent with C and D.
-    nmap  '. `.             " move to last modification
     cmap <c-v> <c-r>+       " yank text in command mode
 
 " }
