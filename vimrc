@@ -36,7 +36,7 @@
 
     " list only the plugin groups you will use
     if !exists('g:xming_plug_groups')
-        let g:xming_plug_groups=['general', 'programming']
+        let g:xming_plug_groups=['general', 'programming', 'youcompleteme']
     endif
 
     call plug#begin('~/.vim/bundle')
@@ -286,37 +286,30 @@
     " }
 
     " Easymotion {
-        let g:EasyMotion_leader_key = ','
-        let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-        let g:EasyMotion_smartcase = 1
+        if isdirectory(expand("~/.vim/bundle/vim-easymotion/"))
+            let g:EasyMotion_leader_key = ','
+            let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
+            let g:EasyMotion_smartcase = 1
 
-        map <Leader>l <Plug>(easymotion-lineforward)
-        map <Leader>j <Plug>(easymotion-j)
-        map <Leader>k <Plug>(easymotion-k)
-        map <Leader>h <Plug>(easymotion-linebackward)
-        map <Leader>. <Plug>(easymotion-repeat)
+            map <Leader>l <Plug>(easymotion-lineforward)
+            map <Leader>h <Plug>(easymotion-linebackward)
+            map <Leader>. <Plug>(easymotion-repeat)
+        endif
     " }
 
     " YouCompleteMe {
-        if count(g:xming_plug_groups, 'youcompleteme')
+        if isdirectory(expand("~/.vim/bundle/YouCompleteMe/"))
+            let g:ycm_confirm_extra_conf = 0
+            let g:ycm_global_ycm_extra_conf = $HOME . "/.vim/static/ycm_extra_conf.py"
             let g:ycm_add_preview_to_completeopt = 0
             let g:ycm_show_diagnostics_ui = 0
             let g:ycm_server_log_level = 'info'
             let g:ycm_min_num_identifier_candidate_chars = 2
             let g:ycm_collect_identifiers_from_comments_and_strings = 1
             let g:ycm_complete_in_strings=1
-            let g:ycm_key_invoke_completion = '<c-z>'
             set completeopt=menu,menuone
-
-            noremap <c-z> <NOP>
-
-            let g:ycm_semantic_triggers =  {
-                        \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-                        \ 'cs,lua,javascript': ['re!\w{2}'],
-                        \ }
         endif
     " }
-
 
 " }
 
