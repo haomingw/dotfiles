@@ -154,7 +154,7 @@
 
 " Formatting {
 
-    set nowrap
+    set wrap
     set autoindent
 
     set shiftwidth=4                " Use indents of 4 spaces
@@ -175,6 +175,10 @@
     " location.
     let mapleader = ','
     let maplocalleader = '_'
+
+    " Wrapped lines goes down/up to next row, rather than next line in file.
+    nmap j gj
+    nmap k gk
 
     " Allow to trigger background
     function! ToggleBG()
