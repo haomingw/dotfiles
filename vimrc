@@ -177,8 +177,8 @@
     let maplocalleader = '_'
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
-    nmap j gj
-    nmap k gk
+    nnoremap j gj
+    nnoremap k gk
 
     " Allow to trigger background
     function! ToggleBG()
@@ -190,13 +190,13 @@
             set background=dark
         endif
     endfunction
-    nmap <leader>bg :call ToggleBG()<CR>
+    nnoremap <leader>bg :call ToggleBG()<CR>
 
     " Visual shifting (does not exit Visual mode)
-    vmap < <gv
-    vmap > >gv
+    vnoremap < <gv
+    vnoremap > >gv
 
-    cmap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
     map <leader>ew :e %%
     map <leader>es :sp %%
     map <leader>ev :vsp %%
@@ -204,38 +204,38 @@
     map <leader>rp :%s/
 
     " Switch between tabs
-    nmap <a-h> gT
-    nmap <a-l> gt
+    nnoremap <a-h> gT
+    nnoremap <a-l> gt
 
     " Fast move cursors
-    nmap <c-e> <End>
-    nmap <c-a> <Home>
-    imap <c-e> <End>
-    imap <c-a> <Home>
-    imap <a-h> <Left>
-    imap <a-j> <Down>
-    imap <a-k> <Up>
-    imap <a-l> <Right>
+    nnoremap <c-e> <End>
+    nnoremap <c-a> <Home>
+    inoremap <c-e> <End>
+    inoremap <c-a> <Home>
+    inoremap <a-h> <Left>
+    inoremap <a-j> <Down>
+    inoremap <a-k> <Up>
+    inoremap <a-l> <Right>
 
     " Window:
     map <leader>= <C-w>=    " Adjust viewports to the same size
-    nmap <c-h> <c-w>h
-    nmap <c-l> <c-w>l
-    nmap <c-k> <c-w>k
-    nmap <c-j> <c-w>j
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
+    nnoremap <c-k> <c-w>k
+    nnoremap <c-j> <c-w>j
 
     " Fast editting
-    nmap <c-s> :w<CR>
-    imap <c-s> <Esc>:w<CR>a
-    imap <c-v> <Esc>pa
-    imap <s-cr> <Esc>o
-    imap <c-s-cr> <Esc>O
-    imap <c-k> <c-o>D
+    nnoremap <c-s> :w<CR>
+    inoremap <c-s> <Esc>:w<CR>a
+    inoremap <c-v> <Esc>pa
+    inoremap <s-cr> <Esc>o
+    inoremap <c-s-cr> <Esc>O
+    inoremap <c-k> <c-o>D
 
     " utils
-    nmap ; :
-    nmap Y y$               " to be consistent with C and D.
-    cmap <c-v> <c-r>+       " yank text in command mode
+    nnoremap ; :
+    nnoremap Y y$               " to be consistent with C and D.
+    cnoremap <c-v> <c-r>+       " yank text in command mode
 
 " }
 
@@ -253,8 +253,8 @@
     " }
 
     " NerdCommenter {
-        nmap <c-_> <leader>c<Space>
-        vmap <c-_> <leader>c<Space>
+        nnoremap <c-_> <leader>c<Space>
+        vnoremap <c-_> <leader>c<Space>
 
         " Add spaces after comment delimiters by default
         let g:NERDSpaceDelims = 1
@@ -264,18 +264,18 @@
 
     " Fugitive {
         if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
-            nmap <silent> <leader>gs :Gstatus<CR>
-            nmap <silent> <leader>gd :Gdiff<CR>
-            nmap <silent> <leader>gc :Gcommit<CR>
-            nmap <silent> <leader>gb :Gblame<CR>
-            nmap <silent> <leader>gl :Glog<CR>
-            nmap <silent> <leader>gp :Git push<CR>
-            nmap <silent> <leader>gr :Gread<CR>
-            nmap <silent> <leader>gw :Gwrite<CR>
-            nmap <silent> <leader>ge :Gedit<CR>
+            nnoremap <silent> <leader>gs :Gstatus<CR>
+            nnoremap <silent> <leader>gd :Gdiff<CR>
+            nnoremap <silent> <leader>gc :Gcommit<CR>
+            nnoremap <silent> <leader>gb :Gblame<CR>
+            nnoremap <silent> <leader>gl :Glog<CR>
+            nnoremap <silent> <leader>gp :Git push<CR>
+            nnoremap <silent> <leader>gr :Gread<CR>
+            nnoremap <silent> <leader>gw :Gwrite<CR>
+            nnoremap <silent> <leader>ge :Gedit<CR>
             " Mnemonic _i_nteractive
-            nmap <silent> <leader>gi :Git add -p %<CR>
-            nmap <silent> <leader>gg :SignifyToggle<CR>
+            nnoremap <silent> <leader>gi :Git add -p %<CR>
+            nnoremap <silent> <leader>gg :SignifyToggle<CR>
         endif
     "}
 
