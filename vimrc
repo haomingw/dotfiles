@@ -36,7 +36,7 @@
 
     " list only the plugin groups you will use
     if !exists('g:xming_plug_groups')
-        let g:xming_plug_groups=['general', 'programming', 'youcompleteme']
+        let g:xming_plug_groups=['general', 'programming']
     endif
 
     call plug#begin('~/.vim/bundle')
@@ -125,8 +125,10 @@
 
     set background=dark
     if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
-        " color jellybeans
-        color gruvbox
+        color jellybeans
+        " color gruvbox
+    else
+        color desert
     endif
 
     set number                      " Line numbers on
@@ -196,7 +198,7 @@
     vnoremap < <gv
     vnoremap > >gv
 
-    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+    cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<CR>
     map <leader>ew :e %%
     map <leader>es :sp %%
     map <leader>ev :vsp %%
@@ -228,14 +230,17 @@
     nnoremap <c-s> :w<CR>
     inoremap <c-s> <Esc>:w<CR>a
     inoremap <c-v> <Esc>pa
-    inoremap <s-cr> <Esc>o
-    inoremap <c-s-cr> <Esc>O
+    inoremap <c-j> <Esc>o
+    inoremap jj <Esc>O
     inoremap <c-k> <c-o>D
 
     " utils
     nnoremap ; :
     nnoremap Y y$               " to be consistent with C and D.
     cnoremap <c-v> <c-r>+       " yank text in command mode
+
+    " Compilation and Run
+    map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
 
 " }
 
@@ -248,18 +253,22 @@
     " }
 
     " Airline {
-        " let g:airline_left_sep='›'  " Slightly fancier than '>'
-        " let g:airline_right_sep='‹' " Slightly fancier than '<'
+        if isdirectory(expand("~/.vim/bundle/vim-airline/"))
+            let g:airline_left_sep='›'  " Slightly fancier than '>'
+            let g:airline_right_sep='‹' " Slightly fancier than '<'
+        endif
     " }
 
     " NerdCommenter {
-        nnoremap <c-_> <leader>c<Space>
-        vnoremap <c-_> <leader>c<Space>
+        if isdirectory(expand("~/.vim/bundle/nerdcommenter/"))
+            nmap <a-k> <leader>c<Space>j
+            vmap <a-k> <leader>c<Space>j
 
-        " Add spaces after comment delimiters by default
-        let g:NERDSpaceDelims = 1
-        " Allow commenting and inverting empty lines (useful when commenting a region)
-        let g:NERDCommentEmptyLines = 1
+            " Add spaces after comment delimiters by default
+            let g:NERDSpaceDelims = 1
+            " Allow commenting and inverting empty lines (useful when commenting a region)
+            let g:NERDCommentEmptyLines = 1
+        endif
     " }
 
     " Fugitive {
