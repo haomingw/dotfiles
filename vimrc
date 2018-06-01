@@ -241,6 +241,7 @@
 
     " Compilation and Run
     map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
+    inoremap <F8> <Esc>: !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
 
 " }
 
@@ -261,8 +262,8 @@
 
     " NerdCommenter {
         if isdirectory(expand("~/.vim/bundle/nerdcommenter/"))
-            nmap <a-k> <leader>c<Space>j
-            vmap <a-k> <leader>c<Space>j
+            nmap <c-_> <leader>c<Space>j
+            vmap <c-_> <leader>c<Space>j
 
             " Add spaces after comment delimiters by default
             let g:NERDSpaceDelims = 1
