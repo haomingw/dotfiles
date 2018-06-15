@@ -178,6 +178,15 @@
     let mapleader = ','
     let maplocalleader = '_'
 
+    if !has('gui_running')
+        " fix meta-keys which generate <Esc>a .. <Esc>z
+        for i in range(65,90) + range(97,122)
+            let c = nr2char(i)
+            exec "map \e".c." <M-".c.">"
+            exec "map! \e".c." <M-".c.">"
+        endfor
+    endif
+
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
