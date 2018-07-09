@@ -74,7 +74,6 @@
 
 " General {
 
-    " filetype plugin indent on
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
@@ -125,8 +124,8 @@
 
     set background=dark
     if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
-        color jellybeans
-        " color gruvbox
+        " color jellybeans
+        color gruvbox
     else
         color desert
     endif
@@ -320,6 +319,17 @@
         endif
     " }
 
+    " Ale {
+        if isdirectory(expand("~/.vim/bundle/ale/"))
+            let g:ale_echo_msg_error_str = 'E'
+            let g:ale_echo_msg_warning_str = 'W'
+            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+            let g:ale_lint_on_text_changed = 'normal'
+            let g:ale_lint_on_insert_leave = 1
+            " let g:airline#extensions#ale#enabled = 1
+        endif
+    " }
+
     " YouCompleteMe {
         if isdirectory(expand("~/.vim/bundle/YouCompleteMe/"))
             let g:ycm_confirm_extra_conf = 0
@@ -335,17 +345,6 @@
             let g:ycm_semantic_triggers =  {
             \ 'c,cpp,python,go': ['re!\w{3}'],
             \ }
-        endif
-    " }
-
-    " Ale {
-        if isdirectory(expand("~/.vim/bundle/ale/"))
-            let g:ale_echo_msg_error_str = 'E'
-            let g:ale_echo_msg_warning_str = 'W'
-            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-            let g:ale_lint_on_text_changed = 'normal'
-            let g:ale_lint_on_insert_leave = 1
-            " let g:airline#extensions#ale#enabled = 1
         endif
     " }
 
