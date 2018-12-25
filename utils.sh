@@ -32,6 +32,15 @@ program_exists() {
     return 0
 }
 
+program_must_exist() {
+    program_exists $1
+
+    # throw error on non-zero return value
+    if [ "$?" -ne 0 ]; then
+        error "You must have '$1' installed to continue."
+    fi
+}
+
 lnif() {
     if [ -e "$1" ]; then
         ln -sf "$1" "$2"
@@ -43,6 +52,17 @@ lnif() {
 copy() {
     if [ -e "$1" ]; then
         cp -r "$1" "$2"
+    fi
+    ret="$?"
+    debug
+}
+
+git_clone_to() {
+    local git_url=$1
+    local target_path=$2
+    local repo_name=`echo ${git_url##*/} | cut -d'.' -f1`
+    if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
+        cd $target_path && git clone $git_url
     fi
     ret="$?"
     debug
@@ -97,4 +117,24 @@ post_install_vim() {
     mkdir -p ~/.vim/undo
     success "Postpone installation finished."
     debug
+}
+
+install_oh_my_zsh() {
+    [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    success "oh my zsh installed"
+}
+
+install_zsh_plugins() {
+    local plugin_path=$1
+    git_clone_to https://github.com/zsh-users/zsh-autosuggestions.git       $plugin_path
+    git_clone_to https://github.com/zsh-users/zsh-syntax-highlighting.git   $plugin_path
+    success "Now installing zsh plugins."
+}
+
+setup_zsh() {
+    local source_path="$1"
+    local target_path="$2"
+
+    copy "$source_path/zshrc" "$target_path/.zshrc"
+    success "Setting up zsh configuration file."
 }
