@@ -35,6 +35,8 @@ install_zsh() {
 }
 
 config_zsh() {
+    program_must_exist "zsh"
+
     install_zsh_plugins "$ZSH_CUSTOM/plugins"
     setup_zsh           "$APP_PATH/zsh" \
                         "$HOME"
