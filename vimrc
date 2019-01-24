@@ -26,7 +26,7 @@
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
         if WINDOWS()
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
+            set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
         endif
     " }
 
@@ -238,6 +238,7 @@
 
     " Fast editting
     nnoremap <c-s> :w<CR>
+    nnoremap <c-a> ggVG
     inoremap <c-s> <Esc>:w<CR>a
     inoremap <c-v> <Esc>pa
     inoremap <c-j> <Esc>o
