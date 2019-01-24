@@ -71,12 +71,10 @@ git_clone_to() {
 ############################ SETUP FUNCTIONS
 
 do_backup() {
-    if [ -e "$1" ] || [ -e "$2" ] || [ -e "$3" ]; then
+    if [ -e "$1" ]; then
         msg "Attempting to back up your original vim configuration."
         today=`date +%Y%m%d_%s`
-        for i in "$1" "$2" "$3"; do
-            [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
-        done
+        [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
         ret="$?"
         success "Your original vim configuration has been backed up."
         debug

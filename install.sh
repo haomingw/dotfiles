@@ -14,9 +14,9 @@ install_vim() {
     program_must_exist "vim"
     program_must_exist "git"
 
-    do_backup       "$HOME/.vim" \
-                    "$HOME/.vimrc" \
-                    "$HOME/.gvimrc"
+    do_backup       "$HOME/.vim"
+    do_backup       "$HOME/.vimrc"
+    do_backup       "$HOME/.gvimrc"
 
     create_symlinks "$APP_PATH" \
                     "$HOME"
