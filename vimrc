@@ -7,7 +7,7 @@
 " Environment {
 
     " Identify platform {
-        silent function! OSX()
+        silent function! MACOS()
             return has('macunix')
         endfunction
         silent function! LINUX()
@@ -216,18 +216,30 @@
     map <leader>rp :%s/
 
     " Switch between tabs
-    nnoremap <a-h> gT
-    nnoremap <a-l> gt
+    if MACOS()
+        nnoremap ˙ gT
+        nnoremap ¬ gt
+    else
+        nnoremap <a-h> gT
+        nnoremap <a-l> gt
+    endif
 
     " Fast move cursors
     nnoremap <c-e> <End>
     nnoremap <c-a> <Home>
     inoremap <c-e> <End>
     inoremap <c-a> <Home>
-    inoremap <a-h> <Left>
-    inoremap <a-j> <Down>
-    inoremap <a-k> <Up>
-    inoremap <a-l> <Right>
+    if MACOS()
+        inoremap ˙ <Left>
+        inoremap ∆ <Down>
+        inoremap ˚ <Up>
+        inoremap ¬ <Right>
+    else
+        inoremap <a-h> <Left>
+        inoremap <a-j> <Down>
+        inoremap <a-k> <Up>
+        inoremap <a-l> <Right>
+    endif
 
     " Window:
     map <leader>= <C-w>=    " Adjust viewports to the same size
@@ -359,7 +371,7 @@
         set lines=40                " 40 lines of text instead of 24
         if LINUX()
             set guifont=Courier\ 10\ Pitch\ Regular\ 12,Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
-        elseif OSX()
+        elseif MACOS()
             set guifont=Andale\ Mono:h12,Menlo:h11,Consolas:h12,Courier\ New:h14
         elseif WINDOWS()
             set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
