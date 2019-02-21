@@ -72,11 +72,11 @@ git_clone_to() {
 
 do_backup() {
     if [ -e "$1" ]; then
-        msg "Attempting to back up your original vim configuration."
+        msg "Attempting to back up your original configuration."
         today=`date +%Y%m%d_%s`
         [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
         ret="$?"
-        success "Your original vim configuration has been backed up."
+        success "Your original configuration has been backed up."
         debug
    fi
 }
@@ -133,6 +133,7 @@ setup_zsh() {
     local source_path="$1"
     local target_path="$2"
 
-    copy "$source_path/zshrc" "$target_path/.zshrc"
+    do_backup "$target_path/.zshrc"
+    lnif "$source_path/zshrc" "$target_path/.zshrc"
     success "Setting up zsh configuration file."
 }

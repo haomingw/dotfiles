@@ -103,7 +103,7 @@ alias cdd="cd ~/Documents/code"
 # added by Miniconda3 installer
 export PATH="$HOME/miniconda3/bin:$PATH"
 
-export JAVA_HOME=/usr/local/jdk1.8.0_191
+export JAVA_HOME=/usr/local/jdk1.8.0_201
 export PATH=$JAVA_HOME/bin:$PATH
 
 export CUDA_HOME=/usr/local/cuda
