@@ -43,7 +43,6 @@
 
     " General {
         if count(g:xming_plug_groups, 'general')
-            Plug 'jiangmiao/auto-pairs'
             Plug 'terryma/vim-multiple-cursors'
             Plug 'flazz/vim-colorschemes'
             Plug 'vim-airline/vim-airline'
@@ -187,6 +186,28 @@
 
         set ttimeout ttimeoutlen=50
     endif
+
+    " Expand opening-brace followed by ENTER to a block and place cursor inside
+    inoremap {<CR> {<CR>}<Esc>O
+
+    " Auto Fill Brackets:
+    func! AutoPair(open, close)
+        let line = getline('.')
+        if col('.') > strlen(line) || index([' ', ']', ')', '}'], line[col('.') - 1]) > 0
+            return a:open . a:close . "\<ESC>i"
+        else
+            return a:open
+        endif
+    endfunc
+    func! ClosePair(char)
+        return (getline('.')[col('.') - 1] == a:char ? "\<Right>" : a:char)
+    endfunc
+    inoremap <expr> ( AutoPair('(', ')')
+    inoremap <expr> ) ClosePair(')')
+    inoremap <expr> [ AutoPair('[', ']')
+    inoremap <expr> ] ClosePair(']')
+    inoremap <expr> { AutoPair('{', '}')
+    inoremap <expr> } ClosePair('}')
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
