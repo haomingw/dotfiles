@@ -36,7 +36,7 @@
 
     " list only the plugin groups you will use
     if !exists('g:xming_plug_groups')
-        let g:xming_plug_groups=['general', 'programming']
+        let g:xming_plug_groups=['general', 'editing', 'programming']
     endif
 
     call plug#begin('~/.vim/bundle')
@@ -50,13 +50,20 @@
         endif
     " }
 
+    " Editing {
+        if count(g:xming_plug_groups, 'editing')
+            Plug 'tpope/vim-surround'
+            Plug 'junegunn/vim-easy-align'
+            Plug 'easymotion/vim-easymotion'
+        endif
+    " }
+
     " Programming {
         if count(g:xming_plug_groups, 'programming')
             Plug 'luochen1990/rainbow'
             Plug 'tpope/vim-fugitive'
             Plug 'w0rp/ale'
             Plug 'scrooloose/nerdcommenter'
-            Plug 'easymotion/vim-easymotion'
             Plug 'nathanaelkane/vim-indent-guides'
         endif
     " }
@@ -271,7 +278,6 @@
 
     " Fast editting
     nnoremap <c-s> :w<CR>
-    nnoremap <c-a> ggVG
     inoremap <c-s> <Esc>:w<CR>a
     inoremap <c-v> <Esc>pa
     inoremap <c-j> <Esc>o
@@ -290,6 +296,16 @@
 " }
 
 " Plugins {
+
+    " vim-easy-align {
+        if isdirectory(expand("~/.vim/bundle/vim-easy-align/"))
+            " Start interactive EasyAlign in visual mode (e.g. vipga)
+            xmap ga <Plug>(EasyAlign)
+
+            " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+            nmap ga <Plug>(EasyAlign)
+        endif
+    " }
 
     " Rainbow {
         if isdirectory(expand("~/.vim/bundle/rainbow/"))
