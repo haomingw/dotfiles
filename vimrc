@@ -43,7 +43,6 @@
 
     " General {
         if count(g:xming_plug_groups, 'general')
-            Plug 'terryma/vim-multiple-cursors'
             Plug 'flazz/vim-colorschemes'
             Plug 'vim-airline/vim-airline'
             Plug 'vim-airline/vim-airline-themes'
@@ -56,6 +55,8 @@
             Plug 'rhysd/accelerated-jk'
             Plug 'junegunn/vim-easy-align'
             Plug 'easymotion/vim-easymotion'
+            Plug 'terryma/vim-expand-region'
+            Plug 'terryma/vim-multiple-cursors'
         endif
     " }
 
@@ -310,8 +311,6 @@
         if isdirectory(expand("~/.vim/bundle/accelerated-jk/"))
             nmap j <Plug>(accelerated_jk_gj)
             nmap k <Plug>(accelerated_jk_gk)
-            let g:accelerated_jk_acceleration_limit = 500
-            let g:accelerated_jk_acceleration_table = [10, 20, 30, 35, 40, 45, 50]
         endif
     " }
 
@@ -322,6 +321,13 @@
 
             " Start interactive EasyAlign for a motion/text object (e.g. gaip)
             nmap ga <Plug>(EasyAlign)
+        endif
+    " }
+
+    " vim-expand-region {
+        if isdirectory(expand("~/.vim/bundle/vim-expand-region/"))
+            xmap L <Plug>(expand_region_expand)
+            xmap H <Plug>(expand_region_shrink)
         endif
     " }
 
