@@ -86,9 +86,9 @@
     scriptencoding utf-8
 
     if has('clipboard')
-        if has('unnamedplus')  " When possible use + register for copy-paste
+        if has('unnamedplus') " When possible use + register for copy-paste
             set clipboard=unnamed,unnamedplus
-        else         " On mac and Windows, use * register for copy-paste
+        else                  " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
         endif
     endif
@@ -106,6 +106,14 @@
             autocmd BufWinEnter * call ResCur()
         augroup END
     endif
+
+    " Strip Trailing Whitespaces On Saving:
+    func! StripTrailingWhiteSpace()
+        normal mZ
+        %s/\s\+$//e
+        normal `Z
+    endfunc
+    autocmd BufWrite * if &ft != 'mkd' && &ft != 'tex' | call StripTrailingWhiteSpace() | endif
 
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
