@@ -53,6 +53,7 @@
     " Editing {
         if count(g:xming_plug_groups, 'editing')
             Plug 'tpope/vim-surround'
+            Plug 'rhysd/accelerated-jk'
             Plug 'junegunn/vim-easy-align'
             Plug 'easymotion/vim-easymotion'
         endif
@@ -304,6 +305,15 @@
 " }
 
 " Plugins {
+
+    " accelerated-jk {
+        if isdirectory(expand("~/.vim/bundle/accelerated-jk/"))
+            nmap j <Plug>(accelerated_jk_gj)
+            nmap k <Plug>(accelerated_jk_gk)
+            let g:accelerated_jk_acceleration_limit = 500
+            let g:accelerated_jk_acceleration_table = [10, 20, 30, 35, 40, 45, 50]
+        endif
+    " }
 
     " vim-easy-align {
         if isdirectory(expand("~/.vim/bundle/vim-easy-align/"))
