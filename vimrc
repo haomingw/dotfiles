@@ -109,11 +109,11 @@
     endif
 
     " Strip Trailing Whitespaces On Saving:
-    func! StripTrailingWhiteSpace()
+    function! StripTrailingWhiteSpace()
         normal mZ
         %s/\s\+$//e
         normal `Z
-    endfunc
+    endfunction
     autocmd BufWrite * if &ft != 'mkd' && &ft != 'tex' | call StripTrailingWhiteSpace() | endif
 
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
@@ -182,7 +182,6 @@
     set splitright splitbelow
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 
 " }
 
@@ -208,17 +207,17 @@
     inoremap {<CR> {<CR>}<Esc>O
 
     " Auto Fill Brackets:
-    func! AutoPair(open, close)
+    function! AutoPair(open, close)
         let line = getline('.')
         if col('.') > strlen(line) || index([' ', ']', ')', '}'], line[col('.') - 1]) > 0
             return a:open . a:close . "\<ESC>i"
         else
             return a:open
         endif
-    endfunc
-    func! ClosePair(char)
+    endfunction
+    function! ClosePair(char)
         return (getline('.')[col('.') - 1] == a:char ? "\<Right>" : a:char)
-    endfunc
+    endfunction
     inoremap <expr> ( AutoPair('(', ')')
     inoremap <expr> ) ClosePair(')')
     inoremap <expr> [ AutoPair('[', ']')
@@ -464,19 +463,5 @@
 " }
 
 " Functions {
-
-    " Strip whitespace {
-    function! StripTrailingWhitespace()
-        " Preparation: save last search, and cursor position.
-        let _s=@/
-        let l = line(".")
-        let c = col(".")
-        " do the business:
-        %s/\s\+$//e
-        " clean up: restore previous search history, and cursor position
-        let @/=_s
-        call cursor(l, c)
-    endfunction
-    " }
 
 " }
