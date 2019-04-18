@@ -44,8 +44,7 @@
     " General {
         if count(g:xming_plug_groups, 'general')
             Plug 'flazz/vim-colorschemes'
-            Plug 'vim-airline/vim-airline'
-            Plug 'vim-airline/vim-airline-themes'
+            Plug 'itchyny/lightline.vim'
         endif
     " }
 
@@ -148,7 +147,7 @@
 
     set number                      " Line numbers on
     set cursorline                  " Highlight current line
-    set showmode                    " Display the current mode
+    set noshowmode                  " Don't display the current mode
     set showcmd                     " Show partial commands in status line
     set backspace=indent,eol,start  " Backspace for dummies
     set linespace=0                 " No extra spaces between rows
@@ -166,6 +165,7 @@
     set foldenable                  " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set laststatus=2                " Display status line
 
 " }
 
@@ -307,6 +307,31 @@
 
 " Plugins {
 
+    " Lightline {
+        if isdirectory(expand("~/.vim/bundle/lightline.vim/"))
+            let g:lightline = {
+                  \ 'colorscheme': 'wombat',
+                  \ 'active': {
+                  \   'left': [ ['mode', 'paste'],
+                  \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+                  \   'right': [ [ 'lineinfo' ], ['percent'] ]
+                  \ },
+                  \ 'component': {
+                  \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+                  \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+                  \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+                  \ },
+                  \ 'component_visible_condition': {
+                  \   'readonly': '(&filetype!="help"&& &readonly)',
+                  \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+                  \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+                  \ },
+                  \ 'separator': { 'left': ' ', 'right': ' ' },
+                  \ 'subseparator': { 'left': ' ', 'right': ' ' }
+                  \ }
+        endif
+    " }
+
     " accelerated-jk {
         if isdirectory(expand("~/.vim/bundle/accelerated-jk/"))
             nmap j <Plug>(accelerated_jk_gj)
@@ -334,13 +359,6 @@
     " Rainbow {
         if isdirectory(expand("~/.vim/bundle/rainbow/"))
             let g:rainbow_active = 1 " 0 if you want to enable it later via :RainbowToggle
-        endif
-    " }
-
-    " Airline {
-        if isdirectory(expand("~/.vim/bundle/vim-airline/"))
-            let g:airline_left_sep='›'  " Slightly fancier than '>'
-            let g:airline_right_sep='‹' " Slightly fancier than '<'
         endif
     " }
 
