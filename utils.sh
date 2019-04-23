@@ -69,6 +69,7 @@ git_clone_to() {
     local git_url=$1
     local target_path=$2
     local repo_name=`echo ${git_url##*/} | cut -d'.' -f1`
+
     if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
         cd $target_path && git clone $git_url
     fi
@@ -81,6 +82,8 @@ append_to_file() {
     local file_path=$2
 
     echo $text >> $file_path
+    ret="$?"
+    debug
 }
 
 ############################ SETUP FUNCTIONS
@@ -104,8 +107,8 @@ create_symlinks() {
     lnif "$source_path/vimrc"         "$target_path/.vimrc"
 
     if program_exists "nvim"; then
-        lnif "$source_path/vim"       "$target_path/.config/nvim"
-        copy "$source_path/vimrc"     "$target_path/.config/nvim/init.vim"
+        copy "$source_path/vim"       "$target_path/.config/nvim"
+        lnif "$source_path/vimrc"     "$target_path/.config/nvim/init.vim"
     fi
 
     ret="$?"

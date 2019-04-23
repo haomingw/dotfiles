@@ -21,14 +21,12 @@ setup_vim_plug() {
     export SHELL="$system_shell"
 
     success "Now updating/installing plugins using vim-plug"
-    debug
 }
 
 post_install_vim() {
     local ret='0'
     mkdir -p ~/.vim/undo
     success "Postpone installation finished."
-    debug
 }
 
 install_zsh_plugin() {

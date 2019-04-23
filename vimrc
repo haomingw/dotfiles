@@ -51,6 +51,7 @@
     " Editing {
         if count(g:xming_plug_groups, 'editing')
             Plug 'tpope/vim-surround'
+            Plug 'jiangmiao/auto-pairs'
             Plug 'rhysd/accelerated-jk'
             Plug 'junegunn/vim-easy-align'
             Plug 'easymotion/vim-easymotion'
@@ -66,12 +67,6 @@
             Plug 'w0rp/ale'
             Plug 'scrooloose/nerdcommenter'
             Plug 'nathanaelkane/vim-indent-guides'
-        endif
-    " }
-
-    " Auto-completion {
-        if count(g:xming_plug_groups, 'youcompleteme')
-            Plug 'Valloric/YouCompleteMe', {'do': 'python3 ./install.py --clang-completer', 'for': ['cpp', 'python']}
         endif
     " }
 
@@ -108,12 +103,6 @@
         augroup END
     endif
 
-    " Strip Trailing Whitespaces On Saving:
-    function! StripTrailingWhiteSpace()
-        normal mZ
-        %s/\s\+$//e
-        normal `Z
-    endfunction
     autocmd BufWrite * if &ft != 'mkd' && &ft != 'tex' | call StripTrailingWhiteSpace() | endif
 
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
@@ -203,28 +192,6 @@
         set ttimeout ttimeoutlen=50
     endif
 
-    " Expand opening-brace followed by ENTER to a block and place cursor inside
-    inoremap {<CR> {<CR>}<Esc>O
-
-    " Auto Fill Brackets:
-    function! AutoPair(open, close)
-        let line = getline('.')
-        if col('.') > strlen(line) || index([' ', ']', ')', '}'], line[col('.') - 1]) > 0
-            return a:open . a:close . "\<ESC>i"
-        else
-            return a:open
-        endif
-    endfunction
-    function! ClosePair(char)
-        return (getline('.')[col('.') - 1] == a:char ? "\<Right>" : a:char)
-    endfunction
-    inoremap <expr> ( AutoPair('(', ')')
-    inoremap <expr> ) ClosePair(')')
-    inoremap <expr> [ AutoPair('[', ']')
-    inoremap <expr> ] ClosePair(']')
-    inoremap <expr> { AutoPair('{', '}')
-    inoremap <expr> } ClosePair('}')
-
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
@@ -297,6 +264,10 @@
     nnoremap ; :
     nnoremap Y y$               " to be consistent with C and D.
     cnoremap <c-v> <c-r>+       " yank text in command mode
+
+    " Clang format
+    map <c-i> :py3f ~/.vim/static/clang-format.py<CR>
+    imap <c-i> <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
 
     " Compilation and Run
     map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
@@ -421,24 +392,6 @@
         endif
     " }
 
-    " YouCompleteMe {
-        if isdirectory(expand("~/.vim/bundle/YouCompleteMe/"))
-            let g:ycm_confirm_extra_conf = 0
-            let g:ycm_global_ycm_extra_conf = $HOME . "/.vim/static/ycm_extra_conf.py"
-            let g:ycm_add_preview_to_completeopt = 0
-            let g:ycm_show_diagnostics_ui = 0
-            let g:ycm_server_log_level = 'info'
-            let g:ycm_min_num_identifier_candidate_chars = 2
-            let g:ycm_collect_identifiers_from_comments_and_strings = 1
-            let g:ycm_complete_in_strings=1
-            set completeopt=menu,menuone
-            let g:ycm_key_invoke_completion = '<c-b>'
-            let g:ycm_semantic_triggers =  {
-            \ 'c,cpp,python,go': ['re!\w{3}'],
-            \ }
-        endif
-    " }
-
 " }
 
 " GUI Settings {
@@ -463,5 +416,12 @@
 " }
 
 " Functions {
+
+    " Strip Trailing Whitespaces On Saving:
+    function! StripTrailingWhiteSpace()
+        normal mZ
+        %s/\s\+$//e
+        normal `Z
+    endfunction
 
 " }
