@@ -266,8 +266,9 @@
     cnoremap <c-v> <c-r>+       " yank text in command mode
 
     " Clang format
-    map <c-i> :py3f ~/.vim/static/clang-format.py<CR>
-    imap <c-i> <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
+    autocmd FileType cpp :call Cpp_setup()
+    map <c-f> :py3f ~/.vim/static/clang-format.py<CR>
+    imap <c-f> <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
 
     " Compilation and Run
     map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
@@ -422,6 +423,15 @@
         normal mZ
         %s/\s\+$//e
         normal `Z
+    endfunction
+
+    " Setup cpp file
+    function! Cpp_setup()
+        iabbrev #i #include
+        iabbrev #d #define
+        iabbrev vi vector<int>
+        iabbrev vvi vector<vector<int> >
+        setl sw=2 ts=2 sts=2
     endfunction
 
 " }
