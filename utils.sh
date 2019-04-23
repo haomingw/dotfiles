@@ -41,6 +41,14 @@ program_must_exist() {
     fi
 }
 
+file_must_exist() {
+    local file_path=$1
+
+    if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
+        error "You must have '$1' to continue."
+    fi
+}
+
 lnif() {
     if [ -e "$1" ]; then
         ln -sf "$1" "$2"
@@ -66,6 +74,13 @@ git_clone_to() {
     fi
     ret="$?"
     debug
+}
+
+append_to_file() {
+    local text=$1
+    local file_path=$2
+
+    echo $text >> $file_path
 }
 
 ############################ SETUP FUNCTIONS
@@ -96,44 +111,4 @@ create_symlinks() {
     ret="$?"
     success "Setting up vim symlinks."
     debug
-}
-
-setup_vim_plug() {
-    local system_shell="$SHELL"
-    export SHELL='/bin/sh'
-
-    vim +PlugInstall +qall
-
-    export SHELL="$system_shell"
-
-    success "Now updating/installing plugins using vim-plug"
-    debug
-}
-
-post_install_vim() {
-    local ret='0'
-    mkdir -p ~/.vim/undo
-    success "Postpone installation finished."
-    debug
-}
-
-install_oh_my_zsh() {
-    [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    success "oh my zsh installed"
-}
-
-install_zsh_plugins() {
-    local plugin_path=$1
-    git_clone_to https://github.com/zsh-users/zsh-autosuggestions.git       $plugin_path
-    git_clone_to https://github.com/zsh-users/zsh-syntax-highlighting.git   $plugin_path
-    success "Now installing zsh plugins."
-}
-
-setup_zsh() {
-    local source_path="$1"
-    local target_path="$2"
-
-    do_backup "$target_path/.zshrc"
-    lnif "$source_path/zshrc" "$target_path/.zshrc"
-    success "Setting up zsh configuration file."
 }
