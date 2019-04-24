@@ -228,11 +228,6 @@
         nnoremap <a-l> gt
     endif
 
-    " Fast move cursors
-    nnoremap <c-e> <End>
-    nnoremap <c-a> <Home>
-    inoremap <c-e> <End>
-    inoremap <c-a> <Home>
     if MACOS()
         inoremap ˙ <Left>
         inoremap ∆ <Down>
@@ -267,8 +262,8 @@
 
     " Clang format
     autocmd FileType cpp :call Cpp_setup()
-    map <c-f> :py3f ~/.vim/static/clang-format.py<CR>
-    imap <c-f> <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
+    map <leader>f :py3f ~/.vim/static/clang-format.py<CR>
+    imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
 
     " Compilation and Run
     map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
