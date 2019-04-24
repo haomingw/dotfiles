@@ -40,6 +40,7 @@ install_zsh_plugin() {
 
 config_zshrc()     {
     local file_path=$HOME/.zshrc
+    sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $file_path
     append_to_file "alias cdd=\"cd ~/Documents/code\""         $file_path
     append_to_file ""                                          $file_path
     append_to_file "# added by Miniconda3 installer"           $file_path
@@ -84,10 +85,9 @@ install_zsh_plugins() {
     file_must_exist    "$HOME/.zshrc"
     file_must_exist     "$HOME/.oh-my-zsh"
 
-    sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $HOME/.zshrc
+    config_zshrc
     install_zsh_plugin  "zsh-syntax-highlighting"
     install_zsh_plugin  "zsh-autosuggestions"
-    config_zshrc
 }
 
 confirm() {

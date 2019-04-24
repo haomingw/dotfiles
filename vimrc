@@ -52,7 +52,6 @@
         if count(g:xming_plug_groups, 'editing')
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
-            Plug 'rhysd/accelerated-jk'
             Plug 'junegunn/vim-easy-align'
             Plug 'easymotion/vim-easymotion'
             Plug 'terryma/vim-expand-region'
@@ -295,13 +294,6 @@
                   \ 'separator': { 'left': ' ', 'right': ' ' },
                   \ 'subseparator': { 'left': ' ', 'right': ' ' }
                   \ }
-        endif
-    " }
-
-    " accelerated-jk {
-        if isdirectory(expand("~/.vim/bundle/accelerated-jk/"))
-            nmap j <Plug>(accelerated_jk_gj)
-            nmap k <Plug>(accelerated_jk_gk)
         endif
     " }
 
