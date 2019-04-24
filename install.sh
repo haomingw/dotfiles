@@ -73,7 +73,6 @@ install_oh_my_zsh() {
     program_must_exist "zsh"
     program_must_exist "git"
     program_must_exist "curl"
-    file_must_exist    "$HOME/.zshrc"
 
     [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     config_zshrc
@@ -82,6 +81,7 @@ install_oh_my_zsh() {
 
 install_zsh_plugins() {
     program_must_exist  "zsh"
+    file_must_exist    "$HOME/.zshrc"
     file_must_exist     "$HOME/.oh-my-zsh"
 
     install_zsh_plugin  "zsh-syntax-highlighting"
