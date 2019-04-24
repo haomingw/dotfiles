@@ -84,8 +84,10 @@ install_zsh_plugins() {
     file_must_exist    "$HOME/.zshrc"
     file_must_exist     "$HOME/.oh-my-zsh"
 
+    sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $HOME/.zshrc
     install_zsh_plugin  "zsh-syntax-highlighting"
     install_zsh_plugin  "zsh-autosuggestions"
+    config_zshrc
 }
 
 confirm() {
