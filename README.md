@@ -1,11 +1,8 @@
-These are my vim configurations.
-
-It is a good starting point for anyone intending to use VIM for development running equally well on Windows, Linux and Mac.
+These are my dotfile configurations.
 
 ## Installation
-See into `install.sh` and you'll hopefully figure out how to install.
+Execute
 
-YCM might take some time to install. You can choose not to install it by modifying `g:xming_plug_groups` in `vimrc` file.
+    bash install.sh
 
-See `vimrc` for details on my configurations.
-
+and select the item you want to install
