@@ -416,9 +416,10 @@
     function! Cpp_setup()
         iabbrev #i #include
         iabbrev #d #define
+        iabbrev itn int
         iabbrev vi vector<int>
         iabbrev vvi vector<vector<int> >
-        setl sw=2 ts=2 sts=2
+        setlocal sw=2 ts=2 sts=2
     endfunction
 
 " }
