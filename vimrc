@@ -127,7 +127,6 @@
 
     set background=dark
     if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
-        " color jellybeans
         color gruvbox
     else
         color desert
@@ -181,14 +180,17 @@
     let maplocalleader = '_'
 
     if !has('gui_running')
-        " fix meta-keys which generate <Esc>a .. <Esc>z
-        let c='a'
-        while c <= 'z'
-            exec "set <A-".c.">=\e".c
-            let c = nr2char(1+char2nr(c))
-        endw
-
-        set ttimeout ttimeoutlen=50
+        try
+            " fix meta-keys which generate <Esc>a .. <Esc>z
+            let c='a'
+            while c <= 'z'
+                exec "set <A-".c.">=\e".c
+                let c = nr2char(1+char2nr(c))
+            endw
+            set ttimeout ttimeoutlen=50
+        catch
+            " neovim
+        endtry
     endif
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
