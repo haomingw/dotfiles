@@ -43,13 +43,15 @@
 
     " General {
         if count(g:xming_plug_groups, 'general')
-            Plug 'flazz/vim-colorschemes'
+            Plug 'tpope/vim-tbone'
             Plug 'itchyny/lightline.vim'
+            Plug 'flazz/vim-colorschemes'
         endif
     " }
 
     " Editing {
         if count(g:xming_plug_groups, 'editing')
+            Plug 'SirVer/ultisnips'
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
             Plug 'junegunn/vim-easy-align'
@@ -61,9 +63,10 @@
 
     " Programming {
         if count(g:xming_plug_groups, 'programming')
-            Plug 'luochen1990/rainbow'
-            Plug 'tpope/vim-fugitive'
             Plug 'w0rp/ale'
+            Plug 'fatih/vim-go'
+            Plug 'tpope/vim-fugitive'
+            Plug 'luochen1990/rainbow'
             Plug 'scrooloose/nerdcommenter'
             Plug 'nathanaelkane/vim-indent-guides'
         endif
@@ -259,10 +262,10 @@
     " utils
     nnoremap ; :
     nnoremap Y y$               " to be consistent with C and D.
-    cnoremap <c-v> <c-r>+       " yank text in command mode
+    " yank text in command mode
+    cnoremap <c-v> <c-r>+
 
     " Clang format
-    autocmd FileType cpp :call Cpp_setup()
     map <leader>f :py3f ~/.vim/static/clang-format.py<CR>
     imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
 
@@ -272,7 +275,23 @@
 
 " }
 
+" Setup {
+
+    autocmd FileType cpp :call Cpp_setup()
+    autocmd FileType python :call Python_setup()
+
+" }
+
 " Plugins {
+
+    " Ultisnips {
+        if isdirectory(expand("~/.vim/bundle/ultisnips/"))
+            " Trigger configuration. Do not use <tab>
+            let g:UltiSnipsExpandTrigger="<c-l>"
+            " If you want :UltiSnipsEdit to split your window.
+            let g:UltiSnipsEditSplit="vertical"
+        endif
+    " }
 
     " Lightline {
         if isdirectory(expand("~/.vim/bundle/lightline.vim/"))
@@ -299,7 +318,7 @@
         endif
     " }
 
-    " vim-easy-align {
+    " Vim-easy-align {
         if isdirectory(expand("~/.vim/bundle/vim-easy-align/"))
             " Start interactive EasyAlign in visual mode (e.g. vipga)
             xmap ga <Plug>(EasyAlign)
@@ -309,7 +328,7 @@
         endif
     " }
 
-    " vim-expand-region {
+    " Vim-expand-region {
         if isdirectory(expand("~/.vim/bundle/vim-expand-region/"))
             xmap L <Plug>(expand_region_expand)
             xmap H <Plug>(expand_region_shrink)
@@ -351,7 +370,7 @@
         endif
     "}
 
-    " indent_guides {
+    " Indent_guides {
         if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
             let g:indent_guides_start_level = 2
             let g:indent_guides_guide_size = 1
@@ -378,7 +397,14 @@
             let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
             let g:ale_lint_on_text_changed = 'normal'
             let g:ale_lint_on_insert_leave = 1
-            " let g:airline#extensions#ale#enabled = 1
+        endif
+    " }
+
+    " Vim-go {
+        if isdirectory(expand("~/.vim/bundle/vim-go/"))
+            let g:go_fmt_command = "goimports"
+            let g:go_highlight_fields = 1
+            let g:go_highlight_function_calls = 1
         endif
     " }
 
@@ -421,7 +447,14 @@
         iabbrev itn int
         iabbrev vi vector<int>
         iabbrev vvi vector<vector<int> >
-        setlocal sw=2 ts=2 sts=2
+        syn keyword cppType ll pii
+        setlocal sw=2 ts=2 sts=2 et
+    endfunction
+
+    " Setup python file
+    function! Python_setup()
+        iabbrev im import
+        syn keyword pythonDecorator self
     endfunction
 
 " }
