@@ -51,7 +51,6 @@
 
     " Editing {
         if count(g:xming_plug_groups, 'editing')
-            Plug 'SirVer/ultisnips'
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
             Plug 'junegunn/vim-easy-align'
@@ -63,8 +62,12 @@
 
     " Programming {
         if count(g:xming_plug_groups, 'programming')
+            if has('python') || has('python3')
+                Plug 'SirVer/ultisnips'
+                Plug 'haomingw/vim-snippets'
+                Plug 'fatih/vim-go'
+            endif
             Plug 'w0rp/ale'
-            Plug 'fatih/vim-go'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
             Plug 'scrooloose/nerdcommenter'
