@@ -226,6 +226,9 @@
     map <leader>et :tabe %%
     map <leader>rp :%s/
 
+    " Adjust viewports to the same size
+    map <Leader>= <C-w>=
+
     " Switch between tabs
     if MACOS()
         nnoremap ˙ gT
