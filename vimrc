@@ -275,10 +275,6 @@
     map <leader>f :py3f ~/.vim/static/clang-format.py<CR>
     imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
 
-    " Compilation and Run
-    map <F8> : !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
-    inoremap <F8> <Esc>: !g++ -std=c++11 -Wall -Wextra -Wpedantic -Wno-unused-result -DLOCAL % && ./a.out <cr>
-
 " }
 
 " Setup {
@@ -454,6 +450,10 @@
         iabbrev vi vector<int>
         iabbrev vvi vector<vector<int> >
         syn keyword cppType ll pii
+        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow"
+        if filereadable(getcwd() . "/Makefile")
+            let &makeprg="make"
+        endif
         setlocal sw=2 ts=2 sts=2 et
     endfunction
 
