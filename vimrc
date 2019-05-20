@@ -203,6 +203,9 @@
     nnoremap j gj
     nnoremap k gk
 
+    nnoremap n nzzzv
+    nnoremap N Nzzzv
+
     " Allow to trigger background
     function! ToggleBG()
         let s:tbg = &background
@@ -450,7 +453,7 @@
         iabbrev vi vector<int>
         iabbrev vvi vector<vector<int> >
         syn keyword cppType ll pii
-        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow"
+        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wno-unused-result"
         if filereadable(getcwd() . "/Makefile")
             let &makeprg="make"
         endif
