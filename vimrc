@@ -230,7 +230,8 @@
     map <leader>rp :%s/
 
     " Adjust viewports to the same size
-    map <Leader>= <C-w>=
+    map <Leader>= <c-w>=
+    autocmd vimResized * exe "normal! \<c-w>="
 
     " Switch between tabs
     if MACOS()
@@ -254,7 +255,6 @@
     endif
 
     " Window:
-    map <leader>= <C-w>=    " Adjust viewports to the same size
     nnoremap <c-h> <c-w>h
     nnoremap <c-l> <c-w>l
     nnoremap <c-k> <c-w>k
