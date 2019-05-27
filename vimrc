@@ -134,6 +134,7 @@
     set background=dark
     if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
         color gruvbox
+        " color seoul256
     else
         color desert
     endif
@@ -273,6 +274,8 @@
     nnoremap Y y$               " to be consistent with C and D.
     " yank text in command mode
     cnoremap <c-v> <c-r>+
+    nnoremap <c-Up> <c-y>
+    nnoremap <c-Down> <c-e>
 
     " Clang format
     map <leader>f :py3f ~/.vim/static/clang-format.py<CR>
@@ -282,6 +285,7 @@
 
 " Setup {
 
+    autocmd FileType c :call C_setup()
     autocmd FileType cpp :call Cpp_setup()
     autocmd FileType python :call Python_setup()
 
@@ -445,19 +449,29 @@
         normal `Z
     endfunction
 
-    " Setup cpp file
-    function! Cpp_setup()
+    " Setup C file
+    function! C_setup()
         iabbrev #i #include
         iabbrev #d #define
         iabbrev itn int
+        iabbrev mian() main()
+        setlocal sw=2 ts=2 sts=2 et
+
+        if !filereadable(getcwd() . "/Makefile")
+            let &makeprg="gcc % -DLOCAL"
+        endif
+    endfunction
+
+    " Setup cpp file
+    function! Cpp_setup()
+        call C_setup()
         iabbrev vi vector<int>
         iabbrev vvi vector<vector<int> >
         syn keyword cppType ll pii
-        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wno-unused-result"
-        if filereadable(getcwd() . "/Makefile")
-            let &makeprg="make"
+
+        if !filereadable(getcwd() . "/Makefile")
+            let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wno-unused-result"
         endif
-        setlocal sw=2 ts=2 sts=2 et
     endfunction
 
     " Setup python file
