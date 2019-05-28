@@ -302,6 +302,15 @@
         endif
     " }
 
+    " Vim-snippets {
+        if isdirectory(expand("~/.vim/bundle/vim-snippets/"))
+            " personal information
+            let g:snips_author="xming"
+            let g:snips_email="haoming.exe@gmail.com"
+            let g:snips_github="https://github.com/flyingmouse"
+        endif
+    " }
+
     " Lightline {
         if isdirectory(expand("~/.vim/bundle/lightline.vim/"))
             let g:lightline = {
