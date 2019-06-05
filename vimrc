@@ -306,8 +306,6 @@
         if isdirectory(expand("~/.vim/bundle/vim-snippets/"))
             " personal information
             let g:snips_author="xming"
-            let g:snips_email="haoming.exe@gmail.com"
-            let g:snips_github="https://github.com/flyingmouse"
         endif
     " }
 
@@ -460,8 +458,8 @@
 
     " Setup C file
     function! C_setup()
-        iabbrev #i #include
-        iabbrev #d #define
+        iabbrev inc #include
+        iabbrev def #define
         iabbrev itn int
         iabbrev mian() main()
         setlocal sw=2 ts=2 sts=2 et
