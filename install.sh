@@ -6,7 +6,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 debug_mode='0'
-options=("vim" "oh-my-zsh" "zsh-plugins")
+options=("vim" "oh-my-zsh" "zsh-plugins" "update-vim")
 
 . ./utils.sh
 
@@ -38,7 +38,7 @@ install_zsh_plugin() {
     success "Now installing zsh plugin $plugin_name."
 }
 
-config_zshrc()     {
+config_zshrc() {
     local file_path=$HOME/.zshrc
     sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $file_path
     append_to_file "alias cdd=\"cd ~/Documents/code\""         $file_path
@@ -68,6 +68,12 @@ install_vim() {
     setup_vim_plug
 
     post_install_vim
+}
+
+update_vim() {
+    git stash
+    git pull
+    vim +PlugUpdate +qall
 }
 
 install_oh_my_zsh() {
@@ -104,6 +110,7 @@ select opt in "${options[@]}"; do
         "vim")         install_vim;;
         "oh-my-zsh")   install_oh_my_zsh;;
         "zsh-plugins") install_zsh_plugins;;
+        "update-vim")  update_vim;;
     esac
     confirm
 done
