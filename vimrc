@@ -57,6 +57,9 @@
             Plug 'easymotion/vim-easymotion'
             Plug 'terryma/vim-expand-region'
             Plug 'terryma/vim-multiple-cursors'
+            if exists('##TextYankPost')
+                Plug 'machakann/vim-highlightedyank'
+            endif
         endif
     " }
 
@@ -348,6 +351,13 @@
         if isdirectory(expand("~/.vim/bundle/vim-expand-region/"))
             xmap L <Plug>(expand_region_expand)
             xmap H <Plug>(expand_region_shrink)
+        endif
+    " }
+
+    " Vim-highlightedyank {
+        if isdirectory(expand("~/.vim/bundle/vim-highlightedyank/"))
+            let g:highlightedyank_highlight_duration = 100
+            highlight HighlightedyankRegion cterm=reverse gui=reverse
         endif
     " }
 

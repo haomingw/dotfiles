@@ -1,5 +1,5 @@
 #!/bin/bash
-#   Copyright 2018 Haoming Wang
+# Copyright 2018 Haoming Wang
 set -e
 
 app_name='xming-dotfiles'
