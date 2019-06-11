@@ -77,7 +77,7 @@ git_clone_to() {
     debug
 }
 
-append_to_file() {
+append_text() {
     local text=$1
     local file_path=$2
 
