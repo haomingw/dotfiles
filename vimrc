@@ -51,6 +51,7 @@
 
     " Editing {
         if count(g:xming_plug_groups, 'editing')
+            Plug 'tpope/vim-repeat'
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
             Plug 'junegunn/vim-easy-align'
@@ -266,6 +267,7 @@
 
     " Fast editting
     nnoremap <c-s> :w<CR>
+    nnoremap cl ggdG
     inoremap <c-s> <Esc>:w<CR>a
     inoremap <c-v> <Esc>pa
     inoremap <c-j> <Esc>o
