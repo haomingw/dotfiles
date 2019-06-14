@@ -75,6 +75,7 @@
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
             Plug 'scrooloose/nerdcommenter'
+            Plug 'AndrewRadev/splitjoin.vim'
             Plug 'nathanaelkane/vim-indent-guides'
         endif
     " }
