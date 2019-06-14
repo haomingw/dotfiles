@@ -61,6 +61,7 @@
             if exists('##TextYankPost')
                 Plug 'machakann/vim-highlightedyank'
             endif
+            Plug 'scrooloose/nerdtree'
         endif
     " }
 
@@ -361,6 +362,17 @@
         if isdirectory(expand("~/.vim/bundle/vim-highlightedyank/"))
             let g:highlightedyank_highlight_duration = 100
             highlight HighlightedyankRegion cterm=reverse gui=reverse
+        endif
+    " }
+
+    " Nerdtree {
+        if isdirectory(expand("~/.vim/bundle/nerdtree/"))
+            nnoremap gk :NERDTreeToggle <CR>
+            let g:NERDTreeDirArrowExpandable = '+'
+            let g:NERDTreeDirArrowCollapsible = '-'
+            " close vim if the only window left open is a NERDTree
+            autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+            let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
         endif
     " }
 
