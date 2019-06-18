@@ -73,6 +73,7 @@
                 Plug 'fatih/vim-go'
             endif
             Plug 'w0rp/ale'
+            Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
             Plug 'scrooloose/nerdcommenter'
@@ -395,6 +396,13 @@
             let g:NERDDefaultAlign = 'left'
         endif
     " }
+
+    " Vim-signify {
+        if isdirectory(expand("~/.vim/bundle/vim-signify/"))
+            let g:signify_vcs_list = ['git']
+            let g:signify_skip_filetype = { 'journal': 1 }
+        endif
+    "}
 
     " Fugitive {
         if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
