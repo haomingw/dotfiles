@@ -6,7 +6,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 debug_mode='0'
-options=("vim" "oh-my-zsh" "zsh-plugins" "update-vim")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins")
 
 . ./utils.sh
 
@@ -41,7 +41,7 @@ install_zsh_plugin() {
 config_zshrc() {
     local zshrc=$HOME/.zshrc
     sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $zshrc
-    append_text "cdd() { cd ~/Documents/code/\$1 }\\n"      $zshrc
+    append_text "cdd() { cd ~/Documents/code/\$1 }"         $zshrc
     append_text "# added by Miniconda3 installer"           $zshrc
     append_text 'export PATH=$HOME/miniconda3/bin:$PATH'    $zshrc
     append_text ""                                          $zshrc
@@ -107,9 +107,9 @@ PS3='Please enter your choice: '
 select opt in "${options[@]}"; do
     case $opt in
         "vim")         install_vim;;
+        "update-vim")  update_vim;;
         "oh-my-zsh")   install_oh_my_zsh;;
         "zsh-plugins") install_zsh_plugins;;
-        "update-vim")  update_vim;;
     esac
     confirm
 done
