@@ -113,7 +113,7 @@ create_symlinks() {
 }
 
 config_nvim_if_exists() {
-    if program_exists "nvim"; then
+    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
         mkdir -p $HOME/.config
         lnif "$HOME/.vim"       "$HOME/.config/nvim"
         lnif "$HOME/.vimrc"     "$HOME/.config/nvim/init.vim"
