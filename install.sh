@@ -61,8 +61,7 @@ install_vim() {
     do_backup          "$HOME/.vimrc"
     do_backup          "$HOME/.gvimrc"
 
-    create_symlinks    "$APP_PATH" \
-                       "$HOME"
+    create_symlinks    "$APP_PATH"
 
     setup_vim_plug
 
@@ -73,6 +72,7 @@ update_vim() {
     git stash
     git pull
     vim +PlugUpdate +qall
+    config_nvim_if_exists
 }
 
 install_oh_my_zsh() {

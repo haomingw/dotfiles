@@ -101,18 +101,21 @@ do_backup() {
 
 create_symlinks() {
     local source_path="$1"
-    local target_path="$2"
 
-    copy "$source_path/vim"           "$target_path/.vim"
-    lnif "$source_path/vimrc"         "$target_path/.vimrc"
+    copy "$source_path/vim"     "$HOME/.vim"
+    lnif "$source_path/vimrc"   "$HOME/.vimrc"
 
-    if program_exists "nvim"; then
-        mkdir -p $target_path/.config
-        lnif "$target_path/.vim"      "$target_path/.config/nvim"
-        lnif "$target_path/.vimrc"    "$target_path/.config/nvim/init.vim"
-    fi
+    config_nvim_if_exists
 
     ret="$?"
     success "Setting up vim symlinks."
     debug
+}
+
+config_nvim_if_exists() {
+    if program_exists "nvim"; then
+        mkdir -p $HOME/.config
+        lnif "$HOME/.vim"       "$HOME/.config/nvim"
+        lnif "$HOME/.vimrc"     "$HOME/.config/nvim/init.vim"
+    fi
 }
