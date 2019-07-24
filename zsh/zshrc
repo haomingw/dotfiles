@@ -1,0 +1,23 @@
+program_exists() {
+    # fail on non-zero return value
+    which $1 &> /dev/null || return 1
+    return 0
+}
+program_exists nvim && alias vim=nvim
+
+cdd() { cd ~/Documents/code/$1 }
+
+safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH }
+
+# added by Miniconda3 installer
+safe_export_path $HOME/miniconda3/bin
+
+export JAVA_HOME=/usr/local/jdk1.8.0_221
+safe_export_path $JAVA_HOME/bin
+
+export GOROOT=/usr/local/go
+safe_export_path $GOROOT/bin
+
+export CUDA_HOME=/usr/local/cuda
+export LD_LIBRARY_PATH=${CUDA_HOME}/lib64
+safe_export_path $CUDA_HOME/bin

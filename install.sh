@@ -41,13 +41,7 @@ install_zsh_plugin() {
 config_zshrc() {
     local zshrc=$HOME/.zshrc
     sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $zshrc
-    append_text "cdd() { cd ~/Documents/code/\$1 }"         $zshrc
-    append_text "# added by Miniconda3 installer"           $zshrc
-    append_text 'export PATH=$HOME/miniconda3/bin:$PATH'    $zshrc
-    append_text ""                                          $zshrc
-    append_text 'export CUDA_HOME=/usr/local/cuda'          $zshrc
-    append_text 'export LD_LIBRARY_PATH=${CUDA_HOME}/lib64' $zshrc
-    append_text 'PATH=$CUDA_HOME/bin:$PATH'                 $zshrc
+    cat $APP_PATH/zsh/zshrc >> $zshrc
     success     "Now configuring zsh."
 }
 
@@ -81,7 +75,6 @@ install_oh_my_zsh() {
     program_must_exist "curl"
 
     [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    config_zshrc
     success "oh my zsh installed"
 }
 

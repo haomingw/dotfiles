@@ -21,14 +21,8 @@ debug() {
 }
 
 program_exists() {
-    local ret='0'
-    command -v $1 >/dev/null 2>&1 || { local ret='1'; }
-
     # fail on non-zero return value
-    if [ "$ret" -ne 0 ]; then
-        return 1
-    fi
-
+    command -v $1 >/dev/null 2>&1 || return 1
     return 0
 }
 
@@ -77,15 +71,6 @@ git_clone_to() {
     debug
 }
 
-append_text() {
-    local text=$1
-    local file_path=$2
-
-    echo $text >> $file_path
-    ret="$?"
-    debug
-}
-
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -102,8 +87,8 @@ do_backup() {
 create_symlinks() {
     local source_path="$1"
 
-    copy "$source_path/vim"     "$HOME/.vim"
-    lnif "$source_path/vimrc"   "$HOME/.vimrc"
+    copy "$source_path/vim"       "$HOME/.vim"
+    lnif "$source_path/vim/vimrc" "$HOME/.vimrc"
 
     config_nvim_if_exists
 
@@ -115,7 +100,7 @@ create_symlinks() {
 config_nvim_if_exists() {
     if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
         mkdir -p $HOME/.config
-        lnif "$HOME/.vim"       "$HOME/.config/nvim"
-        lnif "$HOME/.vimrc"     "$HOME/.config/nvim/init.vim"
+        lnif "$HOME/.vim"         "$HOME/.config/nvim"
+        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
     fi
 }
