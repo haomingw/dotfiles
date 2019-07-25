@@ -6,7 +6,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 debug_mode='0'
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python")
 
 . ./utils.sh
 
@@ -88,6 +88,12 @@ install_zsh_plugins() {
     install_zsh_plugin  "zsh-autosuggestions"
 }
 
+config_python() {
+    mkdir -p $HOME/.ptpython
+    lnif $APP_PATH/ptpython/config.py $HOME/.ptpython
+    success "Now configuring python."
+}
+
 confirm() {
     read -p "Do you want to continue? (y/N) " choice
     case $choice in
@@ -103,6 +109,7 @@ select opt in "${options[@]}"; do
         "update-vim")  update_vim;;
         "oh-my-zsh")   install_oh_my_zsh;;
         "zsh-plugins") install_zsh_plugins;;
+        "python")      config_python;;
     esac
     confirm
 done
