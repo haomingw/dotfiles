@@ -5,12 +5,14 @@ program_exists() {
 }
 program_exists nvim && alias vim=nvim
 
+# pip commands
 pipcl() {
     local pypath=`which python`
     if [[ $pypath == */envs/* ]]; then
         pip freeze | grep -v cert | xargs pip uninstall -y
     fi
 }
+alias pipls='pip freeze'
 
 cdd() { cd ~/Documents/code/$1 }
 
