@@ -14,6 +14,10 @@ pipcl() {
 }
 alias pipls='pip freeze'
 
+# miniconda
+alias u='source acitvate'
+alias uu='conda deacitvate'
+
 cdd() { cd ~/Documents/code/$1 }
 
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
