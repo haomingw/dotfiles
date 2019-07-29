@@ -1,7 +1,6 @@
 program_exists() {
     # fail on non-zero return value
-    which $1 &> /dev/null || return 1
-    return 0
+    which $1 &> /dev/null && return 0 || return 1
 }
 program_exists nvim && alias vim=nvim
 
