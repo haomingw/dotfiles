@@ -5,6 +5,13 @@ program_exists() {
 }
 program_exists nvim && alias vim=nvim
 
+# Create a new directory and enter it
+mk() {
+    mkdir -p "$@" && cd "$_";
+}
+
+cdd() { cd ~/Documents/code/$1 }
+
 # pip commands
 pipcl() {
     local pypath=`which python`
@@ -12,13 +19,14 @@ pipcl() {
         pip freeze | grep -v cert | xargs pip uninstall -y
     fi
 }
-alias pipls='pip freeze'
+alias pipls='pip freeze | grep -v certifi'
 
 # miniconda
 alias u='source acitvate'
 alias uu='conda deacitvate'
 
-cdd() { cd ~/Documents/code/$1 }
+# [macOS] Recursively delete `.DS_Store` files
+alias clean="find . -type f -name '*.DS_Store' -ls -delete"
 
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
