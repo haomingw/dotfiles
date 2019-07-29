@@ -16,7 +16,7 @@ setup_vim_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
 
-    vim +PlugInstall +qall
+    vim +PlugUpdate +qall
 
     export SHELL="$system_shell"
 
@@ -45,6 +45,15 @@ config_zshrc() {
     success     "Now configuring zsh."
 }
 
+setup_nvim_if_exists() {
+    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
+        mkdir -p $HOME/.config
+        lnif "$HOME/.vim"         "$HOME/.config/nvim"
+        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
+        success "Setting up neovim."
+    fi
+}
+
 ############################ MAIN FUNCTIONS
 
 install_vim() {
@@ -60,13 +69,16 @@ install_vim() {
     setup_vim_plug
 
     post_install_vim
+
+    setup_nvim_if_exists
 }
 
 update_vim() {
-    git stash
-    git pull
-    vim +PlugUpdate +qall
-    config_nvim_if_exists
+    update_repo
+
+    setup_vim_plug
+
+    setup_nvim_if_exists
 }
 
 install_oh_my_zsh() {

@@ -90,17 +90,14 @@ create_symlinks() {
     copy "$source_path/vim"       "$HOME/.vim"
     lnif "$source_path/vim/vimrc" "$HOME/.vimrc"
 
-    config_nvim_if_exists
-
     ret="$?"
     success "Setting up vim symlinks."
     debug
 }
 
-config_nvim_if_exists() {
-    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
-        mkdir -p $HOME/.config
-        lnif "$HOME/.vim"         "$HOME/.config/nvim"
-        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
-    fi
+update_repo() {
+    git stash
+    git pull
+
+    success "Updating repository."
 }
