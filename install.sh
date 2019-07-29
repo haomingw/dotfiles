@@ -6,7 +6,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 debug_mode='0'
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux")
 
 . ./utils.sh
 
@@ -106,6 +106,11 @@ config_python() {
     success "Now configuring python."
 }
 
+config_tmux() {
+    lnif $APP_PATH/tmux/tmux.conf $HOME/.tmux.conf
+    success "Now configuring tmux."
+}
+
 confirm() {
     read -p "Do you want to continue? (y/N) " choice
     case $choice in
@@ -122,6 +127,7 @@ select opt in "${options[@]}"; do
         "oh-my-zsh")   install_oh_my_zsh;;
         "zsh-plugins") install_zsh_plugins;;
         "python")      config_python;;
+        "tmux")        config_tmux;;
     esac
     confirm
 done
