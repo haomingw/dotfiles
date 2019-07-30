@@ -2,6 +2,7 @@ program_exists() {
     # fail on non-zero return value
     which $1 &> /dev/null && return 0 || return 1
 }
+program_exists vi && alias vi=vim
 program_exists nvim && alias vim=nvim
 
 # Create a new directory and enter it
@@ -12,13 +13,14 @@ mk() {
 cdd() { cd ~/Documents/code/$1 }
 
 # pip commands
+alias pipls='pip freeze | grep -v certifi'
+
 pipcl() {
     local pypath=`which python`
     if [[ $pypath == */envs/* ]]; then
-        pip freeze | grep -v cert | xargs pip uninstall -y
+        pipls | xargs pip uninstall -y
     fi
 }
-alias pipls='pip freeze | grep -v certifi'
 
 # miniconda
 alias u='source activate'
