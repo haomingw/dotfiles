@@ -21,8 +21,8 @@ pipcl() {
 alias pipls='pip freeze | grep -v certifi'
 
 # miniconda
-alias u='source acitvate'
-alias uu='conda deacitvate'
+alias u='source activate'
+alias uu='conda deactivate'
 
 # [macOS] Recursively delete `.DS_Store` files
 alias clean="find . -type f -name '*.DS_Store' -ls -delete"
