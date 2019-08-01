@@ -27,7 +27,10 @@ alias u='source activate'
 alias uu='conda deactivate'
 
 # [macOS] Recursively delete `.DS_Store` files
-alias clean="find . -type f -name '*.DS_Store' -ls -delete"
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# key bindings
+bindkey '^ ' autosuggest-accept
 
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
