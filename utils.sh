@@ -4,7 +4,7 @@ msg() {
 }
 
 success() {
-    if [ "$ret" -eq '0' ]; then
+    if [ $? -eq 0 ]; then
         msg "\33[32m[✔]\33[0m ${1}${2}"
     fi
 }
@@ -15,22 +15,21 @@ error() {
 }
 
 debug() {
-    if [ "$debug_mode" -eq '1' ] && [ "$ret" -gt '1' ]; then
+    if [ $debug_mode -eq 1 ] && [ $? -gt 1 ]; then
         msg "An error occurred in function \"${FUNCNAME[$i+1]}\" on line ${BASH_LINENO[$i+1]}, we're sorry for that."
     fi
 }
 
 program_exists() {
     # fail on non-zero return value
-    command -v $1 >/dev/null 2>&1 || return 1
-    return 0
+    command -v $1 >/dev/null 2>&1 && return 0 || return 1
 }
 
 program_must_exist() {
     program_exists $1
 
     # throw error on non-zero return value
-    if [ "$?" -ne 0 ]; then
+    if [ $? -ne 0 ]; then
         error "You must have '$1' installed to continue."
     fi
 }
@@ -47,7 +46,6 @@ lnif() {
     if [ -e "$1" ]; then
         ln -sf "$1" "$2"
     fi
-    ret="$?"
     debug
 }
 
@@ -55,7 +53,6 @@ copy() {
     if [ -e "$1" ]; then
         cp -r "$1" "$2"
     fi
-    ret="$?"
     debug
 }
 
@@ -67,7 +64,6 @@ git_clone_to() {
     if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
         cd $target_path && git clone $git_url
     fi
-    ret="$?"
     debug
 }
 
@@ -78,7 +74,6 @@ do_backup() {
         msg "Attempting to back up your original configuration."
         today=`date +%Y%m%d_%s`
         [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
-        ret="$?"
         success "Your original configuration has been backed up."
         debug
    fi
@@ -90,7 +85,6 @@ create_symlinks() {
     copy "$source_path/vim"       "$HOME/.vim"
     lnif "$source_path/vim/vimrc" "$HOME/.vimrc"
 
-    ret="$?"
     success "Setting up vim symlinks."
     debug
 }
