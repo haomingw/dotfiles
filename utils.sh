@@ -12,12 +12,6 @@ error() {
     exit 1
 }
 
-debug() {
-    if [ $debug_mode -eq 1 ] && [ $? -gt 1 ]; then
-        msg "An error occurred in function \"${FUNCNAME[$i+1]}\" on line ${BASH_LINENO[$i+1]}, we're sorry for that."
-    fi
-}
-
 program_exists() {
     # fail on non-zero return value
     command -v $1 >/dev/null 2>&1 && return 0 || return 1
@@ -44,14 +38,12 @@ lnif() {
     if [ -e "$1" ]; then
         ln -sf "$1" "$2"
     fi
-    debug
 }
 
 copy() {
     if [ -e "$1" ]; then
         cp -r "$1" "$2"
     fi
-    debug
 }
 
 git_clone_to() {
@@ -62,7 +54,6 @@ git_clone_to() {
     if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
         cd $target_path && git clone $git_url
     fi
-    debug
 }
 
 ############################ SETUP FUNCTIONS
@@ -73,7 +64,6 @@ do_backup() {
         today=`date +%Y%m%d_%s`
         [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
         success "Your original configuration has been backed up."
-        debug
    fi
 }
 
@@ -84,7 +74,6 @@ create_symlinks() {
     lnif "$source_path/vim/vimrc" "$HOME/.vimrc"
 
     success "Setting up vim symlinks."
-    debug
 }
 
 update_repo() {

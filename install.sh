@@ -5,7 +5,6 @@ set -e
 app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
-debug_mode='0'
 options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux")
 
 . ./utils.sh
