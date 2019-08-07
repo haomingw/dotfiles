@@ -110,11 +110,15 @@ config_tmux() {
     success "Now configuring tmux."
 }
 
+unknown_option() {
+    echo -n "The option is unknown. "
+}
+
 confirm() {
     read -p "Do you want to continue? (y/N) " choice
     case $choice in
-        [yY][eE][sS]|[yY] ) ;;
-        * ) exit 0;;
+        [yY][eE][sS]|[yY]) ;;
+        *) exit 0;;
     esac
 }
 
@@ -127,6 +131,7 @@ select opt in "${options[@]}"; do
         "zsh-plugins") install_zsh_plugins;;
         "python")      config_python;;
         "tmux")        config_tmux;;
+        *)             unknown_option;;
     esac
     confirm
 done
