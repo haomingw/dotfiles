@@ -71,6 +71,7 @@
                 Plug 'SirVer/ultisnips'
                 Plug 'haomingw/vim-snippets'
                 Plug 'fatih/vim-go'
+                Plug 'AndrewRadev/splitjoin.vim'
             endif
             Plug 'w0rp/ale'
             Plug 'mhinz/vim-signify'
