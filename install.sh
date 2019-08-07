@@ -3,9 +3,13 @@
 set -e
 
 app_name='xming-dotfiles'
+
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+
 options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux")
+
+multiple=true  # if we stay in option chosen loop
 
 . ./utils.sh
 
@@ -109,28 +113,38 @@ config_tmux() {
     success "Now configuring tmux."
 }
 
-unknown_option() {
-    echo -n "The option is unknown. "
+unexpected_option() {
+    echo -n "Unexpected option. "
 }
 
 confirm() {
+    if [ $multiple = false ]; then
+        echo && exit 0
+    fi
     read -p "Do you want to continue? (y/N) " choice
     case $choice in
         [yY][eE][sS]|[yY]) ;;
-        *) exit 0;;
+        *) exit 0 ;;
     esac
 }
+
+while getopts "f" flag; do
+    case $flag in
+        f) multiple=false ;;
+        *) error "Unexpected option ${flag}" ;;
+    esac
+done
 
 PS3='Please enter your choice: '
 select opt in "${options[@]}"; do
     case $opt in
-        "vim")         install_vim;;
-        "update-vim")  update_vim;;
-        "oh-my-zsh")   install_oh_my_zsh;;
-        "zsh-plugins") install_zsh_plugins;;
-        "python")      config_python;;
-        "tmux")        config_tmux;;
-        *)             unknown_option;;
+        "vim")         install_vim ;;
+        "update-vim")  update_vim ;;
+        "oh-my-zsh")   install_oh_my_zsh ;;
+        "zsh-plugins") install_zsh_plugins ;;
+        "python")      config_python ;;
+        "tmux")        config_tmux ;;
+        *)             unexpected_option ;;
     esac
     confirm
 done
