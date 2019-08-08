@@ -36,13 +36,13 @@ install_zsh_plugin() {
     local plugin_path="$ZSH_CUSTOM/plugins"
 
     git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
-    sed -i "/^plugins=/a \  $plugin_name" $HOME/.zshrc
+    sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
     success "Now installing zsh plugin $plugin_name."
 }
 
 config_zshrc() {
     local zshrc=$HOME/.zshrc
-    sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $zshrc
+    sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
     cat $APP_PATH/zsh/zshrc >> $zshrc
     success     "Now configuring zsh."
 }
