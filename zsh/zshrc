@@ -26,9 +26,19 @@ pipcl() {
 alias u='source activate'
 alias uu='conda deactivate'
 alias uls='conda env list'
+alias ucl="find $HOME/miniconda3 -type f,l -not -path '$HOME/miniconda3/pkgs*' -name 'wish*' -ls -delete"
+
+uc() {
+    conda create -n $1 python=${2:=3.6}
+    ucl
+}
+
+urm() {
+    conda env remove -n $1
+}
 
 # [macOS] Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+alias mcl="find . -type f -name '*.DS_Store' -ls -delete"
 
 # key bindings
 bindkey '^ ' autosuggest-accept
