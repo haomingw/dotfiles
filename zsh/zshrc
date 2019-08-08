@@ -31,6 +31,7 @@ alias ucl="find $HOME/miniconda3 -type f,l -not -path '$HOME/miniconda3/pkgs*' -
 uc() {
     conda create -n $1 python=${2:=3.6}
     ucl
+    u $1
 }
 
 urm() {
