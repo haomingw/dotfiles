@@ -7,14 +7,26 @@ success() {
     msg "\33[32m[✔]\33[0m ${1}${2}"
 }
 
-error() {
+err() {
     msg "\33[31m[✘]\33[0m ${1}${2}"
+}
+
+error() {
+    err "$@"
     exit 1
 }
 
 program_exists() {
     # fail on non-zero return value
     command -v $1 >/dev/null 2>&1 && return 0 || return 1
+}
+
+is_linux() {
+    [ $(uname) == "Linux" ] && return 0 || return 1
+}
+
+is_macos() {
+    [ $(uname) == "Darwin" ] && return 0 || return 1
 }
 
 program_must_exist() {
@@ -27,7 +39,7 @@ program_must_exist() {
 }
 
 file_must_exist() {
-    local file_path=$1
+    local file_path="$1"
 
     if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
         error "You must have '$1' to continue."
@@ -47,8 +59,8 @@ copy() {
 }
 
 git_clone_to() {
-    local git_url=$1
-    local target_path=$2
+    local git_url="$1"
+    local target_path="$2"
     local repo_name=`echo ${git_url##*/} | cut -d'.' -f1`
 
     if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then

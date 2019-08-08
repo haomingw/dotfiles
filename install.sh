@@ -7,9 +7,9 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime")
 
-multiple=true  # if we stay in option chosen loop
+one_option_mode=''  # if we stay in option chosen loop
 
 . ./utils.sh
 
@@ -54,6 +54,36 @@ setup_nvim_if_exists() {
         lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
         success "Setting up neovim."
     fi
+}
+
+install_miniconda_if_not_exists() {
+    if [ ! -d $HOME/miniconda3 ]; then
+        local url=''
+        is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
+        is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
+        if [ ! -z "$url" ]; then
+            local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
+            local folder="$HOME/Downloads"
+            [ -f $folder/$miniconda ] || wget $url -P $folder
+            bash $folder/$miniconda \
+            && success "Miniconda successfully installed" \
+            && cleanup_miniconda_files $folder/$miniconda
+        fi
+    fi
+}
+
+cleanup_miniconda_files() {
+    local installation_file="$1"
+    rm $installation_file
+    find $HOME/miniconda3 -type f -name 'wish*' -ls -delete
+    success "Cleaning up minconda files"
+}
+
+print_select_menu() {
+    local prev="$PS3"
+    PS3=""
+    echo toto | select foo in "${options[@]}"; do break; done  # dummy select
+    PS3=$prev
 }
 
 ############################ MAIN FUNCTIONS
@@ -105,6 +135,7 @@ install_zsh_plugins() {
 config_python() {
     mkdir -p $HOME/.ptpython
     lnif $APP_PATH/ptpython/config.py $HOME/.ptpython
+    install_miniconda_if_not_exists
     success "Now configuring python."
 }
 
@@ -113,24 +144,29 @@ config_tmux() {
     success "Now configuring tmux."
 }
 
-unexpected_option() {
-    echo -n "Unexpected option. "
+config_sublime() {
+    if is_linux; then
+        local sublime_home="$HOME/.config/sublime-text-3/Packages/User"
+        if [ -d $sublime_home ]; then
+            lnif $APP_PATH/sublime/sublime-settings     $sublime_home/Preferences.sublime-settings
+            lnif $APP_PATH/sublime/sublime-keymap-linux $sublime_home/'Default (Linux).sublime-keymap'
+            success "Now configuring sublime-text."
+        fi
+    fi
 }
 
 confirm() {
-    if [ $multiple = false ]; then
-        echo && exit 0
-    fi
+    [ ! -z $one_option_mode ] && exit 0
     read -p "Do you want to continue? (y/N) " choice
     case $choice in
-        [yY][eE][sS]|[yY]) ;;
+        [yY][eE][sS]|[yY]) print_select_menu ;;
         *) exit 0 ;;
     esac
 }
 
 while getopts "f" flag; do
     case $flag in
-        f) multiple=false ;;
+        f) one_option_mode=true; success "Entering one option mode" ;;
         *) error "Unexpected option ${flag}" ;;
     esac
 done
@@ -138,13 +174,14 @@ done
 PS3='Please enter your choice: '
 select opt in "${options[@]}"; do
     case $opt in
-        "vim")         install_vim ;;
-        "update-vim")  update_vim ;;
-        "oh-my-zsh")   install_oh_my_zsh ;;
-        "zsh-plugins") install_zsh_plugins ;;
-        "python")      config_python ;;
-        "tmux")        config_tmux ;;
-        *)             unexpected_option ;;
+        "vim")          install_vim ;;
+        "update-vim")   update_vim ;;
+        "oh-my-zsh")    install_oh_my_zsh ;;
+        "zsh-plugins")  install_zsh_plugins ;;
+        "python")       config_python ;;
+        "tmux")         config_tmux ;;
+        "sublime-text") config_sublime ;;
+        *)              err "Unexpected option" ;;
     esac
     confirm
 done
