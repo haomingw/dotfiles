@@ -75,7 +75,7 @@ install_miniconda_if_not_exists() {
 cleanup_miniconda_files() {
     local installation_file="$1"
     rm $installation_file
-    find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -name 'wish*' -ls -delete
+    find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
     success "Cleaning up minconda files"
 }
 

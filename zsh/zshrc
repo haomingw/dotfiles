@@ -26,7 +26,7 @@ pipcl() {
 alias u='source activate'
 alias uu='conda deactivate'
 alias uls='conda env list'
-alias ucl="find $HOME/miniconda3 -type f,l -not -path '$HOME/miniconda3/pkgs*' -name 'wish*' -ls -delete"
+alias ucl='find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
 uc() {
     conda create -n $1 python=${2:=3.6}
