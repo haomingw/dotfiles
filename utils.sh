@@ -82,8 +82,8 @@ do_backup() {
 create_symlinks() {
     local source_path="$1"
 
-    copy "$source_path/vim"       "$HOME/.vim"
-    lnif "$source_path/vim/vimrc" "$HOME/.vimrc"
+    copy "$source_path/vim/dotvim" "$HOME/.vim"
+    lnif "$source_path/vim/vimrc"  "$HOME/.vimrc"
 
     success "Setting up vim symlinks."
 }

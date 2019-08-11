@@ -39,7 +39,8 @@ urm() {
 }
 
 # [macOS] Recursively delete `.DS_Store` files
-alias mcl="find . -type f -name '*.DS_Store' -ls -delete"
+alias cleands="find . -type f -name '*.DS_Store' -ls -delete"
+alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
 
 # key bindings
 bindkey '^ ' autosuggest-accept
