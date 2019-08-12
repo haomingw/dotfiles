@@ -45,6 +45,7 @@ alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
 # key bindings
 bindkey '^ ' autosuggest-accept
 
+safe_source() { [[ -s $1 ]] && source $1 || return 0 }
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
 # added by Miniconda3 installer
