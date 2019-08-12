@@ -41,7 +41,7 @@ program_must_exist() {
 file_must_exist() {
     local file_path="$1"
 
-    if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
+    if [ ! -f $file_path ] && [ ! -d $file_path ]; then
         error "You must have '$1' to continue."
     fi
 }
@@ -69,11 +69,11 @@ git_clone_to() {
 }
 
 insert_if_not_exists() {
-    local pattern=$1
-    local target=$2
-    shift; shift
+    local pattern="$1"
+    local text="$2"
+    local target="$3"
     if [ ! -f $target ] || ! $(grep -q $pattern $target); then
-        echo "$*" >> $target
+        echo $text >> $target
     fi
 }
 
@@ -121,7 +121,7 @@ post_install_vim() {
 }
 
 install_zsh_plugin() {
-    local plugin_name=$1
+    local plugin_name="$1"
     local plugin_path="$ZSH_CUSTOM/plugins"
 
     git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
@@ -135,7 +135,7 @@ config_zshrc() {
     sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
     lnif $app_path/zsh/zshrc.local $HOME/.zshrc.local
     local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
-    insert_if_not_exists 'zshrc.local' $zshrc $cmd
+    insert_if_not_exists 'zshrc.local' "$cmd" $zshrc
     success "Now configuring zsh."
 }
 
@@ -162,11 +162,11 @@ install_miniconda_if_not_exists() {
         is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
         if [ ! -z "$url" ]; then
             local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
-            local folder="$HOME/Downloads"
-            [ -f $folder/$miniconda ] || wget $url -P $folder
-            bash $folder/$miniconda \
+            local target="$HOME/Downloads"
+            [ -f $target/$miniconda ] || wget $url -P $target
+            bash $target/$miniconda \
             && success "Miniconda successfully installed" \
-            && cleanup_miniconda_files $folder/$miniconda
+            && cleanup_miniconda_files $target/$miniconda
         fi
     fi
 }
