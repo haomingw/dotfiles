@@ -124,9 +124,11 @@ install_zsh_plugin() {
     local plugin_name="$1"
     local plugin_path="$ZSH_CUSTOM/plugins"
 
-    git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
-    sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
-    success "Now installing zsh plugin $plugin_name."
+    if [ ! -d $plugin_path/$plugin_name ]; then
+        git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
+        sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
+        success "Now installing zsh plugin $plugin_name."
+    fi
 }
 
 config_zshrc() {

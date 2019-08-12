@@ -58,7 +58,7 @@ upd() {
         uu
     fi
     echo "updating zsh config"
-    source ~/.zshrc.local
+    safe_source ~/.zshrc.local
     if [[ -n $env_name ]]; then
         echo "restoring python virtual env"
         u $env_name
