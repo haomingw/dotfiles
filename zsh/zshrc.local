@@ -46,6 +46,25 @@ alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
 bindkey '^ ' autosuggest-accept
 
 safe_source() { [[ -s $1 ]] && source $1 || return 0 }
+
+upd() {
+    local pypath=`which python`
+    local env_name=''
+    if $(grep -q 'envs' $pypath); then
+        env_name=`echo $pypath | rev | cut -d'/' -f3 | rev`
+    fi
+    if [[ -n $env_name ]]; then
+        echo "deactivating python virtual env"
+        uu
+    fi
+    echo "updating zsh config"
+    source ~/.zshrc.local
+    if [[ -n $env_name ]]; then
+        echo "restoring python virtual env"
+        u $env_name
+    fi
+}
+
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
 # added by Miniconda3 installer
