@@ -68,6 +68,15 @@ git_clone_to() {
     fi
 }
 
+insert_if_not_exists() {
+    local pattern=$1
+    local target=$2
+    shift; shift
+    if [ ! -f $target ] || ! $(grep -q $pattern $target); then
+        echo "$*" >> $target
+    fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -79,11 +88,11 @@ do_backup() {
    fi
 }
 
-create_symlinks() {
-    local source_path="$1"
+create_vim_symlinks() {
+    local app_path="$1"
 
-    copy "$source_path/vim/dotvim" "$HOME/.vim"
-    lnif "$source_path/vim/vimrc"  "$HOME/.vimrc"
+    copy "$app_path/vim/dotvim" "$HOME/.vim"
+    lnif "$app_path/vim/vimrc"  "$HOME/.vimrc"
 
     success "Setting up vim symlinks."
 }
@@ -93,4 +102,71 @@ update_repo() {
     git pull
 
     success "Updating repository."
+}
+
+setup_vim_plug() {
+    local system_shell="$SHELL"
+    export SHELL='/bin/sh'
+
+    vim +PlugUpdate +qall
+
+    export SHELL="$system_shell"
+
+    success "Now updating/installing plugins using vim-plug"
+}
+
+post_install_vim() {
+    mkdir -p $HOME/.vim/undo
+    success "Postpone installation finished."
+}
+
+install_zsh_plugin() {
+    local plugin_name=$1
+    local plugin_path="$ZSH_CUSTOM/plugins"
+
+    git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
+    sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
+    success "Now installing zsh plugin $plugin_name."
+}
+
+config_zshrc() {
+    local app_path="$1"
+    local zshrc="$HOME/.zshrc"
+    sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
+    lnif $app_path/zsh/zshrc $HOME/.zshrc.local
+    local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
+    insert_if_not_exists 'zshrc.local' $zshrc $cmd
+    success "Now configuring zsh."
+}
+
+setup_nvim_if_exists() {
+    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
+        mkdir -p $HOME/.config
+        lnif "$HOME/.vim"         "$HOME/.config/nvim"
+        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
+        success "Setting up neovim."
+    fi
+}
+
+cleanup_miniconda_files() {
+    local installation_file="$1"
+    rm $installation_file
+    find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
+    success "Cleaning up minconda files"
+}
+
+install_miniconda_if_not_exists() {
+    if [ ! -d $HOME/miniconda3 ]; then
+        local url=''
+        is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
+        is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
+        if [ ! -z "$url" ]; then
+            local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
+            local folder="$HOME/Downloads"
+            [ -f $folder/$miniconda ] || wget $url -P $folder
+            bash $folder/$miniconda \
+            && success "Miniconda successfully installed" \
+            && cleanup_miniconda_files $folder/$miniconda
+        fi
+    fi
 }

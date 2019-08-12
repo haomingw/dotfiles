@@ -15,70 +15,6 @@ one_option_mode=''  # if we stay in option chosen loop
 
 ############################ SETUP FUNCTIONS
 
-setup_vim_plug() {
-    local system_shell="$SHELL"
-    export SHELL='/bin/sh'
-
-    vim +PlugUpdate +qall
-
-    export SHELL="$system_shell"
-
-    success "Now updating/installing plugins using vim-plug"
-}
-
-post_install_vim() {
-    mkdir -p ~/.vim/undo
-    success "Postpone installation finished."
-}
-
-install_zsh_plugin() {
-    local plugin_name=$1
-    local plugin_path="$ZSH_CUSTOM/plugins"
-
-    git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
-    sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
-    success "Now installing zsh plugin $plugin_name."
-}
-
-config_zshrc() {
-    local zshrc=$HOME/.zshrc
-    sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
-    cat $APP_PATH/zsh/zshrc >> $zshrc
-    success     "Now configuring zsh."
-}
-
-setup_nvim_if_exists() {
-    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
-        mkdir -p $HOME/.config
-        lnif "$HOME/.vim"         "$HOME/.config/nvim"
-        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
-        success "Setting up neovim."
-    fi
-}
-
-install_miniconda_if_not_exists() {
-    if [ ! -d $HOME/miniconda3 ]; then
-        local url=''
-        is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
-        is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
-        if [ ! -z "$url" ]; then
-            local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
-            local folder="$HOME/Downloads"
-            [ -f $folder/$miniconda ] || wget $url -P $folder
-            bash $folder/$miniconda \
-            && success "Miniconda successfully installed" \
-            && cleanup_miniconda_files $folder/$miniconda
-        fi
-    fi
-}
-
-cleanup_miniconda_files() {
-    local installation_file="$1"
-    rm $installation_file
-    find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
-    success "Cleaning up minconda files"
-}
-
 print_select_menu() {
     local prev="$PS3"
     PS3=""
@@ -89,14 +25,14 @@ print_select_menu() {
 ############################ MAIN FUNCTIONS
 
 install_vim() {
-    program_must_exist "vim"
-    program_must_exist "git"
+    program_must_exist  "vim"
+    program_must_exist  "git"
 
-    do_backup          "$HOME/.vim"
-    do_backup          "$HOME/.vimrc"
-    do_backup          "$HOME/.gvimrc"
+    do_backup           "$HOME/.vim"
+    do_backup           "$HOME/.vimrc"
+    do_backup           "$HOME/.gvimrc"
 
-    create_symlinks    "$APP_PATH"
+    create_vim_symlinks "$APP_PATH"
 
     setup_vim_plug
 
@@ -124,10 +60,10 @@ install_oh_my_zsh() {
 
 install_zsh_plugins() {
     program_must_exist  "zsh"
-    file_must_exist    "$HOME/.zshrc"
+    file_must_exist     "$HOME/.zshrc"
     file_must_exist     "$HOME/.oh-my-zsh"
 
-    config_zshrc
+    config_zshrc        "$APP_PATH"
     install_zsh_plugin  "zsh-syntax-highlighting"
     install_zsh_plugin  "zsh-autosuggestions"
 }
