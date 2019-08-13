@@ -61,7 +61,7 @@ copy() {
 git_clone_to() {
     local git_url="$1"
     local target_path="$2"
-    local repo_name=`echo ${git_url##*/} | cut -d'.' -f1`
+    local repo_name=`basename $git_url .git`
 
     if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
         cd $target_path && git clone $git_url
