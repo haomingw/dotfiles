@@ -30,7 +30,7 @@ is_macos() {
 }
 
 program_must_exist() {
-    program_exists $1
+    program_exists "$1"
 
     # throw error on non-zero return value
     if [ $? -ne 0 ]; then
@@ -39,9 +39,9 @@ program_must_exist() {
 }
 
 file_must_exist() {
-    local file_path="$1"
+    local file_path=$1
 
-    if [ ! -f $file_path ] && [ ! -d $file_path ]; then
+    if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
         error "You must have '$1' to continue."
     fi
 }
@@ -59,20 +59,20 @@ copy() {
 }
 
 git_clone_to() {
-    local git_url="$1"
-    local target_path="$2"
-    local repo_name=`basename $git_url .git`
+    local git_url=$1
+    local target_path=$2
+    local repo_name=`basename "$git_url" .git`
 
-    if [ -d $target_path ] && [ ! -d target_path/$repo_name ]; then
+    if [ -d "$target_path" ] && [ ! -d "$target_path/$repo_name" ]; then
         cd $target_path && git clone $git_url
     fi
 }
 
 insert_if_not_exists() {
-    local pattern="$1"
-    local text="$2"
-    local target="$3"
-    if [ ! -f $target ] || ! $(grep -q $pattern $target); then
+    local pattern=$1
+    local text=$2
+    local target=$3
+    if [ ! -f "$target" ] || ! $(grep -q "$pattern" "$target"); then
         echo $text >> $target
     fi
 }
@@ -89,7 +89,7 @@ do_backup() {
 }
 
 create_vim_symlinks() {
-    local app_path="$1"
+    local app_path=$1
 
     copy "$app_path/vim/dotvim" "$HOME/.vim"
     lnif "$app_path/vim/vimrc"  "$HOME/.vimrc"
@@ -121,10 +121,10 @@ post_install_vim() {
 }
 
 install_zsh_plugin() {
-    local plugin_name="$1"
+    local plugin_name=$1
     local plugin_path="$ZSH_CUSTOM/plugins"
 
-    if [ ! -d $plugin_path/$plugin_name ]; then
+    if [ ! -d "$plugin_path/$plugin_name" ]; then
         git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
         sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
         success "Now installing zsh plugin $plugin_name."
@@ -132,7 +132,7 @@ install_zsh_plugin() {
 }
 
 config_zshrc() {
-    local app_path="$1"
+    local app_path=$1
     local zshrc="$HOME/.zshrc"
     sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
     lnif $app_path/zsh/zshrc.local $HOME/.zshrc.local
@@ -151,7 +151,7 @@ setup_nvim_if_exists() {
 }
 
 cleanup_miniconda_files() {
-    local installation_file="$1"
+    local installation_file=$1
     rm $installation_file
     find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
     success "Cleaning up minconda files"
@@ -165,7 +165,7 @@ install_miniconda_if_not_exists() {
         if [ ! -z "$url" ]; then
             local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
             local target="$HOME/Downloads"
-            [ -f $target/$miniconda ] || wget $url -P $target
+            [ -f "$target/$miniconda" ] || wget $url -P $target
             bash $target/$miniconda \
             && success "Miniconda successfully installed" \
             && cleanup_miniconda_files $target/$miniconda
