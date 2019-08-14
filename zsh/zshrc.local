@@ -41,8 +41,15 @@ urm() {
 # git utils
 alias gbcu='git rev-parse --abbrev-ref HEAD'
 alias gbrm='git branch -D'
+
 gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
+}
+
+# cd to git repo root
+function cdr () {
+    local repo=$(git rev-parse --show-toplevel 2>/dev/null)
+    [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
 }
 
 # [macOS] Recursively delete `.DS_Store` files
@@ -56,7 +63,7 @@ safe_source() { [[ -s $1 ]] && source $1 || return 0 }
 
 upd() {
     local pypath=$(which python)
-    local env_name=''
+    local env_name
     if $(grep -q 'envs' $pypath); then
         env_name=`echo $pypath | rev | cut -d'/' -f3 | rev`
     fi

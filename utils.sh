@@ -159,7 +159,7 @@ cleanup_miniconda_files() {
 
 install_miniconda_if_not_exists() {
     if [ ! -d $HOME/miniconda3 ]; then
-        local url=''
+        local url
         is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
         is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
         if [ ! -z "$url" ]; then
