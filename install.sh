@@ -7,7 +7,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime-text")
 
 one_option_mode=''  # if we stay in option chosen loop
 
@@ -117,7 +117,7 @@ select opt in "${options[@]}"; do
         "python")       config_python ;;
         "tmux")         config_tmux ;;
         "sublime-text") config_sublime ;;
-        *)              err "Unexpected option" ;;
+        *)              err "Unexpected option: $opt" ;;
     esac
     confirm
 done
