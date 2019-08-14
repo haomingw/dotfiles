@@ -76,9 +76,14 @@ safe_export_path $JAVA_HOME/bin
 export GOROOT=/usr/local/go
 safe_export_path $GOROOT/bin
 
-export CUDA_HOME=/usr/local/cuda
-export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-safe_export_path $CUDA_HOME/bin
+safe_use_cuda() {
+    if [[ -d "$1/lib64" ]]; then
+        export CUDA_HOME=$1
+        export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+        safe_export_path $CUDA_HOME/bin
+    fi
+}
+safe_use_cuda "/usr/local/cuda"
 
 # path deduplication
 program_exists awk && {
