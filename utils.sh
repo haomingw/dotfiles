@@ -61,7 +61,7 @@ copy() {
 git_clone_to() {
     local git_url=$1
     local target_path=$2
-    local repo_name=`basename "$git_url" .git`
+    local repo_name=$(basename "$git_url" .git)
 
     if [ -d "$target_path" ] && [ ! -d "$target_path/$repo_name" ]; then
         cd $target_path && git clone $git_url
@@ -163,7 +163,7 @@ install_miniconda_if_not_exists() {
         is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
         is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
         if [ ! -z "$url" ]; then
-            local miniconda=`echo $url | rev | cut -d'/' -f1 | rev`
+            local miniconda=$(echo $url | rev | cut -d'/' -f1 | rev)
             local target="$HOME/Downloads"
             [ -f "$target/$miniconda" ] || wget $url -P $target
             bash $target/$miniconda \
