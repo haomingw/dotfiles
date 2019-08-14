@@ -93,8 +93,8 @@ config_sublime() {
 
 confirm() {
     [ ! -z $one_option_mode ] && exit 0
-    read -p "Do you want to continue? (y/N) " choice
-    case $choice in
+    read -p "Do you want to continue? (y/N) "
+    case $REPLY in
         [yY][eE][sS]|[yY]) print_select_menu ;;
         *) exit 0 ;;
     esac
