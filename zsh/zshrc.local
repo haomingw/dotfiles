@@ -38,6 +38,13 @@ urm() {
     conda env remove -n $1
 }
 
+# git utils
+alias gbcu='git rev-parse --abbrev-ref HEAD'
+alias gbrm='git branch -D'
+gbrmo() {
+    git branch | grep -v $(gbcu) | xargs -r git branch -D
+}
+
 # [macOS] Recursively delete `.DS_Store` files
 alias cleands="find . -type f -name '*.DS_Store' -ls -delete"
 alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
