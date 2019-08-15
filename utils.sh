@@ -153,7 +153,7 @@ setup_nvim_if_exists() {
 cleanup_miniconda_files() {
     local installation_file=$1
     rm $installation_file
-    find $HOME/miniconda3 -type f,l -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
+    find $HOME/miniconda3 \( -type f -o -type l \) -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete
     success "Cleaning up minconda files"
 }
 
