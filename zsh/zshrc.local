@@ -1,3 +1,4 @@
+# system utils
 program_exists() {
     # fail on non-zero return value
     which $1 &> /dev/null && return 0 || return 1
@@ -11,6 +12,14 @@ mk() {
 }
 
 cdd() { cd ~/Documents/code/$1 }
+
+empty_trash() {
+    setopt localoptions rmstarsilent
+    rm -rf ~/.local/share/Trash/files/*
+    rm -rf ~/.local/share/Trash/info/*
+}
+
+program_exists notify-send && alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal || echo error)'
 
 # pip commands
 alias pipls='pip freeze | grep -v certifi'
@@ -46,8 +55,8 @@ gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
-# cd to git repo root
 function cdr () {
+    # cd to git repo root
     local repo=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
 }
