@@ -38,7 +38,7 @@ program_exists pacman && {
     alias pSu='sudo pacman -Su'
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
-    alias pRa='sudo pacman -Rcns $(pacman -Qdtq)'
+    alias pRa='[[ -n $(pacman -Qdt) ]] && sudo pacman -Rns $(pacman -Qdtq) || echo "No orphans to remove"'
 }
 
 program_exists brew && {
