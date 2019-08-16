@@ -22,6 +22,7 @@ empty-trash() {
 program_exists notify-send && alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal || echo error)'
 
 program_exists apt && {
+    # for debian/ubuntu
     alias pS='sudo apt install'
     alias pSs='apt search'
     alias pSy='sudo apt update'
@@ -32,8 +33,9 @@ program_exists apt && {
 }
 
 program_exists pacman && {
+    # for archlinux
     alias pS='sudo pacman -S'
-    alias pSs='apt -Ss'
+    alias pSs='pacman -Ss'
     alias pSy='sudo pacman -Sy'
     alias pSu='sudo pacman -Su'
     alias pSyu='sudo pacman -Syu'
@@ -42,6 +44,7 @@ program_exists pacman && {
 }
 
 program_exists brew && {
+    # for macOS
     alias pS='brew install'
     alias pSs='brew search'
     alias pSy='brew update'
@@ -85,7 +88,7 @@ gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
-function cdr () {
+function cdr() {
     # cd to git repo root
     local repo=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
