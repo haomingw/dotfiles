@@ -21,6 +21,10 @@ empty-trash() {
 
 program_exists notify-send && alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal || echo error)'
 
+program_exists awk && {
+    alias awk-last="awk '{print \$NF}'"
+}
+
 program_exists apt && {
     # for debian/ubuntu
     alias pS='sudo apt install'
@@ -30,6 +34,7 @@ program_exists apt && {
     alias pSyu='sudo apt update && sudo apt upgrade'
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
+    essential='git zsh curl'
 }
 
 program_exists pacman && {
@@ -41,6 +46,7 @@ program_exists pacman && {
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
     alias pRa='[[ -n $(pacman -Qdt) ]] && sudo pacman -Rns $(pacman -Qdtq) || echo "No orphans to remove"'
+    essential='git zsh wget tk tmux ttf-dejavu ttf-ubuntu-font-family'
 }
 
 program_exists brew && {
@@ -53,6 +59,8 @@ program_exists brew && {
     alias pR='brew uninstall'
     alias pRa='brew cleanup'
 }
+
+[[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
 
 # pip commands
 alias pipls='pip freeze | grep -v certifi'
@@ -88,7 +96,7 @@ gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
-function cdr() {
+cdr() {
     # cd to git repo root
     local repo=$(git rev-parse --show-toplevel 2>/dev/null)
     [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
