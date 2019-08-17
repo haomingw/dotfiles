@@ -39,7 +39,7 @@ program_exists apt && {
 
 program_exists pacman && {
     # for archlinux
-    alias pS='sudo pacman -S'
+    alias pS='sudo pacman -S --needed'
     alias pSs='pacman -Ss'
     alias pSy='sudo pacman -Sy'
     alias pSu='sudo pacman -Su'
