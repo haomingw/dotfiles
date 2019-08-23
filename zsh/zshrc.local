@@ -45,7 +45,7 @@ program_exists pacman && {
     alias pSu='sudo pacman -Su'
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
-    alias pRa='[[ -n $(pacman -Qdt) ]] && sudo pacman -Rns $(pacman -Qdtq) || echo "No orphans to remove"'
+    alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || echo "No orphans to remove"'
     essential='git zsh wget tk tmux ttf-dejavu ttf-ubuntu-font-family'
 }
 
