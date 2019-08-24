@@ -135,7 +135,8 @@ config_zshrc() {
     local app_path=$1
     local zshrc="$HOME/.zshrc"
     sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
-    lnif $app_path/zsh/zshrc.local $HOME/.zshrc.local
+    lnif $app_path/zsh/zshrc.before.local $HOME/.zshrc.before.local
+    lnif $app_path/zsh/zshrc.local        $HOME/.zshrc.local
     local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
     insert_if_not_exists 'zshrc.local' "$cmd" $zshrc
     success "Now configuring zsh."

@@ -1,0 +1,19 @@
+safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
+
+# added by Miniconda3 installer
+safe_export_path $HOME/miniconda3/bin
+
+export JAVA_HOME=/usr/local/jdk1.8.0_221
+safe_export_path $JAVA_HOME/bin
+
+export GOROOT=/usr/local/go
+safe_export_path $GOROOT/bin
+
+safe_use_cuda() {
+    if [[ -d "$1/lib64" ]]; then
+        export CUDA_HOME=$1
+        export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+        safe_export_path $CUDA_HOME/bin
+    fi
+}
+safe_use_cuda "/usr/local/cuda"

@@ -1,4 +1,16 @@
 # system utils
+
+safe_source() { [[ -s $1 ]] && source $1 || return 0 }
+safe_source ~/.zshrc.before.local
+
+is_linux() {
+    [[ $(uname) == "Linux" ]] && return 0 || return 1
+}
+
+is_macos() {
+    [[ $(uname) == "Darwin" ]] && return 0 || return 1
+}
+
 program_exists() {
     # fail on non-zero return value
     which $1 &> /dev/null && return 0 || return 1
@@ -28,8 +40,10 @@ add-head() {
 
 empty-trash() {
     setopt localoptions rmstarsilent
-    rm -rf ~/.local/share/Trash/files/*
-    rm -rf ~/.local/share/Trash/info/*
+    is_linux && {
+        rm -rf ~/.local/share/Trash/files/*
+        rm -rf ~/.local/share/Trash/info/*
+    }
 }
 
 program_exists notify-send && alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal || echo error)'
@@ -86,19 +100,21 @@ pipcl() {
 }
 
 # miniconda
-alias u='source activate'
-alias uu='conda deactivate'
-alias uls='conda env list'
-alias ucl='find $HOME/miniconda3 \( -type f -o -type l \) -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
+program_exists conda && {
+    alias u='source activate'
+    alias uu='conda deactivate'
+    alias uls='conda env list'
+    alias ucl='find $HOME/miniconda3 \( -type f -o -type l \) -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
-uc() {
-    conda create -n $1 python=${2:=3.6}
-    ucl
-    u $1
-}
+    uc() {
+        conda create -n $1 python=${2:=3.6}
+        ucl
+        u $1
+    }
 
-urm() {
-    conda env remove -n $1
+    urm() {
+        conda env remove -n $1
+    }
 }
 
 # git utils
@@ -122,8 +138,6 @@ alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
 # key bindings
 bindkey '^ ' autosuggest-accept
 
-safe_source() { [[ -s $1 ]] && source $1 || return 0 }
-
 upd() {
     local pypath=$(which python)
     local env_name
@@ -141,26 +155,6 @@ upd() {
         u $env_name
     fi
 }
-
-safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
-
-# added by Miniconda3 installer
-safe_export_path $HOME/miniconda3/bin
-
-export JAVA_HOME=/usr/local/jdk1.8.0_221
-safe_export_path $JAVA_HOME/bin
-
-export GOROOT=/usr/local/go
-safe_export_path $GOROOT/bin
-
-safe_use_cuda() {
-    if [[ -d "$1/lib64" ]]; then
-        export CUDA_HOME=$1
-        export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-        safe_export_path $CUDA_HOME/bin
-    fi
-}
-safe_use_cuda "/usr/local/cuda"
 
 # path deduplication
 program_exists awk && {
