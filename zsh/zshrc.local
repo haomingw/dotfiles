@@ -13,6 +13,19 @@ mk() {
 
 cdd() { cd ~/Documents/code/$1 }
 
+add-head() {
+    # add text to the beginning or the specified line of a file
+    # if the given line number is greater than total number of lines, do nothing
+    local file=$1
+    local text=$2
+    local line=${3:-1}
+    if [[ -s $file ]] then;
+        sed -i "${line}s/^/${text}\n/" $file
+    else
+        echo $text >> $file
+    fi
+}
+
 empty-trash() {
     setopt localoptions rmstarsilent
     rm -rf ~/.local/share/Trash/files/*
