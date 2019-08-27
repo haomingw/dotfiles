@@ -26,6 +26,9 @@ program_exists() {
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
+alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
+alias tail="tail -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
+
 # Create a new directory and enter it
 mk() {
     mkdir -p "$@" && cd "$_";
@@ -129,6 +132,10 @@ program_exists conda && {
 alias gbcu='git rev-parse --abbrev-ref HEAD'
 alias gbrm='git branch -D'
 
+gbrmo() {
+    git branch | grep -v $(gbcu) | xargs -r git branch -D
+}
+
 function gitd () {
     local parsed_date=$(date --date=$1 +%F 2>/dev/null)
     [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
@@ -136,10 +143,6 @@ function gitd () {
     success $desc
     shift
     GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
-}
-
-gbrmo() {
-    git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
 cdr() {
