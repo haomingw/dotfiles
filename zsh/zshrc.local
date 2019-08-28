@@ -21,7 +21,7 @@ is_macos() {
 
 program_exists() {
     # fail on non-zero return value
-    which $1 &> /dev/null && return 0 || return 1
+    which "$1" &> /dev/null && return 0 || return 1
 }
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
@@ -72,7 +72,6 @@ program_exists apt && {
     alias pSyu='sudo apt update && sudo apt upgrade'
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
-    essential='git zsh curl'
 }
 
 program_exists pacman && {
@@ -84,7 +83,7 @@ program_exists pacman && {
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || echo "No orphans to remove"'
-    essential='git zsh wget tk tmux ttf-dejavu ttf-ubuntu-font-family'
+    essential='wget tk tmux ttf-dejavu ttf-ubuntu-font-family'
 }
 
 program_exists brew && {
@@ -136,7 +135,7 @@ gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
-function gitd () {
+gitd() {
     local parsed_date=$(date --date=$1 +%F 2>/dev/null)
     [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
     local desc="$parsed_date $(date +%T)"

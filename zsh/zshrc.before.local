@@ -19,3 +19,5 @@ safe_use_cuda() {
     fi
 }
 safe_use_cuda "/usr/local/cuda"
+
+export EDITOR=vim

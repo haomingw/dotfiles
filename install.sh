@@ -11,7 +11,7 @@ options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime-t
 
 one_option_mode=''  # if we stay in option chosen loop
 
-. ./utils.sh
+source utils.sh
 
 ############################ SETUP FUNCTIONS
 
