@@ -12,19 +12,20 @@ error() {
 }
 
 is_linux() {
-    [[ $(uname) == "Linux" ]] && return 0 || return 1
+    [[ $(uname) == "Linux" ]]
 }
 
 is_macos() {
-    [[ $(uname) == "Darwin" ]] && return 0 || return 1
+    [[ $(uname) == "Darwin" ]]
 }
 
 program_exists() {
-    # fail on non-zero return value
-    which "$1" &> /dev/null && return 0 || return 1
+    which "$1" &> /dev/null
 }
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
+
+alias sd='sudo shutdown now'
 
 alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
 alias tail="tail -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"

@@ -18,15 +18,15 @@ error() {
 
 program_exists() {
     # fail on non-zero return value
-    command -v $1 >/dev/null 2>&1 && return 0 || return 1
+    command -v $1 >/dev/null 2>&1
 }
 
 is_linux() {
-    [ $(uname) == "Linux" ] && return 0 || return 1
+    [ $(uname) == "Linux" ]
 }
 
 is_macos() {
-    [ $(uname) == "Darwin" ] && return 0 || return 1
+    [ $(uname) == "Darwin" ]
 }
 
 program_must_exist() {
