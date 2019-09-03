@@ -4,11 +4,15 @@ safe_source() { [[ -s $1 ]] && source $1 || return 0 }
 safe_source ~/.zshrc.before.local
 
 success() {
-    echo -e "\033[32m$@\033[0m"
+    echo -e "\033[32m$@\033[0m"  # green
 }
 
 error() {
-    echo -e "\033[31m$@\033[0m"
+    echo -e "\033[31m$@\033[0m"  # red
+}
+
+msg() {
+    echo -e "\033[34m$@\033[0m"  # blue
 }
 
 is_linux() {
@@ -101,14 +105,38 @@ program_exists brew && {
 [[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
 
 # pip commands
-alias pipls='pip freeze | grep -v certifi'
-
-pipcl() {
-    local pypath=`which python`
-    if [[ $pypath == */envs/* ]]; then
-        pipls | xargs pip uninstall -y
-    fi
+is_venv() {
+    grep -q 'envs\|venv' $(which python)
 }
+
+alias pipls='pip freeze | grep -v certifi'
+alias pipcl='is_venv && pipls | xargs pip uninstall -y'
+
+# pypi
+venv_upgrade() {
+    is_venv && pip install --upgrade $@ || {
+        error "Run this command in a virtual env"
+        return 1
+    }
+}
+
+pycompile() {
+    venv_upgrade setuptools wheel || return 1
+    [[ -f setup.py ]] && python setup.py sdist bdist_wheel || {
+        error "Run this command from the same directory where setup.py is located"
+        return 1
+    }
+}
+
+pyupload() {
+    venv_upgrade twine || return 1
+    [[ -d dist ]] && twine upload dist/* || {
+        error "'dist' folder not found or authentication failed"
+        return 1
+    }
+}
+
+alias pypi='pycompile && pyupload'
 
 # miniconda
 program_exists conda && {
@@ -159,19 +187,18 @@ alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
 bindkey '^ ' autosuggest-accept
 
 upd() {
-    local pypath=$(which python)
     local env_name
-    if $(grep -q 'envs' $pypath); then
-        env_name=`echo $pypath | rev | cut -d'/' -f3 | rev`
+    if is_venv; then
+        env_name=`which python | rev | cut -d'/' -f3 | rev`
     fi
     if [[ -n $env_name ]]; then
-        echo "deactivating python virtual env"
+        echo "deactivating python virtual env: $env_name"
         uu
     fi
     echo "updating zsh config"
     safe_source ~/.zshrc.local
     if [[ -n $env_name ]]; then
-        echo "restoring python virtual env"
+        echo "restoring python virtual env: $env_name"
         u $env_name
     fi
 }
