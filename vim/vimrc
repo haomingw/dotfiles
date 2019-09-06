@@ -34,6 +34,11 @@
 
 " Bundles {
 
+    if has('nvim')
+        let g:python_host_prog='/usr/bin/python2'
+        let g:python3_host_prog='/usr/bin/python3'
+    endif
+
     " list only the plugin groups you will use
     if !exists('g:xming_plug_groups')
         let g:xming_plug_groups=['general', 'editing', 'programming']

@@ -89,7 +89,7 @@ program_exists pacman && {
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || echo "No orphans to remove"'
-    essential='wget tk tmux neovim python-neovim ttf-dejavu ttf-ubuntu-font-family'
+    essential='wget tk tmux xclip python-neovim neovim ttf-dejavu ttf-ubuntu-font-family'
 }
 
 program_exists brew && {
