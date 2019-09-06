@@ -30,6 +30,7 @@ program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
 alias sd='sudo shutdown now'
+is_linux && alias open='xdg-open'
 
 alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
 alias tail="tail -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
@@ -88,7 +89,7 @@ program_exists pacman && {
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || echo "No orphans to remove"'
-    essential='wget tk tmux ttf-dejavu ttf-ubuntu-font-family'
+    essential='wget tk tmux neovim python-neovim ttf-dejavu ttf-ubuntu-font-family'
 }
 
 program_exists brew && {
@@ -180,8 +181,9 @@ cdr() {
 }
 
 # [macOS] Recursively delete `.DS_Store` files
-alias cleands="find . -type f -name '*.DS_Store' -ls -delete"
-alias cleanvim="rm -rf ~/.vim* ~/.config/nvim"
+alias clds="find . -type f -name '*.DS_Store' -ls -delete"
+
+alias clvim="rm -rf ~/.vim* ~/.config/nvim"
 
 # key bindings
 bindkey '^ ' autosuggest-accept
