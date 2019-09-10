@@ -180,10 +180,19 @@ cdr() {
     [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
 }
 
-# recursively delete `.DS_Store` files
-alias clds="find . -type f -name '*.DS_Store' -ls -delete"
+delete-type() {
+    # recursively delete files of the given type
+    find . -type f -name "*.$1" -ls -delete
+}
 
-alias clvim="rm -rf ~/.vim* ~/.config/nvim"
+delete-folder() {
+    find . -type d -name $1 -ls -delete
+}
+
+alias rmds='delete-type DS_Store'
+alias rmpyc='delete-type pyc && delete-folder __pycache__'
+
+alias rmvim="rm -rf ~/.vim* ~/.config/nvim"
 
 # key bindings
 bindkey '^ ' autosuggest-accept
