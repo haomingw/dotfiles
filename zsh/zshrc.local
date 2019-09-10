@@ -29,6 +29,11 @@ program_exists() {
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
+program_home() {
+    # remove last 2 columns
+    which "$1" | rev | cut -d'/' -f3- | rev
+}
+
 alias sd='sudo shutdown now'
 program_exists xdg-open && alias open='xdg-open'
 
@@ -67,6 +72,9 @@ program_exists notify-send && alias alert='notify-send -u low -i $([ $? -eq 0 ] 
 
 program_exists awk && {
     alias awk-last="awk '{print \$NF}'"
+    awk-program-home() {
+        awk -F"/" '{for(i=1;i<NF-2;i++) printf $i"/"; print $(NF-2)}'
+    }
 }
 
 program_exists apt && {
@@ -144,7 +152,8 @@ program_exists conda && {
     alias u='source activate'
     alias uu='conda deactivate'
     alias uls='conda env list'
-    alias ucl='find $HOME/miniconda3 \( -type f -o -type l \) -not -path "$HOME/miniconda3/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
+    export CONDA_HOME=`program_home conda`
+    alias ucl='find $CONDA_HOME \( -type f -o -type l \) -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
     uc() {
         conda create -n $1 python=${2:=3.6}
