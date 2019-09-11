@@ -29,9 +29,9 @@ program_exists() {
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
-program_home() {
-    # remove last 2 columns
-    which "$1" | rev | cut -d'/' -f3- | rev
+cut_last_n_cols() {
+    # remove last n columns
+    echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
 alias sd='sudo shutdown now'
@@ -86,6 +86,7 @@ program_exists apt && {
     alias pSyu='sudo apt update && sudo apt upgrade'
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
+    essential='curl git-gui tmux clang clang-format'
 }
 
 program_exists pacman && {
@@ -117,6 +118,8 @@ program_exists brew && {
 is_venv() {
     grep -q 'envs\|venv' $(which python)
 }
+
+alias pyenv_name='is_venv && which python | rev | cut -d'/' -f3 | rev'
 
 alias pipls='pip freeze | grep -v certifi'
 alias pipcl='is_venv && pipls | xargs pip uninstall -y'
@@ -152,7 +155,7 @@ program_exists conda && {
     alias u='source activate'
     alias uu='conda deactivate'
     alias uls='conda env list'
-    export CONDA_HOME=`program_home conda`
+    export CONDA_HOME=`cut_last_n_cols $(which python) $(is_venv && echo 4 || echo 2)`
     alias ucl='find $CONDA_HOME \( -type f -o -type l \) -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
     uc() {
@@ -162,6 +165,9 @@ program_exists conda && {
     }
 
     urm() {
+        if [[ `pyenv_name` = "$1" ]]; then
+            uu
+        fi
         conda env remove -n $1
     }
 }
@@ -207,10 +213,7 @@ alias rmvim="rm -rf ~/.vim* ~/.config/nvim"
 bindkey '^ ' autosuggest-accept
 
 upd() {
-    local env_name
-    if is_venv; then
-        env_name=`which python | rev | cut -d'/' -f3 | rev`
-    fi
+    local env_name=`pyenv_name`
     if [[ -n $env_name ]]; then
         echo "deactivating python virtual env: $env_name"
         uu
