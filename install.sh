@@ -42,6 +42,7 @@ install_vim() {
 }
 
 update_vim() {
+    program_must_exist  "vim"
     update_repo
 
     setup_vim_plug
@@ -50,9 +51,9 @@ update_vim() {
 }
 
 install_oh_my_zsh() {
-    program_must_exist "zsh"
-    program_must_exist "git"
-    program_must_exist "curl"
+    program_must_exist  "zsh"
+    program_must_exist  "git"
+    program_must_exist  "curl"
 
     [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     success "oh my zsh installed"
@@ -76,11 +77,13 @@ config_python() {
 }
 
 config_tmux() {
+    program_must_exist  "tmux"
     lnif $APP_PATH/tmux/tmux.conf $HOME/.tmux.conf
     success "Now configuring tmux."
 }
 
 config_sublime() {
+    program_must_exist  "subl"
     if is_linux; then
         local sublime_home="$HOME/.config/sublime-text-3/Packages/User"
         if [ -d $sublime_home ]; then
