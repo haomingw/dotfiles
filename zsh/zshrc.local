@@ -119,7 +119,7 @@ is_venv() {
     grep -q 'envs\|venv' $(which python)
 }
 
-alias pyenv_name='is_venv && which python | rev | cut -d'/' -f3 | rev'
+alias pyenv_name='program_exists conda && is_venv && which python | rev | cut -d'/' -f3 | rev'
 
 alias pipls='pip freeze | grep -v certifi'
 alias pipcl='is_venv && pipls | xargs pip uninstall -y'
@@ -151,12 +151,13 @@ pyupload() {
 alias pypi='pycompile && pyupload'
 
 # miniconda
+alias u='source activate'
+program_exists conda && alias uu='conda deactivate'
+alias ucl='find $CONDA_HOME \( -type f -o -type l \) -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
+
 program_exists conda && {
-    alias u='source activate'
-    alias uu='conda deactivate'
     alias uls='conda env list'
     export CONDA_HOME=`cut_last_n_cols $(which python) $(is_venv && echo 4 || echo 2)`
-    alias ucl='find $CONDA_HOME \( -type f -o -type l \) -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
     uc() {
         conda create -n $1 python=${2:=3.6}
