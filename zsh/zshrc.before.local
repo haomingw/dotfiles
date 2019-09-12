@@ -1,3 +1,11 @@
+# load custom completions
+[[ -d $HOME/.zsh/completions ]] && {
+    if echo $fpath | grep -v -q '\.zsh/completions'; then
+        fpath=($HOME/.zsh/completions $fpath)
+        autoload -U compinit && compinit
+    fi
+}
+
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
 # added by Miniconda3 installer
