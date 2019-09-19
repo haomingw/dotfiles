@@ -7,7 +7,7 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime-text")
+options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime-vscode")
 
 one_option_mode=''  # if we stay in option chosen loop
 
@@ -82,16 +82,26 @@ config_tmux() {
     success "Now configuring tmux."
 }
 
-config_sublime() {
-    program_must_exist  "subl"
-    if is_linux; then
-        local sublime_home="$HOME/.config/sublime-text-3/Packages/User"
-        if [ -d $sublime_home ]; then
-            lnif $APP_PATH/sublime/sublime-settings     $sublime_home/Preferences.sublime-settings
-            lnif $APP_PATH/sublime/sublime-keymap-linux $sublime_home/'Default (Linux).sublime-keymap'
-            success "Now configuring sublime-text."
+config_sublime_vscode() {
+    program_exists  "subl" && {
+        if is_linux; then
+            local sublime_home="$HOME/.config/sublime-text-3/Packages/User"
+            if [ -d $sublime_home ]; then
+                lnif $APP_PATH/sublime/sublime-settings     $sublime_home/Preferences.sublime-settings
+                lnif $APP_PATH/sublime/sublime-keymap-linux $sublime_home/'Default (Linux).sublime-keymap'
+                success "Now configuring sublime-text."
+            fi
         fi
-    fi
+    }
+    program_exists  "code" && {
+        local code_home
+        is_linux && code_home=$HOME/.config/Code/User/settings.json
+        is_macos && code_home=$HOME/Library/Application Support/Code/User/settings.json
+        if [ ! -z "$code_home" ]; then
+            lnif $APP_PATH/vscode/settings.json $code_home
+            success "Now configuring vscode."
+        fi
+    }
 }
 
 confirm() {
@@ -113,13 +123,13 @@ done
 PS3='Please enter your choice: '
 select opt in "${options[@]}"; do
     case $opt in
-        "vim")          install_vim ;;
-        "update-vim")   update_vim ;;
-        "oh-my-zsh")    install_oh_my_zsh ;;
-        "zsh-plugins")  install_zsh_plugins ;;
-        "python")       config_python ;;
-        "tmux")         config_tmux ;;
-        "sublime-text") config_sublime ;;
+        "vim")            install_vim ;;
+        "update-vim")     update_vim ;;
+        "oh-my-zsh")      install_oh_my_zsh ;;
+        "zsh-plugins")    install_zsh_plugins ;;
+        "python")         config_python ;;
+        "tmux")           config_tmux ;;
+        "sublime-vscode") config_sublime_vscode ;;
         *)              err "Unexpected option: $opt" ;;
     esac
     confirm
