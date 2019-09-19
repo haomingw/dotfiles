@@ -6,7 +6,6 @@
     "files.insertFinalNewline": true,
     "workbench.editor.highlightModifiedTabs": true,
 
-    // editor settings
     "editor.rulers": [80],
     "editor.renderWhitespace": "selection",
 
@@ -20,5 +19,5 @@
 
     "[markdown]": {
         "files.trimTrailingWhitespace": false
-    },
+    }
 }
