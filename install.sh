@@ -7,7 +7,15 @@ app_name='xming-dotfiles'
 [ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
 [ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
-options=("vim" "update-vim" "oh-my-zsh" "zsh-plugins" "python" "tmux" "sublime-vscode")
+options=(
+    "vim"
+    "update-vim"
+    "oh-my-zsh"
+    "zsh-plugins"
+    "python"
+    "tmux"
+    "sublime-vscode"
+)
 
 one_option_mode=''  # if we stay in option chosen loop
 
@@ -83,7 +91,7 @@ config_tmux() {
 }
 
 config_sublime_vscode() {
-    program_exists  "subl" && {
+    program_exists "subl" && {
         local sublime_home
         local sublime_keymap
         is_linux && {
@@ -98,7 +106,7 @@ config_sublime_vscode() {
             success "Now configuring sublime-text."
         fi
     }
-    program_exists  "code" && {
+    program_exists "code" && {
         local code_setting_file
         is_linux && code_setting_file="$HOME/.config/Code/User/settings.json"
         is_macos && code_setting_file="$HOME/Library/Application Support/Code/User/settings.json"
