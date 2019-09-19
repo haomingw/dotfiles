@@ -1,0 +1,10 @@
+{
+	"Main function": {
+		"prefix": "main",
+		"body": [
+			"if __name__ == '__main__':",
+			"\t${2:pass}"
+		],
+		"description": "Main function"
+	}
+}

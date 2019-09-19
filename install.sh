@@ -107,11 +107,15 @@ config_sublime_vscode() {
         fi
     }
     program_exists "code" && {
-        local code_setting_file
-        is_linux && code_setting_file="$HOME/.config/Code/User/settings.json"
-        is_macos && code_setting_file="$HOME/Library/Application Support/Code/User/settings.json"
-        if [ ! -z "$code_setting_file" ]; then
-            lnif $APP_PATH/vscode/settings.json $code_setting_file
+        local code_home
+        is_linux && code_home="$HOME/.config/Code/User"
+        is_macos && code_home="$HOME/Library/Application Support/Code/User"
+        if [ ! -z "$code_home" ]; then
+            lnif $APP_PATH/vscode/settings.json    $code_home
+            lnif $APP_PATH/vscode/keybindings.json $code_home
+            for file in $APP_PATH/vscode/snippets/*.json; do
+                lnif $file $code_home/snippets
+            done
             success "Now configuring vscode."
         fi
     }
