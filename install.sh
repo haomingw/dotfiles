@@ -84,13 +84,18 @@ config_tmux() {
 
 config_sublime_vscode() {
     program_exists  "subl" && {
-        if is_linux; then
-            local sublime_home="$HOME/.config/sublime-text-3/Packages/User"
-            if [ -d $sublime_home ]; then
-                lnif $APP_PATH/sublime/sublime-settings     $sublime_home/Preferences.sublime-settings
-                lnif $APP_PATH/sublime/sublime-keymap-linux $sublime_home/'Default (Linux).sublime-keymap'
-                success "Now configuring sublime-text."
-            fi
+        local sublime_home
+        local sublime_keymap
+        is_linux && {
+            sublime_home="$HOME/.config/sublime-text-3/Packages/User"
+            sublime_keymap="Default (Linux).sublime-keymap"
+        }
+        if [ ! -z $sublime_home ] && [ -d $sublime_home ]; then
+            for file in $APP_PATH/sublime/*.sublime-settings; do
+                lnif $file $sublime_home
+            done
+            lnif "$APP_PATH/sublime/$sublime_keymap" $sublime_home
+            success "Now configuring sublime-text."
         fi
     }
     program_exists  "code" && {
