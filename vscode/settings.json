@@ -1,13 +1,15 @@
 {
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
+
     "files.trimTrailingWhitespace": true,
     "files.trimFinalNewlines": true,
     "files.insertFinalNewline": true,
-    "workbench.editor.highlightModifiedTabs": true,
 
     "editor.rulers": [80],
     "editor.renderWhitespace": "selection",
+
+    "workbench.editor.highlightModifiedTabs": true,
 
     "files.exclude": {
         "**/.idea": true,

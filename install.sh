@@ -121,12 +121,18 @@ config_sublime_vscode() {
     }
 }
 
+bye() {
+    msg "\nThanks for installing $app_name."
+    msg "© `date +%Y` http://flyingmouse.github.io/"
+    exit 0
+}
+
 confirm() {
-    [ ! -z $one_option_mode ] && exit 0
+    [ ! -z $one_option_mode ] && bye
     read -p "Do you want to continue? (y/N) "
     case $REPLY in
         [yY][eE][sS]|[yY]) print_select_menu ;;
-        *) exit 0 ;;
+        *) bye ;;
     esac
 }
 
@@ -151,6 +157,3 @@ select opt in "${options[@]}"; do
     esac
     confirm
 done
-
-msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` http://flyingmouse.github.io/"
