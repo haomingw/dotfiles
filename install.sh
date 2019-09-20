@@ -51,7 +51,6 @@ install_vim() {
 
 update_vim() {
     program_must_exist  "vim"
-    update_repo
 
     setup_vim_plug
 
@@ -106,6 +105,7 @@ config_sublime_vscode() {
             success "Now configuring sublime-text."
         fi
     }
+
     program_exists "code" && {
         local code_home
         is_linux && code_home="$HOME/.config/Code/User"

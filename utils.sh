@@ -97,13 +97,6 @@ create_vim_symlinks() {
     success "Setting up vim symlinks."
 }
 
-update_repo() {
-    git stash
-    git pull
-
-    success "Updating repository."
-}
-
 setup_vim_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
