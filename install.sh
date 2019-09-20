@@ -147,7 +147,7 @@ select opt in "${options[@]}"; do
         "python")         config_python ;;
         "tmux")           config_tmux ;;
         "sublime-vscode") config_sublime_vscode ;;
-        *)              err "Unexpected option: $opt" ;;
+        *)                err "Unexpected option: $opt" ;;
     esac
     confirm
 done

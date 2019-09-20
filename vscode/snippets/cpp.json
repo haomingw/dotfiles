@@ -1,0 +1,110 @@
+{
+	"Namespace std": {
+		"prefix": "std",
+		"body": [
+			"using namespace std;"
+		],
+		"description": "Namespace std"
+	},
+	"Template": {
+		"prefix": "tp",
+		"body": [
+			"template <typename ${1:T}>"
+		],
+		"description": "Template"
+	},
+	"Struct": {
+		"prefix": "st",
+		"body": [
+			"struct ${1:Struct} {",
+			"\t$0",
+			"};"
+		],
+		"description": "Struct"
+	},
+	"Class": {
+		"prefix": "cls",
+		"body": [
+			"class ${1:Class} {",
+			"public:",
+			"\t$1();",
+			"\t~$1();",
+			"private:$0",
+			"};"
+		],
+		"description": "Class"
+	},
+	"All": {
+		"prefix": "all",
+		"body": [
+			"$1.begin(), $1.end()"
+		],
+		"description": "begin..end"
+	},
+	"vector<int>": {
+		"prefix": "vi",
+		"body": [
+			"vector<int> $0"
+		],
+		"description": "vector<int>"
+	},
+	"Vector push back": {
+		"prefix": "pb",
+		"body": [
+			"push_back($0)"
+		],
+		"description": "push back"
+	},
+	"Priority queue": {
+		"prefix": "pq",
+		"body": [
+			"priority_queue<${1:int}> $0"
+		],
+		"description": "priority queue"
+	},
+	"Reversed priority queue": {
+		"prefix": "rpq",
+		"body": [
+			"priority_queue<${1:int}, vector<$1>, greater<$1> > $0"
+		],
+		"description": "reversed priority queue"
+	},
+	"Main function": {
+		"prefix": "main",
+		"body": [
+			"int main(int argc, char *argv[]) {",
+			"\t$0",
+			"\treturn 0;",
+			"}"
+		],
+		"description": "Main function"
+	},
+	"My code template": {
+		"prefix": "xming",
+		"body": [
+			"#include <iostream>",
+			"#include <cstdio>",
+			"#include <cmath>",
+			"#include <cstring>",
+			"#include <string>",
+			"#include <vector>",
+			"#include <set>",
+			"#include <queue>",
+			"#include <utility>",
+			"#include <algorithm>",
+			"#include <map>",
+			"#include <cassert>",
+			"using namespace std;",
+			"#define REPP(i,a,b) for(int i = (a); i < (b); ++i)",
+			"#define REP(i,a) for(int i = 0; i < (a); ++i)",
+			"#define PER(i,a) for(int i = (a) - 1; i >= 0; --i)",
+			"#define SZ(x) ((int)(x).size())",
+			"#define ALL(x) (x).begin(), (x).end()",
+			"#define MP make_pair",
+			"",
+			"typedef long long ll;",
+			"typedef pair<int, int> pii;"
+		],
+		"description": "My code template"
+	},
+}

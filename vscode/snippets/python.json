@@ -3,7 +3,7 @@
 		"prefix": "main",
 		"body": [
 			"if __name__ == '__main__':",
-			"\t${2:pass}"
+			"\t${1:pass}"
 		],
 		"description": "Main function"
 	}
