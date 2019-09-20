@@ -165,8 +165,8 @@ install_miniconda_if_not_exists() {
     if [ ! -d $HOME/miniconda3 ]; then
         local url
         local conda_repo="https://repo.anaconda.com/miniconda"
-        is_linux && url=$conda_repo/"Miniconda3-latest-Linux-x86_64.sh"
-        is_macos && url=$conda_repo/"Miniconda3-latest-MacOSX-x86_64.sh"
+        is_linux && url="$conda_repo/Miniconda3-latest-Linux-x86_64.sh"
+        is_macos && url="$conda_repo/Miniconda3-latest-MacOSX-x86_64.sh"
         if [ ! -z "$url" ]; then
             local miniconda=$(echo $url | rev | cut -d'/' -f1 | rev)
             local target="$HOME/Downloads"
@@ -180,8 +180,8 @@ install_miniconda_if_not_exists() {
 
 watch_limit_is_increased() {
     program_exists sysctl && {
-        local nb=$(sysctl fs.inotify.max_user_watches | cut -d' ' -f3)
-        [ $nb -lt 524288 ] && return 1 || return 0
+        local limit=$(sysctl fs.inotify.max_user_watches | cut -d' ' -f3)
+        [ $limit -lt 524288 ] && return 1 || return 0
     }
 }
 
