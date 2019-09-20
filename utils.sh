@@ -164,8 +164,9 @@ cleanup_miniconda_files() {
 install_miniconda_if_not_exists() {
     if [ ! -d $HOME/miniconda3 ]; then
         local url
-        is_linux && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh'
-        is_macos && url='https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh'
+        local conda_repo="https://repo.anaconda.com/miniconda"
+        is_linux && url=$conda_repo/"Miniconda3-latest-Linux-x86_64.sh"
+        is_macos && url=$conda_repo/"Miniconda3-latest-MacOSX-x86_64.sh"
         if [ ! -z "$url" ]; then
             local miniconda=$(echo $url | rev | cut -d'/' -f1 | rev)
             local target="$HOME/Downloads"
@@ -175,4 +176,49 @@ install_miniconda_if_not_exists() {
             && cleanup_miniconda_files $target/$miniconda
         fi
     fi
+}
+
+watch_limit_is_increased() {
+    program_exists sysctl && {
+        local nb=$(sysctl fs.inotify.max_user_watches | cut -d' ' -f3)
+        [ $nb -lt 524288 ] && return 1 || return 0
+    }
+}
+
+increase_watch_limit() {
+    # if the limit has been increased, do nothing
+    watch_limit_is_increased && return 0
+
+    local watch_limit="fs.inotify.max_user_watches=524288"
+    local cfg
+    program_exists apt && cfg="/etc/sysctl.conf"
+    program_exists pacman && cfg="/etc/sysctl.d/40-max-user-watches.conf"
+    if [ ! -z $cfg ] && [ -r $cfg ]; then
+        local message=(
+            "Do you want to increase (requires sudo password)"
+            "inotify limit? (y/N) "
+        )
+        read -p "${message[*]}"
+        case $REPLY in
+            [yY][eE][sS]|[yY]) ;;
+            *) return 0 ;;
+        esac
+        cat $cfg | grep -q "$watch_limit" || {
+            echo $watch_limit | sudo tee -a $cfg >/dev/null
+        }
+        program_exists apt && sudo sysctl -p >/dev/null
+        program_exists pacman && sudo sysctl --system >/dev/null
+        success "Increasing inotify watcher limit"
+    fi
+}
+
+install_vscode_extensions() {
+    extensions=(
+        "ms-python.python"
+        "mitaki28.vscode-clang"
+    )
+    for extension in "${extensions[@]}"; do
+        code --install-extension $extension
+    done
+    success "Vscode extensions are installed"
 }

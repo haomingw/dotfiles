@@ -11,12 +11,17 @@
 
     "workbench.editor.highlightModifiedTabs": true,
 
+    "explorer.sortOrder": "type",
+
     "files.exclude": {
         "**/.idea": true,
+        "**/.vscode": true,
+        "**/env": true,
+        "**/venv": true,
         "**/*.pyc": true,
         "**/__pycache__": true,
         "**/.pytest_cache": true,
-        "**/*.egg-info": true,
+        "**/*.egg-info": true
     },
 
     "[markdown]": {

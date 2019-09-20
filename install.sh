@@ -110,6 +110,8 @@ config_sublime_vscode() {
         local code_home
         is_linux && code_home="$HOME/.config/Code/User"
         is_macos && code_home="$HOME/Library/Application Support/Code/User"
+        increase_watch_limit
+        watch_limit_is_increased && install_vscode_extensions
         if [ ! -z "$code_home" ]; then
             lnif $APP_PATH/vscode/settings.json    $code_home
             lnif $APP_PATH/vscode/keybindings.json $code_home
