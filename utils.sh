@@ -181,7 +181,7 @@ install_miniconda_if_not_exists() {
 watch_limit_is_increased() {
     program_exists sysctl && {
         local limit=$(sysctl fs.inotify.max_user_watches | cut -d' ' -f3)
-        [ $limit -lt 524288 ] && return 1 || return 0
+        [ $limit -ge 524288 ]
     }
 }
 
