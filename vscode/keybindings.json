@@ -24,5 +24,10 @@
         "key": "ctrl+alt+k",
         "command": "editor.action.copyLinesUpAction",
         "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "workbench.action.reloadWindow",
+        "when": ""
     }
 ]
