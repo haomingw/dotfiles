@@ -57,6 +57,7 @@
     " Editing {
         if count(g:xming_plug_groups, 'editing')
             Plug 'tpope/vim-repeat'
+            Plug 'tpope/vim-endwise'
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
             Plug 'junegunn/vim-easy-align'
