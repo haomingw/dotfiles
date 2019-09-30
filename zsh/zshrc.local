@@ -183,6 +183,11 @@ gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
+gbrm_remote() {
+    local branch_to_delete=${1:=$(gbcu)}
+    git push origin :$branch_to_delete
+}
+
 gitd() {
     local parsed_date=$(date --date=$1 +%F 2>/dev/null)
     [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
