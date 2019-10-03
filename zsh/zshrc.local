@@ -83,7 +83,7 @@ program_exists apt && {
     alias pSyu='sudo apt update && sudo apt upgrade'
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
-    essential='curl git-gui tmuxh top tree clang clang-format'
+    essential="curl git-gui tmuxh top tree clang clang-format"
 }
 
 program_exists pacman && {
@@ -96,8 +96,8 @@ program_exists pacman && {
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || \
         echo "No orphans to remove"'
-    essential='wget tk tmux htop tree xclip python-neovim neovim xdg-utils \
-        ttf-dejavu ttf-ubuntu-font-family'
+    essential="wget tk tmux htop tree xclip python-neovim neovim xdg-utils \
+        ttf-dejavu ttf-ubuntu-font-family"
 }
 
 program_exists brew && {
@@ -109,6 +109,7 @@ program_exists brew && {
     alias pSyu='brew update && brew upgrade'
     alias pR='brew uninstall'
     alias pRa='brew cleanup'
+    essential="wget"
 }
 
 [[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
