@@ -164,12 +164,20 @@ program_exists conda && {
     alias uls='conda env list'
 
     uc() {
+        [ "$#" -lt 1 ] && {
+            error "missing operand: uc env_name [python_version]"
+            return 1
+        }
         conda create -n $1 python=${2:=3.6}
         ucl
         u $1
     }
 
     urm() {
+        [ "$#" -lt 1 ] && {
+            error "missing operand: urm env_name"
+            return 1
+        }
         if [[ `pyenv_name` = "$1" ]]; then
             uu
         fi
