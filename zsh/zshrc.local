@@ -121,6 +121,7 @@ is_venv() {
 alias pyenv_name='program_exists conda && is_venv && \
     which python | rev | cut -d'/' -f3 | rev'
 
+alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
 alias pipcl='is_venv && pipls | xargs pip uninstall -y'
 

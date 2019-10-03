@@ -2,7 +2,7 @@
 [[ -d $HOME/.zsh/completions ]] && {
     if echo $fpath | grep -v -q '\.zsh/completions'; then
         fpath=($HOME/.zsh/completions $fpath)
-        autoload -U compinit && compinit
+        # autoload -U compinit && compinit
     fi
 }
 
