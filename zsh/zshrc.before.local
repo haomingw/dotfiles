@@ -23,6 +23,9 @@ safe_use_cuda() {
     if [[ -d "$1/lib64" ]]; then
         export CUDA_HOME=$1
         export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+        if [[ -d "$CUDA_HOME/extras/CUPTI/lib64" ]]; then
+            export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+        fi
         safe_export_path $CUDA_HOME/bin
     fi
 }
