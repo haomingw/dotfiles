@@ -283,6 +283,7 @@
     inoremap <c-j> <Esc>o
     inoremap jj <Esc>O
     inoremap <c-k> <c-o>D
+    inoremap <c-w> <c-o>db
 
     " utils
     nnoremap ; :
