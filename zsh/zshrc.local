@@ -114,6 +114,22 @@ program_exists brew && {
 
 [[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
 
+# tmux commands
+alias txls='tmux ls'
+alias txrm='tmux kill-session -t'
+
+program_exists tmux && {
+    txcl() {
+        local args=$(tls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
+        while IFS=' ' read -A sessions; do
+            for session in "${sessions[@]}"; do
+                echo "deleting session #$session"
+                trm $session
+            done
+        done <<< "$args"
+    }
+}
+
 # pip commands
 is_venv() {
     grep -q 'envs\|venv' $(which python)
