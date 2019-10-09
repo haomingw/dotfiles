@@ -120,11 +120,11 @@ alias txrm='tmux kill-session -t'
 
 program_exists tmux && {
     txcl() {
-        local args=$(tls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
+        local args=$(txls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
         while IFS=' ' read -A sessions; do
             for session in "${sessions[@]}"; do
                 echo "deleting session #$session"
-                trm $session
+                txrm $session
             done
         done <<< "$args"
     }

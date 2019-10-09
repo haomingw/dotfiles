@@ -207,6 +207,7 @@ increase_watch_limit() {
 
 install_vscode_extensions() {
     extensions=(
+        "ms-vscode.go"
         "ms-python.python"
         "mitaki28.vscode-clang"
     )
