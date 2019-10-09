@@ -1,3 +1,5 @@
+# @author: Haoming Wang <haoming.exe@gmail.com>
+
 # Completions {{
 
 [[ -d $HOME/.zsh/completions ]] && {

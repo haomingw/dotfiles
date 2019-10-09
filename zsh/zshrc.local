@@ -32,6 +32,8 @@ cut_last_n_cols() {
     echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
+alias sh='bash'
+
 alias sd='sudo shutdown now'
 
 program_exists xdg-open && alias open='xdg-open'
