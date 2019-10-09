@@ -1,10 +1,15 @@
-# load custom completions
+# Completions {{
+
 [[ -d $HOME/.zsh/completions ]] && {
     if echo $fpath | grep -v -q '\.zsh/completions'; then
         fpath=($HOME/.zsh/completions $fpath)
         # autoload -U compinit && compinit
     fi
 }
+
+# }} // namespace completions
+
+# Path {{
 
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || return 0 }
 
@@ -22,7 +27,7 @@ safe_export_path $GOPATH/bin
 safe_use_cuda() {
     if [[ -d "$1/lib64" ]]; then
         export CUDA_HOME=$1
-        export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+        export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         if [[ -d "$CUDA_HOME/extras/CUPTI/lib64" ]]; then
             export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
         fi
@@ -31,4 +36,10 @@ safe_use_cuda() {
 }
 safe_use_cuda "/usr/local/cuda"
 
+# }} // namespace path
+
+# Env {{
+
 export EDITOR=vim
+
+# }} // namespace env

@@ -1,3 +1,5 @@
+# @author: Haoming Wang <haoming.exe@gmail.com>
+
 # Utils {{
 
 safe_source() { [[ -s $1 ]] && source $1 || return 0 }
@@ -284,7 +286,7 @@ alias rmvim="rm -rf ~/.vim* ~/.config/nvim"
 
 bindkey '^ ' autosuggest-accept
 
-# }}
+# }} // namespace bindings
 
 # Env {{
 
