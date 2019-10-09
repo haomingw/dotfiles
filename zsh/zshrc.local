@@ -1,4 +1,4 @@
-# system utils
+# Utils {{
 
 safe_source() { [[ -s $1 ]] && source $1 || return 0 }
 safe_source ~/.zshrc.before.local
@@ -31,6 +31,7 @@ cut_last_n_cols() {
 }
 
 alias sd='sudo shutdown now'
+
 program_exists xdg-open && alias open='xdg-open'
 
 alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
@@ -67,12 +68,76 @@ empty-trash() {
 program_exists notify-send && alias alert='notify-send -u low \
     -i $([ $? -eq 0 ] && echo terminal || echo error)'
 
+# }} // namespace utils
+
+# Tools {{
+
+# Awk {{
+
 program_exists awk && {
     alias awk-last="awk '{print \$NF}'"
     awk-program-home() {
         awk -F"/" '{for(i=1;i<NF-2;i++) printf $i"/"; print $(NF-2)}'
     }
 }
+
+# }}
+
+# Tmux {{
+
+alias txls='tmux ls'
+alias txrm='tmux kill-session -t'
+
+program_exists tmux && {
+    txcl() {
+        local args=$(txls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
+        while IFS=' ' read -A sessions; do
+            for session in "${sessions[@]}"; do
+                echo "deleting session #$session"
+                txrm $session
+            done
+        done <<< "$args"
+    }
+}
+
+# }} // namespace tmux
+
+# Git {{
+
+alias gbcu='git rev-parse --abbrev-ref HEAD'
+alias gbrm='git branch -D'
+
+is_git_repo() {
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1
+}
+
+gbrmo() {
+    git branch | grep -v $(gbcu) | xargs -r git branch -D
+}
+
+gbrm_remote() {
+    local branch_to_delete=${1:=$(gbcu)}
+    git push origin :$branch_to_delete
+}
+
+gitd() {
+    local parsed_date=$(date --date=$1 +%F 2>/dev/null)
+    [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
+    local desc="$parsed_date $(date +%T)"
+    success $desc
+    shift
+    GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
+}
+
+cdr() {
+    # cd to git repo root
+    local repo=$(git rev-parse --show-toplevel 2>/dev/null)
+    [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
+}
+
+# }} // namespace git
+
+# Package manager {{
 
 program_exists apt && {
     # for debian/ubuntu
@@ -114,23 +179,13 @@ program_exists brew && {
 
 [[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
 
-# tmux commands
-alias txls='tmux ls'
-alias txrm='tmux kill-session -t'
+# }} // namespace package_manager
 
-program_exists tmux && {
-    txcl() {
-        local args=$(txls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
-        while IFS=' ' read -A sessions; do
-            for session in "${sessions[@]}"; do
-                echo "deleting session #$session"
-                txrm $session
-            done
-        done <<< "$args"
-    }
-}
+# }} // namespace tools
 
-# pip commands
+# Python {{
+
+# Pip {{
 is_venv() {
     grep -q 'envs\|venv' $(which python)
 }
@@ -168,7 +223,9 @@ pyupload() {
 
 alias pypi='pycompile && pyupload'
 
-# miniconda
+# }} // namespace pip
+
+# Conda {{
 program_exists conda && export CONDA_HOME=`cut_last_n_cols $(which python) $(is_venv && echo 4 || echo 2)`
 
 alias u='source activate'
@@ -201,33 +258,11 @@ program_exists conda && {
     }
 }
 
-# git utils
-alias gbcu='git rev-parse --abbrev-ref HEAD'
-alias gbrm='git branch -D'
+# }} // namespace conda
 
-gbrmo() {
-    git branch | grep -v $(gbcu) | xargs -r git branch -D
-}
+# }} // namespace python
 
-gbrm_remote() {
-    local branch_to_delete=${1:=$(gbcu)}
-    git push origin :$branch_to_delete
-}
-
-gitd() {
-    local parsed_date=$(date --date=$1 +%F 2>/dev/null)
-    [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
-    local desc="$parsed_date $(date +%T)"
-    success $desc
-    shift
-    GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
-}
-
-cdr() {
-    # cd to git repo root
-    local repo=$(git rev-parse --show-toplevel 2>/dev/null)
-    [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
-}
+# Files {{
 
 delete-type() {
     # recursively delete files of the given type
@@ -243,8 +278,15 @@ alias rmpyc='delete-type pyc && delete-folder __pycache__'
 
 alias rmvim="rm -rf ~/.vim* ~/.config/nvim"
 
-# key bindings
+# }} // namespace files
+
+# Key bindings {{
+
 bindkey '^ ' autosuggest-accept
+
+# }}
+
+# Env {{
 
 upd() {
     local env_name=`pyenv_name`
@@ -265,3 +307,5 @@ program_exists awk && {
     LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
     PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
 }
+
+# }} // namespace env

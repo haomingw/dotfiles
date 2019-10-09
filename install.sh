@@ -78,7 +78,9 @@ install_zsh_plugins() {
 
 config_python() {
     mkdir -p $HOME/.ptpython
-    lnif $APP_PATH/ptpython/config.py $HOME/.ptpython
+    lnif $APP_PATH/python/ptpython/config.py     $HOME/.ptpython
+    mkdir -p $HOME/.pre-commit
+    lnif $APP_PATH/python/pre-commit/config.yaml $HOME/.pre-commit
     install_miniconda_if_not_exists
     success "Now configuring python."
 }
