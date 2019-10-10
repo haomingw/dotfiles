@@ -32,6 +32,10 @@ cut_last_n_cols() {
     echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
+parse_filename() {
+    echo $1 | rev | cut -d'/' -f1 | rev
+}
+
 alias sh='bash'
 
 alias sd='sudo shutdown now'
@@ -108,12 +112,9 @@ program_exists tmux && {
 
 # Git {{
 
-alias gbcu='git rev-parse --abbrev-ref HEAD'
 alias gbrm='git branch -D'
-
-is_git_repo() {
-    git rev-parse --is-inside-work-tree >/dev/null 2>&1
-}
+alias gbcu='git rev-parse --abbrev-ref HEAD'
+alias groot='git rev-parse --show-toplevel 2>/dev/null'
 
 gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
@@ -135,8 +136,11 @@ gitd() {
 
 cdr() {
     # cd to git repo root
-    local repo=$(git rev-parse --show-toplevel 2>/dev/null)
-    [[ -n $repo ]] && cd $repo || echo "$(pwd) is not a git repo"
+    local repo=$(groot)
+    [[ -n $repo ]] && cd $repo || {
+        echo "$(pwd) is not a git repo"
+        return 1
+    }
 }
 
 # }} // namespace git
@@ -255,7 +259,7 @@ program_exists conda && {
             error "missing operand: urm env_name"
             return 1
         }
-        if [[ `pyenv_name` = "$1" ]]; then
+        if [[ $(pyenv_name) = "$1" ]]; then
             uu
         fi
         conda env remove -n $1
@@ -263,6 +267,33 @@ program_exists conda && {
 }
 
 # }} // namespace conda
+
+# Pre-commit {{
+
+set-pre-commit() {
+    is_venv && pip install pre-commit || {
+        error "Use a virtual env to setup pre-commit"
+        return 1
+    }
+    local repo=$(groot)
+    [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
+        for file in $HOME/.linter/*; do
+            local name=$(parse_filename $file)
+            ln -sf $file "$repo/.$name"
+        done
+        [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
+    } || {
+        error "Not in a git repo or pre-commit not configured"
+        return 1
+    }
+}
+
+rm-pre-commit() {
+    local repo=$(groot)
+    [[ -n $repo ]] && rm "$repo/.git/hooks/pre-commit"
+}
+
+# }} // namespace pre-commit
 
 # }} // namespace python
 
@@ -293,7 +324,7 @@ bindkey '^ ' autosuggest-accept
 # Env {{
 
 upd() {
-    local env_name=`pyenv_name`
+    local env_name=$(pyenv_name)
     if [[ -n $env_name ]]; then
         echo "deactivating python virtual env: $env_name"
         uu

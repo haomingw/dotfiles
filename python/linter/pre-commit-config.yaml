@@ -1,0 +1,45 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.3.0
+  hooks:
+  - id: check-added-large-files
+  - id: trailing-whitespace
+    args: [--markdown-linebreak-ext=md]
+  - id: mixed-line-ending
+    args: ['--fix=lf']
+  - id: end-of-file-fixer
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-symlinks
+  - id: check-json
+  - id: check-yaml
+  - id: flake8
+    additional_dependencies: [
+      flake8-import-order,
+      flake8-builtins,
+      flake8-docstrings,
+      flake8-logging-format,
+    ]
+  - id: debug-statements
+  - id: name-tests-test
+    args: ['--django']
+  - id: requirements-txt-fixer
+  - id: double-quote-string-fixer
+  - id: detect-private-key
+- repo: https://github.com/PyCQA/bandit
+  rev: '1.6.2'
+  hooks:
+  - id: bandit
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v0.730
+  hooks:
+  - id: mypy
+  exclude: ^(docs/|tests/)
+- repo: https://github.com/pre-commit/mirrors-pylint
+  rev: v2.4.2
+  hooks:
+  - id: pylint
+    additional_dependencies: [pylint_flask]

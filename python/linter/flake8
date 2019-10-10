@@ -1,0 +1,9 @@
+[flake8]
+ignore = W503
+max-line-length = 100
+max-complexity = 18
+select = B,C,E,F,W,T4,B9
+enable-extensions = I,A,G,D
+application_import_names =
+import-order-style = google
+docstring-convention = numpy

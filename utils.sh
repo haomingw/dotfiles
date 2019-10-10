@@ -77,6 +77,10 @@ insert_if_not_exists() {
     fi
 }
 
+parse_filename() {
+    echo $1 | rev | cut -d'/' -f1 | rev
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -161,7 +165,7 @@ install_miniconda_if_not_exists() {
         is_linux && url="$conda_repo/Miniconda3-latest-Linux-x86_64.sh"
         is_macos && url="$conda_repo/Miniconda3-latest-MacOSX-x86_64.sh"
         if [ ! -z "$url" ]; then
-            local miniconda=$(echo $url | rev | cut -d'/' -f1 | rev)
+            local miniconda=$(parse_filename $url)
             local target="$HOME/Downloads"
             [ -f "$target/$miniconda" ] || wget $url -P $target
             bash $target/$miniconda \
