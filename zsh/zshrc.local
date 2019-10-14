@@ -67,9 +67,10 @@ add-head() {
 
 empty-trash() {
     setopt localoptions rmstarsilent
+    setopt localoptions nonomatch
     is_linux && {
-        rm -rf ~/.local/share/Trash/files/*
-        rm -rf ~/.local/share/Trash/info/*
+        rm -rf ~/.local/share/Trash/files/{,.}*
+        rm -rf ~/.local/share/Trash/info/{,.}*
     }
 }
 
@@ -169,8 +170,8 @@ program_exists pacman && {
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || \
         echo "No orphans to remove"'
-    essential="wget tk tmux htop tree xclip python-neovim neovim xdg-utils \
-        ttf-dejavu ttf-ubuntu-font-family"
+    essential="wget tk tmux htop tree xclip python-neovim neovim net-tools \
+        xdg-utils ttf-dejavu ttf-ubuntu-font-family"
 }
 
 program_exists brew && {
