@@ -1,32 +1,11 @@
 ############################  BASIC SETUP TOOLS
+
+for file in common/*; do
+    source $file
+done
+
 msg() {
     printf '%b\n' "$1" >&2
-}
-
-success() {
-    msg "\033[32m[✔]\033[0m ${1}${2}"
-}
-
-err() {
-    msg "\033[31m[✘]\033[0m ${1}${2}"
-}
-
-error() {
-    err $@
-    exit 1
-}
-
-program_exists() {
-    # fail on non-zero return value
-    command -v $1 >/dev/null 2>&1
-}
-
-is_linux() {
-    [ $(uname) == "Linux" ]
-}
-
-is_macos() {
-    [ $(uname) == "Darwin" ]
 }
 
 program_must_exist() {
@@ -35,6 +14,7 @@ program_must_exist() {
     # throw error on non-zero return value
     if [ $? -ne 0 ]; then
         error "You must have '$1' installed to continue."
+        exit 1
     fi
 }
 
@@ -43,12 +23,7 @@ file_must_exist() {
 
     if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
         error "You must have '$1' to continue."
-    fi
-}
-
-lnif() {
-    if [ -e "$1" ]; then
-        ln -sf "$1" "$2"
+        exit 1
     fi
 }
 
@@ -132,6 +107,7 @@ config_zshrc() {
     local app_path=$1
     local zshrc="$HOME/.zshrc"
     sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
+    lnif $app_path/common                 $HOME/.common
     lnif $app_path/zsh/zshrc.before.local $HOME/.zshrc.before.local
     lnif $app_path/zsh/zshrc.local        $HOME/.zshrc.local
     lnif $app_path/zsh/dotzsh             $HOME/.zsh

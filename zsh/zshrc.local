@@ -1,29 +1,19 @@
 # @author: Haoming Wang <haoming.exe@gmail.com>
 
-# Utils {{
+# Imports {{
 
 safe_source() { [[ -s $1 ]] && source $1 || return 0 }
+
 safe_source ~/.zshrc.before.local
 
-success() {
-    echo -e "\033[32m[✔]\033[0m $@"
-}
+for file in ~/.common/*; do
+    safe_source $file
+done
 
-error() {
-    echo -e "\033[31m[✘]\033[0m $@"
-}
+# }}
 
-is_linux() {
-    [[ $(uname) == "Linux" ]]
-}
+# Utils {{
 
-is_macos() {
-    [[ $(uname) == "Darwin" ]]
-}
-
-program_exists() {
-    which "$1" &> /dev/null
-}
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
@@ -280,7 +270,7 @@ set-pre-commit() {
     [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
         for file in $HOME/.linter/*; do
             local name=$(parse_filename $file)
-            ln -sf $file "$repo/.$name"
+            lnif $file "$repo/.$name"
         done
         [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
     } || {

@@ -146,7 +146,7 @@ confirm() {
 while getopts "f" flag; do
     case $flag in
         f) one_option_mode=true; success "Entering one option mode" ;;
-        *) error "Unexpected option ${flag}" ;;
+        *) error "Unexpected option ${flag}"; exit 1 ;;
     esac
 done
 
@@ -160,7 +160,7 @@ select opt in "${options[@]}"; do
         "python")         config_python ;;
         "tmux")           config_tmux ;;
         "sublime-vscode") config_sublime_vscode ;;
-        *)                err "Unexpected option: $opt" ;;
+        *)                error "Unexpected option: $opt" ;;
     esac
     confirm
 done
