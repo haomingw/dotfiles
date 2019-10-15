@@ -22,7 +22,7 @@ program_exists() {
 
 lnif() {
     if [ -e "$1" ]; then
-        ln -sfT "$1" "$2"
+        ln -sfn "$1" "$2"
     fi
 }
 

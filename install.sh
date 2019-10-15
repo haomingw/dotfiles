@@ -77,13 +77,9 @@ install_zsh_plugins() {
 }
 
 config_python() {
-    mkdir -p $HOME/.ptpython
-    lnif $APP_PATH/python/ptpython/config.py     $HOME/.ptpython
-    mkdir -p $HOME/.linter
-    for file in $APP_PATH/python/linter/*; do
-        local name=$(parse_filename $file)
-        lnif $file "$HOME/.linter/$name"
-    done
+    rm -rf ~/.ptpython ~/.linter
+    lnif $APP_PATH/python/ptpython ~/.ptpython
+    lnif $APP_PATH/python/linter   ~/.linter
     install_miniconda_if_not_exists
     success "Now configuring python."
 }
@@ -120,9 +116,8 @@ config_sublime_vscode() {
         if [ ! -z "$code_home" ]; then
             lnif $APP_PATH/vscode/settings.json    $code_home
             lnif $APP_PATH/vscode/keybindings.json $code_home
-            for file in $APP_PATH/vscode/snippets/*.json; do
-                lnif $file $code_home/snippets
-            done
+            rm -rf $code_home/snippets
+            lnif $APP_PATH/vscode/snippets         $code_home
             success "Now configuring vscode."
         fi
     }
