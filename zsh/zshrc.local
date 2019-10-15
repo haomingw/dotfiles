@@ -281,7 +281,11 @@ set-pre-commit() {
 
 rm-pre-commit() {
     local repo=$(groot)
-    [[ -n $repo ]] && rm "$repo/.git/hooks/pre-commit"
+    if [[ -n $repo ]]; then
+        rm -f "$repo/.git/hooks/pre-commit"
+        rm -f "$repo/.pre-commit-config.yaml"
+        rm -f "$repo/.flake8"
+    fi
 }
 
 # }} // namespace pre-commit

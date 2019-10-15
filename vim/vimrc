@@ -148,7 +148,6 @@
     set background=dark
     if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
         color gruvbox
-        " color seoul256
     else
         color desert
     endif
