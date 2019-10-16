@@ -117,7 +117,7 @@ config_zshrc() {
 }
 
 setup_nvim_if_exists() {
-    if program_exists "nvim" && [ ! -d $HOME/.config/.nvim ]; then
+    if program_exists "nvim" && [ ! -d $HOME/.config/nvim ]; then
         mkdir -p $HOME/.config
         lnif "$HOME/.vim"         "$HOME/.config/nvim"
         lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
