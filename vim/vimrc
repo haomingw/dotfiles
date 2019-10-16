@@ -270,6 +270,9 @@
         inoremap <a-l> <Right>
     endif
 
+    inoremap <c-e> <End>
+    inoremap <c-a> <c-o>I
+
     " Window:
     nnoremap <c-h> <c-w>h
     nnoremap <c-l> <c-w>l
@@ -283,8 +286,10 @@
     inoremap <c-v> <Esc>pa
     inoremap <c-j> <Esc>o
     inoremap jj <Esc>O
+    " undoable
     inoremap <c-k> <c-o>D
-    inoremap <c-w> <c-o>db
+    inoremap <c-u> <c-g>u<c-u>
+    inoremap <c-w> <c-g>u<c-w>
 
     " utils
     nnoremap ; :
