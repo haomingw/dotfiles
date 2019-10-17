@@ -27,12 +27,6 @@ file_must_exist() {
     fi
 }
 
-copy() {
-    if [ -e "$1" ]; then
-        cp -r "$1" "$2"
-    fi
-}
-
 git_clone_to() {
     local git_url=$1
     local target_path=$2
@@ -70,7 +64,10 @@ do_backup() {
 create_vim_symlinks() {
     local app_path=$1
 
-    copy "$app_path/vim/dotvim" "$HOME/.vim"
+    mkdir -p $HOME/.vim/undo
+    for file in $app_path/vim/dotvim/*; do
+        cpif $file "$HOME/.vim/$(parse $file)"
+    done
     lnif "$app_path/vim/vimrc"  "$HOME/.vimrc"
 
     success "Setting up vim symlinks."
@@ -85,11 +82,6 @@ setup_vim_plug() {
     export SHELL="$system_shell"
 
     success "Now updating/installing plugins using vim-plug"
-}
-
-post_install_vim() {
-    mkdir -p $HOME/.vim/undo
-    success "Postpone installation finished."
 }
 
 install_zsh_plugin() {

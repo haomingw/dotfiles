@@ -22,10 +22,6 @@ cut_last_n_cols() {
     echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
-parse_filename() {
-    echo $1 | rev | cut -d'/' -f1 | rev
-}
-
 alias sh='bash'
 
 alias sd='sudo shutdown now'
@@ -269,8 +265,7 @@ set-pre-commit() {
     local repo=$(groot)
     [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
         for file in $HOME/.linter/*; do
-            local name=$(parse_filename $file)
-            lnif $file "$repo/.$name"
+            cpif $file "$repo/.$(parse $file)"
         done
         [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
     } || {

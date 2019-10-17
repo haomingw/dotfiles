@@ -21,9 +21,19 @@ program_exists() {
 }
 
 lnif() {
-    if [ -e "$1" ]; then
+    if [[ -e "$1" ]]; then
         ln -sfn "$1" "$2"
     fi
+}
+
+cpif() {
+    if [[ -e "$1" ]]; then
+        cp -r "$1" "$2"
+    fi
+}
+
+parse() {
+    echo $1 | rev | cut -d'/' -f1 | rev
 }
 
 # }}

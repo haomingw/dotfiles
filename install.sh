@@ -9,7 +9,6 @@ app_name='xming-dotfiles'
 
 options=(
     "vim"
-    "update-vim"
     "oh-my-zsh"
     "zsh-plugins"
     "python"
@@ -32,25 +31,11 @@ print_select_menu() {
 
 ############################ MAIN FUNCTIONS
 
-install_vim() {
+install_or_update_vim() {
     program_must_exist  "vim"
     program_must_exist  "git"
 
-    do_backup           "$HOME/.vim"
-    do_backup           "$HOME/.vimrc"
-    do_backup           "$HOME/.gvimrc"
-
     create_vim_symlinks "$APP_PATH"
-
-    setup_vim_plug
-
-    post_install_vim
-
-    setup_nvim_if_exists
-}
-
-update_vim() {
-    program_must_exist  "vim"
 
     setup_vim_plug
 
@@ -79,7 +64,7 @@ install_zsh_plugins() {
 config_python() {
     rm -rf ~/.ptpython ~/.linter
     lnif $APP_PATH/python/ptpython ~/.ptpython
-    lnif $APP_PATH/python/linter   ~/.linter
+    cpif $APP_PATH/python/linter   ~/.linter
     install_miniconda_if_not_exists
     success "Now configuring python."
 }
@@ -148,8 +133,7 @@ done
 PS3='Please enter your choice: '
 select opt in "${options[@]}"; do
     case $opt in
-        "vim")            install_vim ;;
-        "update-vim")     update_vim ;;
+        "vim")            install_or_update_vim ;;
         "oh-my-zsh")      install_oh_my_zsh ;;
         "zsh-plugins")    install_zsh_plugins ;;
         "python")         config_python ;;
