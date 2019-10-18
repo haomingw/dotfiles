@@ -1,40 +1,65 @@
-let mapleader = ','
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker nospell:
+" @author: Haoming Wang <haoming.exe@gmail.com>
 
+
+" General {{
+
+let mapleader = ','
 set scrolloff=5
 
 nnoremap ; :
 nnoremap Y y$
 
-" Search
+" }}
+
+" Tool {{
+
+nnoremap <leader>tl Vy<cr>:action ActivateTerminalToolWindow<cr>
+vnoremap <leader>tl y<cr>:action ActivateTerminalToolWindow<cr>
+
+" }}
+
+" Refactor {{
+
+nnoremap <leader>ic :action InspectCode<cr>
+nnoremap <leader>fm :action ReformatCode<cr>
+nnoremap <leader>oi :action OptimizeImports<cr>
+
+nnoremap <leader>re :action RenameElement<cr>
+nnoremap <leader>rf :action RenameFile<cr>
+
+" }}
+
+" Search {{
+
 nnoremap <leader>ff :action FindInPath<cr>
 nnoremap <leader>fu :action FindUsages<cr>
 nnoremap <leader>su :action ShowUsages<cr>
-nnoremap <leader>ic :action InspectCode<cr>
 
-# Edit
-nnoremap <leader>oi :action OptimizeImports<cr>
-nnoremap <leader>re :action RenameElement<cr>
-nnoremap <leader>rf :action RenameFile<cr>
-nnoremap <leader>fm :action ReformatCode<cr>
+" }}
 
-" Debug and run
+" Debug {{
+
 nnoremap <leader>dd :action Debug<cr>
 nnoremap <leader>dc :action DebugClass<cr>
 nnoremap <leader>rr :action Run<cr>
 nnoremap <leader>rc :action RunClass<cr>
 
-nnoremap <leader>bb :action ToggleLineBreakpoint<cr>
 nnoremap <leader>br :action ViewBreakpoints<cr>
+nnoremap <leader>bb :action ToggleLineBreakpoint<cr>
 
-" Close
+" }}
+
+" Editor {{
+
 nnoremap <leader>qe  :action CloseEditor<cr>
 nnoremap <leader>qo  :action CloseAllEditorsButActive<cr>
 nnoremap <leader>qq  :action CloseProject<cr>
 
-" Git
-nnoremap <leader>an :action Annotate<cr>
+" }}
 
-" Gotos
+" Goto {{
+
 nnoremap <leader><leader> :action SearchEverywhere<cr>
 nnoremap <leader>gc :action GotoClass<cr>
 nnoremap <leader>gf :action GotoFile<cr>
@@ -48,5 +73,4 @@ nnoremap <leader>gr :action GotoRelated<cr>
 nnoremap ]e :action GotoNextError<cr>
 nnoremap [e :action GotoPreviousError<cr>
 
-nnoremap <leader>tl Vy<cr>:action ActivateTerminalToolWindow<cr>
-vnoremap <leader>tl y<cr>:action ActivateTerminalToolWindow<cr>
+" }}

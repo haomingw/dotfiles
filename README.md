@@ -5,4 +5,4 @@ Execute
 
     bash install.sh
 
-and select the item you want to install
+and select the item you want to install.

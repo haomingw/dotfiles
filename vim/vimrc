@@ -1,8 +1,5 @@
-" Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker nospell:
-"
-" Author: Haoming Wang <haoming.exe@gmail.com>
-" }
+" @author: Haoming Wang <haoming.exe@gmail.com>
 
 " Environment {
 
@@ -79,7 +76,7 @@
                 Plug 'haomingw/vim-snippets'
                 Plug 'fatih/vim-go'
             endif
-            Plug 'w0rp/ale'
+            " Plug 'w0rp/ale'
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
@@ -170,8 +167,6 @@
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
-    set foldmarker={{,}}
-    set foldmethod=marker
     set foldenable                  " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
