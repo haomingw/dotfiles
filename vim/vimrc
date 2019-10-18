@@ -49,6 +49,7 @@
     " General {
         if count(g:xming_plug_groups, 'general')
             Plug 'tpope/vim-tbone'
+            Plug 'junegunn/goyo.vim'
             Plug 'itchyny/lightline.vim'
             Plug 'flazz/vim-colorschemes'
         endif
@@ -328,6 +329,12 @@
         if isdirectory(expand("~/.vim/bundle/vim-snippets/"))
             " personal information
             let g:snips_author="xming"
+        endif
+    " }
+
+    " Goyo {
+        if isdirectory(expand("~/.vim/bundle/goyo.vim/"))
+            nnoremap <leader>gy :Goyo<CR>
         endif
     " }
 

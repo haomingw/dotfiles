@@ -68,7 +68,8 @@ create_vim_symlinks() {
     for file in $app_path/vim/dotvim/*; do
         cpif $file "$HOME/.vim/$(parse $file)"
     done
-    lnif "$app_path/vim/vimrc"  "$HOME/.vimrc"
+    lnif "$app_path/vim/vimrc"     "$HOME/.vimrc"
+    lnif "$app_path/vim/ideavimrc" "$HOME/.ideavimrc"
 
     success "Setting up vim symlinks."
 }
