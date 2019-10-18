@@ -48,7 +48,8 @@
             Plug 'tpope/vim-tbone'
             Plug 'junegunn/goyo.vim'
             Plug 'itchyny/lightline.vim'
-            Plug 'flazz/vim-colorschemes'
+            " Plug 'flazz/vim-colorschemes'
+            Plug 'ayu-theme/ayu-vim'
         endif
     " }
 
@@ -144,11 +145,15 @@
 " Vim UI {
 
     set background=dark
-    if isdirectory(expand("~/.vim/bundle/vim-colorschemes"))
-        color gruvbox
-    else
+    try
+        set termguicolors     " enable true colors support
+        " let ayucolor="light"  " for light version of theme
+        let ayucolor="mirage" " for mirage version of theme
+        " let ayucolor="dark"   " for dark version of theme
+        color ayu
+    catch
         color desert
-    endif
+    endtry
 
     set number                      " Line numbers on
     set cursorline                  " Highlight current line
@@ -462,8 +467,9 @@
             let g:ale_echo_msg_error_str = 'E'
             let g:ale_echo_msg_warning_str = 'W'
             let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-            let g:ale_lint_on_text_changed = 'normal'
-            let g:ale_lint_on_insert_leave = 1
+            " Only run linting when saving the file
+            let g:ale_lint_on_text_changed = 'never'
+            let g:ale_lint_on_enter = 0
         endif
     " }
 

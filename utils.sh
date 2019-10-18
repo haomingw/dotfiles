@@ -159,11 +159,11 @@ increase_watch_limit() {
     local cfg
     program_exists apt && cfg="/etc/sysctl.conf"
     program_exists pacman && cfg="/etc/sysctl.d/40-max-user-watches.conf"
+    local message=(
+        "Do you want to increase (requires sudo password)"
+        "inotify limit? (y/N) "
+    )
     if [ ! -z $cfg ] && [ -r $cfg ]; then
-        local message=(
-            "Do you want to increase (requires sudo password)"
-            "inotify limit? (y/N) "
-        )
         read -p "${message[*]}"
         case $REPLY in
             [yY][eE][sS]|[yY]) ;;
