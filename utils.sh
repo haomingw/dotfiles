@@ -65,8 +65,8 @@ create_vim_symlinks() {
     local app_path=$1
 
     mkdir -p $HOME/.vim/undo
-    for file in $app_path/vim/dotvim/*; do
-        cpif $file "$HOME/.vim/$(parse $file)"
+    for file in $app_path/vim/vim/*; do
+        lnif $file "$HOME/.vim/$(parse $file)"
     done
     lnif "$app_path/vim/vimrc"     "$HOME/.vimrc"
     lnif "$app_path/vim/ideavimrc" "$HOME/.ideavimrc"
@@ -101,9 +101,9 @@ config_zshrc() {
     local zshrc="$HOME/.zshrc"
     sed -i '/plugins=(git)/c \plugins=(\n    git\n)' $zshrc
     lnif $app_path/common                 $HOME/.common
-    lnif $app_path/zsh/zshrc.before.local $HOME/.zshrc.before.local
-    lnif $app_path/zsh/zshrc.local        $HOME/.zshrc.local
-    lnif $app_path/zsh/dotzsh             $HOME/.zsh
+    for file in $app_path/zsh/*; do
+        lnif $file "$HOME/.$(parse $file)"
+    done
     local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
     insert_if_not_exists 'zshrc.local' "$cmd" $zshrc
     success "Now configuring zsh."

@@ -37,9 +37,9 @@ install_or_update_vim() {
 
     create_vim_symlinks "$APP_PATH"
 
-    setup_vim_plug
-
     setup_nvim_if_exists
+
+    setup_vim_plug
 }
 
 install_oh_my_zsh() {
