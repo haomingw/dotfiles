@@ -48,8 +48,7 @@
             Plug 'tpope/vim-tbone'
             Plug 'junegunn/goyo.vim'
             Plug 'itchyny/lightline.vim'
-            " Plug 'flazz/vim-colorschemes'
-            Plug 'ayu-theme/ayu-vim'
+            Plug 'rafi/awesome-vim-colorschemes'
         endif
     " }
 
