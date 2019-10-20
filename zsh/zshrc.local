@@ -303,6 +303,7 @@ alias rmds='delete-type DS_Store'
 alias rmpyc='delete-type pyc && delete-folder __pycache__'
 
 alias rmvim="rm -rf ~/.*vim* ~/.config/nvim"
+alias rmzsh="rm -rf ~/.zsh ~/.zshrc.*"
 
 # }} // namespace files
 
