@@ -64,7 +64,7 @@ install_zsh_plugins() {
 config_python() {
     rm -rf ~/.ptpython ~/.linter
     lnif $APP_PATH/python/ptpython ~/.ptpython
-    cpif $APP_PATH/python/linter   ~/.linter
+    lnif $APP_PATH/python/linter   ~/.linter
     install_miniconda_if_not_exists
     success "Now configuring python."
 }

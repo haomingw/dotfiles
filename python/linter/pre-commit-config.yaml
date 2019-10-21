@@ -29,6 +29,10 @@ repos:
   - id: requirements-txt-fixer
   - id: double-quote-string-fixer
   - id: detect-private-key
+- repo: https://github.com/pre-commit/mirrors-yapf
+  rev: v0.28.0
+  hooks:
+  - id: yapf
 - repo: https://github.com/PyCQA/bandit
   rev: '1.6.2'
   hooks:
@@ -41,4 +45,4 @@ repos:
   rev: v2.4.2
   hooks:
   - id: pylint
-    additional_dependencies: [pylint_flask]
+    additional_dependencies: []

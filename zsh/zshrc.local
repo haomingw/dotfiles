@@ -263,9 +263,15 @@ set-pre-commit() {
         return 1
     }
     local repo=$(groot)
+    local name
     [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
         for file in $HOME/.linter/*; do
-            cpif $file "$repo/.$(parse $file)"
+            name=$(parse $file)
+            case $name in
+                setup.cfg) ;;
+                *) name=".$name" ;;  # hidden files
+            esac
+            [[ -f $repo/$name ]] || cpif $file "$repo/$name"
         done
         [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
     } || {
@@ -278,8 +284,6 @@ rm-pre-commit() {
     local repo=$(groot)
     if [[ -n $repo ]]; then
         rm -f "$repo/.git/hooks/pre-commit"
-        rm -f "$repo/.pre-commit-config.yaml"
-        rm -f "$repo/.flake8"
     fi
 }
 
