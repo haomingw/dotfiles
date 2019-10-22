@@ -181,6 +181,7 @@ program_exists brew && {
 # Python {{
 
 # Pip {{
+
 is_venv() {
     grep -q 'envs\|venv' $(which python)
 }
@@ -221,6 +222,7 @@ alias pypi='pycompile && pyupload'
 # }} // namespace pip
 
 # Conda {{
+
 program_exists conda && export CONDA_HOME=`cut_last_n_cols $(which python) $(is_venv && echo 4 || echo 2)`
 
 alias u='source activate'

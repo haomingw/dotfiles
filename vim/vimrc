@@ -11,7 +11,7 @@
             return has('unix') && !has('macunix') && !has('win32unix')
         endfunction
         silent function! WINDOWS()
-            return  (has('win32') || has('win64'))
+            return has('win32')
         endfunction
     " }
 
@@ -58,6 +58,7 @@
             Plug 'tpope/vim-endwise'
             Plug 'tpope/vim-surround'
             Plug 'jiangmiao/auto-pairs'
+            Plug 'justinmk/vim-sneak'
             Plug 'junegunn/vim-easy-align'
             Plug 'easymotion/vim-easymotion'
             Plug 'terryma/vim-expand-region'
@@ -354,6 +355,15 @@
                   \ 'separator': { 'left': ' ', 'right': ' ' },
                   \ 'subseparator': { 'left': ' ', 'right': ' ' }
                   \ }
+        endif
+    " }
+
+    " Vim-sneak {
+        if isdirectory(expand("~/.vim/bundle/vim-sneak/"))
+            map m <Plug>Sneak_;
+            map M <Plug>Sneak_,
+            map f <Plug>Sneak_s
+            map F <Plug>Sneak_S
         endif
     " }
 
