@@ -88,7 +88,7 @@
         endif
     " }
 
-     call plug#end()
+    call plug#end()
 
 " }
 
@@ -121,8 +121,6 @@
         augroup END
     endif
 
-    autocmd BufWrite * if &ft != 'mkd' && &ft != 'tex' | call StripTrailingWhiteSpace() | endif
-
     set visualbell                      " Choose 'visual bell' effect rather than 'beeping'.
     set shortmess=at                    " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
@@ -140,6 +138,9 @@
         set undolevels=1000         " Maximum number of changes that can be undone
         set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
     endif
+
+    " Strip Trailing Whitespaces On Saving:
+    autocmd BufWritePre * if &ft != 'mkd' && &ft != 'tex' | :silent %s/\s\+$//e | endif
 
 " }
 
@@ -509,13 +510,6 @@
 " }
 
 " Functions {
-
-    " Strip Trailing Whitespaces On Saving:
-    function! StripTrailingWhiteSpace()
-        normal mZ
-        %s/\s\+$//e
-        normal `Z
-    endfunction
 
     " Setup C file
     function! C_setup()
