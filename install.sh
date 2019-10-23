@@ -71,6 +71,10 @@ config_python() {
 
 config_tmux() {
     program_must_exist  "tmux"
+    mkdir -p ~/.tmux/plugins
+    if [[ ! -d ~/.tmux/plugins/tpm]]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
     lnif $APP_PATH/tmux/tmux.conf $HOME/.tmux.conf
     success "Now configuring tmux."
 }

@@ -81,6 +81,7 @@ program_exists awk && {
 # Tmux {{
 
 alias txls='tmux ls'
+alias txat='tmux attach -t'
 alias txrm='tmux kill-session -t'
 
 program_exists tmux && {
