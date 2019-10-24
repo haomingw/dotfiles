@@ -75,9 +75,9 @@
             if has('python') || has('python3')
                 Plug 'SirVer/ultisnips'
                 Plug 'haomingw/vim-snippets'
-                Plug 'fatih/vim-go'
             endif
-            " Plug 'w0rp/ale'
+            Plug 'w0rp/ale', { 'for': ['cpp', 'python'] }
+            Plug 'fatih/vim-go'
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
