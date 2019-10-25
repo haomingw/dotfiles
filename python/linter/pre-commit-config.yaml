@@ -29,7 +29,7 @@ repos:
   - id: requirements-txt-fixer
   - id: double-quote-string-fixer
   - id: detect-private-key
-- repo: https://github.com/haomingw/zimports/
+- repo: https://github.com/haomingw/zimports
   rev: 0.1.4
   hooks:
   - id: zimports

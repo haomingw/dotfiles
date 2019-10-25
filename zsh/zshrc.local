@@ -80,13 +80,16 @@ program_exists awk && {
 
 # Tmux {{
 
-alias txls='tmux ls'
-alias txat='tmux attach -t'
+alias txls='tmux ls | xargs -I {} echo {} | cut -d: -f1'
 alias txrm='tmux kill-session -t'
 
 program_exists tmux && {
+    txat() {
+        [[ "$#" -ge 1 ]] && tmux attach -t $1 || tmux attach
+    }
+
     txcl() {
-        local args=$(txls | awk 'BEGIN{FS=":"}{print $1}' | xargs echo)
+        local args=$(txls)
         while IFS=' ' read -A sessions; do
             for session in "${sessions[@]}"; do
                 echo "deleting session #$session"
@@ -235,7 +238,7 @@ alias ucl='find $CONDA_HOME \( -type f -o -type l \) \
 program_exists conda && {
 
     uc() {
-        [ "$#" -lt 1 ] && {
+        [[ "$#" -lt 1 ]] && {
             error "missing operand: uc env_name [python_version]"
             return 1
         }
@@ -245,7 +248,7 @@ program_exists conda && {
     }
 
     urm() {
-        [ "$#" -lt 1 ] && {
+        [[ "$#" -lt 1 ]] && {
             error "missing operand: urm env_name"
             return 1
         }
