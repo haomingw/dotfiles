@@ -147,7 +147,8 @@ program_exists apt && {
     alias pSyu='sudo apt update && sudo apt upgrade'
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
-    essential="curl git-gui tmux htop tree net-tools clang clang-format"
+    essential="curl git-gui tmux htop tree net-tools clang clang-format \
+        python3-distutils"
 }
 
 program_exists pacman && {
