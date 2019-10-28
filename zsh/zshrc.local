@@ -186,9 +186,7 @@ program_exists brew && {
 
 # Pip {{
 
-is_venv() {
-    grep -q 'envs\|venv' $(which python)
-}
+alias is_venv='which python | grep -q "envs\|venv"'
 
 alias pyenv_name='program_exists conda && is_venv && \
     which python | rev | cut -d'/' -f3 | rev'
