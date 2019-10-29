@@ -195,7 +195,12 @@ alias pyenv_name='program_exists conda && is_venv && \
 
 alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
-alias pipcl='is_venv && pipls | xargs pip uninstall -y'
+pipcl() {
+    is_venv && pipls | xargs pip uninstall -y 2>/dev/null \
+        && return 0
+    echo "No packages to remove"
+    return 1
+}
 
 # pypi
 venv_upgrade() {
