@@ -27,6 +27,8 @@ safe_export_path $GOROOT/bin
 export GOPATH=$HOME/go
 safe_export_path $GOPATH/bin
 
+safe_export_path /usr/local/node/bin
+
 safe_use_cuda() {
     if [[ -d "$1/lib64" ]]; then
         export CUDA_HOME=$1
