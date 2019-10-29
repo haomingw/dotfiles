@@ -106,6 +106,7 @@ program_exists tmux && {
 alias gbrm='git branch -D'
 alias gbcu='git rev-parse --abbrev-ref HEAD'
 alias groot='git rev-parse --show-toplevel 2>/dev/null'
+alias gsmu='git submodule update --remote'
 
 gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
