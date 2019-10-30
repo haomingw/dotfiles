@@ -16,8 +16,6 @@ options=(
     "sublime-vscode"
 )
 
-one_option_mode=''  # if we stay in option chosen loop
-
 source utils.sh
 
 ############################ SETUP FUNCTIONS
