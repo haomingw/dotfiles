@@ -45,7 +45,6 @@
 
     " General {
         if count(g:xming_plug_groups, 'general')
-            Plug 'tpope/vim-tbone'
             Plug 'junegunn/goyo.vim'
             Plug 'itchyny/lightline.vim'
             Plug 'rafi/awesome-vim-colorschemes'

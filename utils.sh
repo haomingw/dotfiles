@@ -37,15 +37,6 @@ git_clone_to() {
     fi
 }
 
-insert_if_not_exists() {
-    local pattern=$1
-    local text=$2
-    local target=$3
-    if [ ! -f "$target" ] || ! $(grep -q "$pattern" "$target"); then
-        echo $text >> $target
-    fi
-}
-
 parse_filename() {
     echo $1 | rev | cut -d'/' -f1 | rev
 }
@@ -88,13 +79,21 @@ setup_vim_plug() {
     success "Now updating/installing plugins using vim-plug"
 }
 
+use_zsh_plugin() {
+    local pattern="^\s*$1$"
+    local target="$HOME/.zshrc"
+    grep -q $pattern $target || {
+        sed -i "/^plugins=/a \    $1" $target
+    }
+}
+
 install_zsh_plugin() {
     local plugin_name=$1
     local plugin_path="$ZSH_CUSTOM/plugins"
 
     if [ ! -d "$plugin_path/$plugin_name" ]; then
         git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
-        sed -i "/^plugins=/a \    $plugin_name" $HOME/.zshrc
+        use_zsh_plugin $plugin_name
         success "Now installing zsh plugin $plugin_name."
     fi
 }
@@ -108,7 +107,9 @@ config_zshrc() {
         lnif $file "$HOME/.$(parse $file)"
     done
     local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
-    insert_if_not_exists 'zshrc.local' "$cmd" $zshrc
+    if [ ! -f $zshrc ] || ! $(grep -q "zshrc.local" $zshrc); then
+        echo $cmd >> $zshrc
+    fi
     success "Now configuring zsh."
 }
 

@@ -129,7 +129,7 @@ confirm() {
 
 while getopts "f" flag; do
     case $flag in
-        f) one_option_mode=true; success "Entering one option mode" ;;
+        f) one_option_mode=1; success "Entering one option mode" ;;
         *) error "Unexpected option ${flag}"; exit 1 ;;
     esac
 done
