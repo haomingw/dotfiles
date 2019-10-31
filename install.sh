@@ -4,8 +4,8 @@ set -e
 
 app_name='xming-dotfiles'
 
-[ -z "$APP_PATH" ] && APP_PATH="$(pwd)"
-[ -z "$ZSH_CUSTOM" ] && ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+APP_PATH="${APP_PATH:-$(pwd)}"
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 options=(
     "vim"
@@ -70,7 +70,7 @@ config_python() {
 config_tmux() {
     program_must_exist  "tmux"
     mkdir -p ~/.tmux/plugins
-    if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+    if [ ! -d ~/.tmux/plugins/tpm ]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
     lnif $APP_PATH/tmux/tmux.conf $HOME/.tmux.conf

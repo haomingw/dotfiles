@@ -77,6 +77,7 @@
             endif
             Plug 'w0rp/ale', { 'for': ['cpp', 'python'] }
             Plug 'fatih/vim-go'
+            Plug 'rust-lang/rust.vim'
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
@@ -304,8 +305,9 @@
 " Setup {
 
     autocmd FileType c :call C_setup()
-    autocmd FileType cc,cpp :call Cpp_setup()
+    autocmd FileType cpp :call Cpp_setup()
     autocmd FileType python :call Python_setup()
+    autocmd FileType rust :call Rust_setup()
     autocmd FileType yaml setlocal sw=2 ts=2 sts=2 et
 
 " }
@@ -486,6 +488,12 @@
         endif
     " }
 
+    " Rust.vim {
+        if isdirectory(expand("~/.vim/bundle/rust.vim/"))
+            let g:rustfmt_autosave = 0
+        endif
+    " }
+
 " }
 
 " GUI Settings {
@@ -548,6 +556,14 @@
         if isdirectory(expand("~/.vim/bundle/yapf/"))
             map <leader>f :call yapf#YAPF()<cr>
             imap <leader>f <c-o>:call yapf#YAPF()<cr>i
+        endif
+    endfunction
+
+    " Setup rust file
+    function! Rust_setup()
+        if isdirectory(expand("~/.vim/bundle/rust.vim/"))
+            map <leader>f :RustFmt<CR>
+            imap <leader>f <Esc>:RustFmt<CR>i
         endif
     endfunction
 
