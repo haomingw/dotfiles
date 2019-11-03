@@ -5,4 +5,10 @@
 
 alias di='docker image'
 
-# }}
+# }} // namespace docker
+
+# Rust {{
+
+alias install-rust="[[ -d ~/.cargo ]] || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+
+# }} // namespace rust
