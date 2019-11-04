@@ -1,4 +1,4 @@
-# vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker nospell:
+# vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldmethod=marker:
 # @author: Haoming Wang <haoming.exe@gmail.com>
 
 # Docker {{
@@ -9,6 +9,15 @@ alias di='docker image'
 
 # Rust {{
 
-alias install-rust="[[ -d ~/.cargo ]] || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+alias install-rust="[[ -d ~/.cargo ]] \
+    || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 
 # }} // namespace rust
+
+
+# Openssl {{
+
+alias encrypt='openssl enc -aes-256-cbc -salt -md sha512'
+alias decrypt='openssl enc -aes-256-cbc -d -salt -md sha512'
+
+# }}
