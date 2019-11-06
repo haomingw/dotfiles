@@ -140,7 +140,7 @@
     endif
 
     " Strip Trailing Whitespaces On Saving:
-    autocmd BufWritePre * if &ft != 'mkd' && &ft != 'tex' | :silent %s/\s\+$//e | endif
+    autocmd BufWritePre * if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
 
 " }
 
