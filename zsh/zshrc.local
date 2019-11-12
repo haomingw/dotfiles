@@ -108,13 +108,18 @@ alias gbcu='git rev-parse --abbrev-ref HEAD'
 alias groot='git rev-parse --show-toplevel 2>/dev/null'
 alias gsmu='git submodule update --remote'
 
+gtrm() {
+    local tag="$1"
+    git tag -d $tag
+    git push origin :$tag
+}
+
 gbrmo() {
     git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
-gbrm_remote() {
-    local branch_to_delete=${1:=$(gbcu)}
-    git push origin :$branch_to_delete
+gbrmr() {
+    git push origin :${1:=$(gbcu)}
 }
 
 gitd() {
