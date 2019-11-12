@@ -47,6 +47,7 @@
         if count(g:xming_plug_groups, 'general')
             Plug 'junegunn/goyo.vim'
             Plug 'itchyny/lightline.vim'
+            Plug 'haomingw/vim-startscreen'
             Plug 'rafi/awesome-vim-colorschemes'
         endif
     " }
@@ -75,7 +76,6 @@
                 Plug 'SirVer/ultisnips'
                 Plug 'haomingw/vim-snippets'
             endif
-            Plug 'w0rp/ale', { 'for': ['cpp', 'python'] }
             Plug 'fatih/vim-go'
             Plug 'rust-lang/rust.vim'
             Plug 'mhinz/vim-signify'
@@ -84,6 +84,7 @@
             Plug 'scrooloose/nerdcommenter'
             Plug 'AndrewRadev/splitjoin.vim'
             Plug 'nathanaelkane/vim-indent-guides'
+            Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
             Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
         endif
     " }
@@ -223,6 +224,8 @@
     nnoremap n nzzzv
     nnoremap N Nzzzv
 
+    nnoremap <space> za
+
     " Allow to trigger background
     function! ToggleBG()
         let s:tbg = &background
@@ -308,7 +311,8 @@
     autocmd FileType cpp :call Cpp_setup()
     autocmd FileType python :call Python_setup()
     autocmd FileType rust :call Rust_setup()
-    autocmd FileType yaml setlocal sw=2 ts=2 sts=2 et
+    autocmd FileType yaml :call Tab2()
+    autocmd FileType vim :call Tab2()
 
 " }
 
@@ -519,13 +523,17 @@
 
 " Functions {
 
+    function! Tab2()
+        setlocal sw=2 ts=2 sts=2 et
+    endfunction
+
     " Setup C file
     function! C_setup()
         iabbrev inc #include
         iabbrev def #define
         iabbrev itn int
         iabbrev mian() main()
-        setlocal sw=2 ts=2 sts=2 et
+        call Tab2()
 
         if !filereadable(getcwd() . "/Makefile")
             let &makeprg="gcc % -DLOCAL"
