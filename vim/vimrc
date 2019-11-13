@@ -63,9 +63,7 @@
             Plug 'easymotion/vim-easymotion'
             Plug 'terryma/vim-expand-region'
             Plug 'terryma/vim-multiple-cursors'
-            if exists('##TextYankPost')
-                Plug 'machakann/vim-highlightedyank'
-            endif
+            Plug 'machakann/vim-highlightedyank'
             Plug 'scrooloose/nerdtree'
         endif
     " }
@@ -155,9 +153,9 @@
 
     set background=dark
     try
-        set termguicolors     " enable true colors support
         let ayucolor="mirage" " light dark
         color ayu
+        set termguicolors     " enable true colors support
     catch
         color desert
     endtry
@@ -227,7 +225,7 @@
         endtry
     endif
 
-    nnoremap Q <Nop>                " Disable ex mode
+    nnoremap Q <Nop>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
@@ -309,7 +307,7 @@
 
     " utils
     nnoremap ; :
-    nnoremap Y y$               " to be consistent with C and D.
+    nnoremap Y y$
     " yank text in command mode
     cnoremap <c-v> <c-r>+
     nnoremap <c-Up> <c-y>
@@ -405,6 +403,9 @@
 
     " Vim-highlightedyank {
         if isdirectory(expand("~/.vim/bundle/vim-highlightedyank/"))
+            if !exists('##TextYankPost')  " for older vim
+                map y <Plug>(highlightedyank)
+            endif
             let g:highlightedyank_highlight_duration = 100
             highlight HighlightedyankRegion cterm=reverse gui=reverse
         endif
@@ -433,7 +434,7 @@
     " NerdCommenter {
         if isdirectory(expand("~/.vim/bundle/nerdcommenter/"))
             nmap <c-_> <leader>c<Space>j
-            vmap <c-_> <leader>c<Space>j
+            xmap <c-_> <leader>c<Space>j
 
             " Add spaces after comment delimiters by default
             let g:NERDSpaceDelims = 1
