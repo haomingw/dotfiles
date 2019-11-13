@@ -20,8 +20,8 @@
     " }
 
     " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
+        " On Windows, also use '.vim' instead of 'vimfiles';
+        " this makes synchronization across (heterogeneous) systems easier.
         if WINDOWS()
             set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
         endif
@@ -103,7 +103,8 @@
     if has('clipboard')
         if has('unnamedplus') " When possible use + register for copy-paste
             set clipboard=unnamed,unnamedplus
-        else                  " On mac and Windows, use * register for copy-paste
+        else
+            " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
         endif
     endif
@@ -122,26 +123,31 @@
         augroup END
     endif
 
-    set visualbell                      " Choose 'visual bell' effect rather than 'beeping'.
-    set shortmess=at                    " Abbrev. of messages (avoids 'hit enter')
-    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-    set virtualedit=onemore             " Allow for cursor beyond last character
+    " Choose 'visual bell' effect rather than 'beeping'.
+    set visualbell
+    set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
+    " Better Unix / Windows compatibility
+    set viewoptions=folds,options,cursor,unix,slash
+    set virtualedit=onemore         " Allow for cursor beyond last character
     set history=200
-    set hidden                          " Allow buffer switching without saving
-    set iskeyword-=.                    " '.' is an end of word designator
-    set iskeyword-=#                    " '#' is an end of word designator
-    set iskeyword-=-                    " '-' is an end of word designator
+    set hidden                      " Allow buffer switching without saving
+    set iskeyword-=.                " '.' is an end of word designator
+    set iskeyword-=#                " '#' is an end of word designator
+    set iskeyword-=-                " '-' is an end of word designator
 
     set nobackup noswapfile nowritebackup
     if has('persistent_undo')
         set undofile                " So is persistent undo ...
         set undodir=$HOME/.vim/undo
-        set undolevels=1000         " Maximum number of changes that can be undone
-        set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+        " Maximum number of changes that can be undone
+        set undolevels=1000
+        " Maximum number lines to save for undo on a buffer reload
+        set undoreload=10000
     endif
 
     " Strip Trailing Whitespaces On Saving:
-    autocmd BufWritePre * if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
+    autocmd BufWritePre *
+        \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
 
 " }
 
@@ -169,14 +175,17 @@
     set ignorecase                  " Case insensitive search
     set smartcase                   " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
-    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+    set wildmode=list:longest,full  " Command <Tab> completion, list matches,
+                                    " then longest common part, then all.
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set foldenable                  " Auto fold code
     set list
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
     set laststatus=2                " Display status line
+
+    " Highlight problematic whitespace
+    set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " }
 
@@ -192,14 +201,15 @@
 
     set splitright splitbelow
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+    set nojoinspaces                " Prevents inserting two spaces after
+                                    " punctuation on a join (J)
 
 " }
 
 " Key (re)Mappings {
 
-    " The default leader is '\', but many people prefer ',' as it's in a standard
-    " location.
+    " The default leader is '\', but many people prefer ','
+    " as it's in a standard location.
     let mapleader = ','
     let maplocalleader = '_'
 
@@ -404,14 +414,17 @@
             let g:NERDTreeDirArrowExpandable = '+'
             let g:NERDTreeDirArrowCollapsible = '-'
             " close vim if the only window left open is a NERDTree
-            autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+            autocmd bufenter *
+                \ if (winnr("$") == 1 && exists("b:NERDTree") &&
+                \ b:NERDTree.isTabTree()) | q | endif
             let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
         endif
     " }
 
     " Rainbow {
         if isdirectory(expand("~/.vim/bundle/rainbow/"))
-            let g:rainbow_active = 1 " 0 if you want to enable it later via :RainbowToggle
+            " 0 if you want to enable it later via :RainbowToggle
+            let g:rainbow_active = 1
         endif
     " }
 
@@ -422,9 +435,11 @@
 
             " Add spaces after comment delimiters by default
             let g:NERDSpaceDelims = 1
-            " Allow commenting and inverting empty lines (useful when commenting a region)
+            " Allow commenting and inverting empty lines
+            " (useful when commenting a region)
             let g:NERDCommentEmptyLines = 1
-            " Align line-wise comment delimiters flush left instead of following code indentation
+            " Align line-wise comment delimiters flush left
+            " instead of following code indentation
             let g:NERDDefaultAlign = 'left'
         endif
     " }
@@ -464,8 +479,9 @@
     " Easymotion {
         if isdirectory(expand("~/.vim/bundle/vim-easymotion/"))
             let g:EasyMotion_leader_key = ','
-            let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
             let g:EasyMotion_smartcase = 1
+            " keep cursor column when JK motion
+            let g:EasyMotion_startofline = 0
 
             map <Leader>l <Plug>(easymotion-lineforward)
             map <Leader>h <Plug>(easymotion-linebackward)
@@ -507,15 +523,25 @@
         set guioptions=             " remove all gui options
         set lines=40                " 40 lines of text instead of 24
         if LINUX()
-            set guifont=Courier\ 10\ Pitch\ Regular\ 12,Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+            set guifont=Courier\ 10\ Pitch\ Regular\ 12,
+                \ Andale\ Mono\ Regular\ 12,
+                \ Menlo\ Regular\ 11,
+                \ Consolas\ Regular\ 12,
+                \ Courier\ New\ Regular\ 14
         elseif MACOS()
-            set guifont=Andale\ Mono:h12,Menlo:h11,Consolas:h12,Courier\ New:h14
+            set guifont=Andale\ Mono:h12,
+                \ Menlo:h11,Consolas:h12,
+                \ Courier\ New:h14
         elseif WINDOWS()
-            set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
+            set guifont=Andale_Mono:h10,
+                \ Menlo:h10,Consolas:h10,
+                \ Courier_New:h10
         endif
     else
+        " Enable 256 colors to stop the CSApprox warning and
+        " make xterm vim shine
         if &term == 'xterm' || &term == 'screen'
-            set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+            set t_Co=256
         endif
     endif
 
@@ -548,7 +574,8 @@
         syn keyword cppType ll pii
 
         if !filereadable(getcwd() . "/Makefile")
-            let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wno-unused-result"
+            let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
+                \ -Wpedantic -Wshadow -Wno-unused-result"
         endif
 
         " Clang format

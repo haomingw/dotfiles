@@ -154,7 +154,7 @@ program_exists apt && {
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
     essential="curl git-gui tmux htop tree net-tools clang clang-format \
-        python3-distutils"
+        python3-distutils build-essential"
 }
 
 program_exists pacman && {
