@@ -227,6 +227,8 @@
         endtry
     endif
 
+    nnoremap Q <Nop>                " Disable ex mode
+
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
