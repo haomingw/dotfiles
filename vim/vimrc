@@ -32,13 +32,13 @@
 " Bundles {
 
     if has('nvim')
-        let g:python_host_prog='/usr/bin/python2'
-        let g:python3_host_prog='/usr/bin/python3'
+        let g:python_host_prog = '/usr/bin/python2'
+        let g:python3_host_prog = '/usr/bin/python3'
     endif
 
     " list only the plugin groups you will use
     if !exists('g:xming_plug_groups')
-        let g:xming_plug_groups=['general', 'editing', 'programming']
+        let g:xming_plug_groups = ['general', 'editing', 'programming']
     endif
 
     call plug#begin('~/.vim/bundle')
@@ -189,7 +189,8 @@
 " Formatting {
 
     set nowrap
-    set autoindent
+    set autoindent                  " copy indent from previous line
+    set smartindent                 " enable nice indent
 
     set shiftwidth=4                " Use indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs
@@ -309,10 +310,10 @@
     " utils
     nnoremap ; :
     nnoremap Y y$
-    " yank text in command mode
-    cnoremap <c-v> <c-r>+
     nnoremap <c-Up> <c-y>
     nnoremap <c-Down> <c-e>
+    " yank text in command mode
+    cnoremap <c-v> <c-r>+
 
 " }
 
@@ -330,29 +331,28 @@
 " Plugins {
 
     " Ultisnips {
-        if isdirectory(expand("~/.vim/bundle/ultisnips/"))
+        if has_key(g:plugs, 'ultisnips')
             " Trigger configuration. Do not use <tab>
-            let g:UltiSnipsExpandTrigger="<c-l>"
+            let g:UltiSnipsExpandTrigger = "<c-l>"
             " If you want :UltiSnipsEdit to split your window.
-            let g:UltiSnipsEditSplit="vertical"
+            let g:UltiSnipsEditSplit = "vertical"
         endif
     " }
 
     " Vim-snippets {
-        if isdirectory(expand("~/.vim/bundle/vim-snippets/"))
-            " personal information
-            let g:snips_author="xming"
+        if has_key(g:plugs, 'vim-snippets')
+            let g:snips_author = $USER
         endif
     " }
 
     " Goyo {
-        if isdirectory(expand("~/.vim/bundle/goyo.vim/"))
+        if has_key(g:plugs, 'goyo.vim')
             nnoremap <leader>gy :Goyo<cr>
         endif
     " }
 
     " Lightline {
-        if isdirectory(expand("~/.vim/bundle/lightline.vim/"))
+        if has_key(g:plugs, 'lightline.vim')
             let g:lightline = {
                   \ 'colorscheme': 'wombat',
                   \ 'active': {
@@ -377,7 +377,7 @@
     " }
 
     " Vim-sneak {
-        if isdirectory(expand("~/.vim/bundle/vim-sneak/"))
+        if has_key(g:plugs, 'vim-sneak')
             map m <Plug>Sneak_;
             map M <Plug>Sneak_,
             map f <Plug>Sneak_s
@@ -386,7 +386,7 @@
     " }
 
     " Vim-easy-align {
-        if isdirectory(expand("~/.vim/bundle/vim-easy-align/"))
+        if has_key(g:plugs, 'vim-easy-align')
             " Start interactive EasyAlign in visual mode (e.g. vipga)
             xmap ga <Plug>(EasyAlign)
 
@@ -396,14 +396,14 @@
     " }
 
     " Vim-expand-region {
-        if isdirectory(expand("~/.vim/bundle/vim-expand-region/"))
+        if has_key(g:plugs, 'vim-expand-region')
             xmap L <Plug>(expand_region_expand)
             xmap H <Plug>(expand_region_shrink)
         endif
     " }
 
     " Vim-highlightedyank {
-        if isdirectory(expand("~/.vim/bundle/vim-highlightedyank/"))
+        if has_key(g:plugs, 'vim-highlightedyank')
             if !exists('##TextYankPost')  " for older vim
                 map y <Plug>(highlightedyank)
             endif
@@ -413,8 +413,8 @@
     " }
 
     " Nerdtree {
-        if isdirectory(expand("~/.vim/bundle/nerdtree/"))
-            nnoremap <leader>nt :NERDTreeToggle <cr>
+        if has_key(g:plugs, 'nerdtree')
+            nnoremap <leader>nt :NERDTreeToggle<cr>
             let g:NERDTreeDirArrowExpandable = '+'
             let g:NERDTreeDirArrowCollapsible = '-'
             " close vim if the only window left open is a NERDTree
@@ -426,14 +426,14 @@
     " }
 
     " Rainbow {
-        if isdirectory(expand("~/.vim/bundle/rainbow/"))
+        if has_key(g:plugs, 'rainbow')
             " 0 if you want to enable it later via :RainbowToggle
             let g:rainbow_active = 1
         endif
     " }
 
     " NerdCommenter {
-        if isdirectory(expand("~/.vim/bundle/nerdcommenter/"))
+        if has_key(g:plugs, 'nerdcommenter')
             nmap <c-_> <leader>c<Space>j
             xmap <c-_> <leader>c<Space>j
 
@@ -449,21 +449,21 @@
     " }
 
     " Tagbar {
-        if isdirectory(expand("~/.vim/bundle/tagbar/"))
+        if has_key(g:plugs, 'tagbar')
             let g:tagbar_sort = 0
-            nnoremap <leader>tb :TagbarToggle <cr>
+            nnoremap <leader>tb :TagbarToggle<cr>
         endif
     "}
 
     " Vim-signify {
-        if isdirectory(expand("~/.vim/bundle/vim-signify/"))
+        if has_key(g:plugs, 'vim-signify')
             let g:signify_vcs_list = ['git']
             let g:signify_skip_filetype = { 'journal': 1 }
         endif
     "}
 
     " Fugitive {
-        if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
+        if has_key(g:plugs, 'vim-fugitive')
             nnoremap <silent> <leader>gs :Gstatus<cr>
             nnoremap <silent> <leader>gd :Gdiff<cr>
             nnoremap <silent> <leader>gc :Gcommit<cr>
@@ -480,7 +480,7 @@
     "}
 
     " Indent_guides {
-        if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+        if has_key(g:plugs, 'vim-indent-guides')
             let g:indent_guides_start_level = 2
             let g:indent_guides_guide_size = 1
             let g:indent_guides_enable_on_vim_startup = 1
@@ -488,7 +488,7 @@
     " }
 
     " Easymotion {
-        if isdirectory(expand("~/.vim/bundle/vim-easymotion/"))
+        if has_key(g:plugs, 'vim-easymotion')
             let g:EasyMotion_leader_key = ','
             let g:EasyMotion_smartcase = 1
             " keep cursor column when JK motion
@@ -501,7 +501,7 @@
     " }
 
     " Ale {
-        if isdirectory(expand("~/.vim/bundle/ale/"))
+        if has_key(g:plugs, 'ale')
             let g:ale_echo_msg_error_str = 'E'
             let g:ale_echo_msg_warning_str = 'W'
             let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -512,7 +512,7 @@
     " }
 
     " Vim-go {
-        if isdirectory(expand("~/.vim/bundle/vim-go/"))
+        if has_key(g:plugs, 'vim-go')
             let g:go_fmt_command = "goimports"
             let g:go_highlight_fields = 1
             let g:go_highlight_function_calls = 1
@@ -520,7 +520,7 @@
     " }
 
     " Rust.vim {
-        if isdirectory(expand("~/.vim/bundle/rust.vim/"))
+        if has_key(g:plugs, 'rust.vim')
             let g:rustfmt_autosave = 0
         endif
     " }
@@ -599,7 +599,7 @@
         iabbrev im import
         syn keyword pythonDecorator self
 
-        if isdirectory(expand("~/.vim/bundle/yapf/"))
+        if has_key(g:plugs, 'yapf')
             map <leader>f :call yapf#YAPF()<cr>
             imap <leader>f <c-o>:call yapf#YAPF()<cr>i
         endif
@@ -607,7 +607,7 @@
 
     " Setup rust file
     function! Rust_setup()
-        if isdirectory(expand("~/.vim/bundle/rust.vim/"))
+        if has_key(g:plugs, 'rust.vim')
             map <leader>f :RustFmt<cr>
             imap <leader>f <Esc>:RustFmt<cr>i
         endif
