@@ -73,6 +73,7 @@ call plug#begin('~/.vim/bundle')
 
 " Programming {{
     if count(g:xming_plug_groups, 'programming')
+        Plug 'dense-analysis/ale'
         Plug 'SirVer/ultisnips'
         Plug 'haomingw/vim-snippets'
         Plug 'fatih/vim-go'
@@ -84,7 +85,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
         Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
-        Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
         Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
     endif
 " }}
@@ -361,25 +361,25 @@ augroup END
 " Lightline {{
     if has_key(g:plugs, 'lightline.vim')
         let g:lightline = {
-              \ 'colorscheme': 'wombat',
-              \ 'active': {
-              \   'left': [ ['mode', 'paste'],
-              \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-              \   'right': [ [ 'lineinfo' ], ['percent'] ]
-              \ },
-              \ 'component': {
-              \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-              \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-              \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-              \ },
-              \ 'component_visible_condition': {
-              \   'readonly': '(&filetype!="help"&& &readonly)',
-              \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-              \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-              \ },
-              \ 'separator': { 'left': ' ', 'right': ' ' },
-              \ 'subseparator': { 'left': ' ', 'right': ' ' }
-              \ }
+        \ 'colorscheme': 'wombat',
+        \ 'active': {
+        \   'left': [ ['mode', 'paste'],
+        \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+        \   'right': [ [ 'lineinfo' ], ['percent'] ]
+        \ },
+        \ 'component': {
+        \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+        \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+        \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+        \ },
+        \ 'component_visible_condition': {
+        \   'readonly': '(&filetype!="help"&& &readonly)',
+        \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+        \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+        \ },
+        \ 'separator': { 'left': ' ', 'right': ' ' },
+        \ 'subseparator': { 'left': ' ', 'right': ' ' }
+        \ }
     endif
 " }}
 
@@ -515,9 +515,25 @@ augroup END
         let g:ale_echo_msg_error_str = 'E'
         let g:ale_echo_msg_warning_str = 'W'
         let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
         " Only run linting when saving the file
         let g:ale_lint_on_text_changed = 'never'
+        let g:ale_lint_on_insert_leave = 0
+        " Don't run linters on opening a file
         let g:ale_lint_on_enter = 0
+
+        " Only run linters named in ale_linters settings.
+        let g:ale_linters_explicit = 1
+        let g:ale_linters = {
+        \   'cpp': 'all',
+        \   'python': ['flake8', 'mypy', 'pylint'],
+        \   'go': ['gofmt', 'golint', 'govet'],
+        \   'rust': ['cargo'],
+        \   'sh': ['shell'],
+        \   'zsh': ['shell'],
+        \   'markdown': 'all',
+        \   'yaml': 'all',
+        \}
     endif
 " }}
 
