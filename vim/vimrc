@@ -1,616 +1,616 @@
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldmethod=marker:
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldmethod=marker:
 " @author: Haoming Wang <haoming.exe@gmail.com>
 
-" Environment {
+" Environment {{
 
-    " Identify platform {
-        silent function! MACOS()
-            return has('macunix')
-        endfunction
-        silent function! LINUX()
-            return has('unix') && !has('macunix') && !has('win32unix')
-        endfunction
-        silent function! WINDOWS()
-            return has('win32')
-        endfunction
-    " }
+" Identify platform {{
+    silent function! MACOS()
+        return has('macunix')
+    endfunction
+    silent function! LINUX()
+        return has('unix') && !has('macunix') && !has('win32unix')
+    endfunction
+    silent function! WINDOWS()
+        return has('win32')
+    endfunction
+" }}
 
-    " Basics {
-        set nocompatible        " Must be first line
-    " }
+" Basics {{
+    set nocompatible        " Must be first line
+" }}
 
-    " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles';
-        " this makes synchronization across (heterogeneous) systems easier.
-        if WINDOWS()
-            set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
-        endif
-    " }
-
-" }
-
-" Bundles {
-
-    if has('nvim')
-        let g:python_host_prog = '/usr/bin/python2'
-        let g:python3_host_prog = '/usr/bin/python3'
+" Windows Compatible {{
+    " On Windows, also use '.vim' instead of 'vimfiles';
+    " this makes synchronization across (heterogeneous) systems easier.
+    if WINDOWS()
+        set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
     endif
+" }}
 
-    " list only the plugin groups you will use
-    if !exists('g:xming_plug_groups')
-        let g:xming_plug_groups = ['general', 'editing', 'programming']
+" }} // namespace environment
+
+" Bundles {{
+
+if has('nvim')
+    let g:python_host_prog = '/usr/bin/python2'
+    let g:python3_host_prog = '/usr/bin/python3'
+endif
+
+" list only the plugin groups you will use
+if !exists('g:xming_plug_groups')
+    let g:xming_plug_groups = ['general', 'editing', 'programming']
+endif
+
+call plug#begin('~/.vim/bundle')
+
+" General {{
+    if count(g:xming_plug_groups, 'general')
+        Plug 'junegunn/goyo.vim'
+        Plug 'itchyny/lightline.vim'
+        Plug 'haomingw/vim-startscreen'
+        Plug 'rafi/awesome-vim-colorschemes'
     endif
+" }}
 
-    call plug#begin('~/.vim/bundle')
-
-    " General {
-        if count(g:xming_plug_groups, 'general')
-            Plug 'junegunn/goyo.vim'
-            Plug 'itchyny/lightline.vim'
-            Plug 'haomingw/vim-startscreen'
-            Plug 'rafi/awesome-vim-colorschemes'
-        endif
-    " }
-
-    " Editing {
-        if count(g:xming_plug_groups, 'editing')
-            Plug 'tpope/vim-repeat'
-            Plug 'tpope/vim-endwise'
-            Plug 'tpope/vim-surround'
-            Plug 'scrooloose/nerdtree'
-            Plug 'jiangmiao/auto-pairs'
-            Plug 'justinmk/vim-sneak'
-            Plug 'junegunn/vim-easy-align'
-            Plug 'easymotion/vim-easymotion'
-            Plug 'terryma/vim-expand-region'
-            Plug 'terryma/vim-multiple-cursors'
-            Plug 'machakann/vim-highlightedyank'
-        endif
-    " }
-
-    " Programming {
-        if count(g:xming_plug_groups, 'programming')
-            Plug 'SirVer/ultisnips'
-            Plug 'haomingw/vim-snippets'
-            Plug 'fatih/vim-go'
-            Plug 'rust-lang/rust.vim'
-            Plug 'majutsushi/tagbar'
-            Plug 'mhinz/vim-signify'
-            Plug 'tpope/vim-fugitive'
-            Plug 'luochen1990/rainbow'
-            Plug 'scrooloose/nerdcommenter'
-            Plug 'AndrewRadev/splitjoin.vim'
-            Plug 'nathanaelkane/vim-indent-guides'
-            Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
-            Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-        endif
-    " }
-
-    call plug#end()
-
-" }
-
-" General {
-
-    syntax on                   " Syntax highlighting
-    set mouse=a                 " Automatically enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
-    scriptencoding utf-8
-
-    if has('clipboard')
-        if has('unnamedplus') " When possible use + register for copy-paste
-            set clipboard=unnamed,unnamedplus
-        else
-            " On mac and Windows, use * register for copy-paste
-            set clipboard=unnamed
-        endif
+" Editing {{
+    if count(g:xming_plug_groups, 'editing')
+        Plug 'tpope/vim-repeat'
+        Plug 'tpope/vim-endwise'
+        Plug 'tpope/vim-surround'
+        Plug 'scrooloose/nerdtree'
+        Plug 'jiangmiao/auto-pairs'
+        Plug 'justinmk/vim-sneak'
+        Plug 'junegunn/vim-easy-align'
+        Plug 'easymotion/vim-easymotion'
+        Plug 'terryma/vim-expand-region'
+        Plug 'terryma/vim-multiple-cursors'
+        Plug 'machakann/vim-highlightedyank'
     endif
+" }}
 
-    if !exists('g:xming_no_restore_cursor')
-        function! ResCur()
-            if line("'\"") <= line("$")
-                silent! normal! g`"
-                return 1
-            endif
-        endfunction
-
-        augroup resCur
-            autocmd!
-            autocmd BufWinEnter * call ResCur()
-        augroup END
+" Programming {{
+    if count(g:xming_plug_groups, 'programming')
+        Plug 'SirVer/ultisnips'
+        Plug 'haomingw/vim-snippets'
+        Plug 'fatih/vim-go'
+        Plug 'rust-lang/rust.vim'
+        Plug 'majutsushi/tagbar'
+        Plug 'mhinz/vim-signify'
+        Plug 'tpope/vim-fugitive'
+        Plug 'luochen1990/rainbow'
+        Plug 'scrooloose/nerdcommenter'
+        Plug 'AndrewRadev/splitjoin.vim'
+        Plug 'nathanaelkane/vim-indent-guides'
+        Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
+        Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
     endif
+" }}
 
-    " Choose 'visual bell' effect rather than 'beeping'.
-    set visualbell
-    set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
-    " Better Unix / Windows compatibility
-    set viewoptions=folds,options,cursor,unix,slash
-    set virtualedit=onemore         " Allow for cursor beyond last character
-    set history=200
-    set hidden                      " Allow buffer switching without saving
-    set iskeyword-=.                " '.' is an end of word designator
-    set iskeyword-=#                " '#' is an end of word designator
-    set iskeyword-=-                " '-' is an end of word designator
+call plug#end()
 
-    set nobackup noswapfile nowritebackup
-    if has('persistent_undo')
-        set undofile                " So is persistent undo ...
-        set undodir=$HOME/.vim/undo
-        " Maximum number of changes that can be undone
-        set undolevels=1000
-        " Maximum number lines to save for undo on a buffer reload
-        set undoreload=10000
+" }} // namespace bundles
+
+" General {{
+
+syntax on                   " Syntax highlighting
+set mouse=a                 " Automatically enable mouse usage
+set mousehide               " Hide the mouse cursor while typing
+scriptencoding utf-8
+
+if has('clipboard')
+    if has('unnamedplus') " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    else
+        " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
     endif
+endif
 
-    " Strip Trailing Whitespaces On Saving:
-    autocmd BufWritePre *
-        \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
+if !exists('g:xming_no_restore_cursor')
+    function! ResCur()
+        if line("'\"") <= line("$")
+            silent! normal! g`"
+            return 1
+        endif
+    endfunction
 
-" }
+    augroup resCur
+        autocmd!
+        autocmd BufWinEnter * call ResCur()
+    augroup END
+endif
 
-" Vim UI {
+" Choose 'visual bell' effect rather than 'beeping'.
+set visualbell
+set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
+" Better Unix / Windows compatibility
+set viewoptions=folds,options,cursor,unix,slash
+set virtualedit=onemore         " Allow for cursor beyond last character
+set history=200
+set hidden                      " Allow buffer switching without saving
+set iskeyword-=.                " '.' is an end of word designator
+set iskeyword-=#                " '#' is an end of word designator
+set iskeyword-=-                " '-' is an end of word designator
 
-    set background=dark
+set nobackup noswapfile nowritebackup
+if has('persistent_undo')
+    set undofile                " So is persistent undo ...
+    set undodir=$HOME/.vim/undo
+    " Maximum number of changes that can be undone
+    set undolevels=1000
+    " Maximum number lines to save for undo on a buffer reload
+    set undoreload=10000
+endif
+
+" Strip Trailing Whitespaces On Saving:
+autocmd BufWritePre *
+    \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
+
+" }} // namespace general
+
+" Vim UI {{
+
+set background=dark
+try
+    let ayucolor="mirage" " light dark
+    color ayu
+    set termguicolors     " enable true colors support
+catch
+    color desert
+endtry
+
+set number                      " Line numbers on
+set cursorline                  " Highlight current line
+set noshowmode                  " Don't display the current mode
+set showcmd                     " Show partial commands in status line
+set backspace=indent,eol,start  " Backspace for dummies
+set linespace=0                 " No extra spaces between rows
+set showmatch                   " Show matching brackets/parenthesis
+set incsearch                   " Find as you type search
+set hlsearch                    " Highlight search terms
+set winminheight=0              " Windows can be 0 line high
+set ignorecase                  " Case insensitive search
+set smartcase                   " Case sensitive when uc present
+set wildmenu                    " Show list instead of just completing
+set wildmode=list:longest,full  " Command <Tab> completion, list matches,
+                                " then longest common part, then all.
+set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set scrolljump=5                " Lines to scroll when cursor leaves screen
+set scrolloff=3                 " Minimum lines to keep above and below cursor
+set foldenable                  " Auto fold code
+set list
+set laststatus=2                " Display status line
+
+" Highlight problematic whitespace
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+
+" }} // namespace vim-ui
+
+" Formatting {{
+
+set nowrap
+set autoindent                  " copy indent from previous line
+set smartindent                 " enable nice indent
+
+set shiftwidth=4                " Use indents of 4 spaces
+set expandtab                   " Tabs are spaces, not tabs
+set tabstop=4                   " An indentation every four columns
+set softtabstop=4               " Let backspace delete indent
+
+set splitright splitbelow
+set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+set nojoinspaces                " Prevents inserting two spaces after
+                                " punctuation on a join (J)
+
+" }} // namespace formatting
+
+" Key (re)Mappings {{
+
+" The default leader is '\', but many people prefer ','
+" as it's in a standard location.
+let mapleader = ','
+let maplocalleader = '_'
+
+if !has('gui_running')
     try
-        let ayucolor="mirage" " light dark
-        color ayu
-        set termguicolors     " enable true colors support
+        " fix meta-keys which generate <Esc>a .. <Esc>z
+        let c='a'
+        while c <= 'z'
+            exec "set <A-".c.">=\e".c
+            let c = nr2char(1+char2nr(c))
+        endw
+        set ttimeout ttimeoutlen=50
     catch
-        color desert
+        " neovim
     endtry
+endif
 
-    set number                      " Line numbers on
-    set cursorline                  " Highlight current line
-    set noshowmode                  " Don't display the current mode
-    set showcmd                     " Show partial commands in status line
-    set backspace=indent,eol,start  " Backspace for dummies
-    set linespace=0                 " No extra spaces between rows
-    set showmatch                   " Show matching brackets/parenthesis
-    set incsearch                   " Find as you type search
-    set hlsearch                    " Highlight search terms
-    set winminheight=0              " Windows can be 0 line high
-    set ignorecase                  " Case insensitive search
-    set smartcase                   " Case sensitive when uc present
-    set wildmenu                    " Show list instead of just completing
-    set wildmode=list:longest,full  " Command <Tab> completion, list matches,
-                                    " then longest common part, then all.
-    set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-    set scrolljump=5                " Lines to scroll when cursor leaves screen
-    set scrolloff=3                 " Minimum lines to keep above and below cursor
-    set foldenable                  " Auto fold code
-    set list
-    set laststatus=2                " Display status line
+" qq to record, Q to replay
+nnoremap Q @q
 
-    " Highlight problematic whitespace
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
 
-" }
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
-" Formatting {
+nnoremap <space> za
 
-    set nowrap
-    set autoindent                  " copy indent from previous line
-    set smartindent                 " enable nice indent
-
-    set shiftwidth=4                " Use indents of 4 spaces
-    set expandtab                   " Tabs are spaces, not tabs
-    set tabstop=4                   " An indentation every four columns
-    set softtabstop=4               " Let backspace delete indent
-
-    set splitright splitbelow
-    set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    set nojoinspaces                " Prevents inserting two spaces after
-                                    " punctuation on a join (J)
-
-" }
-
-" Key (re)Mappings {
-
-    " The default leader is '\', but many people prefer ','
-    " as it's in a standard location.
-    let mapleader = ','
-    let maplocalleader = '_'
-
-    if !has('gui_running')
-        try
-            " fix meta-keys which generate <Esc>a .. <Esc>z
-            let c='a'
-            while c <= 'z'
-                exec "set <A-".c.">=\e".c
-                let c = nr2char(1+char2nr(c))
-            endw
-            set ttimeout ttimeoutlen=50
-        catch
-            " neovim
-        endtry
-    endif
-
-    " qq to record, Q to replay
-    nnoremap Q @q
-
-    " Wrapped lines goes down/up to next row, rather than next line in file.
-    nnoremap j gj
-    nnoremap k gk
-
-    nnoremap n nzzzv
-    nnoremap N Nzzzv
-
-    nnoremap <space> za
-
-    " Allow to trigger background
-    function! ToggleBG()
-        let s:tbg = &background
-        " Inversion
-        if s:tbg == "dark"
-            set background=light
-        else
-            set background=dark
-        endif
-    endfunction
-    nnoremap <leader>bg :call ToggleBG()<cr>
-
-    " Visual shifting (does not exit Visual mode)
-    vnoremap < <gv
-    vnoremap > >gv
-
-    cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<cr>
-    map <leader>ew :e %%
-    map <leader>es :sp %%
-    map <leader>ev :vsp %%
-    map <leader>et :tabe %%
-    map <leader>rp :%s/
-
-    " Adjust viewports to the same size
-    map <Leader>= <c-w>=
-    autocmd vimResized * exe "normal! \<c-w>="
-
-    " Switch between tabs
-    if MACOS()
-        nnoremap ˙ gT
-        nnoremap ¬ gt
+" Allow to trigger background
+function! ToggleBG()
+    let s:tbg = &background
+    " Inversion
+    if s:tbg == "dark"
+        set background=light
     else
-        nnoremap <a-h> gT
-        nnoremap <a-l> gt
+        set background=dark
+    endif
+endfunction
+nnoremap <leader>bg :call ToggleBG()<cr>
+
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+map <leader>rp :%s/
+
+" Adjust viewports to the same size
+map <Leader>= <c-w>=
+autocmd vimResized * exe "normal! \<c-w>="
+
+" Switch between tabs
+if MACOS()
+    nnoremap ˙ gT
+    nnoremap ¬ gt
+else
+    nnoremap <a-h> gT
+    nnoremap <a-l> gt
+endif
+
+if MACOS()
+    inoremap ˙ <Left>
+    inoremap ∆ <Down>
+    inoremap ˚ <Up>
+    inoremap ¬ <Right>
+else
+    inoremap <a-h> <Left>
+    inoremap <a-j> <Down>
+    inoremap <a-k> <Up>
+    inoremap <a-l> <Right>
+endif
+
+inoremap <c-e> <End>
+inoremap <c-a> <c-o>I
+cnoremap <c-a> <Home>
+
+" Window:
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-k> <c-w>k
+nnoremap <c-j> <c-w>j
+
+" Fast editting
+nnoremap <c-s> :w<cr>
+nnoremap cl ggdG
+inoremap <c-s> <Esc>:w<cr>a
+inoremap <c-v> <Esc>pa
+inoremap <c-j> <Esc>o
+inoremap jj <Esc>O
+" undoable
+inoremap <c-k> <c-o>D
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
+
+" utils
+nnoremap ; :
+nnoremap Y y$
+nnoremap <c-Up> <c-y>
+nnoremap <c-Down> <c-e>
+" yank text in command mode
+cnoremap <c-v> <c-r>+
+
+" }} // namespace remapping
+
+" Autocmd {{
+
+autocmd FileType c :call C_setup()
+autocmd FileType cpp :call Cpp_setup()
+autocmd FileType python :call Python_setup()
+autocmd FileType rust :call Rust_setup()
+autocmd FileType yaml :call Tab2()
+autocmd FileType vim :call Tab2()
+
+" }} // namespace autocmd
+
+" Plugins {{
+
+" Ultisnips {{
+    if has_key(g:plugs, 'ultisnips')
+        " Trigger configuration. Do not use <tab>
+        let g:UltiSnipsExpandTrigger = "<c-l>"
+        " If you want :UltiSnipsEdit to split your window.
+        let g:UltiSnipsEditSplit = "vertical"
+    endif
+" }}
+
+" Vim-snippets {{
+    if has_key(g:plugs, 'vim-snippets')
+        let g:snips_author = $USER
+    endif
+" }}
+
+" Goyo {{
+    if has_key(g:plugs, 'goyo.vim')
+        nnoremap <leader>gy :Goyo<cr>
+    endif
+" }}
+
+" Lightline {{
+    if has_key(g:plugs, 'lightline.vim')
+        let g:lightline = {
+              \ 'colorscheme': 'wombat',
+              \ 'active': {
+              \   'left': [ ['mode', 'paste'],
+              \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+              \   'right': [ [ 'lineinfo' ], ['percent'] ]
+              \ },
+              \ 'component': {
+              \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+              \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+              \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+              \ },
+              \ 'component_visible_condition': {
+              \   'readonly': '(&filetype!="help"&& &readonly)',
+              \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+              \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+              \ },
+              \ 'separator': { 'left': ' ', 'right': ' ' },
+              \ 'subseparator': { 'left': ' ', 'right': ' ' }
+              \ }
+    endif
+" }}
+
+" Vim-sneak {{
+    if has_key(g:plugs, 'vim-sneak')
+        map m <Plug>Sneak_;
+        map M <Plug>Sneak_,
+        map f <Plug>Sneak_s
+        map F <Plug>Sneak_S
+    endif
+" }}
+
+" Vim-easy-align {{
+    if has_key(g:plugs, 'vim-easy-align')
+        " Start interactive EasyAlign in visual mode (e.g. vipga)
+        xmap ga <Plug>(EasyAlign)
+
+        " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+        nmap ga <Plug>(EasyAlign)
+    endif
+" }}
+
+" Vim-expand-region {{
+    if has_key(g:plugs, 'vim-expand-region')
+        xmap L <Plug>(expand_region_expand)
+        xmap H <Plug>(expand_region_shrink)
+    endif
+" }}
+
+" Vim-highlightedyank {{
+    if has_key(g:plugs, 'vim-highlightedyank')
+        if !exists('##TextYankPost')  " for older vim
+            map y <Plug>(highlightedyank)
+        endif
+        let g:highlightedyank_highlight_duration = 100
+        highlight HighlightedyankRegion cterm=reverse gui=reverse
+    endif
+" }}
+
+" Nerdtree {{
+    if has_key(g:plugs, 'nerdtree')
+        nnoremap <leader>nt :NERDTreeToggle<cr>
+        let g:NERDTreeDirArrowExpandable = '+'
+        let g:NERDTreeDirArrowCollapsible = '-'
+        " close vim if the only window left open is a NERDTree
+        autocmd bufenter *
+            \ if (winnr("$") == 1 && exists("b:NERDTree") &&
+            \ b:NERDTree.isTabTree()) | q | endif
+        let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
+    endif
+" }}
+
+" Rainbow {{
+    if has_key(g:plugs, 'rainbow')
+        " 0 if you want to enable it later via :RainbowToggle
+        let g:rainbow_active = 1
+    endif
+" }}
+
+" NerdCommenter {{
+    if has_key(g:plugs, 'nerdcommenter')
+        nmap <c-_> <leader>c<Space>j
+        xmap <c-_> <leader>c<Space>j
+
+        " Add spaces after comment delimiters by default
+        let g:NERDSpaceDelims = 1
+        " Allow commenting and inverting empty lines
+        " (useful when commenting a region)
+        let g:NERDCommentEmptyLines = 1
+        " Align line-wise comment delimiters flush left
+        " instead of following code indentation
+        let g:NERDDefaultAlign = 'left'
+    endif
+" }}
+
+" Tagbar {{
+    if has_key(g:plugs, 'tagbar')
+        let g:tagbar_sort = 0
+        nnoremap <leader>tb :TagbarToggle<cr>
+    endif
+"}}
+
+" Vim-signify {{
+    if has_key(g:plugs, 'vim-signify')
+        let g:signify_vcs_list = ['git']
+        let g:signify_skip_filetype = { 'journal': 1 }
+    endif
+"}}
+
+" Fugitive {{
+    if has_key(g:plugs, 'vim-fugitive')
+        nnoremap <silent> <leader>gs :Gstatus<cr>
+        nnoremap <silent> <leader>gd :Gdiff<cr>
+        nnoremap <silent> <leader>gc :Gcommit<cr>
+        nnoremap <silent> <leader>gb :Gblame<cr>
+        nnoremap <silent> <leader>gl :Glog<cr>
+        nnoremap <silent> <leader>gp :Git push<cr>
+        nnoremap <silent> <leader>gr :Gread<cr>
+        nnoremap <silent> <leader>gw :Gwrite<cr>
+        nnoremap <silent> <leader>ge :Gedit<cr>
+        " Mnemonic _i_nteractive
+        nnoremap <silent> <leader>gi :Git add -p %<cr>
+        nnoremap <silent> <leader>gg :SignifyToggle<cr>
+    endif
+"}}
+
+" Indent_guides {{
+    if has_key(g:plugs, 'vim-indent-guides')
+        let g:indent_guides_start_level = 2
+        let g:indent_guides_guide_size = 1
+        let g:indent_guides_enable_on_vim_startup = 1
+    endif
+" }}
+
+" Easymotion {{
+    if has_key(g:plugs, 'vim-easymotion')
+        let g:EasyMotion_leader_key = ','
+        let g:EasyMotion_smartcase = 1
+        " keep cursor column when JK motion
+        let g:EasyMotion_startofline = 0
+
+        map <Leader>l <Plug>(easymotion-lineforward)
+        map <Leader>h <Plug>(easymotion-linebackward)
+        map <Leader>. <Plug>(easymotion-repeat)
+    endif
+" }}
+
+" Ale {{
+    if has_key(g:plugs, 'ale')
+        let g:ale_echo_msg_error_str = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+        " Only run linting when saving the file
+        let g:ale_lint_on_text_changed = 'never'
+        let g:ale_lint_on_enter = 0
+    endif
+" }}
+
+" Vim-go {{
+    if has_key(g:plugs, 'vim-go')
+        let g:go_fmt_command = "goimports"
+        let g:go_highlight_fields = 1
+        let g:go_highlight_function_calls = 1
+    endif
+" }}
+
+" Rust.vim {{
+    if has_key(g:plugs, 'rust.vim')
+        let g:rustfmt_autosave = 0
+    endif
+" }}
+
+" }} // namespace plugins
+
+" GUI Settings {{
+
+" GVIM- (here instead of .gvimrc)
+if has('gui_running')
+    set guioptions=             " remove all gui options
+    set lines = 40                " 40 lines of text instead of 24
+    if LINUX()
+        set guifont=Courier\ 10\ Pitch\ Regular\ 12,
+            \ Andale\ Mono\ Regular\ 12,
+            \ Menlo\ Regular\ 11,
+            \ Consolas\ Regular\ 12,
+            \ Courier\ New\ Regular\ 14
+    elseif MACOS()
+        set guifont=Andale\ Mono:h12,
+            \ Menlo:h11,Consolas:h12,
+            \ Courier\ New:h14
+    elseif WINDOWS()
+        set guifont=Andale_Mono:h10,
+            \ Menlo:h10,Consolas:h10,
+            \ Courier_New:h10
+    endif
+else
+    " Enable 256 colors to stop the CSApprox warning and
+    " make xterm vim shine
+    if &term == 'xterm' || &term == 'screen'
+        set t_Co=256
+    endif
+endif
+
+" }} // namespace gui
+
+" Functions {{
+
+function! Tab2()
+    setlocal sw=2 ts=2 sts=2 et
+endfunction
+
+" Setup C file
+function! C_setup()
+    iabbrev inc #include
+    iabbrev def #define
+    iabbrev itn int
+    iabbrev mian() main()
+    call Tab2()
+
+    if !filereadable(getcwd() . "/Makefile")
+        let &makeprg="gcc % -DLOCAL"
+    endif
+endfunction
+
+" Setup cpp file
+function! Cpp_setup()
+    call C_setup()
+    iabbrev vi vector<int>
+    iabbrev vvi vector<vector<int> >
+    syn keyword cppType ll pii
+
+    if !filereadable(getcwd() . "/Makefile")
+        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
+            \ -Wpedantic -Wshadow -Wno-unused-result"
     endif
 
-    if MACOS()
-        inoremap ˙ <Left>
-        inoremap ∆ <Down>
-        inoremap ˚ <Up>
-        inoremap ¬ <Right>
-    else
-        inoremap <a-h> <Left>
-        inoremap <a-j> <Down>
-        inoremap <a-k> <Up>
-        inoremap <a-l> <Right>
+    " Clang format
+    map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
+    imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<cr>i
+endfunction
+
+" Setup python file
+function! Python_setup()
+    iabbrev im import
+    syn keyword pythonDecorator self
+
+    if has_key(g:plugs, 'yapf')
+        map <leader>f :call yapf#YAPF()<cr>
+        imap <leader>f <c-o>:call yapf#YAPF()<cr>i
     endif
+endfunction
 
-    inoremap <c-e> <End>
-    inoremap <c-a> <c-o>I
-    cnoremap <c-a> <Home>
-
-    " Window:
-    nnoremap <c-h> <c-w>h
-    nnoremap <c-l> <c-w>l
-    nnoremap <c-k> <c-w>k
-    nnoremap <c-j> <c-w>j
-
-    " Fast editting
-    nnoremap <c-s> :w<cr>
-    nnoremap cl ggdG
-    inoremap <c-s> <Esc>:w<cr>a
-    inoremap <c-v> <Esc>pa
-    inoremap <c-j> <Esc>o
-    inoremap jj <Esc>O
-    " undoable
-    inoremap <c-k> <c-o>D
-    inoremap <c-u> <c-g>u<c-u>
-    inoremap <c-w> <c-g>u<c-w>
-
-    " utils
-    nnoremap ; :
-    nnoremap Y y$
-    nnoremap <c-Up> <c-y>
-    nnoremap <c-Down> <c-e>
-    " yank text in command mode
-    cnoremap <c-v> <c-r>+
-
-" }
-
-" Setup {
-
-    autocmd FileType c :call C_setup()
-    autocmd FileType cpp :call Cpp_setup()
-    autocmd FileType python :call Python_setup()
-    autocmd FileType rust :call Rust_setup()
-    autocmd FileType yaml :call Tab2()
-    autocmd FileType vim :call Tab2()
-
-" }
-
-" Plugins {
-
-    " Ultisnips {
-        if has_key(g:plugs, 'ultisnips')
-            " Trigger configuration. Do not use <tab>
-            let g:UltiSnipsExpandTrigger = "<c-l>"
-            " If you want :UltiSnipsEdit to split your window.
-            let g:UltiSnipsEditSplit = "vertical"
-        endif
-    " }
-
-    " Vim-snippets {
-        if has_key(g:plugs, 'vim-snippets')
-            let g:snips_author = $USER
-        endif
-    " }
-
-    " Goyo {
-        if has_key(g:plugs, 'goyo.vim')
-            nnoremap <leader>gy :Goyo<cr>
-        endif
-    " }
-
-    " Lightline {
-        if has_key(g:plugs, 'lightline.vim')
-            let g:lightline = {
-                  \ 'colorscheme': 'wombat',
-                  \ 'active': {
-                  \   'left': [ ['mode', 'paste'],
-                  \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-                  \   'right': [ [ 'lineinfo' ], ['percent'] ]
-                  \ },
-                  \ 'component': {
-                  \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-                  \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-                  \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-                  \ },
-                  \ 'component_visible_condition': {
-                  \   'readonly': '(&filetype!="help"&& &readonly)',
-                  \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-                  \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-                  \ },
-                  \ 'separator': { 'left': ' ', 'right': ' ' },
-                  \ 'subseparator': { 'left': ' ', 'right': ' ' }
-                  \ }
-        endif
-    " }
-
-    " Vim-sneak {
-        if has_key(g:plugs, 'vim-sneak')
-            map m <Plug>Sneak_;
-            map M <Plug>Sneak_,
-            map f <Plug>Sneak_s
-            map F <Plug>Sneak_S
-        endif
-    " }
-
-    " Vim-easy-align {
-        if has_key(g:plugs, 'vim-easy-align')
-            " Start interactive EasyAlign in visual mode (e.g. vipga)
-            xmap ga <Plug>(EasyAlign)
-
-            " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-            nmap ga <Plug>(EasyAlign)
-        endif
-    " }
-
-    " Vim-expand-region {
-        if has_key(g:plugs, 'vim-expand-region')
-            xmap L <Plug>(expand_region_expand)
-            xmap H <Plug>(expand_region_shrink)
-        endif
-    " }
-
-    " Vim-highlightedyank {
-        if has_key(g:plugs, 'vim-highlightedyank')
-            if !exists('##TextYankPost')  " for older vim
-                map y <Plug>(highlightedyank)
-            endif
-            let g:highlightedyank_highlight_duration = 100
-            highlight HighlightedyankRegion cterm=reverse gui=reverse
-        endif
-    " }
-
-    " Nerdtree {
-        if has_key(g:plugs, 'nerdtree')
-            nnoremap <leader>nt :NERDTreeToggle<cr>
-            let g:NERDTreeDirArrowExpandable = '+'
-            let g:NERDTreeDirArrowCollapsible = '-'
-            " close vim if the only window left open is a NERDTree
-            autocmd bufenter *
-                \ if (winnr("$") == 1 && exists("b:NERDTree") &&
-                \ b:NERDTree.isTabTree()) | q | endif
-            let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
-        endif
-    " }
-
-    " Rainbow {
-        if has_key(g:plugs, 'rainbow')
-            " 0 if you want to enable it later via :RainbowToggle
-            let g:rainbow_active = 1
-        endif
-    " }
-
-    " NerdCommenter {
-        if has_key(g:plugs, 'nerdcommenter')
-            nmap <c-_> <leader>c<Space>j
-            xmap <c-_> <leader>c<Space>j
-
-            " Add spaces after comment delimiters by default
-            let g:NERDSpaceDelims = 1
-            " Allow commenting and inverting empty lines
-            " (useful when commenting a region)
-            let g:NERDCommentEmptyLines = 1
-            " Align line-wise comment delimiters flush left
-            " instead of following code indentation
-            let g:NERDDefaultAlign = 'left'
-        endif
-    " }
-
-    " Tagbar {
-        if has_key(g:plugs, 'tagbar')
-            let g:tagbar_sort = 0
-            nnoremap <leader>tb :TagbarToggle<cr>
-        endif
-    "}
-
-    " Vim-signify {
-        if has_key(g:plugs, 'vim-signify')
-            let g:signify_vcs_list = ['git']
-            let g:signify_skip_filetype = { 'journal': 1 }
-        endif
-    "}
-
-    " Fugitive {
-        if has_key(g:plugs, 'vim-fugitive')
-            nnoremap <silent> <leader>gs :Gstatus<cr>
-            nnoremap <silent> <leader>gd :Gdiff<cr>
-            nnoremap <silent> <leader>gc :Gcommit<cr>
-            nnoremap <silent> <leader>gb :Gblame<cr>
-            nnoremap <silent> <leader>gl :Glog<cr>
-            nnoremap <silent> <leader>gp :Git push<cr>
-            nnoremap <silent> <leader>gr :Gread<cr>
-            nnoremap <silent> <leader>gw :Gwrite<cr>
-            nnoremap <silent> <leader>ge :Gedit<cr>
-            " Mnemonic _i_nteractive
-            nnoremap <silent> <leader>gi :Git add -p %<cr>
-            nnoremap <silent> <leader>gg :SignifyToggle<cr>
-        endif
-    "}
-
-    " Indent_guides {
-        if has_key(g:plugs, 'vim-indent-guides')
-            let g:indent_guides_start_level = 2
-            let g:indent_guides_guide_size = 1
-            let g:indent_guides_enable_on_vim_startup = 1
-        endif
-    " }
-
-    " Easymotion {
-        if has_key(g:plugs, 'vim-easymotion')
-            let g:EasyMotion_leader_key = ','
-            let g:EasyMotion_smartcase = 1
-            " keep cursor column when JK motion
-            let g:EasyMotion_startofline = 0
-
-            map <Leader>l <Plug>(easymotion-lineforward)
-            map <Leader>h <Plug>(easymotion-linebackward)
-            map <Leader>. <Plug>(easymotion-repeat)
-        endif
-    " }
-
-    " Ale {
-        if has_key(g:plugs, 'ale')
-            let g:ale_echo_msg_error_str = 'E'
-            let g:ale_echo_msg_warning_str = 'W'
-            let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-            " Only run linting when saving the file
-            let g:ale_lint_on_text_changed = 'never'
-            let g:ale_lint_on_enter = 0
-        endif
-    " }
-
-    " Vim-go {
-        if has_key(g:plugs, 'vim-go')
-            let g:go_fmt_command = "goimports"
-            let g:go_highlight_fields = 1
-            let g:go_highlight_function_calls = 1
-        endif
-    " }
-
-    " Rust.vim {
-        if has_key(g:plugs, 'rust.vim')
-            let g:rustfmt_autosave = 0
-        endif
-    " }
-
-" }
-
-" GUI Settings {
-
-    " GVIM- (here instead of .gvimrc)
-    if has('gui_running')
-        set guioptions=             " remove all gui options
-        set lines=40                " 40 lines of text instead of 24
-        if LINUX()
-            set guifont=Courier\ 10\ Pitch\ Regular\ 12,
-                \ Andale\ Mono\ Regular\ 12,
-                \ Menlo\ Regular\ 11,
-                \ Consolas\ Regular\ 12,
-                \ Courier\ New\ Regular\ 14
-        elseif MACOS()
-            set guifont=Andale\ Mono:h12,
-                \ Menlo:h11,Consolas:h12,
-                \ Courier\ New:h14
-        elseif WINDOWS()
-            set guifont=Andale_Mono:h10,
-                \ Menlo:h10,Consolas:h10,
-                \ Courier_New:h10
-        endif
-    else
-        " Enable 256 colors to stop the CSApprox warning and
-        " make xterm vim shine
-        if &term == 'xterm' || &term == 'screen'
-            set t_Co=256
-        endif
+" Setup rust file
+function! Rust_setup()
+    if has_key(g:plugs, 'rust.vim')
+        map <leader>f :RustFmt<cr>
+        imap <leader>f <Esc>:RustFmt<cr>i
     endif
+endfunction
 
-" }
-
-" Functions {
-
-    function! Tab2()
-        setlocal sw=2 ts=2 sts=2 et
-    endfunction
-
-    " Setup C file
-    function! C_setup()
-        iabbrev inc #include
-        iabbrev def #define
-        iabbrev itn int
-        iabbrev mian() main()
-        call Tab2()
-
-        if !filereadable(getcwd() . "/Makefile")
-            let &makeprg="gcc % -DLOCAL"
-        endif
-    endfunction
-
-    " Setup cpp file
-    function! Cpp_setup()
-        call C_setup()
-        iabbrev vi vector<int>
-        iabbrev vvi vector<vector<int> >
-        syn keyword cppType ll pii
-
-        if !filereadable(getcwd() . "/Makefile")
-            let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
-                \ -Wpedantic -Wshadow -Wno-unused-result"
-        endif
-
-        " Clang format
-        map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
-        imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<cr>i
-    endfunction
-
-    " Setup python file
-    function! Python_setup()
-        iabbrev im import
-        syn keyword pythonDecorator self
-
-        if has_key(g:plugs, 'yapf')
-            map <leader>f :call yapf#YAPF()<cr>
-            imap <leader>f <c-o>:call yapf#YAPF()<cr>i
-        endif
-    endfunction
-
-    " Setup rust file
-    function! Rust_setup()
-        if has_key(g:plugs, 'rust.vim')
-            map <leader>f :RustFmt<cr>
-            imap <leader>f <Esc>:RustFmt<cr>i
-        endif
-    endfunction
-
-" }
+" }} // namespace functions
