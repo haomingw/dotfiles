@@ -299,8 +299,10 @@ inoremap <c-s> <Esc>:w<cr>a
 inoremap <c-v> <Esc>pa
 inoremap <c-j> <Esc>o
 inoremap jj <Esc>O
-" undoable
+
 inoremap <c-k> <c-o>D
+inoremap <c-d> <Delete>
+" undoable
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
 
