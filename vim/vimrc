@@ -601,7 +601,7 @@ function! C_setup()
     call Tab2()
 
     if !filereadable(getcwd() . "/Makefile")
-        let &makeprg="gcc % -DLOCAL"
+        let &makeprg='gcc % -DLOCAL'
     endif
 endfunction
 
@@ -613,8 +613,8 @@ function! Cpp_setup()
     syn keyword cppType ll pii
 
     if !filereadable(getcwd() . "/Makefile")
-        let &makeprg="g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
-            \ -Wpedantic -Wshadow -Wno-unused-result"
+        let &makeprg='g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
+            \ -Wpedantic -Wshadow -Wno-unused-result'
     endif
 
     " Clang format
