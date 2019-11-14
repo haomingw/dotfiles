@@ -154,7 +154,7 @@ program_exists apt && {
     alias pR='sudo apt purge'
     alias pRa='sudo apt autoremove'
     essential="curl git-gui tmux htop tree net-tools clang clang-format \
-        python3-distutils build-essential"
+        python3-distutils build-essential ctags"
 }
 
 program_exists pacman && {
@@ -168,7 +168,7 @@ program_exists pacman && {
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || \
         echo "No orphans to remove"'
     essential="wget tk tmux htop tree xclip python-neovim neovim net-tools \
-        xdg-utils ttf-dejavu ttf-ubuntu-font-family"
+        xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags"
 }
 
 program_exists brew && {

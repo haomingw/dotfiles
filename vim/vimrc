@@ -74,6 +74,7 @@
             Plug 'haomingw/vim-snippets'
             Plug 'fatih/vim-go'
             Plug 'rust-lang/rust.vim'
+            Plug 'majutsushi/tagbar'
             Plug 'mhinz/vim-signify'
             Plug 'tpope/vim-fugitive'
             Plug 'luochen1990/rainbow'
@@ -413,7 +414,7 @@
 
     " Nerdtree {
         if isdirectory(expand("~/.vim/bundle/nerdtree/"))
-            nnoremap <leader>t :NERDTreeToggle <cr>
+            nnoremap <leader>nt :NERDTreeToggle <cr>
             let g:NERDTreeDirArrowExpandable = '+'
             let g:NERDTreeDirArrowCollapsible = '-'
             " close vim if the only window left open is a NERDTree
@@ -446,6 +447,13 @@
             let g:NERDDefaultAlign = 'left'
         endif
     " }
+
+    " Tagbar {
+        if isdirectory(expand("~/.vim/bundle/tagbar/"))
+            let g:tagbar_sort = 0
+            nnoremap <leader>tb :TagbarToggle <cr>
+        endif
+    "}
 
     " Vim-signify {
         if isdirectory(expand("~/.vim/bundle/vim-signify/"))
