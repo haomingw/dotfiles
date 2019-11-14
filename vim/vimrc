@@ -83,7 +83,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'scrooloose/nerdcommenter'
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-        Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
+        Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
         Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
         Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
     endif
@@ -490,7 +490,10 @@ augroup END
 
 " indentLine {{
     if has_key(g:plugs, 'indentLine')
-        nnoremap <leader>il :IndentLinesToggle<cr>
+        autocmd! User indentLine doautocmd indentLine Syntax
+        let g:indentLine_color_term = 239
+        let g:indentLine_color_gui = '#616161'
+        nnoremap <leader>il :IndentLinesEnable<cr>
     endif
 " }}
 
