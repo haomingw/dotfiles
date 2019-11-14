@@ -60,7 +60,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-surround'
-        Plug 'scrooloose/nerdtree'
         Plug 'jiangmiao/auto-pairs'
         Plug 'justinmk/vim-sneak'
         Plug 'junegunn/vim-easy-align'
@@ -68,6 +67,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'terryma/vim-expand-region'
         Plug 'terryma/vim-multiple-cursors'
         Plug 'machakann/vim-highlightedyank'
+        Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     endif
 " }}
 
@@ -77,13 +77,13 @@ call plug#begin('~/.vim/bundle')
         Plug 'haomingw/vim-snippets'
         Plug 'fatih/vim-go'
         Plug 'rust-lang/rust.vim'
-        Plug 'majutsushi/tagbar'
         Plug 'mhinz/vim-signify'
         Plug 'tpope/vim-fugitive'
         Plug 'luochen1990/rainbow'
         Plug 'scrooloose/nerdcommenter'
         Plug 'AndrewRadev/splitjoin.vim'
-        Plug 'nathanaelkane/vim-indent-guides'
+        Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+        Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
         Plug 'dense-analysis/ale', { 'for': ['cpp', 'python'] }
         Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
     endif
@@ -488,11 +488,9 @@ augroup END
     endif
 "}}
 
-" Indent_guides {{
-    if has_key(g:plugs, 'vim-indent-guides')
-        let g:indent_guides_start_level = 2
-        let g:indent_guides_guide_size = 1
-        let g:indent_guides_enable_on_vim_startup = 1
+" indentLine {{
+    if has_key(g:plugs, 'indentLine')
+        nnoremap <leader>il :IndentLinesToggle<cr>
     endif
 " }}
 
