@@ -60,7 +60,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-surround'
-        Plug 'jiangmiao/auto-pairs'
+        Plug 'rstacruz/vim-closer'
         Plug 'justinmk/vim-sneak'
         Plug 'junegunn/vim-easy-align'
         Plug 'easymotion/vim-easymotion'
