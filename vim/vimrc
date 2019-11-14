@@ -17,6 +17,9 @@
 
 " Basics {{
     set nocompatible        " Must be first line
+    augroup vimrc
+        autocmd!
+    augroup END
 " }}
 
 " Windows Compatible {{
@@ -142,10 +145,6 @@ if has('persistent_undo')
     set undoreload=10000
 endif
 
-" Strip Trailing Whitespaces On Saving:
-autocmd BufWritePre *
-    \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
-
 " }} // namespace general
 
 " Vim UI {{
@@ -260,9 +259,7 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 map <leader>rp :%s/
 
-" Adjust viewports to the same size
 map <Leader>= <c-w>=
-autocmd vimResized * exe "normal! \<c-w>="
 
 " Switch between tabs
 if MACOS()
@@ -319,12 +316,22 @@ cnoremap <c-v> <c-r>+
 
 " Autocmd {{
 
-autocmd FileType c :call C_setup()
-autocmd FileType cpp :call Cpp_setup()
-autocmd FileType python :call Python_setup()
-autocmd FileType rust :call Rust_setup()
-autocmd FileType yaml :call Tab2()
-autocmd FileType vim :call Tab2()
+augroup vimrc
+    " Adjust viewports to the same size
+    autocmd vimResized * exe "normal! \<c-w>="
+
+    " Strip Trailing Whitespaces On Saving:
+    autocmd BufWritePre *
+        \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
+
+    " File type settings
+    autocmd FileType c :call C_setup()
+    autocmd FileType cpp :call Cpp_setup()
+    autocmd FileType python :call Python_setup()
+    autocmd FileType rust :call Rust_setup()
+    autocmd FileType yaml :call Tab2()
+    autocmd FileType vim :call Tab2()
+augroup END
 
 " }} // namespace autocmd
 
@@ -417,10 +424,12 @@ autocmd FileType vim :call Tab2()
         nnoremap <leader>nt :NERDTreeToggle<cr>
         let g:NERDTreeDirArrowExpandable = '+'
         let g:NERDTreeDirArrowCollapsible = '-'
-        " close vim if the only window left open is a NERDTree
-        autocmd bufenter *
-            \ if (winnr("$") == 1 && exists("b:NERDTree") &&
-            \ b:NERDTree.isTabTree()) | q | endif
+        augroup vimrc
+            " close vim if the only window left open is a NERDTree
+            autocmd bufenter *
+                \ if (winnr("$") == 1 && exists("b:NERDTree") &&
+                \ b:NERDTree.isTabTree()) | q | endif
+        augroup END
         let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
     endif
 " }}
