@@ -57,6 +57,7 @@
             Plug 'tpope/vim-repeat'
             Plug 'tpope/vim-endwise'
             Plug 'tpope/vim-surround'
+            Plug 'scrooloose/nerdtree'
             Plug 'jiangmiao/auto-pairs'
             Plug 'justinmk/vim-sneak'
             Plug 'junegunn/vim-easy-align'
@@ -64,16 +65,13 @@
             Plug 'terryma/vim-expand-region'
             Plug 'terryma/vim-multiple-cursors'
             Plug 'machakann/vim-highlightedyank'
-            Plug 'scrooloose/nerdtree'
         endif
     " }
 
     " Programming {
         if count(g:xming_plug_groups, 'programming')
-            if has('python') || has('python3')
-                Plug 'SirVer/ultisnips'
-                Plug 'haomingw/vim-snippets'
-            endif
+            Plug 'SirVer/ultisnips'
+            Plug 'haomingw/vim-snippets'
             Plug 'fatih/vim-go'
             Plug 'rust-lang/rust.vim'
             Plug 'mhinz/vim-signify'
@@ -225,7 +223,8 @@
         endtry
     endif
 
-    nnoremap Q <Nop>
+    " qq to record, Q to replay
+    nnoremap Q @q
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
@@ -246,13 +245,13 @@
             set background=dark
         endif
     endfunction
-    nnoremap <leader>bg :call ToggleBG()<CR>
+    nnoremap <leader>bg :call ToggleBG()<cr>
 
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
     vnoremap > >gv
 
-    cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<CR>
+    cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<cr>
     map <leader>ew :e %%
     map <leader>es :sp %%
     map <leader>ev :vsp %%
@@ -286,6 +285,7 @@
 
     inoremap <c-e> <End>
     inoremap <c-a> <c-o>I
+    cnoremap <c-a> <Home>
 
     " Window:
     nnoremap <c-h> <c-w>h
@@ -294,9 +294,9 @@
     nnoremap <c-j> <c-w>j
 
     " Fast editting
-    nnoremap <c-s> :w<CR>
+    nnoremap <c-s> :w<cr>
     nnoremap cl ggdG
-    inoremap <c-s> <Esc>:w<CR>a
+    inoremap <c-s> <Esc>:w<cr>a
     inoremap <c-v> <Esc>pa
     inoremap <c-j> <Esc>o
     inoremap jj <Esc>O
@@ -346,7 +346,7 @@
 
     " Goyo {
         if isdirectory(expand("~/.vim/bundle/goyo.vim/"))
-            nnoremap <leader>gy :Goyo<CR>
+            nnoremap <leader>gy :Goyo<cr>
         endif
     " }
 
@@ -413,7 +413,7 @@
 
     " Nerdtree {
         if isdirectory(expand("~/.vim/bundle/nerdtree/"))
-            nnoremap gk :NERDTreeToggle <CR>
+            nnoremap <leader>t :NERDTreeToggle <cr>
             let g:NERDTreeDirArrowExpandable = '+'
             let g:NERDTreeDirArrowCollapsible = '-'
             " close vim if the only window left open is a NERDTree
@@ -456,18 +456,18 @@
 
     " Fugitive {
         if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
-            nnoremap <silent> <leader>gs :Gstatus<CR>
-            nnoremap <silent> <leader>gd :Gdiff<CR>
-            nnoremap <silent> <leader>gc :Gcommit<CR>
-            nnoremap <silent> <leader>gb :Gblame<CR>
-            nnoremap <silent> <leader>gl :Glog<CR>
-            nnoremap <silent> <leader>gp :Git push<CR>
-            nnoremap <silent> <leader>gr :Gread<CR>
-            nnoremap <silent> <leader>gw :Gwrite<CR>
-            nnoremap <silent> <leader>ge :Gedit<CR>
+            nnoremap <silent> <leader>gs :Gstatus<cr>
+            nnoremap <silent> <leader>gd :Gdiff<cr>
+            nnoremap <silent> <leader>gc :Gcommit<cr>
+            nnoremap <silent> <leader>gb :Gblame<cr>
+            nnoremap <silent> <leader>gl :Glog<cr>
+            nnoremap <silent> <leader>gp :Git push<cr>
+            nnoremap <silent> <leader>gr :Gread<cr>
+            nnoremap <silent> <leader>gw :Gwrite<cr>
+            nnoremap <silent> <leader>ge :Gedit<cr>
             " Mnemonic _i_nteractive
-            nnoremap <silent> <leader>gi :Git add -p %<CR>
-            nnoremap <silent> <leader>gg :SignifyToggle<CR>
+            nnoremap <silent> <leader>gi :Git add -p %<cr>
+            nnoremap <silent> <leader>gg :SignifyToggle<cr>
         endif
     "}
 
@@ -582,8 +582,8 @@
         endif
 
         " Clang format
-        map <leader>f :py3f ~/.vim/static/clang-format.py<CR>
-        imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<CR>i
+        map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
+        imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<cr>i
     endfunction
 
     " Setup python file
@@ -600,8 +600,8 @@
     " Setup rust file
     function! Rust_setup()
         if isdirectory(expand("~/.vim/bundle/rust.vim/"))
-            map <leader>f :RustFmt<CR>
-            imap <leader>f <Esc>:RustFmt<CR>i
+            map <leader>f :RustFmt<cr>
+            imap <leader>f <Esc>:RustFmt<cr>i
         endif
     endfunction
 
