@@ -1,6 +1,19 @@
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldmethod=marker:
 # @author: Haoming Wang <haoming.exe@gmail.com>
 
+# Basics {{
+
+alias sh='bash'
+
+alias sd='sudo shutdown now'
+
+alias open='xdg-open'
+
+alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
+alias tail="tail -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
+
+# }} // namespace basics
+
 # Docker {{
 
 alias di='docker image'
@@ -25,6 +38,6 @@ alias decrypt='openssl enc -aes-256-cbc -d -salt -md sha512'
 # Vim {{
 
 alias rmvim='rm -rf ~/.*vim* ~/.config/nvim'
-alias upvim='vim +PlugUpdate +qall && vim +PlugClean! +qall'
+alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 # }} // namespace vim

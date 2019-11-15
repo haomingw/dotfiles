@@ -23,15 +23,6 @@ cut_cols() {
     echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
-alias sh='bash'
-
-alias sd='sudo shutdown now'
-
-alias open='xdg-open'
-
-alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
-alias tail="tail -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
-
 # Create a new directory and enter it
 mk() {
     mkdir -p "$@" && cd "$_";
@@ -195,7 +186,7 @@ program_exists brew && {
 
 alias is_venv='which python | grep -q "envs\|venv"'
 
-alias pyenv_name='program_exists conda && is_venv && \
+alias venv='program_exists conda && is_venv && \
     which python | rev | cut -d'/' -f3 | rev'
 
 alias piprm='pip uninstall -y'
@@ -263,7 +254,7 @@ program_exists conda && {
             error "missing operand: urm env_name"
             return 1
         }
-        if [[ $(pyenv_name) = "$1" ]]; then
+        if [[ $(venv) = "$1" ]]; then
             uu
         fi
         conda env remove -n $1
@@ -346,7 +337,7 @@ bindkey '^["' quote-region
 # Env {{
 
 upd() {
-    local env_name=$(pyenv_name)
+    local env_name=$(venv)
     if [[ -n $env_name ]]; then
         echo "deactivating python virtual env: $env_name"
         uu
