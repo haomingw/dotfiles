@@ -306,6 +306,7 @@ inoremap jj <Esc>O
 inoremap <c-b> <c-o>b
 inoremap <c-f> <c-o>w
 inoremap <c-k> <c-o>D
+" ctrl-h mapped to back space by default
 inoremap <c-d> <Delete>
 
 " undoable
@@ -319,6 +320,9 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
+
+iabbrev tab2 vim: set sw=2 ts=2 sts=2 et
+iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
 
 " }} // namespace remapping
 
