@@ -60,7 +60,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-surround'
-        Plug 'rstacruz/vim-closer'
         Plug 'justinmk/vim-sneak'
         Plug 'junegunn/vim-easy-align'
         Plug 'easymotion/vim-easymotion'
@@ -213,7 +212,7 @@ let maplocalleader = '_'
 if !has('gui_running')
     try
         " fix meta-keys which generate <Esc>a .. <Esc>z
-        let c='a'
+        let c = 'a'
         while c <= 'z'
             exec "set <A-".c.">=\e".c
             let c = nr2char(1+char2nr(c))
@@ -281,6 +280,10 @@ else
     inoremap <a-k> <Up>
     inoremap <a-l> <Right>
 endif
+
+" Move tabs
+nnoremap <leader>[ :call TabMove(-1)<cr>
+nnoremap <leader>] :call TabMove(1)<cr>
 
 inoremap <c-e> <End>
 inoremap <c-a> <c-o>I
@@ -642,6 +645,28 @@ function! Rust_setup()
         map <leader>f :RustFmt<cr>
         imap <leader>f <Esc>:RustFmt<cr>i
     endif
+endfunction
+
+" Move current tab into the specified direction.
+" @param direction -1 for left, 1 for right.
+function! TabMove(direction)
+    " get number of tab pages.
+    let n = tabpagenr("$")
+    let l:index = tabpagenr()
+    if a:direction < 0
+        let l:index = l:index - 2
+        if l:index < 0
+            let l:index = n
+        endif
+    else
+        let l:index = l:index + 1
+        if l:index > n
+            let l:index = 0
+        endif
+    endif
+    echo l:index
+    " move tab page.
+    execute "tabmove " . l:index
 endfunction
 
 " }} // namespace functions
