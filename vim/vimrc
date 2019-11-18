@@ -282,8 +282,13 @@ else
 endif
 
 " Move tabs
-nnoremap <leader>[ :call TabMove(-1)<cr>
-nnoremap <leader>] :call TabMove(1)<cr>
+if MACOS()
+    nnoremap “ :call TabMove(-1)<cr>
+    nnoremap ‘ :call TabMove(1)<cr>
+else
+    nnoremap <a-[> :call TabMove(-1)<cr>
+    nnoremap <a-]> :call TabMove(1)<cr>
+endif
 
 inoremap <c-e> <End>
 inoremap <c-a> <c-o>I
@@ -668,7 +673,6 @@ function! TabMove(direction)
             let l:index = 0
         endif
     endif
-    echo l:index
     " move tab page.
     execute "tabmove " . l:index
 endfunction
