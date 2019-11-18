@@ -193,10 +193,8 @@ alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
 
 pipcl() {
-    is_venv && pipls | xargs pip uninstall -y 2>/dev/null || {
+    is_venv && pipls | xargs pip uninstall -y 2>/dev/null || \
         echo "No packages to remove"
-        return 1
-    }
 }
 
 # pypi
