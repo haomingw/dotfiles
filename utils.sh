@@ -72,7 +72,7 @@ setup_vim_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
 
-    vim +PlugUpdate +qall
+    vim +PlugClean! +qall && vim +PlugUpdate +qall
 
     export SHELL="$system_shell"
 
