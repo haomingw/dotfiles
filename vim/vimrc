@@ -48,6 +48,7 @@ call plug#begin('~/.vim/bundle')
 
 " General {{
     if count(g:xming_plug_groups, 'general')
+        Plug 'romainl/vim-cool'
         Plug 'junegunn/goyo.vim'
         Plug 'itchyny/lightline.vim'
         Plug 'haomingw/vim-startscreen'
