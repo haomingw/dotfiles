@@ -15,7 +15,6 @@
 
     "files.exclude": {
         "**/.idea": true,
-        "**/.vscode": true,
         "**/env": true,
         "**/venv": true,
         "**/*.pyc": true,
