@@ -151,9 +151,9 @@ endif
 
 set background=dark
 try
-    let ayucolor="mirage" " light dark
+    let ayucolor="mirage"       " light dark
     color ayu
-    set termguicolors     " enable true colors support
+    set termguicolors           " enable true colors support
 catch
     color desert
 endtry
@@ -337,6 +337,7 @@ augroup vimrc
     autocmd vimResized * exe "normal! \<c-w>="
 
     " Strip Trailing Whitespaces On Saving:
+    " The 'e' flag to not give an error if there is no match
     autocmd BufWritePre *
         \ if &ft != 'markdown' && &ft != 'tex' | :silent %s/\s\+$//e | endif
 
@@ -550,7 +551,12 @@ augroup END
         \   'markdown': 'all',
         \   'yaml': 'all',
         \}
+
+        let g:ale_fixers = {
+        \   'python': ['yapf'],
+        \}
     endif
+
 " }}
 
 " Vim-go {{
@@ -632,7 +638,7 @@ function! Cpp_setup()
     endif
 
     " Clang format
-    map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
+    map <localleader>f :py3f ~/.vim/static/clang-format.py<cr>
 endfunction
 
 " Setup python file
@@ -641,7 +647,10 @@ function! Python_setup()
     syn keyword pythonDecorator self
 
     if has_key(g:plugs, 'yapf')
-        map <leader>f :call yapf#YAPF()<cr>
+        map <localleader>f :call yapf#YAPF()<cr>
+    endif
+    if has_key(g:plugs, 'ale')
+        map <leader>f :ALEFix<cr>
     endif
 endfunction
 
