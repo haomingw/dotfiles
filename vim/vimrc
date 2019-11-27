@@ -205,10 +205,10 @@ set nojoinspaces                " Prevents inserting two spaces after
 
 " Key (re)Mappings {{
 
-" The default leader is '\', but many people prefer ','
+" The default leader is '\', but many people prefer ' ' or ','
 " as it's in a standard location.
-let mapleader = ','
-let maplocalleader = '_'
+let mapleader = ' '
+let maplocalleader = ','
 
 if !has('gui_running')
     try
@@ -233,8 +233,6 @@ nnoremap k gk
 
 nnoremap n nzzzv
 nnoremap N Nzzzv
-
-nnoremap <space> za
 
 " Allow to trigger background
 function! ToggleBG()
@@ -635,7 +633,6 @@ function! Cpp_setup()
 
     " Clang format
     map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
-    imap <leader>f <Esc>:py3f ~/.vim/static/clang-format.py<cr>i
 endfunction
 
 " Setup python file
@@ -645,7 +642,6 @@ function! Python_setup()
 
     if has_key(g:plugs, 'yapf')
         map <leader>f :call yapf#YAPF()<cr>
-        imap <leader>f <c-o>:call yapf#YAPF()<cr>i
     endif
 endfunction
 
@@ -653,7 +649,6 @@ endfunction
 function! Rust_setup()
     if has_key(g:plugs, 'rust.vim')
         map <leader>f :RustFmt<cr>
-        imap <leader>f <Esc>:RustFmt<cr>i
     endif
 endfunction
 
