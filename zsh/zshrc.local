@@ -299,12 +299,13 @@ rm-pre-commit() {
 
 # Files {{
 
-delete-type() {
+rmtype() {
     # recursively delete files of the given type
     find . -type f -name "*.$1" -ls -delete
 }
 
-delete-folder() {
+rmfolder() {
+    # recursively delete folders
     find . -type d -name $1 -ls -delete
 }
 
