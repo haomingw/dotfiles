@@ -52,7 +52,8 @@ empty-trash() {
     }
 }
 
-alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal || echo error)'
+alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
+    || echo error)'
 
 # }} // namespace utils
 
@@ -156,8 +157,8 @@ program_exists pacman && {
     alias pSu='sudo pacman -Su'
     alias pSyu='sudo pacman -Syu'
     alias pR='sudo pacman -R'
-    alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` || \
-        echo "No orphans to remove"'
+    alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
+        || echo "No orphans to remove"'
     essential="wget tk tmux htop tree xclip python-neovim neovim net-tools \
         xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags"
 }
@@ -193,8 +194,8 @@ alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
 
 pipcl() {
-    is_venv && pipls | xargs pip uninstall -y 2>/dev/null || \
-        echo "No packages to remove"
+    is_venv && pipls | xargs pip uninstall -y 2>/dev/null \
+        || echo "No packages to remove"
 }
 
 # pypi
@@ -351,7 +352,8 @@ upd() {
 
 # path deduplication
 program_exists awk && {
-    LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
+    LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" \
+        | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
     PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
 }
 
