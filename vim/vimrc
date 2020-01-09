@@ -60,6 +60,7 @@ call plug#begin('~/.vim/bundle')
 
 " Editing {{
     if count(g:xming_plug_groups, 'editing')
+        Plug 'chrisbra/csv.vim'
         Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-surround'
