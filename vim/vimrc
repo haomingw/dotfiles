@@ -79,6 +79,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'dense-analysis/ale'
         Plug 'fatih/vim-go'
         Plug 'rust-lang/rust.vim'
+        Plug 'leafgarland/typescript-vim'
         Plug 'mhinz/vim-signify'
         Plug 'tpope/vim-fugitive'
         Plug 'luochen1990/rainbow'
@@ -684,6 +685,16 @@ function! TabMove(direction)
     endif
     " move tab page.
     execute "tabmove " . l:index
+endfunction
+
+function! OnBattery()
+    if MACOS()
+        return match(system('pmset -g batt'), \
+            "Now drawing from 'Battery Power'") != -1
+    elseif LINUX()
+        return readfile('/sys/class/power_supply/AC/online') == ['0']
+    endif
+    return 0
 endfunction
 
 " }} // namespace functions

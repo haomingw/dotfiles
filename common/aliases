@@ -41,3 +41,10 @@ alias rmvim='rm -rf ~/.*vim* ~/.config/nvim'
 alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 # }} // namespace vim
+
+
+# Git {{
+
+alias lg='lazygit'
+
+# }} // namespace git

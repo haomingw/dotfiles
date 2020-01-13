@@ -123,6 +123,10 @@ gitd() {
     GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
 }
 
+gitg() {
+    git g$@
+}
+
 cdr() {
     # cd to git repo root
     local repo=$(groot)
@@ -297,6 +301,17 @@ rm-pre-commit() {
 # }} // namespace pre-commit
 
 # }} // namespace python
+
+
+# Golang {{
+
+cdg() {
+    dir="$GOPATH/src"
+    [[ -d $dir ]] || mkdir -p $dir
+    cd $dir/$1
+}
+
+# }} // namespace go
 
 # Files {{
 
