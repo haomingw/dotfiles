@@ -163,8 +163,9 @@ program_exists pacman && {
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
         || echo "No orphans to remove"'
-    essential="wget tk tmux htop tree xclip python-neovim neovim net-tools \
-        xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags"
+    alias mkp='makepkg -si'
+    essential="base-devel wget tk tmux htop tree xclip python-neovim neovim \
+        net-tools xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags"
 }
 
 program_exists brew && {
@@ -306,9 +307,9 @@ rm-pre-commit() {
 # Golang {{
 
 cdg() {
-    dir="$GOPATH/src"
-    [[ -d $dir ]] || mkdir -p $dir
-    cd $dir/$1
+    local gosrc="$GOPATH/src"
+    [[ -d $gosrc ]] || mkdir -p $gosrc
+    cd $gosrc/$1
 }
 
 # }} // namespace go
