@@ -162,7 +162,7 @@ increase_watch_limit() {
     local watch_limit="fs.inotify.max_user_watches=524288"
     local cfg
     program_exists apt && cfg="/etc/sysctl.conf"
-    program_exists pacman && cfg="/etc/sysctl.d/40-max-user-watches.conf"
+    program_exists pacman && cfg="/etc/sysctl.d/50-max_user_watches.conf"
     local message=(
         "Do you want to increase (requires sudo password)"
         "inotify limit? (y/N) "
