@@ -338,9 +338,7 @@ alias rmzsh='rm -rf ~/.zsh ~/.zshrc.*'
 bindkey ' '   magic-space
 bindkey '^ '  autosuggest-accept
 
-bindkey '^b'  backward-word
-bindkey '^f'  forward-word
-
+## alt == ^[
 bindkey '^[z' undo
 bindkey '^[Z' redo
 bindkey '^[u' up-case-word
