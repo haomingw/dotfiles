@@ -64,7 +64,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-repeat'
         Plug 'tpope/vim-endwise'
         Plug 'tpope/vim-surround'
-        Plug 'justinmk/vim-sneak'
+        Plug 'rhysd/clever-f.vim'
         Plug 'junegunn/vim-easy-align'
         Plug 'easymotion/vim-easymotion'
         Plug 'terryma/vim-expand-region'
@@ -332,6 +332,8 @@ cnoremap <c-v> <c-r>+
 iabbrev tab2 vim: set sw=2 ts=2 sts=2 et
 iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
 
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
 " }} // namespace remapping
 
 " Autocmd {{
@@ -382,7 +384,7 @@ augroup END
 " Lightline {{
     if has_key(g:plugs, 'lightline.vim')
         let g:lightline = {
-        \ 'colorscheme': 'wombat',
+        \ 'colorscheme': 'jellybeans',
         \ 'active': {
         \   'left': [ ['mode', 'paste'],
         \             ['fugitive', 'readonly', 'filename', 'modified'] ],
@@ -401,15 +403,6 @@ augroup END
         \ 'separator': { 'left': ' ', 'right': ' ' },
         \ 'subseparator': { 'left': ' ', 'right': ' ' }
         \ }
-    endif
-" }}
-
-" Vim-sneak {{
-    if has_key(g:plugs, 'vim-sneak')
-        map m <Plug>Sneak_;
-        map M <Plug>Sneak_,
-        map f <Plug>Sneak_s
-        map F <Plug>Sneak_S
     endif
 " }}
 
@@ -695,6 +688,11 @@ function! OnBattery()
         return readfile('/sys/class/power_supply/AC/online') == ['0']
     endif
     return 0
+endfunction
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 " }} // namespace functions
