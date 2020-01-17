@@ -76,7 +76,7 @@ call plug#begin('~/.vim/bundle')
 " Programming {{
     if count(g:xming_plug_groups, 'programming')
         Plug 'dense-analysis/ale'
-        Plug 'fatih/vim-go'
+        Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
         Plug 'rust-lang/rust.vim'
         Plug 'leafgarland/typescript-vim'
         Plug 'mhinz/vim-signify'

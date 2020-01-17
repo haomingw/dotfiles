@@ -22,7 +22,7 @@ safe_export_path $HOME/miniconda3/bin
 export JAVA_HOME=/usr/local/jdk1.8.0_231
 safe_export_path $JAVA_HOME/bin
 
-export GOROOT=/usr/local/go
+[[ -d /usr/local/go ]] && export GOROOT=/usr/local/go
 safe_export_path $GOROOT/bin
 export GOPATH=$HOME/go
 safe_export_path $GOPATH/bin
