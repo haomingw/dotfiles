@@ -165,7 +165,7 @@ program_exists pacman && {
         || echo "No orphans to remove"'
     alias mkp='makepkg -si'
     essential="base-devel wget tk tmux htop tree xclip python-neovim neovim \
-        net-tools xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags"
+        net-tools xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags ibus-rime"
 }
 
 program_exists brew && {
@@ -324,6 +324,14 @@ rmtype() {
 rmfolder() {
     # recursively delete folders
     find . -type d -name $1 -ls -delete
+}
+
+rmd() {
+    # remove current folder or git root folder
+    local repo=$(groot)
+    local target=$(pwd)
+    [[ -n $repo ]] && target=$repo
+    cd "$target/.." && rm -rf $target
 }
 
 alias rmds='delete-type DS_Store'

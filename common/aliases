@@ -45,6 +45,9 @@ alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 # Git {{
 
+alias is_git='git rev-parse --git-dir >/dev/null 2>&1'
+
 alias lg='lazygit'
+alias gclip='git clone $(xclip -selection clipboard -o)'
 
 # }} // namespace git

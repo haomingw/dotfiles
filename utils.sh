@@ -98,6 +98,14 @@ install_zsh_plugin() {
     fi
 }
 
+append_if_not_exists() {
+    local file=$1
+    local content=$2
+    if [ ! -f $file ] || ! $(grep -q "$content" $file); then
+        echo $content >> $file
+    fi
+}
+
 config_zshrc() {
     local app_path=$1
     local zshrc="$HOME/.zshrc"
@@ -107,9 +115,14 @@ config_zshrc() {
         lnif $file "$HOME/.$(parse $file)"
     done
     local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
-    if [ ! -f $zshrc ] || ! $(grep -q "zshrc.local" $zshrc); then
-        echo $cmd >> $zshrc
-    fi
+    append_if_not_exists $zshrc "$cmd"
+
+    # set ibus for archlinux
+    program_exists pacman && {
+        cmd='ibus-daemon -drx'
+        append_if_not_exists $HOME/.profile "$cmd"
+    }
+
     success "Now configuring zsh."
 }
 
