@@ -108,6 +108,8 @@ config_sublime_vscode() {
             success "Now configuring vscode."
         fi
     }
+
+    return 0
 }
 
 bye() {
