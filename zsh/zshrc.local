@@ -198,6 +198,13 @@ alias venv='program_exists conda && is_venv && \
 alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
 
+pipS() {
+    is_venv && pip install $@ || {
+        error "Run this command in a virtual env"
+        return 1
+    }
+}
+
 pipcl() {
     is_venv && pipls | xargs pip uninstall -y 2>/dev/null \
         || echo "No packages to remove"
