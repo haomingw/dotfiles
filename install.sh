@@ -1,6 +1,5 @@
 #!/bin/bash
 # Copyright 2018 Haoming Wang
-set -e
 
 app_name='xming-dotfiles'
 
@@ -108,8 +107,6 @@ config_sublime_vscode() {
             success "Now configuring vscode."
         fi
     }
-
-    return 0
 }
 
 bye() {
