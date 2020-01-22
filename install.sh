@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright 2018 Haoming Wang
+set -e
 
 app_name='xming-dotfiles'
 
@@ -13,6 +14,16 @@ options=(
     "python"
     "tmux"
     "sublime-vscode"
+)
+
+zsh_community_plugins=(
+    "zsh-syntax-highlighting"
+    "zsh-autosuggestions"
+)
+
+oh_my_zsh_plugins=(
+    # "docker"
+    # "docker-compose"
 )
 
 source utils.sh
@@ -54,8 +65,8 @@ install_zsh_plugins() {
     file_must_exist     "$HOME/.oh-my-zsh"
 
     config_zshrc        "$APP_PATH"
-    install_zsh_plugin  "zsh-syntax-highlighting"
-    install_zsh_plugin  "zsh-autosuggestions"
+    install_community_plugins ${zsh_community_plugins[@]}
+    use_zsh_plugins           ${oh_my_zsh_plugins[@]}
 }
 
 config_python() {
@@ -107,6 +118,8 @@ config_sublime_vscode() {
             success "Now configuring vscode."
         fi
     }
+
+    return 0
 }
 
 bye() {

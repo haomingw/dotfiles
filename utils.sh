@@ -87,15 +87,24 @@ use_zsh_plugin() {
     }
 }
 
-install_zsh_plugin() {
-    local plugin_name=$1
-    local plugin_path="$ZSH_CUSTOM/plugins"
+use_zsh_plugins() {
+    for plugin in "$@"; do
+        use_zsh_plugin $plugin
+    done
+}
 
-    if [ ! -d "$plugin_path/$plugin_name" ]; then
-        git_clone_to https://github.com/zsh-users/$plugin_name.git $plugin_path
-        use_zsh_plugin $plugin_name
-        success "Now installing zsh plugin $plugin_name."
-    fi
+install_community_plugins() {
+    local plugin_path
+
+    for plugin in "$@"; do
+        plugin_path="$ZSH_CUSTOM/plugins"
+
+        if [ ! -d "$plugin_path/$plugin" ]; then
+            git_clone_to https://github.com/zsh-users/$plugin.git $plugin_path
+            use_zsh_plugin $plugin
+            success "Now installing zsh plugin $plugin."
+        fi
+    done
 }
 
 append_if_not_exists() {
