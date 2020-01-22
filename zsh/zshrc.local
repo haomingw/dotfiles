@@ -199,10 +199,11 @@ alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
 
 pipS() {
-    is_venv && pip install $@ || {
+    is_venv || {
         error "Run this command in a virtual env"
         return 1
     }
+    pip install $@
 }
 
 pipcl() {
@@ -212,10 +213,11 @@ pipcl() {
 
 # pypi
 venv_upgrade() {
-    is_venv && pip install --upgrade $@ || {
+    is_venv || {
         error "Run this command in a virtual env"
         return 1
     }
+    pip install --upgrade $@
 }
 
 pycompile() {
