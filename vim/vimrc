@@ -34,8 +34,6 @@
 
 " Bundles {{
 
-let g:pyvim = has('python') || has('python3')
-
 if has('nvim')
     let g:python_host_prog = '/usr/bin/python2'
     let g:python3_host_prog = '/usr/bin/python3'
@@ -85,7 +83,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'scrooloose/nerdcommenter'
         Plug 'AndrewRadev/splitjoin.vim'
         Plug 'haomingw/vim-snippets'
-        Plug 'SirVer/ultisnips', g:pyvim ? {} : { 'on': [] }
+        Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
         Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
         Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
         Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
