@@ -4,15 +4,9 @@
 " Environment {{
 
 " Identify platform {{
-    silent function! MACOS()
-        return has('macunix')
-    endfunction
-    silent function! LINUX()
-        return has('unix') && !has('macunix') && !has('win32unix')
-    endfunction
-    silent function! WINDOWS()
-        return has('win32')
-    endfunction
+    let s:mac = has('macunix')
+    let s:linux = has('unix') && !has('macunix') && !has('win32unix')
+    let s:win = has('win32')
 " }}
 
 " Basics {{
@@ -25,7 +19,7 @@
 " Windows Compatible {{
     " On Windows, also use '.vim' instead of 'vimfiles';
     " this makes synchronization across (heterogeneous) systems easier.
-    if WINDOWS()
+    if s:win
         set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
     endif
 " }}
@@ -261,7 +255,7 @@ map <leader>rp :%s/
 map <Leader>= <c-w>=
 
 " Switch between tabs
-if MACOS()
+if s:mac
     nnoremap ˙ gT
     nnoremap ¬ gt
 else
@@ -269,7 +263,7 @@ else
     nnoremap <a-l> gt
 endif
 
-if MACOS()
+if s:mac
     inoremap ˙ <Left>
     inoremap ∆ <Down>
     inoremap ˚ <Up>
@@ -282,7 +276,7 @@ else
 endif
 
 " Move tabs
-if MACOS()
+if s:mac
     nnoremap “ :call TabMove(-1)<cr>
     nnoremap ‘ :call TabMove(1)<cr>
 else
@@ -576,17 +570,17 @@ augroup END
 if has('gui_running')
     set guioptions=             " remove all gui options
     set lines = 40                " 40 lines of text instead of 24
-    if LINUX()
+    if s:linux
         set guifont=Courier\ 10\ Pitch\ Regular\ 12,
             \ Andale\ Mono\ Regular\ 12,
             \ Menlo\ Regular\ 11,
             \ Consolas\ Regular\ 12,
             \ Courier\ New\ Regular\ 14
-    elseif MACOS()
+    elseif s:mac
         set guifont=Andale\ Mono:h12,
             \ Menlo:h11,Consolas:h12,
             \ Courier\ New:h14
-    elseif WINDOWS()
+    elseif s:win
         set guifont=Andale_Mono:h10,
             \ Menlo:h10,Consolas:h10,
             \ Courier_New:h10
@@ -678,10 +672,10 @@ function! TabMove(direction)
 endfunction
 
 function! OnBattery()
-    if MACOS()
+    if s:mac
         return match(system('pmset -g batt'), \
             "Now drawing from 'Battery Power'") != -1
-    elseif LINUX()
+    elseif s:linux
         return readfile('/sys/class/power_supply/AC/online') == ['0']
     endif
     return 0
