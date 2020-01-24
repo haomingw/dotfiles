@@ -5,6 +5,7 @@
     "files.trimTrailingWhitespace": true,
     "files.trimFinalNewlines": true,
     "files.insertFinalNewline": true,
+    "files.autoSave": "onFocusChange",
 
     "editor.rulers": [80],
     "editor.renderWhitespace": "selection",
