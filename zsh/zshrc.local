@@ -164,7 +164,7 @@ program_exists pacman && {
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
         || echo "No orphans to remove"'
     alias mkp='makepkg -si'
-    essential="base-devel wget tk tmux htop tree xclip python-neovim neovim \
+    essential="base-devel wget tk tmux htop tree xclip vim python-neovim neovim \
         net-tools xdg-utils ttf-dejavu ttf-ubuntu-font-family ctags ibus-rime"
 }
 

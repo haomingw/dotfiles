@@ -45,7 +45,7 @@ install_or_update_vim() {
 
     create_vim_symlinks "$APP_PATH"
 
-    setup_nvim_if_exists
+    setup_neovim
 
     setup_vim_plug
 }

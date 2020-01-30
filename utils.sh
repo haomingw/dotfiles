@@ -9,13 +9,10 @@ msg() {
 }
 
 program_must_exist() {
-    program_exists "$1"
-
-    # throw error on non-zero return value
-    if [ $? -ne 0 ]; then
+    program_exists "$1" || {
         error "You must have '$1' installed to continue."
         exit 1
-    fi
+    }
 }
 
 file_must_exist() {
@@ -53,19 +50,26 @@ do_backup() {
 }
 
 create_vim_symlinks() {
-    local app_path=$1
+    local app=$1
 
     mkdir -p $HOME/.vim/undo
-    for file in $app_path/vim/vim/*; do
+    for file in $app/vim/vim/*; do
         lnif $file "$HOME/.vim/$(parse $file)"
     done
-    lnif "$app_path/vim/vimrc"                   "$HOME/.vimrc"
-    lnif "$app_path/vim/ideavimrc"               "$HOME/.ideavimrc"
+    lnif "$app/vim/vimrc"                   "$HOME/.vimrc"
+    lnif "$app/vim/ideavimrc"               "$HOME/.ideavimrc"
 
-    lnif "$app_path/vim/vim/static/clang-format" "$HOME/.clang-format"
-    lnif "$app_path/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
+    lnif "$app/vim/vim/static/clang-format" "$HOME/.clang-format"
+    lnif "$app/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
 
     success "Setting up vim symlinks."
+}
+
+setup_nvim() {
+    mkdir -p $HOME/.config
+    lnif "$HOME/.vim"         "$HOME/.config/nvim"
+    lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
+    success "Setting up neovim."
 }
 
 setup_vim_plug() {
@@ -133,15 +137,6 @@ config_zshrc() {
     }
 
     success "Now configuring zsh."
-}
-
-setup_nvim_if_exists() {
-    if program_exists "nvim" && [ ! -d $HOME/.config/nvim ]; then
-        mkdir -p $HOME/.config
-        lnif "$HOME/.vim"         "$HOME/.config/nvim"
-        lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"
-        success "Setting up neovim."
-    fi
 }
 
 cleanup_miniconda_files() {
