@@ -128,8 +128,27 @@ bye() {
     exit 0
 }
 
+config() {
+    case "$1" in
+        "vim")            install_or_update_vim ;;
+        "oh-my-zsh")      install_oh_my_zsh ;;
+        "zsh-plugins")    install_zsh_plugins ;;
+        "python")         config_python ;;
+        "tmux")           config_tmux ;;
+        "sublime-vscode") config_sublime_vscode ;;
+        *)                error "Unexpected option: $1" ;;
+    esac
+}
+
+repeat_config() {
+    PS3='Please enter your choice: '
+    select option in "${options[@]}"; do
+        config $option
+        confirm
+    done
+}
+
 confirm() {
-    [ ! -z $one_option_mode ] && bye
     read -p "Do you want to continue? (y/N) "
     case $REPLY in
         [yY][eE][sS]|[yY]) print_select_menu ;;
@@ -137,23 +156,8 @@ confirm() {
     esac
 }
 
-while getopts "f" flag; do
-    case $flag in
-        f) one_option_mode=1; success "Entering one option mode" ;;
-        *) error "Unexpected option ${flag}"; exit 1 ;;
-    esac
-done
+main() {
+    [ $# -eq 1 ] && config $1 || repeat_config "$@"
+}
 
-PS3='Please enter your choice: '
-select opt in "${options[@]}"; do
-    case $opt in
-        "vim")            install_or_update_vim ;;
-        "oh-my-zsh")      install_oh_my_zsh ;;
-        "zsh-plugins")    install_zsh_plugins ;;
-        "python")         config_python ;;
-        "tmux")           config_tmux ;;
-        "sublime-vscode") config_sublime_vscode ;;
-        *)                error "Unexpected option: $opt" ;;
-    esac
-    confirm
-done
+main "$@"

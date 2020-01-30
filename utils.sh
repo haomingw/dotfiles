@@ -65,7 +65,7 @@ create_vim_symlinks() {
     success "Setting up vim symlinks."
 }
 
-setup_nvim() {
+setup_neovim() {
     mkdir -p $HOME/.config
     lnif "$HOME/.vim"         "$HOME/.config/nvim"
     lnif "$HOME/.vimrc"       "$HOME/.config/nvim/init.vim"

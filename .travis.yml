@@ -1,0 +1,20 @@
+dist: bionic
+
+addons:
+  apt:
+    sources:
+    - ppa:jonathonf/vim
+    - ppa:neovim-ppa/stable
+    packages:
+    - vim
+
+script:
+- bash install.sh vim
+
+branches:
+  only:
+  - master
+  - /^release-\d+\.\d+$/
+
+git:
+  quiet: true
