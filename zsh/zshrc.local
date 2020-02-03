@@ -15,6 +15,10 @@ done
 
 # Utils {{
 
+alias -g N='>/dev/null'
+alias -g NE='2>/dev/null'
+alias -g NN='>/dev/null 2>&1'
+
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
@@ -97,8 +101,10 @@ program_exists tmux && {
 
 alias gbrm='git branch -D'
 alias gbcu='git rev-parse --abbrev-ref HEAD'
-alias groot='git rev-parse --show-toplevel 2>/dev/null'
+alias groot='git rev-parse --show-toplevel NE'
 alias gsmu='git submodule update --remote'
+alias gtcl='git tag -l | xargs git tag -d'
+alias gtu='gtcl && git fetch --tags'
 
 gtrm() {
     local tag="$1"
@@ -115,7 +121,7 @@ gbrmr() {
 }
 
 gitd() {
-    local parsed_date=$(date --date=$1 +%F 2>/dev/null)
+    local parsed_date=$(date --date=$1 +%F NE)
     [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
     local desc="$parsed_date $(date +%T)"
     success $desc
@@ -207,7 +213,7 @@ pipS() {
 }
 
 pipcl() {
-    is_venv && pipls | xargs pip uninstall -y 2>/dev/null \
+    is_venv && pipls | xargs pip uninstall -y NE \
         || echo "No packages to remove"
 }
 
