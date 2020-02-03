@@ -38,6 +38,15 @@ parse_filename() {
     echo $1 | rev | cut -d'/' -f1 | rev
 }
 
+update_vim_plugins() {
+    if [ -z $TRAVIS ]; then
+        vim +PlugClean! +qall && vim +PlugUpdate +qall
+    else
+        vim +PlugClean! +qall >/dev/null 2>&1
+        vim +PlugUpdate +qall >/dev/null 2>&1
+    fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -76,7 +85,7 @@ setup_vim_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
 
-    upvim $TRAVIS
+    update_vim_plugins
 
     export SHELL="$system_shell"
 
