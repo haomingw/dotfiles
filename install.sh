@@ -117,9 +117,7 @@ config_sublime_vscode() {
             lnif $APP_PATH/vscode/snippets         $code_home
             success "Now configuring vscode."
         fi
-    }
-
-    return 0
+    } || true
 }
 
 bye() {

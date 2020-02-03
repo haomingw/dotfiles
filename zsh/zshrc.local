@@ -3,7 +3,7 @@
 
 # Imports {{
 
-safe_source() { [[ -s $1 ]] && source $1 || return 0 }
+safe_source() { [[ -s $1 ]] && source $1 || true }
 
 safe_source ~/.zshrc.before.local
 
