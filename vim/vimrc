@@ -61,6 +61,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'easymotion/vim-easymotion'
         Plug 'terryma/vim-expand-region'
         Plug 'machakann/vim-highlightedyank'
+        Plug 'michaeljsmith/vim-indent-object'
         Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     endif
 " }}
@@ -422,6 +423,13 @@ augroup END
         let g:highlightedyank_highlight_duration = 100
         highlight HighlightedyankRegion cterm=reverse gui=reverse
     endif
+" }}
+
+" Vim-indent-object {{
+    " <count>ai   An Indentation level and line above.
+    " <count>ii   Inner Indentation level (no line above).
+    " <count>aI   An Indentation level and lines above/below.
+    " <count>iI   Inner Indentation level (no lines above/below).
 " }}
 
 " Nerdtree {{

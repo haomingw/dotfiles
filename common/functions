@@ -40,3 +40,16 @@ parse() {
 }
 
 # }}
+
+# Vim {{
+
+upvim() {
+    vim +PlugClean! +qall
+    if [[ "$#" -eq 1 ]]; then
+        vim +PlugUpdate +qall >/dev/null 2>&1
+    else
+        vim +PlugUpdate
+    fi
+}
+
+# }}

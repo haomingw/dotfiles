@@ -76,7 +76,7 @@ setup_vim_plug() {
     local system_shell="$SHELL"
     export SHELL='/bin/sh'
 
-    vim +PlugClean! +qall && vim +PlugUpdate +qall
+    upvim $TRAVIS
 
     export SHELL="$system_shell"
 

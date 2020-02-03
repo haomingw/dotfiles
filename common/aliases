@@ -38,7 +38,6 @@ alias decrypt='openssl enc -aes-256-cbc -d -salt -md sha512'
 # Vim {{
 
 alias rmvim='rm -rf ~/.*vim* ~/.config/nvim'
-alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 # }} // namespace vim
 

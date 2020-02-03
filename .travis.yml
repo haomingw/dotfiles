@@ -1,5 +1,9 @@
 dist: bionic
 
+env:
+  global:
+  - PYTHONUNBUFFERED=1
+
 addons:
   apt:
     sources:
