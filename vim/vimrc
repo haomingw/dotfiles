@@ -253,7 +253,14 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 map <leader>rp :%s/
 
-map <Leader>= <c-w>=
+map <silent> <leader>ns :new<cr>
+map <silent> <leader>nv :vnew<cr>
+
+map <leader>= <c-w>=
+map <leader>+ <c-w>5+
+map <leader>- <c-w>5-
+map <leader>> <c-w>5>
+map <leader>< <c-w>5<
 
 " Switch between tabs
 if s:mac
@@ -294,6 +301,13 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 nnoremap <c-k> <c-w>k
 nnoremap <c-j> <c-w>j
+
+" Terminal
+tnoremap <Esc> <c-\><c-n>
+tnoremap <c-h> <c-\><c-N><c-w>h
+tnoremap <c-j> <c-\><c-N><c-w>j
+tnoremap <c-k> <c-\><c-N><c-w>k
+tnoremap <c-l> <c-\><c-N><c-w>l
 
 " Fast editting
 nnoremap <c-s> :w<cr>
@@ -636,7 +650,7 @@ function! Cpp_setup()
     endif
 
     " Clang format
-    map <localleader>f :py3f ~/.vim/static/clang-format.py<cr>
+    map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
 endfunction
 
 " Setup python file
@@ -645,7 +659,7 @@ function! Python_setup()
     syn keyword pythonDecorator self
 
     if has_key(g:plugs, 'yapf')
-        map <localleader>f :call yapf#YAPF()<cr>
+        map <leader>f :call yapf#YAPF()<cr>
     endif
     if has_key(g:plugs, 'ale')
         map <leader>f :ALEFix<cr>

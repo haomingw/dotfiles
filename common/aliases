@@ -22,8 +22,10 @@ alias di='docker image'
 
 # Rust {{
 
-alias install-rust="[[ -d ~/.cargo ]] \
+alias psrust="[[ -d ~/.cargo ]] \
     || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+
+alias rmrust='rustup self uninstall'
 
 # }} // namespace rust
 
