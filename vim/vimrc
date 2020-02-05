@@ -70,7 +70,7 @@ call plug#begin('~/.vim/bundle')
     if count(g:xming_plug_groups, 'programming')
         Plug 'dense-analysis/ale'
         Plug 'octol/vim-cpp-enhanced-highlight'
-        Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+        Plug 'fatih/vim-go'
         Plug 'rust-lang/rust.vim'
         Plug 'leafgarland/typescript-vim'
         Plug 'mhinz/vim-signify'
@@ -558,6 +558,7 @@ augroup END
 
 " Vim-go {{
     if has_key(g:plugs, 'vim-go')
+        nnoremap <silent> <leader>go :GoUpdateBinaries<cr>
         let g:go_fmt_command = "goimports"
         let g:go_highlight_fields = 1
         let g:go_highlight_function_calls = 1
