@@ -95,6 +95,7 @@ setup_vim_plug() {
 use_zsh_plugin() {
     local pattern="^\s*$1$"
     local target="$HOME/.zshrc"
+    sed -i "/$pattern/d" $target
     grep -q $pattern $target || {
         sed -i "/^plugins=/a \    $1" $target
     }

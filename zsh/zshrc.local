@@ -187,7 +187,7 @@ program_exists brew && {
     essential="wget"
 }
 
-[[ -n $essential ]] && alias install-essential='pS $(echo $essential)'
+alias install-essential='pS $(echo $essential)'
 
 # }} // namespace package_manager
 
