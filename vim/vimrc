@@ -148,7 +148,7 @@ endif
 set background=dark
 try
     let ayucolor="mirage"       " light dark
-    color ayu
+    color onedark
     set termguicolors           " enable true colors support
 catch
     color desert
@@ -390,7 +390,7 @@ augroup END
 " Lightline {{
     if has_key(g:plugs, 'lightline.vim')
         let g:lightline = {
-        \ 'colorscheme': 'jellybeans',
+        \ 'colorscheme': 'one',
         \ 'active': {
         \   'left': [ ['mode', 'paste'],
         \             ['fugitive', 'readonly', 'filename', 'modified'] ],
