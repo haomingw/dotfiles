@@ -390,7 +390,7 @@ augroup END
 " Lightline {{
     if has_key(g:plugs, 'lightline.vim')
         let g:lightline = {
-        \ 'colorscheme': 'one',
+        \ 'colorscheme': 'onedark',
         \ 'active': {
         \   'left': [ ['mode', 'paste'],
         \             ['fugitive', 'readonly', 'filename', 'modified'] ],

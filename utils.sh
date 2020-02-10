@@ -112,9 +112,9 @@ install_community_plugins() {
     for plugin in "$@"; do
         plugin_path="$ZSH_CUSTOM/plugins"
 
+        use_zsh_plugin $plugin
         if [ ! -d "$plugin_path/$plugin" ]; then
             git_clone_to https://github.com/zsh-users/$plugin.git $plugin_path
-            use_zsh_plugin $plugin
             success "Now installing zsh plugin $plugin."
         fi
     done

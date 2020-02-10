@@ -22,8 +22,7 @@ zsh_community_plugins=(
 )
 
 oh_my_zsh_plugins=(
-    # "docker"
-    # "docker-compose"
+    "history-substring-search"
 )
 
 source utils.sh
@@ -65,8 +64,8 @@ install_zsh_plugins() {
     file_must_exist     "$HOME/.oh-my-zsh"
 
     config_zshrc        "$APP_PATH"
-    install_community_plugins ${zsh_community_plugins[@]}
     use_zsh_plugins           ${oh_my_zsh_plugins[@]}
+    install_community_plugins ${zsh_community_plugins[@]}
 }
 
 config_python() {
