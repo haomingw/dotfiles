@@ -344,10 +344,11 @@ rmfolder() {
 
 rmd() {
     # remove current folder or git root folder
-    local repo=$(groot)
-    local target=$(pwd)
-    [[ -n $repo ]] && target=$repo
-    cd "$target/.." && rm -rf $target
+    local target
+    is_git && target=$(groot) || target=$(pwd)
+    confirm "sure you want to delete $target?" && {
+        cd "$target/.." && rm -rf $target
+    }
 }
 
 alias rmds='delete-type DS_Store'

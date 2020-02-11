@@ -39,4 +39,13 @@ parse() {
     echo $1 | rev | cut -d'/' -f1 | rev
 }
 
+confirm() {
+    printf "$1 (y/N) "
+    read
+    case $REPLY in
+        [yY][eE][sS]|[yY]) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
 # }}

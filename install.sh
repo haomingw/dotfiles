@@ -141,16 +141,12 @@ repeat_config() {
     PS3='Please enter your choice: '
     select option in "${options[@]}"; do
         config $option
-        confirm
+        confirm_finish
     done
 }
 
-confirm() {
-    read -p "Do you want to continue? (y/N) "
-    case $REPLY in
-        [yY][eE][sS]|[yY]) print_select_menu ;;
-        *) bye ;;
-    esac
+confirm_finish() {
+    confirm "Do you want to continue?" && print_select_menu || bye
 }
 
 main() {
