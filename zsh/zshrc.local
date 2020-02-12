@@ -144,6 +144,22 @@ cdr() {
 
 # }} // namespace git
 
+# GPG {{
+
+alias gpgen='gpg --full-generate-key'
+
+alias gpgls='gpg --list-secret-keys --keyid-format LONG'
+
+gpgkid() {
+    gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
+}
+
+alias gpgpub='gpg --armor --export $(gpgkid)'
+
+alias pgprm='gpg --delete-secret-key $(gpgkid)'
+
+# }} // namespace gpg
+
 # Package manager {{
 
 program_exists apt && {
