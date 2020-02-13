@@ -661,9 +661,7 @@ function! Python_setup()
     if has_key(g:plugs, 'yapf')
         map <leader>f :call yapf#YAPF()<cr>
     endif
-    if has_key(g:plugs, 'ale')
-        map <leader>f :ALEFix<cr>
-    endif
+    let &makeprg='python %'
 endfunction
 
 " Setup rust file
