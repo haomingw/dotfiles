@@ -562,10 +562,6 @@ augroup END
         \   'markdown': 'all',
         \   'yaml': 'all',
         \}
-
-        let g:ale_fixers = {
-        \   'python': ['yapf'],
-        \}
     endif
 
 " }}
