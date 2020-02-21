@@ -48,4 +48,11 @@ confirm() {
     esac
 }
 
+mvs() {
+    # e.g. mvs .txt .in
+    for file in *$1; do
+        mv $file $(basename $file $1)$2
+    done
+}
+
 # }}
