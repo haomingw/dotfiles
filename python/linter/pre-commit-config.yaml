@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
+  rev: v2.5.0
   hooks:
   - id: check-added-large-files
   - id: trailing-whitespace
@@ -16,19 +16,21 @@ repos:
   - id: check-symlinks
   - id: check-json
   - id: check-yaml
-  - id: flake8
-    additional_dependencies: [
-      flake8-import-order,
-      flake8-builtins,
-      flake8-docstrings,
-      flake8-logging-format,
-    ]
   - id: debug-statements
   - id: name-tests-test
     args: ['--django']
   - id: requirements-txt-fixer
   - id: double-quote-string-fixer
   - id: detect-private-key
+- repo: https://gitlab.com/pycqa/flake8
+  rev: 3.7.9
+  hooks:
+  - id: flake8
+    additional_dependencies:
+    - flake8-import-order
+    - flake8-builtins
+    - flake8-docstrings
+    - flake8-logging-format
 - repo: https://github.com/sqlalchemyorg/zimports
   rev: 0.2.0
   hooks:
@@ -44,7 +46,7 @@ repos:
   - id: bandit
     args: ['--skip=B101,B322']
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.750
+  rev: v0.761
   hooks:
   - id: mypy
 - repo: https://github.com/pre-commit/mirrors-pylint

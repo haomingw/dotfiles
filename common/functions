@@ -49,7 +49,7 @@ confirm() {
 }
 
 mvext() {
-    # e.g. mvs .txt .in
+    # e.g. mvext .txt .in
     for file in *$1; do
         mv $file $(basename $file $1)$2
     done
