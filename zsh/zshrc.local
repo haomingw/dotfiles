@@ -191,6 +191,7 @@ program_exists pacman && {
     alias pR='sudo pacman -R'
     alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
         || echo "No orphans to remove"'
+    alias pSym='sudo pacman-mirrors --fasttrack && sudo pacman -Syyu'
     alias mkp='makepkg -si'
     essential="base-devel clang wget tk tmux htop tree xclip vim  \
         python-neovim neovim net-tools xdg-utils ctags ibus-rime \
@@ -341,7 +342,6 @@ rm-pre-commit() {
 
 # }} // namespace python
 
-
 # Golang {{
 
 cdg() {
@@ -387,7 +387,7 @@ bindkey '^ '  autosuggest-accept
 bindkey '^[p' history-substring-search-up
 bindkey '^[n' history-substring-search-down
 
-## alt == ^[
+## alt == '^['
 bindkey '^[z' undo
 bindkey '^[Z' redo
 bindkey '^[u' up-case-word
