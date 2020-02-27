@@ -240,7 +240,7 @@ pipcl() {
     local v="$HOME/.pip_packages"
     if is_venv; then
         pipls | xargs pip uninstall -y NE || echo "No packages to remove"
-    elif [[ -f $v ]]; then
+    elif [[ -s $v ]]; then
         pipls | awk -F== '{print $1}' \
             | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
     fi
