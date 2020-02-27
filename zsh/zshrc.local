@@ -225,8 +225,8 @@ alias is_venv='which python | grep -q "envs\|venv"'
 alias venv='program_exists conda && is_venv && \
     which python | rev | cut -d'/' -f3 | rev'
 
-alias piprm='pip uninstall -y'
 alias pipls='pip freeze | grep -v certifi'
+alias pipR='pip uninstall -y'
 
 pipS() {
     is_venv || {
@@ -237,8 +237,13 @@ pipS() {
 }
 
 pipcl() {
-    is_venv && pipls | xargs pip uninstall -y NE \
-        || echo "No packages to remove"
+    local v="$HOME/.pip_packages"
+    if is_venv; then
+        pipls | xargs pip uninstall -y NE || echo "No packages to remove"
+    elif [[ -f $v ]]; then
+        pipls | awk -F== '{print $1}' \
+            | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
+    fi
 }
 
 # pypi

@@ -159,7 +159,10 @@ cleanup_miniconda_files() {
 }
 
 install_miniconda_if_not_exists() {
-    if [ ! -d $HOME/miniconda3 ]; then
+    local conda="$HOME/miniconda3"
+    local pip_packages="$HOME/.pip_packages"
+
+    if [ ! -d $conda ]; then
         local url
         local conda_repo="https://repo.anaconda.com/miniconda"
         is_linux && url="$conda_repo/Miniconda3-latest-Linux-x86_64.sh"
@@ -171,6 +174,8 @@ install_miniconda_if_not_exists() {
             bash $target/$miniconda \
             && success "Miniconda successfully installed" \
             && cleanup_miniconda_files $target/$miniconda
+            success "Writing pip packages to $pip_packages"
+            $conda/bin/pip freeze > $pip_packages
         fi
     fi
 }
