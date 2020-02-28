@@ -55,5 +55,9 @@
     {
         "key": "ctrl+alt+l",
         "command": "editor.action.transformToLowercase"
+    },
+    {
+        "key": "ctrl+k k",
+        "command": "workbench.action.closeOtherEditors"
     }
 ]

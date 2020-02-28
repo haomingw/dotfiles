@@ -27,5 +27,6 @@
     "[markdown]": {
         "files.trimTrailingWhitespace": false
     },
-    "gitlens.advanced.telemetry.enabled": false
+    "gitlens.advanced.telemetry.enabled": false,
+    "terminal.integrated.inheritEnv": false
 }

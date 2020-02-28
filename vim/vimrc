@@ -46,7 +46,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'junegunn/goyo.vim'
         Plug 'itchyny/lightline.vim'
         Plug 'haomingw/vim-startscreen'
-        Plug 'chriskempson/base16-vim'
         Plug 'rafi/awesome-vim-colorschemes'
     endif
 " }}
@@ -148,8 +147,8 @@ endif
 
 set background=dark
 try
-    let ayucolor="mirage"       " light dark
-    color base16-tomorrow-night
+    let ayucolor="mirage"       " light mirage dark
+    color ayu
     set termguicolors           " enable true colors support
 catch
     color desert
@@ -391,7 +390,7 @@ augroup END
 " Lightline {{
     if has_key(g:plugs, 'lightline.vim')
         let g:lightline = {
-        \ 'colorscheme': 'Tomorrow_Night',
+        \ 'colorscheme': 'ayu_mirage',
         \ 'active': {
         \   'left': [ ['mode', 'paste'],
         \             ['fugitive', 'readonly', 'filename', 'modified'] ],
