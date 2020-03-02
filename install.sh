@@ -17,9 +17,9 @@ options=(
 )
 
 zsh_plugins=(
-    "history-substring-search"
     "zsh-users/zsh-autosuggestions"
     "zsh-users/zsh-syntax-highlighting"
+    "history-substring-search"
 )
 
 source utils.sh
@@ -61,7 +61,7 @@ install_zsh_plugins() {
     file_must_exist     "$HOME/.oh-my-zsh"
 
     config_zshrc        "$APP_PATH"
-    zsh_plug            ${zsh_plugins[@]}
+    zsh_plug            $(reverse ${zsh_plugins[@]})
 }
 
 config_python() {

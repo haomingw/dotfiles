@@ -54,6 +54,12 @@ confirm() {
     esac
 }
 
+reverse() {
+    local args=$@
+    [[ $# -eq 0 ]] && read args
+    echo $args | tr ' ' '\n' | tac | tr '\n' ' '; echo
+}
+
 mvext() {
     # e.g. mvext .txt .in
     for file in *$1; do
