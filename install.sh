@@ -16,13 +16,10 @@ options=(
     "sublime-vscode"
 )
 
-zsh_community_plugins=(
-    "zsh-syntax-highlighting"
-    "zsh-autosuggestions"
-)
-
-oh_my_zsh_plugins=(
+zsh_plugins=(
     "history-substring-search"
+    "zsh-users/zsh-autosuggestions"
+    "zsh-users/zsh-syntax-highlighting"
 )
 
 source utils.sh
@@ -64,8 +61,7 @@ install_zsh_plugins() {
     file_must_exist     "$HOME/.oh-my-zsh"
 
     config_zshrc        "$APP_PATH"
-    use_zsh_plugins           ${oh_my_zsh_plugins[@]}
-    install_community_plugins ${zsh_community_plugins[@]}
+    zsh_plug            ${zsh_plugins[@]}
 }
 
 config_python() {

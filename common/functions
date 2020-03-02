@@ -3,6 +3,10 @@
 
 # Basic functions {{
 
+msg() {
+    printf '%b\n' "$1" >&2
+}
+
 success() {
     echo -e "\033[32m[✔]\033[0m $@"
 }
@@ -36,7 +40,9 @@ cpif() {
 }
 
 parse() {
-    echo $1 | rev | cut -d'/' -f1 | rev
+    local data="$1"
+    [[ $# -eq 0 ]] && read data
+    echo $data | rev | cut -d'/' -f1 | rev
 }
 
 confirm() {

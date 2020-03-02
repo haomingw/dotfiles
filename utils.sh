@@ -107,17 +107,19 @@ use_zsh_plugins() {
     done
 }
 
-install_community_plugins() {
-    local plugin_path
+zsh_plug() {
+    local plugin_path="$ZSH_CUSTOM/plugins"
 
     for plugin in "$@"; do
-        plugin_path="$ZSH_CUSTOM/plugins"
-
-        use_zsh_plugin $plugin
-        if [ ! -d "$plugin_path/$plugin" ]; then
-            git_clone_to https://github.com/zsh-users/$plugin.git $plugin_path
-            success "Now installing zsh plugin $plugin."
+        if [[ $plugin == */* ]]; then
+            use_zsh_plugin $(parse $plugin)
+            if [ ! -d "$plugin_path/$plugin" ]; then
+                git_clone_to https://github.com/$plugin.git $plugin_path
+            fi
+        else
+            use_zsh_plugin $plugin
         fi
+        msg "Now installing zsh plugin $plugin."
     done
 }
 
