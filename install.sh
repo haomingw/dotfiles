@@ -17,6 +17,7 @@ options=(
 )
 
 zsh_plugins=(
+  "git"
   "zsh-users/zsh-autosuggestions"
   "zsh-users/zsh-syntax-highlighting"
   "history-substring-search"

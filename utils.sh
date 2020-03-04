@@ -95,19 +95,16 @@ setup_vim_plug() {
 use_zsh_plugin() {
   local pattern="^\s*$1$"
   local target="$HOME/.zshrc"
-  sed -i "/$pattern/d" $target
-  grep -q $pattern $target || {
-    sed -i "/^plugins=/a \  $1" $target
-  }
+  sed -i "/^plugins=/a \  $1" $target
 }
 
-use_zsh_plugins() {
-  for plugin in "$@"; do
-    use_zsh_plugin $plugin
-  done
+clear_zsh_plugins() {
+  sed -i '/^plugins/,/^)/{/^plugins/!{/^)/!d;};}' $HOME/.zshrc
 }
 
 zsh_plug() {
+  clear_zsh_plugins
+
   local plugin_path="$ZSH_CUSTOM/plugins"
 
   for plugin in "$@"; do
