@@ -8,7 +8,7 @@ safe_source() { [[ -s $1 ]] && source $1 || true }
 safe_source ~/.zshrc.before.local
 
 for file in ~/.common/*; do
-    safe_source $file
+  safe_source $file
 done
 
 # }}
@@ -23,41 +23,41 @@ program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 
 cut_cols() {
-    # remove last n columns
-    echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
+  # remove last n columns
+  echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
 # Create a new directory and enter it
 mk() {
-    mkdir -p "$@" && cd "$_";
+  mkdir -p "$@" && cd "$_";
 }
 
 cdd() { cd ~/Documents/code/$1 }
 
 add-head() {
-    # add text to the beginning or the specified line of a file
-    # if the given line number is greater than total number of lines, do nothing
-    local file=$1
-    local text=$2
-    local line=${3:=1}
-    if [[ -s $file ]] then;
-        sed -i "${line}s/^/${text}\n/" $file
-    else
-        echo $text >> $file
-    fi
+  # add text to the beginning or the specified line of a file
+  # if the given line number is greater than total number of lines, do nothing
+  local file=$1
+  local text=$2
+  local line=${3:=1}
+  if [[ -s $file ]] then;
+    sed -i "${line}s/^/${text}\n/" $file
+  else
+    echo $text >> $file
+  fi
 }
 
 empty-trash() {
-    setopt localoptions rmstarsilent
-    setopt localoptions nonomatch
-    is_linux && {
-        rm -rf ~/.local/share/Trash/files/{,.}*
-        rm -rf ~/.local/share/Trash/info/{,.}*
-    }
+  setopt localoptions rmstarsilent
+  setopt localoptions nonomatch
+  is_linux && {
+    rm -rf ~/.local/share/Trash/files/{,.}*
+    rm -rf ~/.local/share/Trash/info/{,.}*
+  }
 }
 
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
-    || echo error)'
+  || echo error)'
 
 # }} // namespace utils
 
@@ -66,10 +66,10 @@ alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
 # Awk {{
 
 program_exists awk && {
-    alias awk-last="awk '{print \$NF}'"
-    awk-program-home() {
-        awk -F"/" '{for(i=1;i<NF-2;i++) printf $i"/"; print $(NF-2)}'
-    }
+  alias awk-last="awk '{print \$NF}'"
+  awk-program-home() {
+    awk -F"/" '{for(i=1;i<NF-2;i++) printf $i"/"; print $(NF-2)}'
+  }
 }
 
 # }}
@@ -80,19 +80,19 @@ alias txls='tmux ls | xargs -I {} echo {} | cut -d: -f1'
 alias txrm='tmux kill-session -t'
 
 program_exists tmux && {
-    txat() {
-        [[ "$#" -ge 1 ]] && tmux attach -t $1 || tmux attach
-    }
+  txat() {
+    [[ "$#" -ge 1 ]] && tmux attach -t $1 || tmux attach
+  }
 
-    txcl() {
-        local args=$(txls)
-        while IFS=' ' read -A sessions; do
-            for session in "${sessions[@]}"; do
-                echo "deleting session #$session"
-                txrm $session
-            done
-        done <<< "$args"
-    }
+  txcl() {
+    local args=$(txls)
+    while IFS=' ' read -A sessions; do
+      for session in "${sessions[@]}"; do
+        echo "deleting session #$session"
+        txrm $session
+      done
+    done <<< "$args"
+  }
 }
 
 # }} // namespace tmux
@@ -107,26 +107,26 @@ alias gtcl='git tag -l | xargs git tag -d'
 alias gtu='gtcl && git fetch --tags'
 
 gtrm() {
-    local tag="$1"
-    git tag -d $tag
-    git push origin :$tag
+  local tag="$1"
+  git tag -d $tag
+  git push origin :$tag
 }
 
 gbcl() {
-    git branch | grep -v $(gbcu) | xargs -r git branch -D
+  git branch | grep -v $(gbcu) | xargs -r git branch -D
 }
 
 gbrmr() {
-    git push origin :${1:=$(gbcu)}
+  git push origin :${1:=$(gbcu)}
 }
 
 gitd() {
-    local parsed_date=$(date --date=$1 +%F NE)
-    [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
-    local desc="$parsed_date $(date +%T)"
-    success $desc
-    shift
-    GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
+  local parsed_date=$(date --date=$1 +%F NE)
+  [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
+  local desc="$parsed_date $(date +%T)"
+  success $desc
+  shift
+  GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
 }
 
 
@@ -134,18 +134,18 @@ gitg() { local v="$1"; shift; git g$v "$@"; }
 gitp() { local v="$1"; shift; git p$v "$@"; }
 
 cdr() {
-    # cd to git repo root
-    local repo=$(groot)
-    [[ -n $repo ]] && cd $repo || {
-        echo "$(pwd) is not a git repo"
-        return 1
-    }
+  # cd to git repo root
+  local repo=$(groot)
+  [[ -n $repo ]] && cd $repo || {
+    echo "$(pwd) is not a git repo"
+    return 1
+  }
 }
 
 gclip() {
-    local url=$(xclip -selection clipboard -o)
-    local repo=$(parse $url | cut -d. -f1)
-    git clone $url && cd $repo
+  local url=$(xclip -selection clipboard -o)
+  local repo=$(parse $url | cut -d. -f1)
+  git clone $url && cd $repo
 }
 
 # }} // namespace git
@@ -157,7 +157,7 @@ alias gpgen='gpg --full-generate-key'
 alias gpgls='gpg --list-secret-keys --keyid-format LONG'
 
 gpgkid() {
-    gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
+  gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
 }
 
 alias gpgpub='gpg --armor --export $(gpgkid)'
@@ -169,45 +169,45 @@ alias pgprm='gpg --delete-secret-key $(gpgkid)'
 # Package manager {{
 
 program_exists apt && {
-    # for debian/ubuntu
-    alias pS='sudo apt install'
-    alias pSs='apt search'
-    alias pSy='sudo apt update'
-    alias pSu='sudo apt upgrade'
-    alias pSyu='sudo apt update && sudo apt upgrade'
-    alias pR='sudo apt purge'
-    alias pRa='sudo apt autoremove'
-    essential="curl git-gui tmux htop tree net-tools clang clang-format \
-        python3-distutils build-essential ctags"
+  # for debian/ubuntu
+  alias pS='sudo apt install'
+  alias pSs='apt search'
+  alias pSy='sudo apt update'
+  alias pSu='sudo apt upgrade'
+  alias pSyu='sudo apt update && sudo apt upgrade'
+  alias pR='sudo apt purge'
+  alias pRa='sudo apt autoremove'
+  essential="curl git-gui tmux htop tree net-tools clang clang-format \
+    python3-distutils build-essential ctags"
 }
 
 program_exists pacman && {
-    # for archlinux
-    alias pS='sudo pacman -S --needed'
-    alias pSs='pacman -Ss'
-    alias pSy='sudo pacman -Sy'
-    alias pSu='sudo pacman -Su'
-    alias pSyu='sudo pacman -Syu'
-    alias pR='sudo pacman -R'
-    alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
-        || echo "No orphans to remove"'
-    alias pSym='sudo pacman-mirrors --fasttrack && sudo pacman -Syyu'
-    alias mkp='makepkg -si'
-    essential="base-devel clang wget tk tmux htop tree xclip vim  \
-        python-neovim neovim net-tools xdg-utils ctags ibus-rime \
-        ttf-dejavu ttf-ubuntu-font-family"
+  # for archlinux
+  alias pS='sudo pacman -S --needed'
+  alias pSs='pacman -Ss'
+  alias pSy='sudo pacman -Sy'
+  alias pSu='sudo pacman -Su'
+  alias pSyu='sudo pacman -Syu'
+  alias pR='sudo pacman -R'
+  alias pRa='[[ -n `pacman -Qdt` ]] && sudo pacman -Rns `pacman -Qdtq` \
+    || echo "No orphans to remove"'
+  alias pSym='sudo pacman-mirrors --fasttrack && sudo pacman -Syyu'
+  alias mkp='makepkg -si'
+  essential="base-devel clang wget tk tmux htop tree xclip vim  \
+    python-neovim neovim net-tools xdg-utils ctags ibus-rime \
+    ttf-dejavu ttf-ubuntu-font-family"
 }
 
 program_exists brew && {
-    # for macOS
-    alias pS='brew install'
-    alias pSs='brew search'
-    alias pSy='brew update'
-    alias pSu='brew upgrade'
-    alias pSyu='brew update && brew upgrade'
-    alias pR='brew uninstall'
-    alias pRa='brew cleanup'
-    essential="wget"
+  # for macOS
+  alias pS='brew install'
+  alias pSs='brew search'
+  alias pSy='brew update'
+  alias pSu='brew upgrade'
+  alias pSyu='brew update && brew upgrade'
+  alias pR='brew uninstall'
+  alias pRa='brew cleanup'
+  essential="wget"
 }
 
 alias install-essential='pS $(echo $essential)'
@@ -223,52 +223,52 @@ alias install-essential='pS $(echo $essential)'
 alias is_venv='which python | grep -q "envs\|venv"'
 
 alias venv='program_exists conda && is_venv && \
-    which python | rev | cut -d'/' -f3 | rev'
+  which python | rev | cut -d'/' -f3 | rev'
 
 alias pipls='pip freeze | grep -v certifi'
 alias pipR='pip uninstall -y'
 
 pipS() {
-    is_venv || {
-        error "Run this command in a virtual env"
-        return 1
-    }
-    pip install $@
+  is_venv || {
+    error "Run this command in a virtual env"
+    return 1
+  }
+  pip install $@
 }
 
 pipcl() {
-    local v="$HOME/.pip_packages"
-    if is_venv; then
-        pipls | xargs pip uninstall -y NE || echo "No packages to remove"
-    elif [[ -s $v ]]; then
-        pipls | awk -F== '{print $1}' \
-            | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
-    fi
+  local v="$HOME/.pip_packages"
+  if is_venv; then
+    pipls | xargs pip uninstall -y NE || echo "No packages to remove"
+  elif [[ -s $v ]]; then
+    pipls | awk -F== '{print $1}' \
+      | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
+  fi
 }
 
 # pypi
 venv_upgrade() {
-    is_venv || {
-        error "Run this command in a virtual env"
-        return 1
-    }
-    pip install --upgrade $@
+  is_venv || {
+    error "Run this command in a virtual env"
+    return 1
+  }
+  pip install --upgrade $@
 }
 
 pycompile() {
-    venv_upgrade setuptools wheel || return 1
-    [[ -f setup.py ]] && python setup.py sdist bdist_wheel || {
-        error "Run this command from the same directory where setup.py is located"
-        return 1
-    }
+  venv_upgrade setuptools wheel || return 1
+  [[ -f setup.py ]] && python setup.py sdist bdist_wheel || {
+    error "Run this command from the same directory where setup.py is located"
+    return 1
+  }
 }
 
 pyupload() {
-    venv_upgrade twine || return 1
-    [[ -d dist ]] && twine upload dist/* || {
-        error "'dist' folder not found or authentication failed"
-        return 1
-    }
+  venv_upgrade twine || return 1
+  [[ -d dist ]] && twine upload dist/* || {
+    error "'dist' folder not found or authentication failed"
+    return 1
+  }
 }
 
 alias pypi='pycompile && pyupload'
@@ -278,35 +278,35 @@ alias pypi='pycompile && pyupload'
 # Conda {{
 
 program_exists conda && \
-    export CONDA_HOME=`cut_cols $(which python) $(is_venv && echo 4 || echo 2)`
+  export CONDA_HOME=`cut_cols $(which python) $(is_venv && echo 4 || echo 2)`
 
 alias u='source activate'
 alias uu='conda deactivate'
 alias uls='conda env list'
 alias ucl='find $CONDA_HOME \( -type f -o -type l \) \
-    -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
+  -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
 
 program_exists conda && {
-    uc() {
-        [[ "$#" -lt 1 ]] && {
-            error "missing operand: uc env_name [python_version]"
-            return 1
-        }
-        conda create -n $1 python=${2:=3.6}
-        ucl
-        u $1
+  uc() {
+    [[ "$#" -lt 1 ]] && {
+      error "missing operand: uc env_name [python_version]"
+      return 1
     }
+    conda create -n $1 python=${2:=3.6}
+    ucl
+    u $1
+  }
 
-    urm() {
-        [[ "$#" -lt 1 ]] && {
-            error "missing operand: urm env_name"
-            return 1
-        }
-        if [[ $(venv) = "$1" ]]; then
-            uu
-        fi
-        conda env remove -n $1
+  urm() {
+    [[ "$#" -lt 1 ]] && {
+      error "missing operand: urm env_name"
+      return 1
     }
+    if [[ $(venv) = "$1" ]]; then
+      uu
+    fi
+    conda env remove -n $1
+  }
 }
 
 # }} // namespace conda
@@ -314,33 +314,33 @@ program_exists conda && {
 # Pre-commit {{
 
 set-pre-commit() {
-    is_venv && pip install pre-commit || {
-        error "Use a virtual env to setup pre-commit"
-        return 1
-    }
-    local repo=$(groot)
-    local name
-    [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
-        for file in $HOME/.linter/*; do
-            name=$(parse $file)
-            case $name in
-                setup.cfg) ;;
-                *) name=".$name" ;;  # hidden files
-            esac
-            [[ -f $repo/$name ]] || cpif $file "$repo/$name"
-        done
-        [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
-    } || {
-        error "Not in a git repo or pre-commit not configured"
-        return 1
-    }
+  is_venv && pip install pre-commit || {
+    error "Use a virtual env to setup pre-commit"
+    return 1
+  }
+  local repo=$(groot)
+  local name
+  [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
+    for file in $HOME/.linter/*; do
+      name=$(parse $file)
+      case $name in
+        setup.cfg) ;;
+        *) name=".$name" ;;  # hidden files
+      esac
+      [[ -f $repo/$name ]] || cpif $file "$repo/$name"
+    done
+    [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
+  } || {
+    error "Not in a git repo or pre-commit not configured"
+    return 1
+  }
 }
 
 rm-pre-commit() {
-    local repo=$(groot)
-    if [[ -n $repo ]]; then
-        rm -f "$repo/.git/hooks/pre-commit"
-    fi
+  local repo=$(groot)
+  if [[ -n $repo ]]; then
+    rm -f "$repo/.git/hooks/pre-commit"
+  fi
 }
 
 # }} // namespace pre-commit
@@ -350,9 +350,9 @@ rm-pre-commit() {
 # Golang {{
 
 cdg() {
-    local gosrc="$GOPATH/src"
-    [[ -d $gosrc ]] || mkdir -p $gosrc
-    cd $gosrc/$1
+  local gosrc="$GOPATH/src"
+  [[ -d $gosrc ]] || mkdir -p $gosrc
+  cd $gosrc/$1
 }
 
 # }} // namespace go
@@ -360,22 +360,22 @@ cdg() {
 # Files {{
 
 rmtype() {
-    # recursively delete files of the given type
-    find . -type f -name "*.$1" -ls -delete
+  # recursively delete files of the given type
+  find . -type f -name "*.$1" -ls -delete
 }
 
 rmfolder() {
-    # recursively delete folders
-    find . -type d -name $1 -ls -delete
+  # recursively delete folders
+  find . -type d -name $1 -ls -delete
 }
 
 rmd() {
-    # remove current folder or git root folder
-    local target
-    is_git && target=$(groot) || target=$(pwd)
-    confirm "sure you want to delete $target?" && {
-        cd "$target/.." && rm -rf $target
-    }
+  # remove current folder or git root folder
+  local target
+  is_git && target=$(groot) || target=$(pwd)
+  confirm "sure you want to delete $target?" && {
+    cd "$target/.." && rm -rf $target
+  }
 }
 
 alias rmds='delete-type DS_Store'
@@ -405,24 +405,24 @@ bindkey '^["' quote-region
 # Env {{
 
 upd() {
-    local env_name=$(venv)
-    if [[ -n $env_name ]]; then
-        echo "deactivating python virtual env: $env_name"
-        uu
-    fi
-    success "updating zsh config"
-    safe_source ~/.zshrc.local
-    if [[ -n $env_name ]]; then
-        echo "restoring python virtual env: $env_name"
-        u $env_name
-    fi
+  local env_name=$(venv)
+  if [[ -n $env_name ]]; then
+    echo "deactivating python virtual env: $env_name"
+    uu
+  fi
+  success "updating zsh config"
+  safe_source ~/.zshrc.local
+  if [[ -n $env_name ]]; then
+    echo "restoring python virtual env: $env_name"
+    u $env_name
+  fi
 }
 
 # path deduplication
 program_exists awk && {
-    LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" \
-        | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
-    PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
+  LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" \
+    | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
+  PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
 }
 
 # }} // namespace env

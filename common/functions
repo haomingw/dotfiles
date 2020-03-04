@@ -4,67 +4,67 @@
 # Basic functions {{
 
 msg() {
-    printf '%b\n' "$1" >&2
+  printf '%b\n' "$1" >&2
 }
 
 success() {
-    echo -e "\033[32m[✔]\033[0m $@"
+  echo -e "\033[32m[✔]\033[0m $@"
 }
 
 error() {
-    echo -e "\033[31m[✘]\033[0m $@"
+  echo -e "\033[31m[✘]\033[0m $@"
 }
 
 is_linux() {
-    [[ $(uname) == "Linux" ]]
+  [[ $(uname) == "Linux" ]]
 }
 
 is_macos() {
-    [[ $(uname) == "Darwin" ]]
+  [[ $(uname) == "Darwin" ]]
 }
 
 program_exists() {
-    which "$1" &> /dev/null
+  which "$1" &> /dev/null
 }
 
 lnif() {
-    if [[ -e "$1" ]]; then
-        ln -sfn "$1" "$2"
-    fi
+  if [[ -e "$1" ]]; then
+    ln -sfn "$1" "$2"
+  fi
 }
 
 cpif() {
-    if [[ -e "$1" ]]; then
-        cp -r "$1" "$2"
-    fi
+  if [[ -e "$1" ]]; then
+    cp -r "$1" "$2"
+  fi
 }
 
 parse() {
-    local data="$1"
-    [[ $# -eq 0 ]] && read data
-    echo $data | rev | cut -d'/' -f1 | rev
+  local data="$1"
+  [[ $# -eq 0 ]] && read data
+  echo $data | rev | cut -d'/' -f1 | rev
 }
 
 confirm() {
-    printf "$1 (y/N) "
-    read
-    case $REPLY in
-        [yY][eE][sS]|[yY]) return 0 ;;
-        *) return 1 ;;
-    esac
+  printf "$1 (y/N) "
+  read
+  case $REPLY in
+    [yY][eE][sS]|[yY]) return 0 ;;
+    *) return 1 ;;
+  esac
 }
 
 reverse() {
-    local args=$@
-    [[ $# -eq 0 ]] && read args
-    echo $args | tr ' ' '\n' | tac | tr '\n' ' '; echo
+  local args=$@
+  [[ $# -eq 0 ]] && read args
+  echo $args | tr ' ' '\n' | tac | tr '\n' ' '; echo
 }
 
 mvext() {
-    # e.g. mvext .txt .in
-    for file in *$1; do
-        mv $file $(basename $file $1)$2
-    done
+  # e.g. mvext .txt .in
+  for file in *$1; do
+    mv $file $(basename $file $1)$2
+  done
 }
 
 # }}

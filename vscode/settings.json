@@ -7,6 +7,7 @@
     "files.insertFinalNewline": true,
     "files.autoSave": "onFocusChange",
 
+    "editor.tabSize": 2,
     "editor.rulers": [80],
     "editor.renderWhitespace": "selection",
 
@@ -24,6 +25,9 @@
         "**/*.egg-info": true
     },
 
+    "[python]": {
+        "editor.tabSize": 4
+    },
     "[markdown]": {
         "files.trimTrailingWhitespace": false
     },

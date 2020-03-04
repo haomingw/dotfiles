@@ -7,10 +7,13 @@ env:
 addons:
   apt:
     sources:
-    - ppa:jonathonf/vim
-    - ppa:neovim-ppa/stable
+    - sourceline: 'ppa:jonathonf/vim'
+    - sourceline: 'ppa:neovim-ppa/stable'
     packages:
     - vim
+
+before_script:
+- vim --version
 
 script:
 - bash install.sh vim
