@@ -63,6 +63,17 @@ alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
 
 # Tools {{
 
+# Vim {{
+
+alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
+
+rmvim() {
+  setopt localoptions nonomatch
+  rm -rf ~/.*vim* ~/.config/nvim
+}
+
+# }} // namespace vim
+
 # Awk {{
 
 program_exists awk && {
@@ -425,3 +436,9 @@ program_exists awk && {
 }
 
 # }} // namespace env
+
+# End {{
+
+alias self-destroy='rmvim && uninstall_oh_my_zsh'
+
+# }}
