@@ -296,11 +296,11 @@ endif
 
 " Move tabs
 if s:mac
-  nnoremap “ :call TabMove(-1)<cr>
-  nnoremap ‘ :call TabMove(1)<cr>
+  nnoremap “ :call xming#tabmove(-1)<cr>
+  nnoremap ‘ :call xming#tabmove(1)<cr>
 else
-  nnoremap <a-[> :call TabMove(-1)<cr>
-  nnoremap <a-]> :call TabMove(1)<cr>
+  nnoremap <a-[> :call xming#tabmove(-1)<cr>
+  nnoremap <a-]> :call xming#tabmove(1)<cr>
 endif
 
 inoremap <c-e> <End>
@@ -715,27 +715,6 @@ function! Rust_setup()
   if has_key(g:plugs, 'rust.vim')
     map <leader>f :RustFmt<cr>
   endif
-endfunction
-
-" Move current tab into the specified direction.
-" @param direction -1 for left, 1 for right.
-function! TabMove(direction)
-  " get number of tab pages.
-  let n = tabpagenr("$")
-  let l:index = tabpagenr()
-  if a:direction < 0
-    let l:index = l:index - 2
-    if l:index < 0
-      let l:index = n
-    endif
-  else
-    let l:index = l:index + 1
-    if l:index > n
-      let l:index = 0
-    endif
-  endif
-  " move tab page.
-  execute "tabmove " . l:index
 endfunction
 
 function! OnBattery()
