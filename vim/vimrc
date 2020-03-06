@@ -104,12 +104,12 @@ call plug#end()
 
 " General {{
 
-set mouse=a                 " Automatically enable mouse usage
-set mousehide               " Hide the mouse cursor while typing
+set mouse=a                     " Automatically enable mouse usage
+set mousehide                   " Hide the mouse cursor while typing
 scriptencoding utf-8
 
 if has('clipboard')
-  if has('unnamedplus') " When possible use + register for copy-paste
+  if has('unnamedplus')         " When possible use + register for copy-paste
     set clipboard=unnamed,unnamedplus
   else
     " On mac and Windows, use * register for copy-paste
@@ -159,9 +159,9 @@ endif
 
 set background=dark
 try
-  let ayucolor="mirage"       " light mirage dark
+  let ayucolor="mirage"         " light mirage dark
   color ayu
-  set termguicolors           " enable true colors support
+  set termguicolors             " enable true colors support
 catch
   color desert
 endtry
@@ -240,6 +240,13 @@ nnoremap k gk
 
 nnoremap n nzzzv
 nnoremap N Nzzzv
+
+nnoremap }   }zz
+nnoremap {   {zz
+nnoremap ]]  ]]zz
+nnoremap [[  [[zz
+nnoremap []  []zz
+nnoremap ][  ][zz
 
 " Allow to trigger background
 function! ToggleBG()
@@ -320,6 +327,10 @@ tnoremap <c-j> <c-\><c-N><c-w>j
 tnoremap <c-k> <c-\><c-N><c-w>k
 tnoremap <c-l> <c-\><c-N><c-w>l
 
+if has('nvim')
+  nnoremap <leader>T :vsplit +terminal<cr>
+endif
+
 " Fast editting
 nnoremap <c-s> :w<cr>
 nnoremap cl ggdG
@@ -345,6 +356,9 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
+
+nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
 
 iabbrev tab2 vim: set sw=2 ts=2 sts=2 et
 iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
@@ -595,14 +609,14 @@ if has_key(g:plugs, 'ale')
   " Only run linters named in ale_linters settings.
   let g:ale_linters_explicit = 1
   let g:ale_linters = {
-  \   'cpp': 'all',
-  \   'python': ['flake8', 'mypy', 'pylint'],
-  \   'go': ['gofmt', 'golint', 'govet'],
-  \   'rust': ['cargo'],
-  \   'sh': ['shell'],
-  \   'zsh': ['shell'],
-  \   'markdown': 'all',
-  \   'yaml': 'all',
+  \ 'cpp': 'all',
+  \ 'python': ['flake8', 'mypy', 'pylint'],
+  \ 'go': ['gofmt', 'golint', 'govet'],
+  \ 'rust': ['cargo'],
+  \ 'sh': ['shell'],
+  \ 'zsh': ['shell'],
+  \ 'markdown': 'all',
+  \ 'yaml': 'all',
   \}
 endif
 
@@ -633,7 +647,7 @@ endif
 
 " GVIM- (here instead of .gvimrc)
 if has('gui_running')
-  set guioptions=             " remove all gui options
+  set guioptions=               " remove all gui options
   set lines = 40                " 40 lines of text instead of 24
   if s:linux
     set guifont=Courier\ 10\ Pitch\ Regular\ 12,
