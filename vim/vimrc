@@ -241,12 +241,12 @@ nnoremap k gk
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-nnoremap }   }zz
-nnoremap {   {zz
-nnoremap ]]  ]]zz
-nnoremap [[  [[zz
-nnoremap []  []zz
-nnoremap ][  ][zz
+nnoremap }  }zz
+nnoremap {  {zz
+nnoremap ]] ]]zz
+nnoremap [[ [[zz
+nnoremap [] []zz
+nnoremap ][ ][zz
 
 " Allow to trigger background
 function! ToggleBG()
@@ -288,6 +288,9 @@ else
   nnoremap <a-h> gT
   nnoremap <a-l> gt
 endif
+
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
 
 if s:mac
   inoremap ˙ <Left>
@@ -356,6 +359,10 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
+
+" Open new line below and above current line
+nnoremap <leader>o o<esc>
+nnoremap <leader>O O<esc>
 
 nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
 nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
