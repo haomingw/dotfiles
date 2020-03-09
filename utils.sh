@@ -51,7 +51,7 @@ update_vim_plugins() {
 
 do_backup() {
   if [ -e "$1" ]; then
-    info "Attempting to back up your original configuration."
+    msg "Attempting to back up your original configuration."
     today=`date +%Y%m%d_%s`
     [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
     success "Your original configuration has been backed up."
@@ -116,7 +116,7 @@ zsh_plug() {
     else
       use_zsh_plugin $plugin
     fi
-    info "Now installing zsh plugin $plugin."
+    msg "Now installing zsh plugin $plugin."
   done
 }
 

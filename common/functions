@@ -14,7 +14,7 @@ MAGENTA="$(tput setaf 5 2>/dev/null || echo '\033[35m')"
 CYAN="$(tput setaf 6 2>/dev/null || echo '\033[36m')"
 NO_COLOR="$(tput sgr0 2>/dev/null || echo '\033[0m')"
 
-info() {
+msg() {
   printf "${BOLD}${GREY}>${NO_COLOR} $@\n"
 }
 

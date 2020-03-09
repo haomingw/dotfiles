@@ -118,8 +118,8 @@ config_sublime_vscode() {
 }
 
 bye() {
-  info "Thanks for installing $app_name."
-  info "© `date +%Y` http://flyingmouse.github.io/"
+  msg "Thanks for installing $app_name."
+  msg "© `date +%Y` http://flyingmouse.github.io/"
   exit 0
 }
 
