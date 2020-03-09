@@ -17,6 +17,7 @@ options=(
 )
 
 zsh_plugins=(
+  "z"
   "git"
   "zsh-users/zsh-autosuggestions"
   "zsh-users/zsh-syntax-highlighting"
@@ -58,11 +59,11 @@ install_oh_my_zsh() {
 
 install_zsh_plugins() {
   program_must_exist  "zsh"
-  file_must_exist   "$HOME/.zshrc"
-  file_must_exist   "$HOME/.oh-my-zsh"
+  file_must_exist     "$HOME/.zshrc"
+  file_must_exist     "$HOME/.oh-my-zsh"
 
-  config_zshrc    "$APP_PATH"
-  zsh_plug      $(reverse ${zsh_plugins[@]})
+  config_zshrc        "$APP_PATH"
+  zsh_plug            $(reverse ${zsh_plugins[@]})
 }
 
 config_python() {
@@ -124,13 +125,13 @@ bye() {
 
 config() {
   case "$1" in
-    "vim")      install_or_update_vim ;;
-    "oh-my-zsh")    install_oh_my_zsh ;;
-    "zsh-plugins")  install_zsh_plugins ;;
-    "python")     config_python ;;
-    "tmux")       config_tmux ;;
+    "vim")            install_or_update_vim ;;
+    "oh-my-zsh")      install_oh_my_zsh ;;
+    "zsh-plugins")    install_zsh_plugins ;;
+    "python")         config_python ;;
+    "tmux")           config_tmux ;;
     "sublime-vscode") config_sublime_vscode ;;
-    *)        error "Unexpected option: $1" ;;
+    *)                error "Unexpected option: $1" ;;
   esac
 }
 
