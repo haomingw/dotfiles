@@ -369,17 +369,17 @@ cdg() {
 
 # Files {{
 
-rmtype() {
+rrmt() {
   # recursively delete files of the given type
   find . -type f -name "*.$1" -ls -delete
 }
 
-rmfolder() {
+rrmd() {
   # recursively delete folders
   find . -type d -name $1 -ls -delete
 }
 
-rmd() {
+rmdot() {
   # remove current folder or git root folder
   local target
   is_git && target=$(groot) || target=$(pwd)

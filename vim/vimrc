@@ -289,8 +289,12 @@ else
   nnoremap <a-l> gt
 endif
 
-nnoremap ]t :tabn<cr>
 nnoremap [t :tabp<cr>
+nnoremap ]t :tabn<cr>
+
+" buffers
+nnoremap [b :bprev<cr>
+nnoremap ]b :bnext<cr>
 
 if s:mac
   inoremap ˙ <Left>
