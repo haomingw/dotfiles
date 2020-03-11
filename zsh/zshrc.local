@@ -96,9 +96,7 @@ program_exists tmux && {
   }
 
   txcl() {
-    local sessions=($(txls | tr "\n" " "))
-
-    for session in "${sessions[@]}"; do
+    for session in $(txls); do
       echo "deleting session #$session"
       txrm $session
     done
