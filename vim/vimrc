@@ -131,8 +131,7 @@ if !exists('g:xming_no_restore_cursor')
   augroup END
 endif
 
-" Choose 'visual bell' effect rather than 'beeping'.
-set visualbell
+set t_vb=                       " Shut up bell
 set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
 " Better Unix / Windows compatibility
 set viewoptions=folds,options,cursor,unix,slash
