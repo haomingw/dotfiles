@@ -50,6 +50,7 @@ call plug#begin('~/.vim/bundle')
 
 if count(g:xming_plug_groups, 'general')
   Plug 'romainl/vim-cool'
+  Plug 'junegunn/fzf.vim'
   Plug 'junegunn/goyo.vim'
   Plug 'itchyny/lightline.vim'
   Plug 'haomingw/vim-startscreen'
@@ -415,6 +416,14 @@ endif
 
 if has_key(g:plugs, 'vim-snippets')
   let g:snips_author = $USER
+endif
+
+" }}
+
+" fzf.vim {{
+
+if has_key(g:plugs, 'fzf.vim')
+  nnoremap <silent> <expr> <c-p> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
 endif
 
 " }}
