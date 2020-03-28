@@ -374,7 +374,7 @@ rrmt() {
 
 rrmd() {
   # recursively delete folders
-  find . -type d -name $1 -ls -delete
+  find . -type d -name $1 -ls -exec rm -rv {} +
 }
 
 rmdot() {
@@ -386,8 +386,8 @@ rmdot() {
   }
 }
 
-alias rmds='delete-type DS_Store'
-alias rmpyc='delete-type pyc && delete-folder __pycache__'
+alias rmds='rrmt DS_Store'
+alias rmpyc='rrmt pyc && rrmd __pycache__'
 
 alias rmzsh='rm -rf ~/.zsh ~/.zshrc.*'
 
