@@ -94,6 +94,7 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
   Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+  Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 endif
 
 " }}
@@ -617,10 +618,10 @@ if has_key(g:plugs, 'ale')
   let g:ale_lint_on_enter = 0
 
   " Only run linters named in ale_linters settings.
+  " 'python': ['flake8', 'mypy', 'pylint'],
   let g:ale_linters_explicit = 1
   let g:ale_linters = {
   \ 'cpp': 'all',
-  \ 'python': ['flake8', 'mypy', 'pylint'],
   \ 'go': ['gofmt', 'golint', 'govet'],
   \ 'rust': ['cargo'],
   \ 'sh': ['shell'],
@@ -647,6 +648,18 @@ endif
 
 if has_key(g:plugs, 'rust.vim')
   let g:rustfmt_autosave = 0
+endif
+
+" }}
+
+" Python-mode {{
+
+if has_key(g:plugs, 'python-mode')
+  let g:pymode_trim_whitespaces = 0
+  let g:pymode_rope = 1
+  let g:pymode_rope_regenerate_on_write = 0
+  let g:pymode_rope_goto_definition_bind = '<leader>to'
+  let g:pymode_breakpoint_bind = '<leader>bb'
 endif
 
 " }}
@@ -726,7 +739,7 @@ endfunction
 function! Python_setup()
   call Tab4()
   iabbrev im import
-  syn keyword pythonDecorator self
+  " syn keyword pythonDecorator self
 
   if has_key(g:plugs, 'yapf')
     map <leader>f :call yapf#YAPF()<cr>
