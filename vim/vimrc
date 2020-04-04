@@ -755,7 +755,7 @@ function! Cpp_setup()
   syn keyword cppType ll pii
 
   if !filereadable(getcwd() . "/Makefile")
-    let &makeprg='g++ % -DLOCAL -std=c++11 -O2 -Wall -Wextra
+    let &makeprg='g++ % -DLOCAL -std=c++14 -O2 -Wall -Wextra
       \ -Wpedantic -Wshadow -Wno-unused-result'
   endif
 
