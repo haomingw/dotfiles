@@ -95,11 +95,11 @@ setup_vim_plug() {
 use_zsh_plugin() {
   local pattern="^\s*$1$"
   local target="$HOME/.zshrc"
-  sed -i 's/^plugins=(/&\'$'\n'"  $1/" $target
+  sed -i -e 's/^plugins=(/&\'$'\n'"  $1/" $target
 }
 
 clear_zsh_plugins() {
-  sed -i '/^plugins/,/^)/{/^plugins/!{/^)/!d;};}' $HOME/.zshrc
+  sed -i -e '/^plugins/,/^)/{/^plugins/!{/^)/!d;};}' $HOME/.zshrc
 }
 
 zsh_plug() {
@@ -131,7 +131,7 @@ append_if_not_exists() {
 config_zshrc() {
   local app_path=$1
   local zshrc="$HOME/.zshrc"
-  sed -i 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' $zshrc
+  sed -i -e 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' $zshrc
   lnif $app_path/common         $HOME/.common
   for file in $app_path/zsh/*; do
     lnif $file "$HOME/.$(parse $file)"
