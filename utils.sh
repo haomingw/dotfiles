@@ -95,7 +95,7 @@ setup_vim_plug() {
 use_zsh_plugin() {
   local pattern="^\s*$1$"
   local target="$HOME/.zshrc"
-  sed -i "/^plugins=/a \  $1" $target
+  sed -i 's/^plugins=(/&\'$'\n'"  $1/" $target
 }
 
 clear_zsh_plugins() {
@@ -131,7 +131,7 @@ append_if_not_exists() {
 config_zshrc() {
   local app_path=$1
   local zshrc="$HOME/.zshrc"
-  sed -i '/plugins=(git)/c \plugins=(\n  git\n)' $zshrc
+  sed -i 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' $zshrc
   lnif $app_path/common         $HOME/.common
   for file in $app_path/zsh/*; do
     lnif $file "$HOME/.$(parse $file)"
@@ -141,8 +141,7 @@ config_zshrc() {
 
   # set ibus for archlinux
   program_exists pacman && {
-    cmd='ibus-daemon -drx'
-    append_if_not_exists $HOME/.profile "$cmd"
+    append_if_not_exists $HOME/.profile "ibus-daemon -drx"
   }
 
   success "Now configuring zsh."
