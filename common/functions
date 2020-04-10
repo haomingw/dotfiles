@@ -83,3 +83,19 @@ mvext() {
 }
 
 # }}
+
+# Advanced functions {{
+
+# Awk {{
+program_exists awk && {
+
+  trim_last_char() {
+    local args=$@
+    [[ $# -eq 0 ]] && read args
+    echo $args | awk '{print substr($0, 1, length($0)-1)}'
+  }
+
+}
+# }}
+
+# }}

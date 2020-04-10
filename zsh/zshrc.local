@@ -78,6 +78,7 @@ rmvim() {
 
 program_exists awk && {
   alias awk-last="awk '{print \$NF}'"
+
   awk-program-home() {
     awk -F"/" '{for(i=1;i<NF-2;i++) printf $i"/"; print $(NF-2)}'
   }
@@ -429,8 +430,8 @@ upd() {
 # path deduplication
 program_exists awk && {
   LD_LIBRARY_PATH=$(echo -n "$LD_LIBRARY_PATH" \
-    | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
-  PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | head -c-1)
+    | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
+  PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
 }
 
 # }} // namespace env

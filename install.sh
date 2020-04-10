@@ -59,6 +59,7 @@ install_oh_my_zsh() {
 
 install_zsh_plugins() {
   program_must_exist  "zsh"
+  program_must_exist  "tac"
   file_must_exist     "$HOME/.zshrc"
   file_must_exist     "$HOME/.oh-my-zsh"
 
