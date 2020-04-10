@@ -40,7 +40,7 @@ add-head() {
   local file=$1
   local text=$2
   local line=${3:=1}
-  if [[ -s $file ]] then;
+  if [[ -s $file ]]; then
     sed -i "${line}s/^/${text}\n/" $file
   else
     echo $text >> $file
