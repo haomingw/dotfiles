@@ -216,7 +216,7 @@ program_exists brew && {
   alias pSyu='brew update && brew upgrade'
   alias pR='brew uninstall'
   alias pRa='brew cleanup'
-  essential="wget"
+  essential="git neovim macvim"
 }
 
 alias install-essential='pS $(echo $essential)'

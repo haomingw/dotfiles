@@ -699,7 +699,7 @@ endif
 " GVIM- (here instead of .gvimrc)
 if has('gui_running')
   set guioptions=               " remove all gui options
-  set lines = 40                " 40 lines of text instead of 24
+  set lines=40                  " 40 lines of text instead of 24
   if s:linux
     set guifont=Courier\ 10\ Pitch\ Regular\ 12,
       \ Andale\ Mono\ Regular\ 12,
@@ -707,9 +707,9 @@ if has('gui_running')
       \ Consolas\ Regular\ 12,
       \ Courier\ New\ Regular\ 14
   elseif s:mac
-    set guifont=Andale\ Mono:h12,
-      \ Menlo:h11,Consolas:h12,
-      \ Courier\ New:h14
+    set guifont=AndaleMono:h12,
+      \ Menlo-Regular:h12,
+      \ CourierNewPSMT:h14
   elseif s:win
     set guifont=Andale_Mono:h10,
       \ Menlo:h10,Consolas:h10,
