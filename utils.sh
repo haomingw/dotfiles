@@ -109,9 +109,12 @@ zsh_plug() {
 
   for plugin in "$@"; do
     if [[ $plugin == */* ]]; then
-      use_zsh_plugin $(parse $plugin)
-      if [ ! -d "$plugin_path/$plugin" ]; then
+      local name=$(parse $plugin)
+      use_zsh_plugin $name
+      if [ ! -d "$plugin_path/$name" ]; then
         git_clone_to https://github.com/$plugin.git $plugin_path
+      else
+        pushd $plugin_path/$name && git pull && popd
       fi
     else
       use_zsh_plugin $plugin

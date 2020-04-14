@@ -20,8 +20,8 @@ zsh_plugins=(
   "z"
   "git"
   "zsh-users/zsh-autosuggestions"
-  "zsh-users/zsh-syntax-highlighting"
-  "history-substring-search"
+  "zdharma/fast-syntax-highlighting"
+  "zdharma/history-search-multi-word"
 )
 
 source utils.sh
