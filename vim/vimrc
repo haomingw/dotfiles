@@ -161,8 +161,7 @@ endif
 
 set background=dark
 try
-  let ayucolor="mirage"         " light mirage dark
-  color ayu
+  color nord
   set termguicolors             " enable true colors support
 catch
   color desert
@@ -459,7 +458,7 @@ endif
 
 if has_key(g:plugs, 'lightline.vim')
   let g:lightline = {
-  \ 'colorscheme': 'ayu_mirage',
+  \ 'colorscheme': 'nord',
   \ 'active': {
   \   'left': [ ['mode', 'paste'],
   \             ['fugitive', 'readonly', 'filename', 'modified'] ],
