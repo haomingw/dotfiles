@@ -98,6 +98,10 @@ config_sublime_vscode() {
       sublime_home="$HOME/.config/sublime-text-3/Packages/User"
       sublime_keymap="Default (Linux).sublime-keymap"
     }
+    is_macos && {
+      sublime_home="$HOME/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
+      sublime_keymap="Default (OSX).sublime-keymap"
+    }
     if [ ! -z $sublime_home ] && [ -d $sublime_home ]; then
       for file in $APP_PATH/sublime/*.sublime-settings; do
         lnif $file $sublime_home
