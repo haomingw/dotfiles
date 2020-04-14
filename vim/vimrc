@@ -82,16 +82,16 @@ endif
 
 if count(g:xming_plug_groups, 'programming')
   Plug 'dense-analysis/ale'
-  Plug 'octol/vim-cpp-enhanced-highlight'
+  Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go'
   Plug 'rust-lang/rust.vim'
-  Plug 'leafgarland/typescript-vim'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'luochen1990/rainbow'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'haomingw/vim-snippets'
+  Plug 'jeetsukumaran/vim-indentwise'
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
