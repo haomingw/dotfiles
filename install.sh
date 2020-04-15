@@ -99,14 +99,14 @@ config_sublime_vscode() {
       sublime_keymap="Default (Linux).sublime-keymap"
     }
     is_macos && {
-      sublime_home="$HOME/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
+      sublime_home="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
       sublime_keymap="Default (OSX).sublime-keymap"
     }
-    if [ ! -z $sublime_home ] && [ -d $sublime_home ]; then
+    if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
       for file in $APP_PATH/sublime/*.sublime-settings; do
-        lnif $file $sublime_home
+        lnif $file "$sublime_home"
       done
-      lnif "$APP_PATH/sublime/$sublime_keymap" $sublime_home
+      lnif "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
       success "Now configuring sublime-text."
     fi
   }
@@ -115,13 +115,15 @@ config_sublime_vscode() {
     local code_home
     is_linux && code_home="$HOME/.config/Code/User"
     is_macos && code_home="$HOME/Library/Application Support/Code/User"
-    increase_watch_limit
-    watch_limit_is_increased && install_vscode_extensions
+    is_linux && increase_watch_limit
+    install_vscode_extensions
     if [ ! -z "$code_home" ]; then
-      lnif $APP_PATH/vscode/settings.json  $code_home
-      lnif $APP_PATH/vscode/keybindings.json $code_home
-      rm -rf $code_home/snippets
-      lnif $APP_PATH/vscode/snippets     $code_home
+      lnif $APP_PATH/vscode/settings.json "$code_home"
+      lnif $APP_PATH/vscode/keybindings.json "$code_home"
+      [ -d "$code_home/snippets" ] || mkdir "$code_home/snippets"
+      for file in $APP_PATH/vscode/snippets/*; do
+        lnif $file "$code_home/snippets"
+      done
       success "Now configuring vscode."
     fi
   } || true
