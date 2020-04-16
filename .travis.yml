@@ -11,8 +11,10 @@ addons:
     - sourceline: 'ppa:neovim-ppa/stable'
     packages:
     - vim
+    - neovim
 
 before_script:
+- lsb_release -a
 - vim --version
 
 script:
@@ -21,7 +23,7 @@ script:
 branches:
   only:
   - master
-  - /^release-\d+\.\d+$/
+  - develop
 
 git:
   quiet: true
