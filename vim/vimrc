@@ -3,20 +3,20 @@
 
 " Environment {{
 
-" Identify platform {{
-
-let s:mac = has('macunix')
-let s:linux = has('unix') && !has('macunix') && !has('win32unix')
-let s:win = has('win32')
-
-" }}
-
 " Basics {{
 
 set nocompatible        " Must be first line
 augroup vimrc
   autocmd!
 augroup END
+
+" }}
+
+" Identify platform {{
+
+let s:mac = has('macunix')
+let s:linux = has('unix') && !has('macunix') && !has('win32unix')
+let s:win = has('win32')
 
 " }}
 

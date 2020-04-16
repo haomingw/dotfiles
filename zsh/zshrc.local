@@ -435,9 +435,3 @@ program_exists awk && {
 }
 
 # }} // namespace env
-
-# End {{
-
-alias self-destroy='rmvim && uninstall_oh_my_zsh'
-
-# }}

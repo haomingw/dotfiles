@@ -120,10 +120,14 @@ config_sublime_vscode() {
     if [ ! -z "$code_home" ]; then
       lnif $APP_PATH/vscode/settings.json "$code_home"
       lnif $APP_PATH/vscode/keybindings.json "$code_home"
-      [ -d "$code_home/snippets" ] || mkdir "$code_home/snippets"
-      for file in $APP_PATH/vscode/snippets/*; do
-        lnif $file "$code_home/snippets"
-      done
+      if is_linux; then
+        rm -rf "$code_home/snippets"
+        lnif $APP_PATH/vscode/snippets "$code_home"
+      else
+        for file in $APP_PATH/vscode/snippets/*; do
+          lnif $file "$code_home/snippets"
+        done
+      fi
       success "Now configuring vscode."
     fi
   } || true
