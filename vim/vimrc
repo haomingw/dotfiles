@@ -87,11 +87,11 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'rust-lang/rust.vim'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
-  Plug 'luochen1990/rainbow'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'haomingw/vim-snippets'
   Plug 'jeetsukumaran/vim-indentwise'
+  Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
@@ -540,11 +540,14 @@ endif
 
 " }}
 
-" Rainbow {{
+" RainbowParentheses {{
 
-if has_key(g:plugs, 'rainbow')
-  " 0 if you want to enable it later via :RainbowToggle
-  let g:rainbow_active = 1
+if has_key(g:plugs, 'rainbow_parentheses.vim')
+  " Activation based on file type
+  augroup rainbow
+    autocmd!
+    autocmd FileType c,cpp,python,sh RainbowParentheses
+  augroup END
 endif
 
 " }}
