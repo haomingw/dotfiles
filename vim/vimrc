@@ -92,11 +92,11 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'haomingw/vim-snippets'
   Plug 'jeetsukumaran/vim-indentwise'
   Plug 'junegunn/rainbow_parentheses.vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
   Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
-  Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 endif
 
 " }}
@@ -690,6 +690,23 @@ if has_key(g:plugs, 'python-mode')
   let g:pymode_rope_regenerate_on_write = 0
   let g:pymode_rope_goto_definition_bind = '<leader>to'
   let g:pymode_breakpoint_bind = '<leader>bb'
+endif
+
+" }}
+
+" coc.nvim {{
+
+if has_key(g:plugs, 'coc.nvim')
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 endif
 
 " }}
