@@ -69,7 +69,7 @@ alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 rmvim() {
   setopt localoptions nonomatch
-  rm -rf ~/.*vim* ~/.config/nvim
+  rm -rf ~/.*vim* ~/.config/nvim ~/.config/coc
 }
 
 # }} // namespace vim

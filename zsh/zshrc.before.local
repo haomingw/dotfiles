@@ -19,8 +19,10 @@ safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || true }
 # added by Miniconda3 installer
 safe_export_path $HOME/miniconda3/bin
 
-export JAVA_HOME=/usr/local/jdk1.8.0_241
-safe_export_path $JAVA_HOME/bin
+for file in /usr/local/jdk*; do
+  export JAVA_HOME=$file
+done
+[[ -z $JAVA_HOME ]] || safe_export_path $JAVA_HOME/bin
 
 safe_export_path /usr/local/go/bin
 export GOPATH=$HOME/go
