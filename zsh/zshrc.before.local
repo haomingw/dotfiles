@@ -19,6 +19,7 @@ safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || true }
 # added by Miniconda3 installer
 safe_export_path $HOME/miniconda3/bin
 
+setopt localoptions nonomatch
 for file in /usr/local/jdk*; do
   export JAVA_HOME=$file
 done
