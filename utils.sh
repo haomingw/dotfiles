@@ -66,7 +66,7 @@ create_vim_symlinks() {
     lnif $file "$HOME/.vim/$(parse $file)"
   done
   lnif "$app/vim/vimrc"           "$HOME/.vimrc"
-  lnif "$app/vim/ideavimrc"         "$HOME/.ideavimrc"
+  lnif "$app/vim/ideavimrc"       "$HOME/.ideavimrc"
 
   lnif "$app/vim/vim/static/clang-format" "$HOME/.clang-format"
   lnif "$app/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
@@ -76,8 +76,16 @@ create_vim_symlinks() {
 
 setup_neovim() {
   mkdir -p $HOME/.config
+  if is_macos; then
+    if [ -f /usr/local/bin/pip3 ]; then
+      /usr/local/bin/pip3 install neovim
+    else
+      warning "Run 'brew install python'"
+    fi
+  fi
   lnif "$HOME/.vim"     "$HOME/.config/nvim"
-  lnif "$HOME/.vimrc"     "$HOME/.config/nvim/init.vim"
+  lnif "$HOME/.vimrc"   "$HOME/.config/nvim/init.vim"
+
   success "Setting up neovim."
 }
 

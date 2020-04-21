@@ -35,8 +35,12 @@ endif
 " Bundles {{
 
 if has('nvim')
-  let g:python_host_prog = '/usr/bin/python2'
-  let g:python3_host_prog = '/usr/bin/python3'
+  if s:linux
+    let g:python_host_prog = '/usr/bin/python2'
+    let g:python3_host_prog = '/usr/bin/python3'
+  else
+    let g:python3_host_prog = '/usr/local/bin/python3'
+  endif
 endif
 
 " list only the plugin groups you will use
