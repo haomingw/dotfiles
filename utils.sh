@@ -78,7 +78,7 @@ setup_neovim() {
   mkdir -p $HOME/.config
   if is_macos; then
     if [ -f /usr/local/bin/pip3 ]; then
-      /usr/local/bin/pip3 install neovim
+      /usr/local/bin/pip3 install -U neovim
     else
       warning "Run 'brew install python'"
     fi
