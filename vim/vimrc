@@ -548,8 +548,7 @@ endif
 
 if has_key(g:plugs, 'rainbow_parentheses.vim')
   " Activation based on file type
-  augroup rainbow
-    autocmd!
+  augroup vimrc
     autocmd FileType c,cpp,python,sh RainbowParentheses
   augroup END
 endif
@@ -618,6 +617,9 @@ if has_key(g:plugs, 'indentLine')
   let g:indentLine_color_term = 239
   let g:indentLine_color_gui = '#616161'
   nnoremap <leader>il :IndentLinesEnable<cr>
+  augroup vimrc
+    autocmd FileType c,cpp,python,sh IndentLinesEnable
+  augroup END
 endif
 
 " }}
