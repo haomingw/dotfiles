@@ -169,9 +169,31 @@ gpgkid() {
   gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
 }
 
+gpgenc() {
+  for file in $@; do
+    msg "Encrypting $file"
+    gpg --encrypt --recipient $(gpgkid) $file
+  done
+}
+
+gpgdec() {
+  local name
+
+  for file in $@; do
+    name=$(basename $file .gpg)
+    if [[ -f $name ]]; then
+      warning "$name exists"
+    else
+      msg "Decrypting $file"
+      gpg --decrypt $file > $name
+    fi
+  done
+}
+
 alias gpgpub='gpg --armor --export $(gpgkid)'
 
-alias pgprm='gpg --delete-secret-key $(gpgkid)'
+alias gpgrm='gpg --delete-secret-key $(gpgkid)'
+
 
 # }} // namespace gpg
 
@@ -188,7 +210,7 @@ program_exists apt && {
   alias pRa='sudo apt autoremove'
   essential="curl git-gui tmux htop tree net-tools clang clang-format \
     python3-distutils build-essential ctags cmake xclip ibus-rime \
-    python3-pynvim"
+    python3-pynvim gnupg"
 }
 
 program_exists pacman && {
@@ -205,7 +227,7 @@ program_exists pacman && {
   alias mkp='makepkg -si'
   essential="base-devel clang wget tk tmux htop tree xclip vim  \
     python-neovim neovim net-tools xdg-utils ctags ibus-rime \
-    ttf-dejavu ttf-ubuntu-font-family"
+    ttf-dejavu ttf-ubuntu-font-family gnupg"
 }
 
 program_exists brew && {
