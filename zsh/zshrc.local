@@ -212,7 +212,11 @@ gpgdec() {
   done
 }
 
-alias gpgpub='gpg --armor --export $(gpgkid)'
+gpgpub() {
+  local key_id=${1:=$(gpgkid)}
+  gpg --armor --export $key_id
+}
+
 alias gpgpvt='gpg --export-secret-key $(gpgkid)'
 
 # }} // namespace gpg
