@@ -99,7 +99,7 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-  Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
+  Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
   Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 endif
 
@@ -616,9 +616,9 @@ if has_key(g:plugs, 'indentLine')
   autocmd! User indentLine doautocmd indentLine Syntax
   let g:indentLine_color_term = 239
   let g:indentLine_color_gui = '#616161'
-  nnoremap <leader>il :IndentLinesEnable<cr>
+  nnoremap <leader>il :IndentLinesToggle<cr>
   augroup vimrc
-    autocmd FileType c,cpp,python,sh IndentLinesEnable
+    autocmd FileType c,cpp,python,sh IndentLinesToggle
   augroup END
 endif
 
