@@ -163,16 +163,38 @@ gclip() {
 
 alias gpgen='gpg --full-generate-key'
 
+alias gpgpls='gpg --list-keys'
 alias gpgls='gpg --list-secret-keys --keyid-format LONG'
+
+alias gpgprm='gpg --delete-key'
+alias gpgrm='gpg --delete-secret-key $(gpgkid)'
 
 gpgkid() {
   gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
 }
 
+gpgsend() {
+  gpg --keyserver hkps://keys.openpgp.org --send-keys $(gpgkid)
+}
+
+gpgrecv() {
+  [[ $# -eq 0 ]] && {
+    warning "No key id to retrieve"
+    return 1
+  }
+  gpg --keyserver hkps://keys.openpgp.org --recv-keys $1
+}
+
+gitgpg() {
+  git config user.signingkey $(gpgkid)
+  git config gpg.program gpg
+  git config commit.gpgsign true
+}
+
 gpgenc() {
   for file in $@; do
     msg "Encrypting $file"
-    gpg --encrypt --recipient $(gpgkid) $file
+    gpg --encrypt --sign --recipient $(gpgkid) $file
   done
 }
 
@@ -191,9 +213,7 @@ gpgdec() {
 }
 
 alias gpgpub='gpg --armor --export $(gpgkid)'
-
-alias gpgrm='gpg --delete-secret-key $(gpgkid)'
-
+alias gpgpvt='gpg --export-secret-key $(gpgkid)'
 
 # }} // namespace gpg
 
