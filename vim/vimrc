@@ -551,6 +551,7 @@ if has_key(g:plugs, 'rainbow_parentheses.vim')
   augroup vimrc
     autocmd FileType c,cpp,python,sh RainbowParentheses
   augroup END
+  let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 endif
 
 " }}

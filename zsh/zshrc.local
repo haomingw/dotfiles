@@ -114,6 +114,7 @@ alias groot='git rev-parse --show-toplevel NE'
 alias gsmu='git submodule init && git submodule update --remote'
 alias gtcl='git tag -l | xargs git tag -d'
 alias gtu='gtcl && git fetch --tags'
+alias gcfix='git commit -m "fix"'
 
 gtrm() {
   local tag="$1"
@@ -157,6 +158,12 @@ gclip() {
   git clone $url && cd $repo
 }
 
+gitgpg() {
+  git config user.signingkey $(gpgkid)
+  git config gpg.program gpg
+  git config commit.gpgsign true
+}
+
 # }} // namespace git
 
 # GPG {{
@@ -183,12 +190,6 @@ gpgrecv() {
     return 1
   }
   gpg --keyserver hkps://keys.openpgp.org --recv-keys $1
-}
-
-gitgpg() {
-  git config user.signingkey $(gpgkid)
-  git config gpg.program gpg
-  git config commit.gpgsign true
 }
 
 gpgenc() {
@@ -436,7 +437,6 @@ rmdot() {
 
 alias rmds='rrmt DS_Store'
 alias rmpyc='rrmt pyc && rrmd __pycache__'
-
 alias rmzsh='rm -rf ~/.zsh ~/.zshrc.*'
 
 # }} // namespace files
