@@ -233,9 +233,10 @@ program_exists apt && {
   alias pSyu='sudo apt update && sudo apt upgrade'
   alias pR='sudo apt purge'
   alias pRa='sudo apt autoremove'
-  essential="curl git-gui tmux htop tree net-tools clang clang-format \
-    python3-distutils build-essential ctags cmake xclip ibus-rime \
-    python3-pynvim gnupg"
+
+  essential="curl git-gui tmux clang clang-format build-essential \
+    python3-distutils python3-pynvim xclip ibus-rime gnupg"
+  optional="htop tree net-tools cmake ctags openssh-server"
 }
 
 program_exists pacman && {
@@ -250,9 +251,10 @@ program_exists pacman && {
     || echo "No orphans to remove"'
   alias pSym='sudo pacman-mirrors --fasttrack && sudo pacman -Syyu'
   alias mkp='makepkg -si'
-  essential="base-devel clang wget tk tmux htop tree xclip vim  \
-    python-neovim neovim net-tools xdg-utils ctags ibus-rime \
-    ttf-dejavu ttf-ubuntu-font-family gnupg"
+
+  essential="base-devel clang wget tk tmux xclip vim gnupg ibus-rime \
+    python-neovim neovim xdg-utils ttf-dejavu ttf-ubuntu-font-family"
+  optional="htop tree net-tools cmake ctags openssh"
 }
 
 program_exists brew && {
@@ -264,10 +266,12 @@ program_exists brew && {
   alias pSyu='brew update && brew upgrade'
   alias pR='brew uninstall'
   alias pRa='brew cleanup'
+
   essential="git neovim macvim"
 }
 
 alias install-essential='pS $(echo $essential)'
+[[ -n $optional ]] && alias install-optional='pS $(echo $optional)'
 
 # }} // namespace package_manager
 
