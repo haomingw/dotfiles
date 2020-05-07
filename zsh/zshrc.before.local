@@ -29,6 +29,8 @@ safe_export_path /usr/local/go/bin
 export GOPATH=$HOME/go
 safe_export_path $GOPATH/bin
 
+safe_export_path /usr/lib/cargo/bin
+
 safe_export_path /usr/local/node/bin
 
 safe_use_cuda() {
@@ -50,5 +52,6 @@ safe_use_cuda "/usr/local/cuda"
 export EDITOR=vim
 export LANG='en_US.UTF-8'
 export CONDA_AUTO_ACTIVATE_BASE=false
+export FZF_DEFAULT_COMMAND='find -type f ! -name "*.o"'
 
 # }} // namespace env
