@@ -237,6 +237,13 @@ program_exists apt && {
   essential="curl git-gui tmux clang clang-format build-essential \
     python3-distutils python3-pynvim xclip ibus-rime gnupg"
   optional="htop tree net-tools cmake ctags openssh-server fd-find"
+
+  # HHKB keyboard settings [HHKB mode]
+  # sudo vim /usr/share/X11/xkb/symbols/pc
+  # sudo rm -rf /var/lib/xkb/*
+  # modifier_map Control{ Henkan_Mode };
+  # modifier_map Mod4   { Muhenkan };
+
 }
 
 program_exists pacman && {
