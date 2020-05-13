@@ -703,18 +703,6 @@ endif
 
 " }}
 
-" Python-mode {{
-
-if has_key(g:plugs, 'python-mode')
-  let g:pymode_trim_whitespaces = 0
-  let g:pymode_rope = 1
-  let g:pymode_rope_regenerate_on_write = 0
-  let g:pymode_rope_goto_definition_bind = '<leader>to'
-  let g:pymode_breakpoint_bind = '<leader>bb'
-endif
-
-" }}
-
 " coc.nvim {{
 
 if has_key(g:plugs, 'coc.nvim')
