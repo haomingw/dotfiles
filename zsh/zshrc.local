@@ -240,9 +240,9 @@ program_exists apt && {
 
   # HHKB keyboard settings [HHKB mode]
   # sudo vim /usr/share/X11/xkb/symbols/pc
-  # sudo rm -rf /var/lib/xkb/*
   # modifier_map Control{ Henkan_Mode };
   # modifier_map Mod4   { Muhenkan };
+  # sudo rm -rf /var/lib/xkb/*
 
 }
 
@@ -274,7 +274,7 @@ program_exists brew && {
   alias pR='brew uninstall'
   alias pRa='brew cleanup'
 
-  essential="git neovim macvim"
+  essential="git neovim macvim tmux"
   optional="fd"
 }
 

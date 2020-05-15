@@ -706,6 +706,13 @@ endif
 " coc.nvim {{
 
 if has_key(g:plugs, 'coc.nvim')
+  let g:coc_global_extensions = ['coc-python']
+
+  nmap <silent> <leader>py :CocCommand python.setInterpreter<cr>
+  nmap <silent> <leader>to <Plug>(coc-definition)
+  nmap <silent> <leader>im <Plug>(coc-implementation)
+  nmap <silent> <leader>rf <Plug>(coc-references)
+
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
@@ -715,6 +722,7 @@ if has_key(g:plugs, 'coc.nvim')
     \ pumvisible() ? "\<C-n>" :
     \ <SID>check_back_space() ? "\<TAB>" :
     \ coc#refresh()
+
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 endif
 
