@@ -101,7 +101,6 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
-  Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 endif
 
 " }}
@@ -680,6 +679,12 @@ if has_key(g:plugs, 'ale')
   \ 'markdown': 'all',
   \ 'yaml': 'all',
   \}
+
+  " Fix Python files with autopep8 and yapf.
+  let g:ale_fixers = {
+  \ 'python': ['autopep8', 'yapf'],
+  \}
+
 endif
 
 " }}
@@ -801,12 +806,12 @@ endfunction
 function! Python_setup()
   call Tab4()
   iabbrev im import
-  " syn keyword pythonDecorator self
-
-  if has_key(g:plugs, 'yapf')
-    map <leader>f :call yapf#YAPF()<cr>
-  endif
+  syn keyword pythonDecorator self
   let &makeprg='python %'
+
+  if has_key(g:plugs, 'ale')
+    map <leader>f :ALEFix<cr>
+  endif
 endfunction
 
 " Setup rust file
