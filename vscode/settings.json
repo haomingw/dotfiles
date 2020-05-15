@@ -16,6 +16,7 @@
     "explorer.sortOrder": "type",
 
     "files.exclude": {
+        "**/.mypy_cache": true,
         "**/.idea": true,
         "**/env": true,
         "**/venv": true,
