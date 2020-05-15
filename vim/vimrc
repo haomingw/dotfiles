@@ -669,10 +669,10 @@ if has_key(g:plugs, 'ale')
   let g:ale_lint_on_enter = 0
 
   " Only run linters named in ale_linters settings.
-  " 'python': ['flake8', 'mypy', 'pylint'],
   let g:ale_linters_explicit = 1
   let g:ale_linters = {
   \ 'cpp': 'all',
+  \ 'python': ['flake8', 'mypy', 'pylint'],
   \ 'go': ['gofmt', 'golint', 'govet'],
   \ 'rust': ['cargo'],
   \ 'sh': ['shell'],
