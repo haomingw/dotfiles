@@ -169,7 +169,13 @@ cleanup_miniconda_files() {
 
 install_miniconda_if_not_exists() {
   local conda="$HOME/miniconda3"
-  local pip_packages="$HOME/.pip_packages"
+  local init_pip_packages="$HOME/.pip_packages"
+  local python_packages=(
+    "jedi"
+    "flake8"
+    "mypy"
+    "yapf"
+  )
 
   if [ ! -d $conda ]; then
     local url
@@ -183,10 +189,13 @@ install_miniconda_if_not_exists() {
       bash $target/$miniconda \
       && success "Miniconda successfully installed" \
       && cleanup_miniconda_files $target/$miniconda
-      success "Writing pip packages to $pip_packages"
-      $conda/bin/pip freeze > $pip_packages
+      success "Writing pip packages to $init_pip_packages"
+      $conda/bin/pip freeze > $init_pip_packages
     fi
   fi
+  for package in "${python_packages[@]}"; do
+    $conda/bin/pip install -U $package
+  done
 }
 
 watch_limit_is_increased() {
@@ -224,7 +233,7 @@ increase_watch_limit() {
 }
 
 install_vscode_extensions() {
-  extensions=(
+  local extensions=(
     "ms-vscode.go"
     "eamodio.gitlens"
     "ms-python.python"
