@@ -165,12 +165,15 @@ endif
 " Vim UI {{
 
 set background=dark
-try
-  color nord
+
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors             " enable true colors support
-catch
+  color nord
+else
   color desert
-endtry
+endif
 
 set number                      " Line numbers on
 set cursorline                  " Highlight current line
@@ -714,9 +717,9 @@ if has_key(g:plugs, 'coc.nvim')
   let g:coc_global_extensions = ['coc-python']
 
   nmap <silent> <leader>py :CocCommand python.setInterpreter<cr>
-  nmap <silent> <leader>to <Plug>(coc-definition)
-  nmap <silent> <leader>im <Plug>(coc-implementation)
-  nmap <silent> <leader>rf <Plug>(coc-references)
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -729,6 +732,16 @@ if has_key(g:plugs, 'coc.nvim')
     \ coc#refresh()
 
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  function! s:show_documentation()
+    if (index(['vim', 'help'], &filetype) >= 0)
+      execute 'h' expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  nnoremap <silent> K :call <SID>show_documentation()<cr>
 endif
 
 " }}
