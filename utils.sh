@@ -113,16 +113,16 @@ clear_zsh_plugins() {
 zsh_plug() {
   clear_zsh_plugins
 
-  local plugin_path="$ZSH_CUSTOM/plugins"
+  local custom_plugins="$ZSH_CUSTOM/plugins"
 
   for plugin in "$@"; do
     if [[ $plugin == */* ]]; then
       local name=$(parse $plugin)
       use_zsh_plugin $name
-      if [ ! -d "$plugin_path/$name" ]; then
-        git_clone_to https://github.com/$plugin.git $plugin_path
+      if [ ! -d "$custom_plugins/$name" ]; then
+        git_clone_to https://github.com/$plugin.git $custom_plugins
       else
-        pushd $plugin_path/$name && git pull && popd
+        pushd $custom_plugins/$name && git pull && popd
       fi
     else
       use_zsh_plugin $plugin
@@ -142,11 +142,19 @@ append_if_not_exists() {
 config_zshrc() {
   local app_path=$1
   local zshrc="$HOME/.zshrc"
+
   sed -i -e 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' $zshrc
   lnif $app_path/common         $HOME/.common
   for file in $app_path/zsh/*; do
     lnif $file "$HOME/.$(parse $file)"
   done
+
+  sed -i -e 's/robbyrussell/xming/' $zshrc
+  local custom_themes="$ZSH_CUSTOM/themes"
+  for file in $app_path/zsh/zsh/themes/*; do
+    lnif $file "$custom_themes/$(basename $file .zsh).zsh-theme"
+  done
+
   local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
   append_if_not_exists $zshrc "$cmd"
 

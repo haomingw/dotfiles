@@ -15,7 +15,7 @@ CYAN="$(tput setaf 6 2>/dev/null || echo '\033[36m')"
 NO_COLOR="$(tput sgr0 2>/dev/null || echo '\033[0m')"
 
 msg() {
-  printf "${BOLD}${GREY}>${NO_COLOR} $@\n"
+  printf "${BOLD}${GREY}❯${NO_COLOR} $@\n"
 }
 
 warning() {
@@ -23,7 +23,7 @@ warning() {
 }
 
 error() {
-  printf "${RED}✘ $@${NO_COLOR}\n" >&2
+  printf "${RED}✗ $@${NO_COLOR}\n" >&2
 }
 
 success() {
