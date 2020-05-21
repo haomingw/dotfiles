@@ -236,7 +236,8 @@ program_exists apt && {
 
   essential="curl git-gui tmux clang clang-format build-essential \
     python3-distutils python3-pynvim xclip ibus-rime gnupg"
-  optional="htop tree net-tools cmake ctags openssh-server fd-find"
+  optional="htop tree net-tools cmake ctags openssh-server fd-find \
+    ripgrep"
 
   # HHKB keyboard settings [HHKB mode]
   # sudo vim /usr/share/X11/xkb/symbols/pc
@@ -261,7 +262,7 @@ program_exists pacman && {
 
   essential="base-devel clang wget tk tmux xclip vim gnupg ibus-rime \
     python-neovim neovim xdg-utils ttf-dejavu ttf-ubuntu-font-family"
-  optional="htop tree net-tools cmake ctags openssh fd"
+  optional="htop tree net-tools cmake ctags openssh fd ripgrep"
 }
 
 program_exists brew && {
@@ -275,7 +276,7 @@ program_exists brew && {
   alias pRa='brew cleanup'
 
   essential="git neovim macvim tmux"
-  optional="fd"
+  optional="fd ripgrep"
 }
 
 alias install-essential='pS $(echo $essential)'
@@ -496,6 +497,7 @@ program_exists awk && {
 program_exists fd && {
   export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
   export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+  export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
 }
 
 # }} // namespace env

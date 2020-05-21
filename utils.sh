@@ -149,7 +149,6 @@ config_zshrc() {
     lnif $file "$HOME/.$(parse $file)"
   done
 
-  sed -i -e 's/robbyrussell/xming/' $zshrc
   local custom_themes="$ZSH_CUSTOM/themes"
   for file in $app_path/zsh/zsh/themes/*; do
     lnif $file "$custom_themes/$(basename $file .zsh).zsh-theme"
