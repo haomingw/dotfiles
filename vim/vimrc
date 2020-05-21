@@ -244,6 +244,8 @@ endif
 
 " qq to record, Q to replay
 nnoremap Q @q
+" Do not show q: window
+nnoremap q: :q
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj

@@ -38,7 +38,7 @@ alias decrypt='openssl enc -aes-256-cbc -d -salt -md sha512'
 
 # Git {{
 
-alias is_git='git rev-parse --git-dir >/dev/null 2>&1'
+alias is_git='git rev-parse --is-inside-work-tree &>/dev/null'
 
 alias lg='lazygit'
 
