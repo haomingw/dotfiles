@@ -10,10 +10,13 @@ make_arrow() {
 }
 
 prompt_git_fetch() {
-  git rev-parse --is-inside-work-tree &>/dev/null &&
-  git fetch $(git rev-parse --abbrev-ref @'{u}' | sed 's!/! !') &>/dev/null && {
-    local x=$(git rev-list --left-right --count HEAD...@'{u}')
-    make_arrow ${(ps:\t:)x}
+  git rev-parse --is-inside-work-tree &>/dev/null && {
+    local ref=$(git symbolic-ref -q HEAD)
+    local remote=($(git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
+    git fetch $remote && {
+      local x=$(git rev-list --left-right --count HEAD...@'{u}')
+      make_arrow ${(ps:\t:)x}
+    }
   }
 }
 
@@ -24,12 +27,13 @@ prompt_refresh() {
 prompt_callback() {
   local job=$1 code=$2 output=$3 exec_time=$4
   case $job in
-    prompt_git_fetch) (( code == 0 )) && git_arrow=$output ;;
+    prompt_git_fetch) git_arrow=$output ;;
   esac
   prompt_refresh
 }
 
 prompt_precmd() {
+  print -Pn '\e]0;%~\a'
   async_worker_eval 'prompt' builtin cd -q $PWD
   async_job 'prompt' prompt_git_fetch
 }
