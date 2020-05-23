@@ -30,9 +30,9 @@ arrow_prompt_info() {
 
 prompt_git_fetch() {
   is_git && {
-    local ref=$(git symbolic-ref -q HEAD)
-    local remote=($(git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
-    git fetch $remote
+    local ref=$(command git symbolic-ref -q HEAD)
+    local remote=($(command git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
+    command git fetch $remote
   }
 }
 
@@ -46,9 +46,8 @@ prompt_callback() {
     \[async])
       # handle all the errors
       if (( code == 2 )) || (( code == 3 )) || (( code == 130 )); then
-        prompt_async_inited=0
         async_stop_worker 'prompt'
-        prompt_async_init
+        prompt_async_inited=0 && prompt_async_init
       fi
       ;;
     prompt_git_fetch)
