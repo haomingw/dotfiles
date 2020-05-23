@@ -1,22 +1,38 @@
 source $HOME/.zsh/async.zsh
 
-make_arrow() {
-  local arrows=' ' left=${1:-0} right=${2:-0}
+is_git() {
+  command git rev-parse --is-inside-work-tree &>/dev/null
+}
+
+update_git_arrow() {
+  local arrows left=${1:-0} right=${2:-0}
 
   (( right > 0 )) && arrows+=⇣
   (( left > 0 )) && arrows+=⇡
 
-  [[ -z ${arrows// } ]] || echo $arrows
+  reply=$arrows
+}
+
+prompt_update_git_arrow() {
+  is_git && {
+    local output=$(command git rev-list --left-right --count HEAD...@'{u}')
+    update_git_arrow ${(ps:\t:)output}
+  }
+}
+
+arrow_prompt_info() {
+  is_git && {
+    prompt_update_git_arrow
+    prompt_git_arrows=$reply
+    [[ -n $prompt_git_arrows ]] && echo " $prompt_git_arrows"
+  }
 }
 
 prompt_git_fetch() {
-  git rev-parse --is-inside-work-tree &>/dev/null && {
+  is_git && {
     local ref=$(git symbolic-ref -q HEAD)
     local remote=($(git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
-    git fetch $remote && {
-      local x=$(git rev-list --left-right --count HEAD...@'{u}')
-      make_arrow ${(ps:\t:)x}
-    }
+    git fetch $remote
   }
 }
 
@@ -35,9 +51,13 @@ prompt_callback() {
         prompt_async_init
       fi
       ;;
-    prompt_git_fetch) git_arrow=$output ;;
+    prompt_git_fetch)
+      if (( code == 0 )); then
+        prompt_update_git_arrow
+        [[ $prompt_git_arrows != $reply ]] && prompt_refresh
+      fi
+      ;;
   esac
-  prompt_refresh
 }
 
 prompt_precmd() {
@@ -63,11 +83,12 @@ prompt_setup() {
   add-zsh-hook precmd prompt_precmd
 
   typeset -g prompt_async_inited
-  typeset -g git_arrow
+  typeset -g prompt_git_arrows
+  typeset -g reply
 
   prompt_async_init
 
-  PROMPT='%B%F{cyan}%c%f%b$(git_prompt_info)%B%F{blue}$git_arrow%f%b %(?.%F{green}.%F{red})❯%f '
+  PROMPT='%B%F{cyan}%c%f%b$(git_prompt_info)%B%F{blue}$(arrow_prompt_info)%f%b %(?.%F{green}.%F{red})❯%f '
 
   ZSH_THEME_GIT_PROMPT_PREFIX=" %F{242}"
   ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
