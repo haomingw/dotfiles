@@ -17,12 +17,13 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install latest vim
-      if: matrix.os == 'ubuntu-latest'
+      if: startsWith(matrix.os,'ubuntu')
       run: |
         sudo add-apt-repository ppa:jonathonf/vim
         sudo apt update
         sudo apt install vim
-        vim --version
 
     - name: Configure vim
-      run: bash install.sh vim
+      run:  |
+        vim --version
+        bash install.sh vim
