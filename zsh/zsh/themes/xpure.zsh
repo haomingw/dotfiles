@@ -1,7 +1,8 @@
 source $HOME/.zsh/async.zsh
 
-is_git() {
-  command git rev-parse --is-inside-work-tree &>/dev/null
+git_has_upstream() {
+  local branch=$(git_current_branch)
+  command git rev-parse --abbrev-ref $branch@{upstream} &>/dev/null
 }
 
 update_git_arrow() {
@@ -14,14 +15,14 @@ update_git_arrow() {
 }
 
 prompt_update_git_arrow() {
-  is_git && {
-    local output=$(command git rev-list --left-right --count HEAD...@'{u}')
+  git_has_upstream && {
+    local output=$(command git rev-list --left-right --count HEAD...@{upstream})
     update_git_arrow ${(ps:\t:)output}
   }
 }
 
 arrow_prompt_info() {
-  is_git && {
+  git_has_upstream && {
     prompt_update_git_arrow
     prompt_git_arrows=$reply
     [[ -n $prompt_git_arrows ]] && echo " $prompt_git_arrows"
@@ -29,7 +30,7 @@ arrow_prompt_info() {
 }
 
 prompt_git_fetch() {
-  is_git && {
+  git_has_upstream && {
     local ref=$(command git symbolic-ref -q HEAD)
     local remote=($(command git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
     command git fetch $remote
