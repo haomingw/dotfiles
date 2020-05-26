@@ -39,7 +39,7 @@ parse_filename() {
 }
 
 update_vim_plugins() {
-  if [ -z $TRAVIS ]; then
+  if [ -z $CI ]; then
     vim +PlugClean! +qall && vim +PlugUpdate +qall
   else
     vim +PlugClean! +qall >/dev/null 2>&1
