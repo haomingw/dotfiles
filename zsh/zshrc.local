@@ -419,12 +419,10 @@ rm-pre-commit() {
 
 # Rust {{
 
-alias psrust="[[ -d ~/.cargo ]] \
-  || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
-
 alias rmrust='rustup self uninstall'
-alias lsrust="cargo install --list | grep : | awk -F' ' '{print \$1}'"
-alias uprust='lsrust | xargs cargo install'
+alias rustls="cargo install --list | grep : | awk -F' ' '{print \$1}'"
+alias uprust='rustls | xargs cargo install'
+alias rustcl='rustls | xargs cargo uninstall'
 
 # }} // namespace rust
 

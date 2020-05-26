@@ -174,7 +174,7 @@ cleanup_miniconda_files() {
   success "Cleaning up minconda files"
 }
 
-install_miniconda_if_not_exists() {
+install_miniconda() {
   local conda="$HOME/miniconda3"
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
@@ -191,7 +191,7 @@ install_miniconda_if_not_exists() {
     is_macos && url="$conda_repo/Miniconda3-latest-MacOSX-x86_64.sh"
     if [ ! -z "$url" ]; then
       local miniconda=$(parse_filename $url)
-      local target="$HOME/Downloads"
+      local target="/tmp"
       [ -f "$target/$miniconda" ] || wget $url -P $target
       bash $target/$miniconda \
       && success "Miniconda successfully installed" \
@@ -202,6 +202,23 @@ install_miniconda_if_not_exists() {
   fi
   for package in "${python_packages[@]}"; do
     $conda/bin/pip install -U $package
+  done
+}
+
+install_cargo() {
+  local cargo="$HOME/.cargo"
+  if [[ ! -d $cargo ]]; then
+    local target='/tmp/install-rust.sh'
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > $target
+    sh $target -y --no-modify-path
+    rm $target
+  fi
+  local packages=(
+    "fd-find"
+    "ripgrep"
+  )
+  for package in "${packages[@]}"; do
+    $cargo/bin/cargo install $package
   done
 }
 

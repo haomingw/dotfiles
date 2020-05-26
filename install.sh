@@ -11,7 +11,7 @@ options=(
   "vim"
   "oh-my-zsh"
   "zsh-plugins"
-  "python"
+  "python-rust"
   "tmux"
   "sublime-vscode"
 )
@@ -69,12 +69,15 @@ install_zsh_plugins() {
   zsh_plug            $(reverse ${zsh_plugins[@]})
 }
 
-config_python() {
+config_python_rust() {
   rm -rf ~/.ptpython ~/.linter
   lnif $APP_PATH/python/ptpython ~/.ptpython
   lnif $APP_PATH/python/linter   ~/.linter
-  install_miniconda_if_not_exists
-  success "Now configuring python."
+
+  install_miniconda
+  install_cargo
+
+  success "Now configuring python-rust."
 }
 
 config_tmux() {
@@ -147,7 +150,7 @@ config() {
     "vim")            install_or_update_vim ;;
     "oh-my-zsh")      install_oh_my_zsh ;;
     "zsh-plugins")    install_zsh_plugins ;;
-    "python")         config_python ;;
+    "python-rust")    config_python_rust ;;
     "tmux")           config_tmux ;;
     "sublime-vscode") config_sublime_vscode ;;
     *)                error "Unexpected option: $1" ;;
