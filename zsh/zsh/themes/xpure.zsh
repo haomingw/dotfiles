@@ -15,10 +15,9 @@ update_git_arrow() {
 }
 
 prompt_update_git_arrow() {
-  git_has_upstream && {
-    local output=$(command git rev-list --left-right --count HEAD...@{upstream})
-    update_git_arrow ${(ps:\t:)output}
-  }
+  local output=$(command git rev-list --left-right --count HEAD...@{upstream})
+  local tab=$(printf '\t')
+  [[ $output == *$tab* ]] && update_git_arrow ${(ps:\t:)output}
 }
 
 arrow_prompt_info() {
