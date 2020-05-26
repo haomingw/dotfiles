@@ -53,7 +53,10 @@ install_oh_my_zsh() {
   program_must_exist  "git"
   program_must_exist  "curl"
 
-  [ ! -d "$HOME/.oh-my-zsh" ] && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  [ ! -d "$HOME/.oh-my-zsh" ] && {
+    export RUNZSH=no
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  }
   success "oh my zsh installed"
 }
 

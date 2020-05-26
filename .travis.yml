@@ -4,7 +4,6 @@ env:
   global:
   - PYTHONUNBUFFERED=1
   - CHSH=no
-  - RUNZSH=no
 
 addons:
   apt:
