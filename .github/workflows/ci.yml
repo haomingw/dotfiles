@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build-vim:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -16,14 +16,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install latest vim
-      if: startsWith(matrix.os,'ubuntu')
+    - name: Install dependencies
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         sudo add-apt-repository ppa:jonathonf/vim
         sudo apt update
-        sudo apt install vim
+        sudo apt install vim zsh
 
     - name: Configure vim
       run:  |
         vim --version
         bash install.sh vim
+
+    - name: Install Oh My Zsh
+      run:  |
+        zsh --version
+        bash install.sh oh-my-zsh
+
+    - name: Configure Oh My Zsh
+      run:  bash install.sh zsh-plugins

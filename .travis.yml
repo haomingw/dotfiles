@@ -3,6 +3,8 @@ dist: bionic
 env:
   global:
   - PYTHONUNBUFFERED=1
+  - CHSH=no
+  - RUNZSH=no
 
 addons:
   apt:
@@ -12,13 +14,17 @@ addons:
     packages:
     - vim
     - neovim
+    - zsh
 
 before_script:
 - lsb_release -a
 - vim --version
+- zsh --version
 
 script:
 - bash install.sh vim
+- bash install.sh oh-my-zsh
+- bash install.sh zsh-plugins
 
 branches:
   only:
