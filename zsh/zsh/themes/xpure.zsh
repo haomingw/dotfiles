@@ -1,8 +1,7 @@
 source $HOME/.zsh/async.zsh
 
 git_has_upstream() {
-  local branch=$(git_current_branch)
-  command git rev-parse --abbrev-ref $branch@{upstream} &>/dev/null
+  command git rev-parse --abbrev-ref @{upstream} &>/dev/null
 }
 
 update_git_arrow() {
