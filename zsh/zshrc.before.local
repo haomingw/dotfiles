@@ -18,7 +18,7 @@ safe_export_path /usr/local/go/bin
 export GOPATH=$HOME/go
 safe_export_path $GOPATH/bin
 
-safe_export_path /usr/lib/cargo/bin
+safe_export_path $HOME/.cargo/bin
 
 safe_export_path /usr/local/node/bin
 
