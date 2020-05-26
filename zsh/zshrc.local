@@ -127,7 +127,9 @@ gbcl() {
 }
 
 gbrmr() {
-  git push origin :${1:=$(gbcu)}
+  local branch=${1:=$(gbcu)}
+  [[ $branch != master ]] && [[ $branch != develop ]] && \
+    git push origin :$branch
 }
 
 gitd() {
