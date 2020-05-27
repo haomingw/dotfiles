@@ -1,9 +1,5 @@
 ############################  BASIC SETUP TOOLS
 
-for file in common/*; do
-  source $file
-done
-
 msg() {
   printf '%b\n' "$1" >&2
 }

@@ -1,10 +1,11 @@
 #!/bin/bash
 # Copyright 2018 Haoming Wang
+
 set -e
 
 app_name='xming-dotfiles'
 
-APP_PATH="${APP_PATH:-$(pwd)}"
+APP_PATH="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 options=(
@@ -24,14 +25,19 @@ zsh_plugins=(
   "zdharma/history-search-multi-word"
 )
 
-source utils.sh
+for file in "$APP_PATH"/common/*; do
+  # shellcheck disable=SC1090,SC1091
+  source "$file"
+done
+# shellcheck disable=SC1090,SC1091
+source "$APP_PATH/utils.sh"
 
 ############################ SETUP FUNCTIONS
 
 print_select_menu() {
   local prev="$PS3"
   PS3=""
-  echo toto | select foo in "${options[@]}"; do break; done  # dummy select
+  echo toto | select _ in "${options[@]}"; do break; done  # dummy select
   PS3=$prev
 }
 
@@ -66,13 +72,14 @@ install_zsh_plugins() {
   file_must_exist     "$HOME/.oh-my-zsh"
 
   config_zshrc        "$APP_PATH"
-  zsh_plug            $(reverse ${zsh_plugins[@]})
+  # shellcheck disable=SC2046
+  zsh_plug            $(reverse "${zsh_plugins[@]}")
 }
 
 config_python_rust() {
   rm -rf ~/.ptpython ~/.linter
-  lnif $APP_PATH/python/ptpython ~/.ptpython
-  lnif $APP_PATH/python/linter   ~/.linter
+  lnif "$APP_PATH/python/ptpython" ~/.ptpython
+  lnif "$APP_PATH/python/linter"   ~/.linter
 
   install_miniconda
   install_cargo
@@ -86,7 +93,7 @@ config_tmux() {
   if [ ! -d ~/.tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   fi
-  lnif $APP_PATH/tmux/tmux.conf $HOME/.tmux.conf
+  lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
   success "Now configuring tmux."
 }
 
@@ -108,30 +115,33 @@ config_sublime_vscode() {
       sublime_home="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
       sublime_keymap="Default (OSX).sublime-keymap"
     }
+    # shellcheck disable=SC2236
     if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
-      for file in $APP_PATH/sublime/*.sublime-settings; do
-        lnif $file "$sublime_home"
+      for file in "$APP_PATH"/sublime/*.sublime-settings; do
+        lnif "$file" "$sublime_home"
       done
       lnif "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
       success "Now configuring sublime-text."
     fi
   }
 
+  # shellcheck disable=SC2015
   program_exists "code" && {
     local code_home
     is_linux && code_home="$HOME/.config/Code/User"
     is_macos && code_home="$HOME/Library/Application Support/Code/User"
     is_linux && increase_watch_limit
     install_vscode_extensions
+    # shellcheck disable=SC2236
     if [ ! -z "$code_home" ]; then
-      lnif $APP_PATH/vscode/settings.json "$code_home"
-      lnif $APP_PATH/vscode/keybindings.json "$code_home"
+      lnif "$APP_PATH/vscode/settings.json" "$code_home"
+      lnif "$APP_PATH/vscode/keybindings.json" "$code_home"
       if is_linux; then
         rm -rf "$code_home/snippets"
-        lnif $APP_PATH/vscode/snippets "$code_home"
+        lnif "$APP_PATH/vscode/snippets" "$code_home"
       else
-        for file in $APP_PATH/vscode/snippets/*; do
-          lnif $file "$code_home/snippets"
+        for file in "$APP_PATH"/vscode/snippets/*; do
+          lnif "$file" "$code_home/snippets"
         done
       fi
       success "Now configuring vscode."
@@ -141,7 +151,7 @@ config_sublime_vscode() {
 
 bye() {
   msg "Thanks for installing $app_name."
-  msg "© `date +%Y` http://flyingmouse.github.io/"
+  msg "© $(date +%Y) http://flyingmouse.github.io/"
   exit 0
 }
 
@@ -160,17 +170,19 @@ config() {
 repeat_config() {
   PS3='Please enter your choice: '
   select option in "${options[@]}"; do
-    config $option
+    config "$option"
     confirm_finish
   done
 }
 
 confirm_finish() {
+  # shellcheck disable=SC2015
   confirm "Do you want to continue?" && print_select_menu || bye
 }
 
 main() {
-  [ $# -eq 1 ] && config $1 || repeat_config "$@"
+  # shellcheck disable=SC2015
+  [ $# -eq 1 ] && config "$1" || repeat_config "$@"
 }
 
 main "$@"
