@@ -22,7 +22,7 @@ before_script:
 - zsh --version
 
 script:
-- shellcheck install.sh
+- shellcheck *.sh
 - bash install.sh vim
 - bash install.sh oh-my-zsh
 - bash install.sh zsh-plugins
