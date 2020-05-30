@@ -21,6 +21,7 @@ alias -g NN='>/dev/null 2>&1'
 
 program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
+program_exists nnn && alias n=nnn
 
 cut_cols() {
   # remove last n columns
@@ -507,6 +508,10 @@ program_exists fd && {
   export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
   export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
   export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
+}
+
+program_exists nnn && {
+  export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
 }
 
 is_macos && export GPG_TTY=$(tty)
