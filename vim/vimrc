@@ -78,6 +78,7 @@ if count(g:xming_plug_groups, 'editing')
   Plug 'terryma/vim-expand-region'
   Plug 'machakann/vim-highlightedyank'
   Plug 'michaeljsmith/vim-indent-object'
+  Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 endif
 
@@ -558,6 +559,15 @@ endif
 " <count>ii   Inner Indentation level (no line above).
 " <count>aI   An Indentation level and lines above/below.
 " <count>iI   Inner Indentation level (no lines above/below).
+
+" }}
+
+" Undotree {{
+
+if has_key(g:plugs, 'undotree')
+  let g:undotree_WindowLayout = 2
+  nnoremap U :UndotreeToggle<cr>
+endif
 
 " }}
 
