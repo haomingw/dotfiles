@@ -514,6 +514,8 @@ program_exists nnn && {
   export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
 }
 
+program_exists nvim && export EDITOR=nvim
+
 is_macos && export GPG_TTY=$(tty)
 
 # }} // namespace env

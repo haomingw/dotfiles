@@ -287,12 +287,6 @@ map <leader>rp :%s/
 map <silent> <leader>ns :new<cr>
 map <silent> <leader>nv :vnew<cr>
 
-map <leader>= <c-w>=
-map <leader>+ <c-w>5+
-map <leader>- <c-w>5-
-map <leader>> <c-w>5>
-map <leader>< <c-w>5<
-
 " Switch between tabs
 if s:mac
   nnoremap ˙ gT
@@ -340,6 +334,13 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-k> <c-w>k
 nnoremap <c-j> <c-w>j
 
+" Resize panes
+nnoremap <leader>= <c-w>=
+nnoremap <leader>+ <c-w>5+
+nnoremap <leader>- <c-w>5-
+nnoremap <leader>> <c-w>5>
+nnoremap <leader>< <c-w>5<
+
 " Terminal
 tnoremap <Esc> <c-\><c-n>
 tnoremap <c-h> <c-\><c-N><c-w>h
@@ -348,7 +349,8 @@ tnoremap <c-k> <c-\><c-N><c-w>k
 tnoremap <c-l> <c-\><c-N><c-w>l
 
 if has('nvim')
-  nnoremap <leader>T :vsplit +terminal<cr>
+  nnoremap <leader>ts :split +terminal<cr>
+  nnoremap <leader>tv :vsplit +terminal<cr>
 endif
 
 " Fast editting
