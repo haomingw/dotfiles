@@ -19,7 +19,12 @@ cmd mkdir %printf "mkdir: " && read ans && mkdir "$ans"
 
 cmd touch %printf "touch: " && read ans && touch "$ans"
 
-cmd chmod %printf "chmod: " && read ans && chmod "$ans" "$f"
+cmd chmod %{{
+  printf "chmod: "
+  read ans
+  chmod "$ans" "$f"
+  lf -remote "send $id reload"
+}}
 
 $[ -d ~/.trash ] || mkdir -p ~/.trash
 cmd trash %set -f; mv $fx ~/.trash
@@ -69,9 +74,12 @@ map tm chmod
 map <c-e> !"$f"
 map <c-x> push !"$f"<space>
 
+map <c-p> $lf -remote "send $id select '$(fzf)'"
+
 # goto
 map gd cd ~/Documents
 map gc cd ~/Documents/code
 map gl cd ~/Downloads
+map go push :cd<space>
 
 # ]

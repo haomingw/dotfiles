@@ -278,6 +278,7 @@ program_exists brew && {
   alias pRa='brew cleanup'
 
   essential="git neovim macvim tmux clang-format"
+  optional="go"
 }
 
 alias install-essential='pS $(echo $essential)'
@@ -514,7 +515,7 @@ program_exists nnn && {
   export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
 }
 
-program_exists nvim && export EDITOR=nvim
+is_linux && program_exists nvim && export EDITOR=nvim
 
 is_macos && export GPG_TTY=$(tty)
 
