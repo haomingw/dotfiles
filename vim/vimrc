@@ -849,6 +849,7 @@ endfunction
 function! Python_setup()
   call Tab4()
   iabbrev im import
+  iabbrev #! #!/usr/bin/env python
   syn keyword pythonDecorator self
   let &makeprg='python %'
 

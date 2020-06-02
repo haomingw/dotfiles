@@ -10,10 +10,16 @@ set scrolloff 10
 
 cmd open ${{
   case $(file --mime-type "$f" -b) in
-    text/*) $EDITOR "$f" ;;
+    text/*|inode/x-empty) $EDITOR "$f" ;;
     *) $OPENER "$f" ;;
   esac
 }}
+
+cmd mkdir %printf "mkdir: " && read ans && mkdir "$ans"
+
+cmd touch %printf "touch: " && read ans && touch "$ans"
+
+cmd chmod %printf "chmod: " && read ans && chmod "$ans" "$f"
 
 $[ -d ~/.trash ] || mkdir -p ~/.trash
 cmd trash %set -f; mv $fx ~/.trash
@@ -32,9 +38,9 @@ cmd extract ${{
   esac
 }}
 
-cmd tar ${{
+cmd tar %{{
     set -f
-    printf "Compressed file name: "
+    printf "tar file: "
     read ans
     mkdir "$ans"
     cp -r $fx "$ans"
@@ -53,11 +59,15 @@ map <delete> trash
 map x trash
 map C empty_trash
 
-map tt extract
+map te extract
 map tc tar
+map td mkdir
+map tt touch
+map tm chmod
 
 # execute current file (must be executable)
 map <c-e> !"$f"
+map <c-x> push !"$f"<space>
 
 # goto
 map gd cd ~/Documents
