@@ -2,13 +2,16 @@
 # @author: Haoming Wang <haoming.exe@gmail.com>
 
 set shellopts '-eu'
+set ifs "\n"
+# leave some space at the top and the bottom of the screen
+set scrolloff 10
 
 # Commands [
 
 cmd open ${{
-  case $(file --mime-type $f -b) in
-    text/*) $EDITOR $f ;;
-    *) $OPENER $f ;;
+  case $(file --mime-type "$f" -b) in
+    text/*) $EDITOR "$f" ;;
+    *) $OPENER "$f" ;;
   esac
 }}
 
@@ -19,13 +22,13 @@ cmd empty_trash %echo "Empty trash" && rm -rf ~/.trash/*
 
 cmd extract ${{
   set -f
-  case $f in
-    *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-    *.tar.gz|*.tgz) tar xzvf $f;;
-    *.tar.xz|*.txz) tar xJvf $f;;
-    *.zip) unzip $f;;
-    *.rar) unrar x $f;;
-    *.7z) 7z x $f;;
+  case "$f" in
+    *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$f" ;;
+    *.tar.gz|*.tgz) tar xzvf "$f" ;;
+    *.tar.xz|*.txz) tar xJvf "$f" ;;
+    *.zip) unzip "$f" ;;
+    *.rar) unrar x "$f" ;;
+    *.7z) 7z x "$f" ;;
   esac
 }}
 
@@ -33,10 +36,10 @@ cmd tar ${{
     set -f
     printf "Compressed file name: "
     read ans
-    mkdir $ans
-    cp -r $fx $ans
-    tar czf $ans.tar.gz $ans
-    rm -rf $ans
+    mkdir "$ans"
+    cp -r $fx "$ans"
+    tar czf "$ans".tar.gz "$ans"
+    rm -rf "$ans"
 }}
 
 # ]
@@ -52,6 +55,9 @@ map C empty_trash
 
 map tt extract
 map tc tar
+
+# execute current file (must be executable)
+map <c-e> !"$f"
 
 # goto
 map gd cd ~/Documents
