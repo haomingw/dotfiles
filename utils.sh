@@ -2,10 +2,6 @@
 
 ############################  BASIC SETUP TOOLS
 
-msg() {
-  printf '%b\n' "$1" >&2
-}
-
 program_must_exist() {
   program_exists "$1" || {
     error "You must have '$1' installed to continue."
