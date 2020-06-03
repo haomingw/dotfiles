@@ -238,7 +238,7 @@ program_exists apt && {
   alias pRa='sudo apt autoremove'
 
   essential="curl git-gui tmux clang clang-format build-essential \
-    python3-distutils python3-pynvim xclip ibus-rime gnupg"
+    python3-distutils python3-pynvim xclip ibus-rime gnupg fonts-symbola"
   optional="htop tree net-tools cmake ctags openssh-server"
 
   # HHKB keyboard settings [HHKB mode]

@@ -505,19 +505,25 @@ if has_key(g:plugs, 'lightline.vim')
   \             ['fugitive', 'readonly', 'filename', 'modified'] ],
   \   'right': [ [ 'lineinfo' ], ['percent'] ]
   \ },
+  \ 'tabline' : {
+  \   'right' : []
+  \ },
   \ 'component': {
-  \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+  \   'readonly': '%{&filetype=="help"?"":&readonly?"":""}',
   \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-  \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
   \ },
-  \ 'component_visible_condition': {
-  \   'readonly': '(&filetype!="help"&& &readonly)',
-  \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-  \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+  \ 'component_function': {
+  \   'fugitive': 'LightlineFugitive',
   \ },
-  \ 'separator': { 'left': ' ', 'right': ' ' },
-  \ 'subseparator': { 'left': ' ', 'right': ' ' }
   \}
+
+  function! LightlineFugitive()
+    if exists('*FugitiveHead')
+      let branch = FugitiveHead()
+      return branch != '' ? 'ᚠ '.branch : ''
+    endif
+    return ''
+  endfunction
 endif
 
 " }}
