@@ -388,6 +388,7 @@ nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
 
 iabbrev tab2 vim: set sw=2 ts=2 sts=2 et
 iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
+iabbrev #! #!/usr/bin/env
 
 xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<cr>
 
@@ -855,7 +856,6 @@ endfunction
 function! Python_setup()
   call Tab4()
   iabbrev im import
-  iabbrev #! #!/usr/bin/env python
   syn keyword pythonDecorator self
   let &makeprg='python %'
 

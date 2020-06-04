@@ -497,8 +497,6 @@ alias rmzsh='rm -rf ~/.zsh ~/.zshrc.*'
 
 bindkey ' '   magic-space
 bindkey '^ '  autosuggest-accept
-bindkey '^[p' history-substring-search-up
-bindkey '^[n' history-substring-search-down
 
 ## alt == '^['
 bindkey '^[z' undo
@@ -508,7 +506,7 @@ bindkey '^[l' down-case-word
 bindkey "^['" quote-line
 bindkey '^["' quote-region
 
-bindkey -s '^[o' 'lfcd\n'
+bindkey -s '^o' 'lfcd\n'
 
 # }} // namespace bindings
 
