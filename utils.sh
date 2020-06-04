@@ -10,7 +10,7 @@ program_must_exist() {
 }
 
 file_must_exist() {
-  local file_path=$1
+  local file_path="$1"
 
   if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
     error "You must have '$1' to continue."
@@ -19,8 +19,8 @@ file_must_exist() {
 }
 
 git_clone_to() {
-  local git_url=$1
-  local target_path=$2
+  local git_url="$1"
+  local target_path="$2"
 
   local repo_name
   repo_name=$(basename "$git_url" .git)
@@ -55,7 +55,7 @@ do_backup() {
 }
 
 create_vim_symlinks() {
-  local app=$1
+  local app="$1"
 
   mkdir -p "$HOME/.vim/undo"
   for file in "$app"/vim/vim/*; do
@@ -129,15 +129,15 @@ zsh_plug() {
 }
 
 append_if_not_exists() {
-  local file=$1
-  local content=$2
+  local file="$1"
+  local content="$2"
   if [ ! -f "$file" ] || ! grep -q "$content" "$file"; then
     echo "$content" >> "$file"
   fi
 }
 
 config_zshrc() {
-  local app_path=$1
+  local app_path="$1"
   local zshrc="$HOME/.zshrc"
 
   # shellcheck disable=SC1003
@@ -164,8 +164,22 @@ config_zshrc() {
   success "Now configuring zsh."
 }
 
+config_i3wm() {
+  local app_path="$1"
+  local dest="$HOME/.config/i3"
+
+  [ -d "dest" ] || mkdir -p "$dest"
+
+  for file in "$app_path"/i3/*; do
+    lnif "$file" "$dest"
+  done
+
+  success "Now configuring i3wm."
+}
+
 cleanup_miniconda_files() {
-  local installation_file=$1
+  local installation_file="$1"
+
   rm "$installation_file"
   find "$HOME/miniconda3" \( -type f -o -type l \) \
     -not -path "$HOME/miniconda3/pkgs*" \
@@ -208,12 +222,14 @@ install_miniconda() {
 
 install_cargo() {
   local cargo="$HOME/.cargo"
+
   if [[ ! -d "$cargo" ]]; then
     local target='/tmp/install-rust.sh'
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > "$target"
     sh "$target" -y --no-modify-path
     rm "$target"
   fi
+
   local packages=(
     "fd-find"
     "ripgrep"
