@@ -26,6 +26,8 @@ cmd chmod %{{
   lf -remote "send $id reload"
 }}
 
+cmd git !git "$@"
+
 $[ -d ~/.trash ] || mkdir -p ~/.trash
 cmd trash %set -f; mv $fx ~/.trash
 
@@ -81,5 +83,7 @@ map gd cd ~/Documents
 map gc cd ~/Documents/code
 map gl cd ~/Downloads
 map go push :cd<space>
+
+map gi push :git<space>
 
 # ]

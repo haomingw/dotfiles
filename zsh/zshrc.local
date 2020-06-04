@@ -23,6 +23,8 @@ program_exists vim && alias vi=vim
 program_exists nvim && alias vim=nvim
 program_exists nnn && alias n=nnn
 
+program_exists xdg-open && alias open='xdg-open'
+
 cut_cols() {
   # remove last n columns
   echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
@@ -38,7 +40,9 @@ mk() {
   mkdir -p "$@" && cd "$_";
 }
 
-cdd() { cd ~/Documents/code/"$1" }
+cdd() { local dir=~/Documents/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
+
+alias cdl='cd ~/Downloads'
 
 add-head() {
   # add text to the beginning or the specified line of a file
@@ -60,6 +64,15 @@ empty-trash() {
     rm -rf ~/.local/share/Trash/files/{,.}*
     rm -rf ~/.local/share/Trash/info/{,.}*
   }
+}
+
+lfcd() {
+  local tmp="$(mktemp)"
+  lf -last-dir-path="$tmp" "$@"
+  [[ -f "$tmp" ]] || return 1
+  local dir="$(cat "$tmp")"
+  [[ -d "$dir" ]] && cd "$dir"
+  rm -f "$tmp"
 }
 
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
@@ -494,6 +507,8 @@ bindkey '^[u' up-case-word
 bindkey '^[l' down-case-word
 bindkey "^['" quote-line
 bindkey '^["' quote-region
+
+bindkey -s '^[o' 'lfcd\n'
 
 # }} // namespace bindings
 
