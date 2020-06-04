@@ -3,12 +3,12 @@
 
 # Imports {{
 
-safe_source() { [[ -s $1 ]] && source $1 || true }
+safe_source() { [[ -s "$1" ]] && source "$1" || true }
 
 safe_source ~/.zshrc.before.local
 
 for file in ~/.common/*; do
-  safe_source $file
+  safe_source "$file"
 done
 
 # }}
@@ -28,12 +28,17 @@ cut_cols() {
   echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
 }
 
+toclip() {
+  [[ -f "$1" ]] && program_exists xclip || return 1
+  cat "$1" | xclip -selection clipboard
+}
+
 # Create a new directory and enter it
 mk() {
   mkdir -p "$@" && cd "$_";
 }
 
-cdd() { cd ~/Documents/code/$1 }
+cdd() { cd ~/Documents/code/"$1" }
 
 add-head() {
   # add text to the beginning or the specified line of a file
@@ -41,10 +46,10 @@ add-head() {
   local file=$1
   local text=$2
   local line=${3:=1}
-  if [[ -s $file ]]; then
-    sed -i "${line}s/^/${text}\n/" $file
+  if [[ -s "$file" ]]; then
+    sed -i "${line}s/^/${text}\n/" "$file"
   else
-    echo $text >> $file
+    echo "$text" >> "$file"
   fi
 }
 
@@ -134,14 +139,24 @@ gbrmr() {
 }
 
 gitd() {
-  local parsed_date=$(date --date=$1 +%F NE)
-  [[ -z $parsed_date ]] && { error "Invalid date: $1"; return 1 }
-  local desc="$parsed_date $(date +%T)"
-  success $desc
+  local parsed
+  is_linux && {
+    parsed=$(date --date="$1" +%F NE) || {
+      error "Invalid date: $1"
+      return 1
+    }
+  }
+  is_macos && {
+    parsed=$(date -j -f "%Y-%m-%d" "$1" +%Y-%m-%d NE) || {
+      error "Illegal time format, should be: %Y-%m-%d"
+      return 1
+    }
+  }
+  local desc="$parsed $(date +%T)"
+  success "$desc"
   shift
-  GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE=$desc git $@
+  GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE="$desc" git "$@"
 }
-
 
 gitg() { local v="$1"; shift; git g$v "$@"; }
 gitp() { local v="$1"; shift; git p$v "$@"; }
@@ -158,7 +173,7 @@ cdr() {
 gclip() {
   local url=$(xclip -selection clipboard -o)
   local repo=$(parse $url | cut -d. -f1)
-  git clone $url && cd $repo
+  git clone "$url" && cd "$repo"
 }
 
 gitgpg() {
@@ -192,13 +207,13 @@ gpgrecv() {
     warning "No key id to retrieve"
     return 1
   }
-  gpg --keyserver hkps://keys.openpgp.org --recv-keys $1
+  gpg --keyserver hkps://keys.openpgp.org --recv-keys "$1"
 }
 
 gpgenc() {
   for file in $@; do
     msg "Encrypting $file"
-    gpg --encrypt --sign --recipient $(gpgkid) $file
+    gpg --encrypt --sign --recipient $(gpgkid) "$file"
   done
 }
 
@@ -211,7 +226,7 @@ gpgdec() {
       warning "$name exists"
     else
       msg "Decrypting $file"
-      gpg --decrypt $file > $name
+      gpg --decrypt $file > "$name"
     fi
   done
 }
@@ -377,7 +392,7 @@ program_exists conda && {
     if [[ $(venv) = "$1" ]]; then
       uu
     fi
-    conda env remove -n $1
+    conda env remove -n "$1"
   }
 }
 
@@ -432,8 +447,8 @@ alias rustcl='rustls | xargs cargo uninstall'
 
 cdg() {
   local gosrc="$GOPATH/src"
-  [[ -d $gosrc ]] || mkdir -p $gosrc
-  cd $gosrc/$1
+  [[ -d "$gosrc" ]] || mkdir -p "$gosrc"
+  cd "$gosrc/$1"
 }
 
 # }} // namespace go
