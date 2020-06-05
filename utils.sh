@@ -112,6 +112,7 @@ zsh_plug() {
   local custom_plugins="$ZSH_CUSTOM/plugins"
 
   for plugin in "$@"; do
+    msg "Now installing zsh plugin $plugin."
     if [[ "$plugin" == */* ]]; then
       local name
       name=$(parse "$plugin")
@@ -119,12 +120,12 @@ zsh_plug() {
       if [ ! -d "$custom_plugins/$name" ]; then
         git_clone_to https://github.com/"$plugin".git "$custom_plugins"
       else
-        pushd "$custom_plugins/$name" && git pull && popd || exit
+        pushd "$custom_plugins/$name" >/dev/null &&
+          git pull && popd >/dev/null || exit
       fi
     else
       use_zsh_plugin "$plugin"
     fi
-    msg "Now installing zsh plugin $plugin."
   done
 }
 
@@ -165,6 +166,7 @@ config_zshrc() {
 }
 
 config_i3wm() {
+  is_linux || return 0
   local app_path="$1"
   local dest="$HOME/.config/i3"
 

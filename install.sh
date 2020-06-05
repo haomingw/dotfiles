@@ -72,7 +72,7 @@ install_zsh_plugins() {
   file_must_exist     "$HOME/.oh-my-zsh"
 
   config_zshrc        "$APP_PATH"
-  config_i3wm         "$APP_PATH"
+  config_i3wm         "$APP_PATH"  # linux only
   # shellcheck disable=SC2046
   zsh_plug            $(reverse "${zsh_plugins[@]}")
 }
