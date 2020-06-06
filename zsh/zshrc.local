@@ -72,6 +72,7 @@ lfcd() {
   [[ -d "$dir" ]] && cd "$dir"
   rm -f "$tmp"
 }
+alias lff='lfcd'
 
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
