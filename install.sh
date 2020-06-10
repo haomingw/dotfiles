@@ -13,7 +13,7 @@ options=(
   "oh-my-zsh"
   "zsh-plugins"
   "python-rust"
-  "tmux-lf"
+  "tmux-lf-mpv"
   "sublime-vscode"
 )
 
@@ -88,15 +88,25 @@ config_python_rust() {
   success "Now configuring python-rust."
 }
 
-config_tmux_lf() {
-  program_must_exist  "tmux"
-  mkdir -p ~/.tmux/plugins
-  if [ ! -d ~/.tmux/plugins/tpm ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  fi
-  lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
+config_tmux_lf_mpv() {
+  program_exists tmux && {
+    mkdir -p ~/.tmux/plugins
+    if [ ! -d ~/.tmux/plugins/tpm ]; then
+      git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
+    lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
 
-  program_exists lf || {
+    success "Now configuring tmux"
+  }
+
+  # shellcheck disable=SC2015
+  program_exists lf && {
+    local lfrc="$HOME/.config/lf"
+    [ -d "$lfrc" ] || mkdir -p "$lfrc"
+    lnif "$APP_PATH/lf/lfrc" "$lfrc"
+
+    success "Now configuring lf"
+  } || {
     if program_exists go; then
       msg "Installing lf file manager"
       go get -u github.com/gokcehan/lf
@@ -105,11 +115,13 @@ config_tmux_lf() {
     fi
   }
 
-  local lfrc="$HOME/.config/lf"
-  [ -d "$lfrc" ] || mkdir -p "$lfrc"
-  lnif "$APP_PATH/lf/lfrc" "$lfrc"
+  program_exists mpv && {
+    local mpv_conf="$HOME/.config/mpv"
+    [ -d "$mpv_conf" ] || mkdir -p "$mpv_conf"
+    lnif "$APP_PATH/mpv/input.conf" "$mpv_conf"
 
-  success "Now configuring tmux-lf."
+    success "Now configuring mpv"
+  }
 }
 
 config_sublime_vscode() {
@@ -176,7 +188,7 @@ config() {
     "oh-my-zsh")      install_oh_my_zsh ;;
     "zsh-plugins")    install_zsh_plugins ;;
     "python-rust")    config_python_rust ;;
-    "tmux-lf")        config_tmux_lf ;;
+    "tmux-lf-mpv")    config_tmux_lf_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;
     *)                error "Unexpected option: $1" ;;
   esac

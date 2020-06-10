@@ -15,17 +15,22 @@ addons:
     - neovim
     - zsh
     - shellcheck
+    - tmux
+    - mpv
 
 before_script:
 - lsb_release -a
 - vim --version
 - zsh --version
+- tmux -V
+- mpv --version
 
 script:
 - shellcheck *.sh
 - bash install.sh vim
 - bash install.sh oh-my-zsh
 - bash install.sh zsh-plugins
+- bash install.sh tmux-lf-mpv
 
 branches:
   only:

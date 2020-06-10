@@ -21,7 +21,7 @@ jobs:
       run: |
         sudo add-apt-repository ppa:jonathonf/vim
         sudo apt update
-        sudo apt install vim zsh
+        sudo apt install vim zsh tmux mpv
 
     - name: Configure vim
       run:  |
@@ -35,3 +35,10 @@ jobs:
 
     - name: Configure Oh My Zsh
       run:  bash install.sh zsh-plugins
+
+    - name: Configure tmux-lf-mpv
+      if:   startsWith(matrix.os, 'ubuntu')
+      run:  |
+        tmux -V
+        mpv --version
+        bash install.sh tmux-lf-mpv
