@@ -3,31 +3,45 @@
 
 # Basic functions {{
 
-BOLD="$(tput bold 2>/dev/null || echo '\033[1m')"
-GREY="$(tput setaf 0 2>/dev/null || echo '\033[90m')"
-UNDERLINE="$(tput smul 2>/dev/null || echo '\033[4m')"
-RED="$(tput setaf 1 2>/dev/null || echo '\033[31m')"
-GREEN="$(tput setaf 2 2>/dev/null || echo '\033[32m')"
-YELLOW="$(tput setaf 3 2>/dev/null || echo '\033[33m')"
-BLUE="$(tput setaf 4 2>/dev/null || echo '\033[34m')"
-MAGENTA="$(tput setaf 5 2>/dev/null || echo '\033[35m')"
-CYAN="$(tput setaf 6 2>/dev/null || echo '\033[36m')"
-NO_COLOR="$(tput sgr0 2>/dev/null || echo '\033[0m')"
+# Only use colors if connected to a terminal
+if [[ -t 1 ]]; then
+  BOLD="$(tput bold 2>/dev/null || echo '\033[1m')"
+  GREY="$(tput setaf 0 2>/dev/null || echo '\033[90m')"
+  UNDERLINE="$(tput smul 2>/dev/null || echo '\033[4m')"
+  RED="$(tput setaf 1 2>/dev/null || echo '\033[31m')"
+  GREEN="$(tput setaf 2 2>/dev/null || echo '\033[32m')"
+  YELLOW="$(tput setaf 3 2>/dev/null || echo '\033[33m')"
+  BLUE="$(tput setaf 4 2>/dev/null || echo '\033[34m')"
+  MAGENTA="$(tput setaf 5 2>/dev/null || echo '\033[35m')"
+  CYAN="$(tput setaf 6 2>/dev/null || echo '\033[36m')"
+  RESET="$(tput sgr0 2>/dev/null || echo '\033[0m')"
+else
+  BOLD=""
+  GREY=""
+  UNDERLINE=""
+  RED=""
+  GREEN=""
+  YELLOW=""
+  BLUE=""
+  MAGENTA=""
+  CYAN=""
+  RESET=""
+fi
 
 msg() {
-  echo "${BLUE}➜${NO_COLOR} $@"
+  echo "${BLUE}➜${RESET} $@"
 }
 
 warning() {
-  echo "${YELLOW}! $@${NO_COLOR}"
+  echo "${YELLOW}! $@${RESET}"
 }
 
 error() {
-  echo "${RED}✗ $@${NO_COLOR}" >&2
+  echo "${RED}✗ $@${RESET}" >&2
 }
 
 success() {
-  echo "${GREEN}✓${NO_COLOR} $@"
+  echo "${GREEN}✓${RESET} $@"
 }
 
 is_linux() {
