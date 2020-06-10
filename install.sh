@@ -96,11 +96,15 @@ config_tmux_lf() {
   fi
   lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
 
-  # shellcheck disable=SC2015
-  program_exists go && program_exists lf || {
-    msg "Installing lf file manager"
-    go get -u github.com/gokcehan/lf
+  program_exists lf || {
+    if program_exists go; then
+      msg "Installing lf file manager"
+      go get -u github.com/gokcehan/lf
+    else
+      warning "You must have Go installed to configure lf."
+    fi
   }
+
   local lfrc="$HOME/.config/lf"
   [ -d "$lfrc" ] || mkdir -p "$lfrc"
   lnif "$APP_PATH/lf/lfrc" "$lfrc"
