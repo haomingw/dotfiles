@@ -99,20 +99,20 @@ config_tmux_lf_mpv() {
     success "Now configuring tmux"
   }
 
-  # shellcheck disable=SC2015
-  program_exists lf && {
-    local lfrc="$HOME/.config/lf"
-    [ -d "$lfrc" ] || mkdir -p "$lfrc"
-    lnif "$APP_PATH/lf/lfrc" "$lfrc"
-
-    success "Now configuring lf"
-  } || {
+  program_exists lf || {
     if program_exists go; then
       msg "Installing lf file manager"
       go get -u github.com/gokcehan/lf
     else
       warning "You must have Go installed to configure lf."
     fi
+  }
+  program_exists lf || program_exists go && {
+    local lfrc="$HOME/.config/lf"
+    [ -d "$lfrc" ] || mkdir -p "$lfrc"
+    lnif "$APP_PATH/lf/lfrc" "$lfrc"
+
+    success "Now configuring lf"
   }
 
   program_exists mpv && {
