@@ -57,7 +57,7 @@ do_backup() {
 create_vim_symlinks() {
   local app="$1"
 
-  mkdir -p "$HOME/.vim/undo"
+  safe_mkdir "$HOME/.vim/undo"
   for file in "$app"/vim/vim/*; do
     lnif "$file" "$HOME/.vim/$(parse "$file")"
   done
@@ -71,7 +71,7 @@ create_vim_symlinks() {
 }
 
 setup_neovim() {
-  mkdir -p "$HOME/.config"
+  safe_mkdir "$HOME/.config"
   if is_macos; then
     if [ -f /usr/local/bin/pip3 ]; then
       /usr/local/bin/pip3 install -U neovim
@@ -170,7 +170,7 @@ config_i3wm() {
   local app_path="$1"
   local dest="$HOME/.config/i3"
 
-  [ -d "dest" ] || mkdir -p "$dest"
+  safe_mkdir "$dest"
 
   for file in "$app_path"/i3/*; do
     lnif "$file" "$dest"

@@ -90,7 +90,7 @@ config_python_rust() {
 
 config_tmux_lf_mpv() {
   program_exists tmux && {
-    mkdir -p ~/.tmux/plugins
+    safe_mkdir "$HOME/.tmux/plugins"
     if [ ! -d ~/.tmux/plugins/tpm ]; then
       git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
@@ -109,7 +109,7 @@ config_tmux_lf_mpv() {
   }
   program_exists lf || program_exists go && {
     local lfrc="$HOME/.config/lf"
-    [ -d "$lfrc" ] || mkdir -p "$lfrc"
+    safe_mkdir "$lfrc"
     lnif "$APP_PATH/lf/lfrc" "$lfrc"
 
     success "Now configuring lf"
@@ -117,7 +117,7 @@ config_tmux_lf_mpv() {
 
   program_exists mpv && {
     local mpv_conf="$HOME/.config/mpv"
-    [ -d "$mpv_conf" ] || mkdir -p "$mpv_conf"
+    safe_mkdir "$mpv_conf"
     lnif "$APP_PATH/mpv/input.conf" "$mpv_conf"
 
     success "Now configuring mpv"

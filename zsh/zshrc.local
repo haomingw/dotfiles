@@ -459,8 +459,7 @@ alias rustcl='rustls | xargs cargo uninstall'
 
 cdg() {
   local gosrc="$GOPATH/src"
-  [[ -d "$gosrc" ]] || mkdir -p "$gosrc"
-  cd "$gosrc/$1"
+  safe_mkdir "$gosrc" && cd "$gosrc/$1"
 }
 
 # }} // namespace go

@@ -56,6 +56,10 @@ program_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
+safe_mkdir() {
+  [[ -d "$1" ]] || mkdir -p "$1"
+}
+
 lnif() {
   if [[ -e "$1" ]]; then
     ln -sfn "$1" "$2"
