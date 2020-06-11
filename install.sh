@@ -5,7 +5,7 @@ set -e
 
 app_name='xming-dotfiles'
 
-APP_PATH="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
+APP_PATH="$(dirname $(readlink -f "$0"))"
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 options=(
