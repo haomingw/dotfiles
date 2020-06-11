@@ -98,10 +98,11 @@ if count(g:xming_plug_groups, 'programming')
   Plug 'haomingw/vim-snippets'
   Plug 'jeetsukumaran/vim-indentwise'
   Plug 'junegunn/rainbow_parentheses.vim'
-  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
+  Plug 'neoclide/coc.nvim',
+    \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
 endif
 
 " }}
