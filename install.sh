@@ -116,6 +116,7 @@ config_tmux_lf_mpv() {
     success "Now configuring lf"
   }
 
+  # shellcheck disable=SC2015
   program_exists mpv && {
     local mpv_conf="$HOME/.config/mpv"
     safe_mkdir "$mpv_conf"
