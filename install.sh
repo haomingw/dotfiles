@@ -122,7 +122,7 @@ config_tmux_lf_mpv() {
     lnif "$APP_PATH/mpv/input.conf" "$mpv_conf"
 
     success "Now configuring mpv"
-  }
+  } || true
 }
 
 config_sublime_vscode() {
@@ -180,7 +180,7 @@ config_sublime_vscode() {
 bye() {
   msg "Thanks for installing $app_name."
   msg "© $(date +%Y) http://flyingmouse.github.io/"
-  exit 0
+  exit
 }
 
 config() {
