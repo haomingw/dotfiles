@@ -11,6 +11,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+    env:
+      AUTH_USERS: haomingw
     runs-on: ${{ matrix.os }}
 
     steps:
