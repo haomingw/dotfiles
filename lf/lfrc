@@ -64,7 +64,7 @@ map . set hidden!
 
 map <delete> trash
 map x trash
-map C empty_trash
+map X empty_trash
 
 map te extract
 map tc tar

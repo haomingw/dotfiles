@@ -179,6 +179,25 @@ config_i3wm() {
   success "Now configuring i3wm."
 }
 
+config_ssh() {
+  [ -z "$AUTH_USERS" ] && return 0
+
+  local key
+  local auth_keys="$HOME/.ssh/authorized_keys"
+  read -ra users <<< "$AUTH_USERS"
+
+  echo -n "" > "$auth_keys"
+  for user in "${users[@]}"; do
+    key="$(curl https://github.com/"$user".keys 2>/dev/null)"
+    [ -z "$key" ] || {
+      msg "Adding $user's github keys to ssh authorized_keys."
+      echo "$key $user" >> "$auth_keys"
+    }
+  done
+
+  success "Now configuring ssh."
+}
+
 cleanup_miniconda_files() {
   local installation_file="$1"
 

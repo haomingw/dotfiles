@@ -4,6 +4,7 @@ env:
   global:
   - PYTHONUNBUFFERED=1
   - CHSH=no
+  - AUTH_USERS=haomingw
 
 addons:
   apt:
