@@ -64,6 +64,7 @@ install_oh_my_zsh() {
     export RUNZSH=no
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   }
+
   success "oh my zsh installed"
 }
 
@@ -151,6 +152,7 @@ config_sublime_vscode() {
         lnif "$file" "$sublime_home"
       done
       lnif "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
+
       success "Now configuring sublime-text."
     fi
   }
@@ -174,6 +176,7 @@ config_sublime_vscode() {
           lnif "$file" "$code_home/snippets"
         done
       fi
+
       success "Now configuring vscode."
     fi
   } || true

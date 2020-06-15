@@ -43,16 +43,18 @@ if has('nvim')
   endif
 endif
 
+if !exists('g:noplug')
+
 " list only the plugin groups you will use
-if !exists('g:xming_plug_groups')
-  let g:xming_plug_groups = ['general', 'editing', 'programming']
+if !exists('g:plug_groups')
+  let g:plug_groups = ['general', 'editing', 'programming']
 endif
 
 call plug#begin('~/.vim/bundle')
 
 " General {{
 
-if count(g:xming_plug_groups, 'general')
+if count(g:plug_groups, 'general')
   Plug 'romainl/vim-cool'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
@@ -67,7 +69,7 @@ endif
 
 " Editing {{
 
-if count(g:xming_plug_groups, 'editing')
+if count(g:plug_groups, 'editing')
   Plug 'chrisbra/csv.vim'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-endwise'
@@ -86,7 +88,7 @@ endif
 
 " Programming {{
 
-if count(g:xming_plug_groups, 'programming')
+if count(g:plug_groups, 'programming')
   Plug 'dense-analysis/ale'
   Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go'
@@ -108,6 +110,8 @@ endif
 " }}
 
 call plug#end()
+
+endif
 
 " }} // namespace bundles
 
@@ -417,6 +421,8 @@ augroup END
 " }} // namespace autocmd
 
 " Plugins {{
+
+if !exists('g:noplug')
 
 " Ultisnips {{
 
@@ -785,6 +791,8 @@ endif
 
 " }}
 
+endif
+
 " }} // namespace plugins
 
 " GUI Settings {{
@@ -861,15 +869,19 @@ function! Python_setup()
   syn keyword pythonDecorator self
   let &makeprg='python %'
 
-  if has_key(g:plugs, 'ale')
-    map <leader>f :ALEFix<cr>
+  if !exists('g:noplug')
+    if has_key(g:plugs, 'ale')
+      map <leader>f :ALEFix<cr>
+    endif
   endif
 endfunction
 
 " Setup rust file
 function! Rust_setup()
-  if has_key(g:plugs, 'rust.vim')
-    map <leader>f :RustFmt<cr>
+  if !exists('g:noplug')
+    if has_key(g:plugs, 'rust.vim')
+      map <leader>f :RustFmt<cr>
+    endif
   endif
 endfunction
 
