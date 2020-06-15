@@ -403,6 +403,10 @@ xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<cr>
 " Autocmd {{
 
 augroup vimrc
+  " Only enable relative number in normal mode
+  autocmd InsertEnter * :set norelativenumber
+  autocmd InsertLeave * :set relativenumber
+
   " Adjust viewports to the same size
   autocmd vimResized * exe "normal! \<c-w>="
 
