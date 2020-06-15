@@ -12,11 +12,11 @@ setopt localoptions nonomatch
 for file in /usr/local/jdk*; do
   export JAVA_HOME=$file
 done
-[[ -z $JAVA_HOME ]] || safe_export_path $JAVA_HOME/bin
+[[ -z "$JAVA_HOME" ]] || safe_export_path "$JAVA_HOME/bin"
 
 safe_export_path /usr/local/go/bin
-export GOPATH=$HOME/go
-safe_export_path $GOPATH/bin
+[[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
+safe_export_path "$GOPATH/bin"
 
 safe_export_path $HOME/.cargo/bin
 
@@ -29,7 +29,7 @@ safe_use_cuda() {
     if [[ -d "$CUDA_HOME/extras/CUPTI/lib64" ]]; then
       export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
     fi
-    safe_export_path $CUDA_HOME/bin
+    safe_export_path "$CUDA_HOME/bin"
   fi
 }
 safe_use_cuda "/usr/local/cuda"
