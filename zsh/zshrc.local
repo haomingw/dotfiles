@@ -381,6 +381,10 @@ program_exists conda && \
 
 alias u='source activate'
 alias uu='conda deactivate'
+
+alias uv='source venv/bin/activate'
+alias uuv='deactivate'
+
 alias uls='conda env list'
 alias ucl='find $CONDA_HOME \( -type f -o -type l \) \
   -not -path "$CONDA_HOME/pkgs*" -regex ".*bin/wish[0-9\.]*$" -ls -delete'
@@ -544,5 +548,7 @@ program_exists nnn && {
 is_linux && program_exists nvim && export EDITOR=nvim
 
 is_macos && export GPG_TTY=$(tty)
+
+true
 
 # }} // namespace env
