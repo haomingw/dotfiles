@@ -39,7 +39,6 @@ safe_use_cuda "/usr/local/cuda"
 # Env {{
 
 export EDITOR=vim
-export LANG='en_US.UTF-8'
 export CONDA_AUTO_ACTIVATE_BASE=false
 export FZF_DEFAULT_COMMAND='find -type f ! -name "*.o"'
 
