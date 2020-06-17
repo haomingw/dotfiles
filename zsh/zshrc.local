@@ -1,16 +1,6 @@
 # vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={{,}} foldmethod=marker:
 # @author: Haoming Wang <haoming.exe@gmail.com>
 
-# Imports {{
-
-safe_source() { [[ -s "$1" ]] && source "$1" || true }
-
-for file in ~/.common/*; do
-  safe_source "$file"
-done
-
-# }}
-
 # Utils {{
 
 alias -g N='>/dev/null'
@@ -534,20 +524,6 @@ program_exists awk && {
     | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
   PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
 }
-
-program_exists fd && {
-  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-  export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
-}
-
-program_exists nnn && {
-  export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
-}
-
-is_linux && program_exists nvim && export EDITOR=nvim
-
-is_macos && export GPG_TTY=$(tty)
 
 true
 
