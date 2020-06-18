@@ -25,9 +25,13 @@ git_clone_to() {
   local repo_name
   repo_name=$(basename "$git_url" .git)
 
-  if [ -d "$target_path" ] && [ ! -d "$target_path/$repo_name" ]; then
-    cd "$target_path" && git clone "$git_url"
+  if [ ! -d "$target_path/$repo_name" ]; then
+    git clone "$git_url" "$target_path/$repo_name"
   fi
+}
+
+git_pull() {
+  pushd "$1" >/dev/null && git pull && popd >/dev/null || return 1
 }
 
 parse_filename() {
@@ -120,8 +124,7 @@ zsh_plug() {
       if [ ! -d "$custom_plugins/$name" ]; then
         git_clone_to https://github.com/"$plugin".git "$custom_plugins"
       else
-        pushd "$custom_plugins/$name" >/dev/null &&
-          git pull && popd >/dev/null || exit
+        git_pull "$custom_plugins/$name"
       fi
     else
       use_zsh_plugin "$plugin"
@@ -258,6 +261,17 @@ install_cargo() {
   for package in "${packages[@]}"; do
     "$cargo"/bin/cargo install "$package"
   done
+}
+
+install_ruby() {
+  local rbenv="$HOME/.rbenv"
+
+  [[ -d "$rbenv" ]] || {
+    msg "Installing rbenv and ruby-build."
+    git clone https://github.com/rbenv/rbenv.git "$rbenv"
+    git clone https://github.com/rbenv/ruby-build.git "$rbenv"/plugins/ruby-build
+  }
+  git_pull "$rbenv"
 }
 
 watch_limit_is_increased() {

@@ -404,6 +404,18 @@ program_exists conda && {
 
 # }} // namespace conda
 
+# Ruby {{
+
+alias gemls='gem list'
+
+gemcl() {
+  for x in $(gem list --no-versions);
+    do gem uninstall "$x" -aIx
+  done
+}
+
+# }}
+
 # Pre-commit {{
 
 set-pre-commit() {
@@ -524,6 +536,8 @@ program_exists awk && {
     | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
   PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: '!a[$1]++' | trim_last_char)
 }
+
+program_exists rbenv && eval "$(rbenv init -)"
 
 true
 

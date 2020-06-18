@@ -81,12 +81,15 @@ install_zsh_plugins() {
 }
 
 config_python_rust() {
+  program_must_exist  "git"
+
   rm -rf ~/.ptpython ~/.linter
   lnif "$APP_PATH/python/ptpython" ~/.ptpython
   lnif "$APP_PATH/python/linter"   ~/.linter
 
   install_miniconda
   install_cargo
+  install_ruby
 
   success "Now configuring python-rust."
 }

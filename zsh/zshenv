@@ -28,7 +28,9 @@ safe_export_path /usr/local/go/bin
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
 safe_export_path "$GOPATH/bin"
 
-safe_export_path $HOME/.cargo/bin
+safe_export_path "$HOME/.cargo/bin"
+
+safe_export_path "$HOME/.rbenv/bin"
 
 safe_export_path /usr/local/node/bin
 
@@ -65,5 +67,7 @@ program_exists nnn && {
 is_linux && program_exists nvim && export EDITOR=nvim
 
 is_macos && export GPG_TTY=$(tty)
+
+export RBENV_VERSION=2.7.1
 
 # }} // namespace env
