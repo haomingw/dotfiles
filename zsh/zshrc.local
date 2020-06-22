@@ -140,6 +140,14 @@ gbrmr() {
     git push origin :$branch
 }
 
+gpa() {
+  read -A remotes <<< "$(git remote | xargs)"
+
+  for remote in "${remotes[@]}"; do
+    git push "$remote" $(gbcu)
+  done
+}
+
 gitd() {
   local parsed
   is_linux && {
