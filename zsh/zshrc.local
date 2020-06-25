@@ -192,6 +192,11 @@ gitgpg() {
   git config commit.gpgsign true
 }
 
+gprc() {
+  local url=$(gh pr create --fill)
+  open "$url" NN || sensible-browser "$url" NN
+}
+
 # }} // namespace git
 
 # GPG {{
