@@ -1,5 +1,4 @@
-#!/bin/bash
-# Copyright 2018 Haoming Wang
+#!/usr/bin/env bash
 
 set -e
 
