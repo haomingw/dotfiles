@@ -120,6 +120,13 @@ config_tmux_lf_mpv() {
     success "Now configuring lf"
   }
 
+  program_exists lazygit || {
+    if program_exists go; then
+      msg "Installing lazygit"
+      go get -u github.com/jesseduffield/lazygit
+    fi
+  }
+
   # shellcheck disable=SC2015
   program_exists mpv && {
     local mpv_conf="$HOME/.config/mpv"

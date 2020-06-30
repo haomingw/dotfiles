@@ -73,6 +73,7 @@ alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
 
 # Vim {{
 
+alias vimrc='vim ~/.vimrc'
 alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
 
 rmvim() {
@@ -141,6 +142,7 @@ gbrmr() {
 }
 
 gpa() {
+  local remotes
   read -A remotes <<< "$(git remote | xargs)"
 
   for remote in "${remotes[@]}"; do
