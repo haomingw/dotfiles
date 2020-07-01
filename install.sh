@@ -13,7 +13,7 @@ options=(
   "oh-my-zsh"
   "zsh-plugins"
   "python-rust"
-  "tmux-lf-mpv"
+  "tmux-go-mpv"
   "sublime-vscode"
 )
 
@@ -23,6 +23,11 @@ zsh_plugins=(
   "zsh-users/zsh-autosuggestions"
   "zdharma/fast-syntax-highlighting"
   "zdharma/history-search-multi-word"
+)
+
+go_tools=(
+  "github.com/gokcehan/lf"
+  "github.com/jesseduffield/lazygit"
 )
 
 for file in "$APP_PATH"/common/*; do
@@ -93,7 +98,7 @@ config_python_rust() {
   success "Now configuring python-rust."
 }
 
-config_tmux_lf_mpv() {
+config_tmux_go_mpv() {
   program_exists tmux && {
     safe_mkdir "$HOME/.tmux/plugins"
     if [ ! -d ~/.tmux/plugins/tpm ]; then
@@ -104,37 +109,34 @@ config_tmux_lf_mpv() {
     success "Now configuring tmux"
   }
 
-  program_exists lf || {
-    if program_exists go; then
-      msg "Installing lf file manager"
-      go get -u github.com/gokcehan/lf
-    else
-      warning "You must have Go installed to configure lf."
-    fi
-  }
-  program_exists lf || program_exists go && {
+  if program_exists go; then
+    local bin
+    for url in "${go_tools[@]}"; do
+      bin=$(parse "$url")
+      program_exists "$bin" || {
+        msg "Installing $bin"
+        go get -u "$url"
+      }
+    done
+
     local lfrc="$HOME/.config/lf"
     safe_mkdir "$lfrc"
     lnif "$APP_PATH/lf/lfrc" "$lfrc"
 
     success "Now configuring lf"
-  }
+  else
+    warning "You must have Go installed to configure its tools."
+  fi
 
-  program_exists lazygit || {
-    if program_exists go; then
-      msg "Installing lazygit"
-      go get -u github.com/jesseduffield/lazygit
-    fi
-  }
-
-  # shellcheck disable=SC2015
   program_exists mpv && {
     local mpv_conf="$HOME/.config/mpv"
     safe_mkdir "$mpv_conf"
     lnif "$APP_PATH/mpv/input.conf" "$mpv_conf"
 
     success "Now configuring mpv"
-  } || true
+  }
+
+  true
 }
 
 config_sublime_vscode() {
@@ -203,7 +205,7 @@ config() {
     "oh-my-zsh")      install_oh_my_zsh ;;
     "zsh-plugins")    install_zsh_plugins ;;
     "python-rust")    config_python_rust ;;
-    "tmux-lf-mpv")    config_tmux_lf_mpv ;;
+    "tmux-go-mpv")    config_tmux_go_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;
     *)                error "Unexpected option: $1" ;;
   esac

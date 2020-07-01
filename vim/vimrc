@@ -189,7 +189,9 @@ endtry
 set relativenumber
 set number                      " Line numbers on
 set cursorline                  " Highlight current line
-set noshowmode                  " Don't display the current mode
+if !exists('g:noplug')
+  set noshowmode                " Don't display the current mode
+endif
 set showcmd                     " Show partial commands in status line
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
