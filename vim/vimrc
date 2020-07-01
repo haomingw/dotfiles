@@ -97,6 +97,7 @@ if count(g:plug_groups, 'programming')
   Plug 'rust-lang/rust.vim'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
+  Plug 'rhysd/git-messenger.vim'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'haomingw/vim-snippets'
@@ -677,6 +678,22 @@ if has_key(g:plugs, 'vim-fugitive')
   " Mnemonic _i_nteractive
   nnoremap <silent> <leader>gi :Git add -p %<cr>
   nnoremap <silent> <leader>gg :SignifyToggle<cr>
+endif
+
+"}}
+
+" GitMessenger {{
+
+if has_key(g:plugs, 'git-messenger.vim')
+  function! s:setup_git_messenger_popup() abort
+    " For example, set go back/forward history to <C-o>/<C-i>
+    nmap <buffer><C-o> o
+    nmap <buffer><C-i> O
+  endfunction
+  augroup gitmessenger
+    autocmd!
+    autocmd FileType gitmessengerpopup :call <SID>setup_git_messenger_popup()
+  augroup END
 endif
 
 "}}
