@@ -384,11 +384,22 @@ alias pypi='pycompile && pyupload'
 program_exists conda && \
   export CONDA_HOME=`cut_cols $(which python) $(is_venv && echo 4 || echo 2)`
 
-alias u='source activate'
-alias uu='conda deactivate'
 
-alias uv='source venv/bin/activate'
-alias uuv='deactivate'
+u() {
+  if [[ "$#" -lt 1 ]]; then
+    [[ -f venv/bin/activate ]] && source venv/bin/activate
+    return $?
+  fi
+  source activate "$1"
+}
+
+uu() {
+  if which python | grep -q "envs"; then
+    conda deactivate
+  else
+    deactivate
+  fi
+}
 
 alias uls='conda env list'
 alias ucl='find $CONDA_HOME \( -type f -o -type l \) \
