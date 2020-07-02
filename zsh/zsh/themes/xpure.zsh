@@ -31,6 +31,8 @@ prompt_git_fetch() {
   git_has_upstream && {
     local ref=$(command git symbolic-ref -q HEAD)
     local remote=($(command git for-each-ref --format='%(upstream:remotename) %(refname)' $ref))
+    # No remote specified for this branch, skip fetch
+    [[ -z $remote[1] ]] && return 97
     command git fetch $remote
   }
 }
