@@ -10,7 +10,6 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 options=(
   "vim"
   "oh-my-zsh"
-  "zsh-plugins"
   "python-rust"
   "tmux-go-mpv"
   "sublime-vscode"
@@ -81,6 +80,11 @@ install_zsh_plugins() {
   config_ssh
   # shellcheck disable=SC2046
   zsh_plug            $(reverse "${zsh_plugins[@]}")
+}
+
+custom_oh_my_zsh() {
+  install_oh_my_zsh
+  install_zsh_plugins
 }
 
 config_python_rust() {
@@ -201,8 +205,7 @@ bye() {
 config() {
   case "$1" in
     "vim")            install_or_update_vim ;;
-    "oh-my-zsh")      install_oh_my_zsh ;;
-    "zsh-plugins")    install_zsh_plugins ;;
+    "oh-my-zsh")      custom_oh_my_zsh ;;
     "python-rust")    config_python_rust ;;
     "tmux-go-mpv")    config_tmux_go_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;

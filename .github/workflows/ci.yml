@@ -30,13 +30,10 @@ jobs:
         vim --version
         bash install.sh vim
 
-    - name: Install Oh My Zsh
+    - name: Install and configure Oh My Zsh
       run:  |
         zsh --version
         bash install.sh oh-my-zsh
-
-    - name: Configure Oh My Zsh
-      run:  bash install.sh zsh-plugins
 
     - name: Configure tmux-lf-mpv
       if:   startsWith(matrix.os, 'ubuntu')
