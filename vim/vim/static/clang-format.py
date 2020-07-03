@@ -10,9 +10,9 @@
 #     imap <C-I> <c-o>:py3f <path-to-this-file>/clang-format.py<cr>
 #   endif
 #
-# The if-elseif-endif conditional should pick either the python3 or python2
+# The if-elseif-endif conditional should pick either the python3 or python2 
 # integration depending on your vim setup.
-#
+# 
 # The first mapping enables clang-format for NORMAL and VISUAL mode, the second
 # mapping adds support for INSERT mode. Change "C-I" to another binding if you
 # need clang-format on a different key (C-I stands for Ctrl+i).

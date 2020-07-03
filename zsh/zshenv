@@ -70,4 +70,6 @@ is_macos && export GPG_TTY=$(tty)
 
 export RBENV_VERSION=2.7.1
 
+export DISABLE_MAGIC_FUNCTIONS=true
+
 # }} // namespace env
