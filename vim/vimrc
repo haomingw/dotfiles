@@ -188,8 +188,8 @@ endtry
 
 set relativenumber
 set number                      " Line numbers on
-set cursorline                  " Highlight current line
 if !exists('g:noplug')
+  set cursorline                " Highlight current line
   set noshowmode                " Don't display the current mode
 endif
 set showcmd                     " Show partial commands in status line

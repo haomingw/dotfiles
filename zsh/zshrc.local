@@ -67,6 +67,22 @@ alias lff='lfcd'
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
 
+extract() {
+  if [[ -f "$1" ]]; then
+    case "$1" in
+      *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$1" ;;
+      *.tar.gz|*.tgz) tar xzvf "$1" ;;
+      *.tar.xz|*.txz) tar xJvf "$1" ;;
+      *.zip) unzip "$1" ;;
+      *.rar) unrar x "$1" ;;
+      *.7z) 7z x "$1" ;;
+      *) warning "Don't know how to extract $1"
+    esac
+  else
+    error "No such file: $1"
+  fi
+}
+
 # }} // namespace utils
 
 # Tools {{
@@ -102,7 +118,7 @@ alias txrm='tmux kill-session -t'
 
 program_exists tmux && {
   txat() {
-    [[ "$#" -ge 1 ]] && tmux attach -t $1 || tmux attach
+    [[ $# -ge 1 ]] && tmux attach -t $1 || tmux attach
   }
 
   txcl() {
@@ -384,9 +400,8 @@ alias pypi='pycompile && pyupload'
 program_exists conda && \
   export CONDA_HOME=`cut_cols $(which python) $(is_venv && echo 4 || echo 2)`
 
-
 u() {
-  if [[ "$#" -lt 1 ]]; then
+  if [[ $# -lt 1 ]]; then
     [[ -f venv/bin/activate ]] && source venv/bin/activate
     return $?
   fi
@@ -407,7 +422,7 @@ alias ucl='find $CONDA_HOME \( -type f -o -type l \) \
 
 program_exists conda && {
   uc() {
-    [[ "$#" -lt 1 ]] && {
+    [[ $# -lt 1 ]] && {
       error "missing operand: uc env_name [python_version]"
       return 1
     }
@@ -417,7 +432,7 @@ program_exists conda && {
   }
 
   urm() {
-    [[ "$#" -lt 1 ]] && {
+    [[ $# -lt 1 ]] && {
       error "missing operand: urm env_name"
       return 1
     }
