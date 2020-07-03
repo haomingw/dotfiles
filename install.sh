@@ -4,8 +4,7 @@ set -e
 
 app_name='xming-dotfiles'
 
-[ "$(uname)" == "Darwin" ] && APP_PATH="$(dirname "$(readlink "$0")")"
-[ "$(uname)" == "Linux" ] && APP_PATH="$(dirname "$(readlink -f "$0")")"
+APP_PATH="$(dirname "$PWD/$0")"
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 options=(
