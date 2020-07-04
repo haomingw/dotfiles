@@ -50,12 +50,12 @@ update_vim_plugins() {
 ############################ SETUP FUNCTIONS
 
 do_backup() {
-  if [ -e "$1" ]; then
+  if [ -e "$1" ] && [ ! -L "$1" ]; then
     msg "Attempting to back up your original configuration."
     today=$(date +%Y%m%d_%s)
-    [ -e "$1" ] && [ ! -L "$1" ] && mv -v "$1" "$1.$today";
+    mv -v "$1" "$1.$today";
     success "Your original configuration has been backed up."
-   fi
+  fi
 }
 
 create_vim_symlinks() {
@@ -146,6 +146,8 @@ config_zshrc() {
 
   # shellcheck disable=SC1003
   sed -i -e 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' "$zshrc"
+  sed -i -e 's/# DISABLE_MAGIC/DISABLE_MAGIC/' "$zshrc"
+
   lnif "$app_path/common" "$HOME/.common"
   for file in "$app_path"/zsh/*; do
     lnif "$file" "$HOME/.$(parse "$file")"
@@ -168,8 +170,24 @@ config_zshrc() {
   success "Now configuring zsh."
 }
 
+config_zinit() {
+  local zinit="$HOME/.zinit"
+  if [ ! -d "$zinit" ]; then
+    git clone https://github.com/zdharma/zinit.git "$zinit"
+  else
+    git_pull "$zinit"
+  fi
+
+  local app_path="$1"
+  for file in "$app_path"/zsh/*; do
+    lnif "$file" "$HOME/.$(parse "$file")"
+  done
+  lnif "$app_path/zsh/zshrc.zsh" "$HOME/.zshrc"
+
+  success "Now configuring zinit."
+}
+
 config_i3wm() {
-  is_linux || return 0
   local app_path="$1"
   local dest="$HOME/.config/i3"
 

@@ -10,6 +10,7 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 options=(
   "vim"
   "oh-my-zsh"
+  "faster-zsh(wip)"
   "python-rust"
   "tmux-go-mpv"
   "sublime-vscode"
@@ -76,7 +77,9 @@ install_zsh_plugins() {
   file_must_exist     "$HOME/.oh-my-zsh"
 
   config_zshrc        "$APP_PATH"
-  config_i3wm         "$APP_PATH"  # linux only
+  if is_linux; then
+    config_i3wm       "$APP_PATH"
+  fi
   config_ssh
   # shellcheck disable=SC2046
   zsh_plug            $(reverse "${zsh_plugins[@]}")
@@ -85,6 +88,11 @@ install_zsh_plugins() {
 custom_oh_my_zsh() {
   install_oh_my_zsh
   install_zsh_plugins
+}
+
+custom_zinit() {
+  do_backup           "$HOME/.zshrc"
+  config_zinit        "$APP_PATH"
 }
 
 config_python_rust() {
@@ -206,6 +214,7 @@ config() {
   case "$1" in
     "vim")            install_or_update_vim ;;
     "oh-my-zsh")      custom_oh_my_zsh ;;
+    "faster-zsh(wip)")custom_zinit ;;
     "python-rust")    config_python_rust ;;
     "tmux-go-mpv")    config_tmux_go_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;
