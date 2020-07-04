@@ -1,5 +1,3 @@
-setopt prompt_subst
-
 source $HOME/.zsh/async.zsh
 
 git_has_upstream() {

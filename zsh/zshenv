@@ -11,43 +11,6 @@ done
 
 # }}
 
-# Path {{
-
-safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || true }
-
-# added by Miniconda3 installer
-safe_export_path $HOME/miniconda3/bin
-
-setopt localoptions nonomatch
-for file in /usr/local/jdk*; do
-  export JAVA_HOME=$file
-done
-[[ -z "$JAVA_HOME" ]] || safe_export_path "$JAVA_HOME/bin"
-
-safe_export_path /usr/local/go/bin
-[[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
-safe_export_path "$GOPATH/bin"
-
-safe_export_path "$HOME/.cargo/bin"
-
-safe_export_path "$HOME/.rbenv/bin"
-
-safe_export_path /usr/local/node/bin
-
-safe_use_cuda() {
-  if [[ -d "$1/lib64" ]]; then
-    export CUDA_HOME=$1
-    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-    if [[ -d "$CUDA_HOME/extras/CUPTI/lib64" ]]; then
-      export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-    fi
-    safe_export_path "$CUDA_HOME/bin"
-  fi
-}
-safe_use_cuda "/usr/local/cuda"
-
-# }} // namespace path
-
 # Env {{
 
 export EDITOR=vim

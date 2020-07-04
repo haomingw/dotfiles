@@ -1,3 +1,5 @@
+setopt prompt_subst
+
 source ~/.zinit/zinit.zsh
 
 zinit wait lucid for \
@@ -15,8 +17,8 @@ zinit light-mode for \
   OMZ::lib/key-bindings.zsh \
   OMZ::lib/theme-and-appearance.zsh
 
-[[ -s ~/.zsh/themes/xpure.zsh ]] && source ~/.zsh/themes/xpure.zsh
+safe_source ~/.zsh/themes/xpure.zsh
 
-[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+safe_source ~/.zshrc.local
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
