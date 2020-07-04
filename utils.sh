@@ -144,6 +144,14 @@ config_zshrc() {
   local app_path="$1"
   local zshrc="$HOME/.zshrc"
 
+  if [ -L "$zshrc" ]; then
+    for backup in ~/.zshrc.20*; do
+      msg "Attempting to recover from your zshrc backup."
+      mv -v "$backup" ~/.zshrc
+      break
+    done
+  fi
+
   # shellcheck disable=SC1003
   sed -i -e 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' "$zshrc"
   sed -i -e 's/# DISABLE_MAGIC/DISABLE_MAGIC/' "$zshrc"

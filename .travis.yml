@@ -31,7 +31,7 @@ script:
 - bash install.sh vim
 - bash install.sh oh-my-zsh
 - bash install.sh faster-zsh
-- bash install.sh tmux-lf-mpv
+- bash install.sh tmux-go-mpv
 
 branches:
   only:

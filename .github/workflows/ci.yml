@@ -39,9 +39,9 @@ jobs:
       run:  |
         bash install.sh faster-zsh
 
-    - name: Configure tmux-lf-mpv
+    - name: Configure tmux-go-mpv
       if:   startsWith(matrix.os, 'ubuntu')
       run:  |
         tmux -V
         mpv --version
-        bash install.sh tmux-lf-mpv
+        bash install.sh tmux-go-mpv
