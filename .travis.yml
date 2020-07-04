@@ -30,6 +30,7 @@ script:
 - shellcheck *.sh
 - bash install.sh vim
 - bash install.sh oh-my-zsh
+- bash install.sh faster-zsh
 - bash install.sh tmux-lf-mpv
 
 branches:

@@ -10,7 +10,7 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 options=(
   "vim"
   "oh-my-zsh"
-  "faster-zsh(wip)"
+  "faster-zsh"
   "python-rust"
   "tmux-go-mpv"
   "sublime-vscode"
@@ -214,7 +214,7 @@ config() {
   case "$1" in
     "vim")            install_or_update_vim ;;
     "oh-my-zsh")      custom_oh_my_zsh ;;
-    "faster-zsh(wip)")custom_zinit ;;
+    "faster-zsh")     custom_zinit ;;
     "python-rust")    config_python_rust ;;
     "tmux-go-mpv")    config_tmux_go_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;

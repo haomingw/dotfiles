@@ -35,6 +35,10 @@ jobs:
         zsh --version
         bash install.sh oh-my-zsh
 
+    - name: Configure faster-zsh
+      run:  |
+        bash install.sh faster-zsh
+
     - name: Configure tmux-lf-mpv
       if:   startsWith(matrix.os, 'ubuntu')
       run:  |
