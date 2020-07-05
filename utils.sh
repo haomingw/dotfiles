@@ -215,6 +215,7 @@ config_ssh() {
   local auth_keys="$HOME/.ssh/authorized_keys"
   read -ra users <<< "$AUTH_USERS"
 
+  safe_mkdir "$HOME/.ssh"
   echo -n "" > "$auth_keys"
   for user in "${users[@]}"; do
     key="$(curl https://github.com/"$user".keys 2>/dev/null)"
