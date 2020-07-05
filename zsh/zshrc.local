@@ -3,26 +3,25 @@
 
 # Path {{
 
-safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH || true }
+prepend_path() { [[ -d $1 ]] && path=($1 $path) }
+append_path() { [[ -d $1 ]] && path+=($1) }
 
 # added by Miniconda3 installer
-safe_export_path $HOME/miniconda3/bin
+prepend_path $HOME/miniconda3/bin
 
 setopt localoptions nonomatch
 for file in /usr/local/jdk*; do
   export JAVA_HOME=$file
+  break
 done
-[[ -z "$JAVA_HOME" ]] || safe_export_path "$JAVA_HOME/bin"
+[[ -z "$JAVA_HOME" ]] || prepend_path "$JAVA_HOME/bin"
 
-safe_export_path /usr/local/go/bin
+# prepend_path /usr/local/go/bin
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
-safe_export_path "$GOPATH/bin"
+prepend_path "$GOPATH/bin"
 
-safe_export_path "$HOME/.cargo/bin"
-
-safe_export_path "$HOME/.rbenv/bin"
-
-safe_export_path /usr/local/node/bin
+prepend_path "$HOME/.cargo/bin"
+prepend_path /usr/local/node/bin
 
 safe_use_cuda() {
   if [[ -d "$1/lib64" ]]; then
@@ -31,7 +30,7 @@ safe_use_cuda() {
     if [[ -d "$CUDA_HOME/extras/CUPTI/lib64" ]]; then
       export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
     fi
-    safe_export_path "$CUDA_HOME/bin"
+    prepend_path "$CUDA_HOME/bin"
   fi
 }
 safe_use_cuda "/usr/local/cuda"
