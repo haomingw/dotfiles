@@ -91,7 +91,7 @@ custom_oh_my_zsh() {
 }
 
 custom_zinit() {
-  do_backup           "$HOME/.zshrc"
+  do_backup           "$HOME/.zshrc" "pre-zinit"
   config_zinit        "$APP_PATH"
 }
 

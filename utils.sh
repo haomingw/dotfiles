@@ -52,8 +52,9 @@ update_vim_plugins() {
 do_backup() {
   if [ -e "$1" ] && [ ! -L "$1" ]; then
     msg "Attempting to back up your original configuration."
-    today=$(date +%Y%m%d_%s)
-    mv -v "$1" "$1.$today";
+    local suffix
+    suffix=${2:-$(date +%Y%m%d_%s)}
+    mv -v "$1" "$1.$suffix"
     success "Your original configuration has been backed up."
   fi
 }
@@ -143,13 +144,14 @@ append_if_not_exists() {
 config_zshrc() {
   local app_path="$1"
   local zshrc="$HOME/.zshrc"
+  local backup
 
-  if [ -L "$zshrc" ]; then
-    for backup in ~/.zshrc.20*; do
+  backup="$HOME/.zshrc.pre-zinit"
+  if [ -L "$zshrc" ] && [ -f "$backup" ]; then
+    if grep -q "oh-my-zsh" "$backup"; then
       msg "Attempting to recover from your zshrc backup."
-      mv -v "$backup" ~/.zshrc
-      break
-    done
+      mv -v "$backup" "$zshrc"
+    fi
   fi
 
   # shellcheck disable=SC1003
