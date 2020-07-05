@@ -483,6 +483,12 @@ program_exists conda && {
 
 # Ruby {{
 
+[[ -d ~/.rbenv ]] && {
+  alias rb='~/.rbenv/bin/rbenv'
+  alias rbinit='eval "$(rb init -)"'
+  alias rbrm='rm -rf "$(rb root)"'
+}
+
 alias gemls='gem list'
 
 gemcl() {

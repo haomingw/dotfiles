@@ -97,7 +97,7 @@ setup_vim_plug() {
 
   export SHELL="$system_shell"
 
-  success "Now updating/installing plugins using vim-plug"
+  success "Now updating/installing plugins using vim-plug."
 }
 
 use_zsh_plugin() {
@@ -234,7 +234,7 @@ cleanup_miniconda_files() {
   find "$HOME/miniconda3" \( -type f -o -type l \) \
     -not -path "$HOME/miniconda3/pkgs*" \
     -regex ".*bin/wish[0-9\.]*$" -ls -delete
-  success "Cleaning up minconda files"
+  success "Cleaning up minconda files."
 }
 
 install_miniconda() {
@@ -259,9 +259,9 @@ install_miniconda() {
       local target="/tmp"
       [ -f "$target/$miniconda" ] || wget $url -P $target
       bash "$target/$miniconda" \
-      && success "Miniconda successfully installed" \
+      && success "Miniconda successfully installed." \
       && cleanup_miniconda_files "$target/$miniconda"
-      success "Writing pip packages to $init_pip_packages"
+      success "Writing pip packages to $init_pip_packages."
       "$conda"/bin/pip freeze > "$init_pip_packages"
     fi
   fi
@@ -333,7 +333,7 @@ increase_watch_limit() {
     }
     program_exists apt && sudo sysctl -p >/dev/null
     program_exists pacman && sudo sysctl --system >/dev/null
-    success "Increasing inotify watcher limit"
+    success "Increasing inotify watcher limit."
   fi
 }
 
@@ -347,5 +347,5 @@ install_vscode_extensions() {
   for extension in "${extensions[@]}"; do
     code --install-extension "$extension"
   done
-  success "Vscode extensions are installed"
+  success "Vscode extensions are installed."
 }

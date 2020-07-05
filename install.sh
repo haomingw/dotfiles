@@ -210,7 +210,7 @@ bye() {
   exit
 }
 
-config() {
+setup() {
   case "$1" in
     "vim")            install_or_update_vim ;;
     "oh-my-zsh")      custom_oh_my_zsh ;;
@@ -222,10 +222,10 @@ config() {
   esac
 }
 
-repeat_config() {
+select_setup() {
   PS3='Please enter your choice: '
   select option in "${options[@]}"; do
-    config "$option"
+    setup "$option"
     confirm_finish
   done
 }
@@ -236,8 +236,11 @@ confirm_finish() {
 }
 
 main() {
-  # shellcheck disable=SC2015
-  [ $# -eq 1 ] && config "$1" || repeat_config "$@"
+  if [ $# -eq 1 ]; then
+    setup "$1"
+  else
+    select_setup
+  fi
 }
 
 main "$@"
