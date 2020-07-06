@@ -41,7 +41,8 @@ source "$APP_PATH/utils.sh"
 print_select_menu() {
   local prev="$PS3"
   PS3=""
-  echo toto | select _ in "${options[@]}"; do break; done  # dummy select
+  # dummy select
+  echo toto | select _ in "${options[@]}"; do break; done
   PS3=$prev
 }
 
@@ -63,12 +64,13 @@ install_oh_my_zsh() {
   program_must_exist  "git"
   program_must_exist  "curl"
 
-  [ ! -d "$HOME/.oh-my-zsh" ] && {
-    export RUNZSH=no
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  }
+  local omz="https://raw.githubusercontent.com/\
+robbyrussell/oh-my-zsh/master/tools/install.sh"
+  if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    RUNZSH=no sh -c "$(curl -fsSL $omz)"
+  fi
 
-  success "oh my zsh installed"
+  success "oh my zsh installed."
 }
 
 install_zsh_plugins() {
@@ -110,15 +112,15 @@ config_python_rust() {
 }
 
 config_tmux_go_mpv() {
-  program_exists tmux && {
+  if program_exists tmux; then
     safe_mkdir "$HOME/.tmux/plugins"
     if [ ! -d ~/.tmux/plugins/tpm ]; then
       git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
     lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
 
-    success "Now configuring tmux"
-  }
+    success "Now configuring tmux."
+  fi
 
   if program_exists go; then
     local bin
@@ -134,20 +136,18 @@ config_tmux_go_mpv() {
     safe_mkdir "$lfrc"
     lnif "$APP_PATH/lf/lfrc" "$lfrc"
 
-    success "Now configuring lf"
+    success "Now configuring lf."
   else
     warning "You must have Go installed to configure its tools."
   fi
 
-  program_exists mpv && {
+  if program_exists mpv; then
     local mpv_conf="$HOME/.config/mpv"
     safe_mkdir "$mpv_conf"
     lnif "$APP_PATH/mpv/input.conf" "$mpv_conf"
 
-    success "Now configuring mpv"
-  }
-
-  true
+    success "Now configuring mpv."
+  fi
 }
 
 config_sublime_vscode() {
@@ -157,7 +157,7 @@ config_sublime_vscode() {
     lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code $dest
   }
 
-  program_exists "subl" && {
+  if program_exists "subl"; then
     local sublime_home
     local sublime_keymap
     is_linux && {
@@ -177,10 +177,9 @@ config_sublime_vscode() {
 
       success "Now configuring sublime-text."
     fi
-  }
+  fi
 
-  # shellcheck disable=SC2015
-  program_exists "code" && {
+  if program_exists "code"; then
     local code_home
     is_linux && code_home="$HOME/.config/Code/User"
     is_macos && code_home="$HOME/Library/Application Support/Code/User"
@@ -201,7 +200,7 @@ config_sublime_vscode() {
 
       success "Now configuring vscode."
     fi
-  } || true
+  fi
 }
 
 bye() {
