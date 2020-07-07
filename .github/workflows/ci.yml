@@ -23,7 +23,7 @@ jobs:
       run: |
         sudo add-apt-repository ppa:jonathonf/vim
         sudo apt update
-        sudo apt install vim zsh tmux mpv
+        sudo apt install vim zsh tmux
 
     - name: Configure vim
       run:  |
@@ -43,5 +43,4 @@ jobs:
       if:   startsWith(matrix.os, 'ubuntu')
       run:  |
         tmux -V
-        mpv --version
         bash install.sh tmux-go-mpv

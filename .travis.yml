@@ -17,14 +17,12 @@ addons:
     - zsh
     - shellcheck
     - tmux
-    - mpv
 
 before_script:
 - lsb_release -a
 - vim --version
 - zsh --version
 - tmux -V
-- mpv --version
 
 script:
 - shellcheck *.sh
