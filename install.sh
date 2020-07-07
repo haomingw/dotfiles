@@ -27,6 +27,7 @@ zsh_plugins=(
 go_tools=(
   "github.com/gokcehan/lf"
   "github.com/jesseduffield/lazygit"
+  "github.com/jesseduffield/lazydocker"
 )
 
 for file in "$APP_PATH"/common/*; do

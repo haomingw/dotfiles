@@ -237,7 +237,7 @@ cleanup_miniconda_files() {
   find "$HOME/miniconda3" \( -type f -o -type l \) \
     -not -path "$HOME/miniconda3/pkgs*" \
     -regex ".*bin/wish[0-9\.]*$" -ls -delete
-  success "Cleaning up minconda files."
+  success "Cleaning up miniconda files."
 }
 
 install_miniconda() {
@@ -248,6 +248,7 @@ install_miniconda() {
     "flake8"
     "mypy"
     "yapf"
+    "virtualenv"
   )
 
   if [ ! -d "$conda" ]; then

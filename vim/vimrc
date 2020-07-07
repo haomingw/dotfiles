@@ -632,8 +632,9 @@ endif
 " NerdCommenter {{
 
 if has_key(g:plugs, 'nerdcommenter')
-  nmap <c-_> <leader>c<Space>j
-  xmap <c-_> <leader>c<Space>j
+  " remap NERDCommenterToggle
+  nmap <c-_> <leader>c<space>j
+  xmap <c-_> <leader>c<space>j
 
   " Add spaces after comment delimiters by default
   let g:NERDSpaceDelims = 1
