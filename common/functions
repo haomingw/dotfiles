@@ -104,6 +104,11 @@ mvext() {
   done
 }
 
+now() {
+  is_linux && date +%s.%N
+  is_macos && program_exists gdate && gdate +%s.%N
+}
+
 # }}
 
 # Advanced functions {{

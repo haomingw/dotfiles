@@ -1,4 +1,4 @@
-start=$(date +%s.%N)
+start=$(now)
 setopt prompt_subst
 
 source ~/.zinit/zinit.zsh
@@ -23,5 +23,8 @@ safe_source ~/.zsh/themes/xpure.zsh
 safe_source ~/.zshrc.local
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-dur=$(echo "$(date +%s.%N) - $start" | bc)
-printf "Execution time: %.6f seconds\n" $dur
+
+if [[ -n "$start" ]]; then
+  dur=$(echo "$(now) - $start" | bc)
+  printf "Execution time: %.6f seconds\n" $dur
+fi
