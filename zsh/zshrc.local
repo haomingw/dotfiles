@@ -16,7 +16,7 @@ for file in /usr/local/jdk*; do
 done
 [[ -z "$JAVA_HOME" ]] || prepend_path "$JAVA_HOME/bin"
 
-# prepend_path /usr/local/go/bin
+prepend_path /usr/local/go/bin
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
 prepend_path "$GOPATH/bin"
 
