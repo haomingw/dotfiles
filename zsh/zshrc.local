@@ -361,7 +361,7 @@ program_exists brew && {
   alias pR='brew uninstall'
   alias pRa='brew cleanup'
 
-  essential="git neovim macvim tmux clang-format"
+  essential="git neovim macvim tmux clang-format gpg bash coreutils"
   optional="go"
 }
 
