@@ -277,7 +277,7 @@ install_miniconda() {
 install_cargo() {
   local cargo="$HOME/.cargo"
 
-  if [[ ! -d "$cargo" ]]; then
+  if [ ! -d "$cargo" ]; then
     local target='/tmp/install-rust.sh'
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > "$target"
     sh "$target" -y --no-modify-path
@@ -296,7 +296,7 @@ install_cargo() {
 install_ruby() {
   local rbenv="$HOME/.rbenv"
 
-  [[ -d "$rbenv" ]] || {
+  [ -d "$rbenv" ] || {
     msg "Installing rbenv and ruby-build."
     git clone https://github.com/rbenv/rbenv.git "$rbenv"
     git clone https://github.com/rbenv/ruby-build.git "$rbenv"/plugins/ruby-build
