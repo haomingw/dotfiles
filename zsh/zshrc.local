@@ -396,7 +396,8 @@ pipS() {
 pipcl() {
   local v="$HOME/.pip_packages"
   if is_venv; then
-    pipls | xargs pip uninstall -y NE || echo "No packages to remove"
+    pipls | cut -d' ' -f1 | xargs pip uninstall -y NE || \
+      echo "No packages to remove"
   elif [[ -s $v ]]; then
     pipls | awk -F== '{print $1}' \
       | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
