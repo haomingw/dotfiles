@@ -9,6 +9,8 @@ for file in ~/.common/*; do
   safe_source "$file"
 done
 
+safe_source ~/.zshenv.local
+
 # }}
 
 # Env {{

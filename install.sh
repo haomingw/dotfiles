@@ -94,8 +94,12 @@ custom_oh_my_zsh() {
 }
 
 custom_zinit() {
+  program_must_exist  "git"
+  program_must_exist  "zsh"
+
   do_backup           "$HOME/.zshrc" "pre-zinit"
   config_zinit        "$APP_PATH"
+  config_ssh
 }
 
 config_python_rust() {
