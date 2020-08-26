@@ -49,6 +49,10 @@ program_exists nnn && alias n=nnn
 
 program_exists xdg-open && alias open='xdg-open'
 
+navigate() {
+  open "$1" NN || sensible-browser "$1" NN
+}
+
 cut_cols() {
   # remove last n columns
   echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
@@ -247,8 +251,9 @@ gitgpg() {
 }
 
 gprc() {
-  local url=$(gh pr create --fill)
-  open "$url" NN || sensible-browser "$url" NN
+  local url="https://github.com/cli/cli"
+  program_exists gh && url=$(gh pr create --fill)
+  navigate "$url"
 }
 
 # }} // namespace git
@@ -322,7 +327,7 @@ program_exists apt && {
   alias pRa='sudo apt autoremove'
 
   essential="curl git-gui tmux clang clang-format build-essential \
-    python3-distutils python3-pynvim xclip ibus-rime gnupg fonts-symbola"
+    python3-distutils xclip ibus-rime gnupg fonts-symbola"
   optional="htop tree net-tools cmake ctags openssh-server mpv"
 
   ## HHKB keyboard settings [HHKB mode]
