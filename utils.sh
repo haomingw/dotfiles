@@ -264,11 +264,13 @@ install_miniconda() {
       [ -f "$target/$miniconda" ] || wget $url -P $target
       bash "$target/$miniconda" \
       && success "Miniconda successfully installed." \
+      && "$conda"/bin/conda update -y conda \
       && cleanup_miniconda_files "$target/$miniconda"
       success "Writing pip packages to $init_pip_packages."
       "$conda"/bin/pip freeze > "$init_pip_packages"
     fi
   fi
+
   for package in "${python_packages[@]}"; do
     "$conda"/bin/pip install -U "$package"
   done

@@ -276,12 +276,20 @@ gpgsend() {
   gpg --keyserver hkps://keys.openpgp.org --send-keys $(gpgkid)
 }
 
+gpgfd() {
+  gpg --keyserver hkps://keys.openpgp.org --search-key "$1"
+}
+
 gpgrecv() {
   [[ $# -eq 0 ]] && {
     warning "No key id to retrieve"
     return 1
   }
   gpg --keyserver hkps://keys.openpgp.org --recv-keys "$1"
+}
+
+gpgrvk() {
+  gpg --output revoke.asc --gen-revoke $(gpgkid)
 }
 
 gpgenc() {
