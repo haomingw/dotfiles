@@ -334,7 +334,7 @@ program_exists apt && {
   alias pR='sudo apt purge'
   alias pRa='sudo apt autoremove'
 
-  essential="curl git-gui tmux clang clang-format build-essential \
+  essential="curl git-gui tmux clang clang-format clangd build-essential \
     python3-distutils xclip ibus-rime gnupg fonts-symbola"
   optional="htop tree net-tools cmake ctags openssh-server mpv"
 
@@ -376,7 +376,7 @@ program_exists brew && {
   alias pRa='brew cleanup'
   alias pRR='brew list | xargs brew uninstall'
 
-  essential="git neovim macvim tmux clang-format gpg bash coreutils"
+  essential="git neovim macvim tmux clang-format clangd gpg bash coreutils"
   optional="go"
 }
 

@@ -97,8 +97,8 @@ reverse() {
   fi
 }
 
-mvext() {
-  # e.g. mvext txt in
+rename() {
+  # e.g. rename txt in
   for file in *.$1; do
     mv $file $(basename $file $1)$2
   done
