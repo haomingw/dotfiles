@@ -105,6 +105,7 @@ config_programming_langs() {
 
   install_miniconda
   install_golang      "$APP_PATH"
+  install_node
   install_cargo
   install_ruby
 

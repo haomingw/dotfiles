@@ -282,7 +282,7 @@ install_golang() {
 
   local goroot="$HOME/.golang"
   local url
-  url="$(wget --no-check-certificate -qO- https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
+  url="$(wget -qO- https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
   local version
   version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
   local filename
@@ -298,6 +298,29 @@ install_golang() {
   fi
 
   install_go_tools "$@"
+}
+
+install_node() {
+  is_linux || return 0
+
+  local node_home="$HOME/.node"
+  local url
+  url="$(wget -qO- https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
+  local version
+  version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
+  local filename
+  filename=$(parse_filename "$url")
+
+  if [ -f "$node_home/bin/node" ] && [ "$("$node_home/bin/node" -v)" = "$version" ]; then
+    msg "Node.js is up to date."
+  else
+    [ -f "/tmp/$filename" ] || wget "$url" -P "/tmp"
+    tar xJf "/tmp/$filename" -C /tmp
+    local node
+    node="$(basename "$filename" .tar.xz)"
+    cp -Tr "/tmp/$node" "$node_home"
+    rm -rf "/tmp/$filename" "/tmp/$node"
+  fi
 }
 
 install_go_tools() {
