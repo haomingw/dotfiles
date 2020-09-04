@@ -90,6 +90,7 @@ setup_vim_plug() {
   local system_shell="$SHELL"
   export SHELL='/bin/sh'
 
+  safe_mkdir ~/.config/coc
   update_vim_plugins
   program_exists go && vim +GoUpdateBinaries +qall
 
