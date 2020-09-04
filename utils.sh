@@ -34,10 +34,6 @@ git_pull() {
   pushd "$1" >/dev/null && git pull && popd >/dev/null || return 1
 }
 
-parse_filename() {
-  echo "$1" | rev | cut -d'/' -f1 | rev
-}
-
 update_vim_plugins() {
   if [ -z "$CI" ]; then
     vim +PlugClean! +qall && vim +PlugUpdate +qall
@@ -260,7 +256,7 @@ install_miniconda() {
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
       local miniconda
-      miniconda=$(parse_filename $url)
+      miniconda=$(parse $url)
       local target="/tmp"
       [ -f "$target/$miniconda" ] || wget $url -P $target
       bash "$target/$miniconda" \
@@ -287,7 +283,7 @@ install_golang() {
   local version
   version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
   local filename
-  filename=$(parse_filename "$url")
+  filename=$(parse "$url")
 
   if [ -f "$goroot/VERSION" ] && [ "$(cat "$goroot/VERSION")" = "$version" ]; then
     msg "Golang is up to date."
@@ -310,7 +306,7 @@ install_node() {
   local version
   version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
   local filename
-  filename=$(parse_filename "$url")
+  filename=$(parse "$url")
 
   if [ -f "$node_home/bin/node" ] && [ "$("$node_home/bin/node" -v)" = "$version" ]; then
     msg "Node.js is up to date."
