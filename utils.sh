@@ -266,6 +266,7 @@ install_miniconda() {
       && success "Miniconda successfully installed." \
       && "$conda"/bin/conda update -y conda \
       && cleanup_miniconda_files "$target/$miniconda"
+
       success "Writing pip packages to $init_pip_packages."
       "$conda"/bin/pip freeze > "$init_pip_packages"
     fi
@@ -274,6 +275,58 @@ install_miniconda() {
   for package in "${python_packages[@]}"; do
     "$conda"/bin/pip install -U "$package"
   done
+}
+
+install_golang() {
+  is_linux || return 0
+
+  local goroot="$HOME/.golang"
+  local url
+  url="$(wget --no-check-certificate -qO- https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
+  local version
+  version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
+  local filename
+  filename=$(parse_filename "$url")
+
+  if [ -f "$goroot/VERSION" ] && [ "$(cat "$goroot/VERSION")" = "$version" ]; then
+    msg "Golang is up to date."
+  else
+    [ -f "/tmp/$filename" ] || wget "https://golang.org$url" -P "/tmp"
+    tar xzf "/tmp/$filename" -C /tmp
+    cp -Tr /tmp/go "$goroot"
+    rm -rf "/tmp/$filename" /tmp/go
+  fi
+
+  install_go_tools "$@"
+}
+
+install_go_tools() {
+  local go_tools=(
+    "github.com/gokcehan/lf"
+    "github.com/jesseduffield/lazygit"
+    "github.com/jesseduffield/lazydocker"
+  )
+  local app_path="$1"
+  local goroot="$HOME/.golang"
+  local prog
+
+  if [ -f "$goroot/bin/go" ]; then
+    for url in "${go_tools[@]}"; do
+      prog=$(parse "$url")
+      program_exists "$prog" || {
+        msg "Installing $prog"
+        "$goroot/bin/go" get -u "$url"
+      }
+    done
+
+    local lfrc="$HOME/.config/lf"
+    safe_mkdir "$lfrc"
+    lnif "$app_path/lf/lfrc" "$lfrc"
+
+    success "Now configuring lf."
+  else
+    warning "You must have Go installed to configure its tools."
+  fi
 }
 
 install_cargo() {

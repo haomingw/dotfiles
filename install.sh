@@ -11,8 +11,8 @@ options=(
   "vim"
   "oh-my-zsh"
   "faster-zsh"
-  "python-rust"
-  "tmux-go-mpv"
+  "programming"
+  "tmux-mpv"
   "sublime-vscode"
 )
 
@@ -22,12 +22,6 @@ zsh_plugins=(
   "zsh-users/zsh-autosuggestions"
   "zdharma/fast-syntax-highlighting"
   "zdharma/history-search-multi-word"
-)
-
-go_tools=(
-  "github.com/gokcehan/lf"
-  "github.com/jesseduffield/lazygit"
-  "github.com/jesseduffield/lazydocker"
 )
 
 for file in "$APP_PATH"/common/*; do
@@ -102,7 +96,7 @@ custom_zinit() {
   config_ssh
 }
 
-config_python_rust() {
+config_programming_langs() {
   program_must_exist  "git"
 
   rm -rf ~/.ptpython ~/.linter
@@ -110,13 +104,14 @@ config_python_rust() {
   lnif "$APP_PATH/python/linter"   ~/.linter
 
   install_miniconda
+  install_golang      "$APP_PATH"
   install_cargo
   install_ruby
 
   success "Now configuring python-rust."
 }
 
-config_tmux_go_mpv() {
+config_tmux_mpv() {
   if program_exists tmux; then
     safe_mkdir "$HOME/.tmux/plugins"
     if [ ! -d ~/.tmux/plugins/tpm ]; then
@@ -125,25 +120,6 @@ config_tmux_go_mpv() {
     lnif "$APP_PATH/tmux/tmux.conf" "$HOME/.tmux.conf"
 
     success "Now configuring tmux."
-  fi
-
-  if program_exists go; then
-    local bin
-    for url in "${go_tools[@]}"; do
-      bin=$(parse "$url")
-      program_exists "$bin" || {
-        msg "Installing $bin"
-        go get -u "$url"
-      }
-    done
-
-    local lfrc="$HOME/.config/lf"
-    safe_mkdir "$lfrc"
-    lnif "$APP_PATH/lf/lfrc" "$lfrc"
-
-    success "Now configuring lf."
-  else
-    warning "You must have Go installed to configure its tools."
   fi
 
   if program_exists mpv; then
@@ -219,8 +195,8 @@ setup() {
     "vim")            install_or_update_vim ;;
     "oh-my-zsh")      custom_oh_my_zsh ;;
     "faster-zsh")     custom_zinit ;;
-    "python-rust")    config_python_rust ;;
-    "tmux-go-mpv")    config_tmux_go_mpv ;;
+    "programming")    config_programming_langs ;;
+    "tmux-mpv")       config_tmux_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;
     *)                error "Unexpected option: $1" ;;
   esac
