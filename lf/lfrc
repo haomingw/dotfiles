@@ -28,7 +28,6 @@ cmd chmod %{{
 
 cmd git !git "$@"
 
-$[ -d ~/.trash ] || mkdir -p ~/.trash
 cmd trash $mv $fx ~/.trash
 
 cmd empty_trash %echo "Empty trash" && rm -rf ~/.trash/*
