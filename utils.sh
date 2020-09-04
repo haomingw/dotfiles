@@ -95,6 +95,7 @@ setup_vim_plug() {
   export SHELL='/bin/sh'
 
   update_vim_plugins
+  program_exists go && vim +GoUpdateBinaries +qall
 
   export SHELL="$system_shell"
 
