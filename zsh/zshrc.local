@@ -266,10 +266,10 @@ alias gpgpls='gpg --list-keys'
 alias gpgls='gpg --list-secret-keys --keyid-format LONG'
 
 alias gpgprm='gpg --delete-key'
-alias gpgrm='gpg --delete-secret-key $(gpgkid)'
+alias gpgrm='gpg --delete-secret-key'
 
 gpgkid() {
-  gpgls | grep sec | awk '{print $2}' | cut -d'/' -f2
+  gpgls | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
 }
 
 gpgsend() {

@@ -289,6 +289,11 @@ install_golang() {
   if [ -f "$goroot/VERSION" ] && [ "$(cat "$goroot/VERSION")" = "$version" ]; then
     msg "Golang is up to date."
   else
+    if [ -f "$goroot/VERSION" ]; then
+      msg "Updating Golang $(cat "$goroot/VERSION") -> $version"
+    else
+      msg "Installing Golang $version"
+    fi
     [ -f "/tmp/$filename" ] || wget "https://golang.org$url" -P "/tmp"
     tar xzf "/tmp/$filename" -C /tmp
     cp -Tr /tmp/go "$goroot"
@@ -312,6 +317,11 @@ install_node() {
   if [ -f "$node_home/bin/node" ] && [ "$("$node_home/bin/node" -v)" = "$version" ]; then
     msg "Node.js is up to date."
   else
+    if [ -f "$node_home/bin/node" ]; then
+      msg "Updating Node.js $("$node_home/bin/node" -v) -> $version"
+    else
+      msg "Installing Node.js $version"
+    fi
     [ -f "/tmp/$filename" ] || wget "$url" -P "/tmp"
     tar xJf "/tmp/$filename" -C /tmp
     local node
