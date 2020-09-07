@@ -91,10 +91,10 @@ endif
 " Programming {{
 
 if count(g:plug_groups, 'programming')
-  Plug 'dense-analysis/ale'
-  Plug 'sheerun/vim-polyglot'
   Plug 'fatih/vim-go'
   Plug 'rust-lang/rust.vim'
+  Plug 'dense-analysis/ale'
+  Plug 'sheerun/vim-polyglot'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'rhysd/git-messenger.vim'
