@@ -99,8 +99,8 @@ custom_zinit() {
 config_programming_langs() {
   program_must_exist  "git"
 
-  rm -rf ~/.ptpython ~/.linter
-  lnif "$APP_PATH/python/ptpython" ~/.ptpython
+  rm -rf ~/.config/ptpython ~/.ptpython ~/.linter
+  lnif "$APP_PATH/python/ptpython" ~/.config/ptpython
   lnif "$APP_PATH/python/linter"   ~/.linter
 
   install_miniconda
