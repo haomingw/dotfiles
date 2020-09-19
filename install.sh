@@ -109,7 +109,7 @@ config_programming_langs() {
   install_cargo
   install_ruby
 
-  success "Now configuring python-rust."
+  success "Now configuring programming."
 }
 
 config_tmux_mpv() {

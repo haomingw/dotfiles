@@ -178,6 +178,51 @@ config_zshrc() {
   success "Now configuring zsh."
 }
 
+backup_shell() {
+  # We're going to change the default shell, so back up the current one
+  if [ -n "$SHELL" ]; then
+    echo $SHELL > ~/.shell.pre-zinit
+  else
+    grep "^$USER:" /etc/passwd | awk -F: '{print $7}' > ~/.shell.pre-zinit
+  fi
+}
+
+setup_shell() {
+  [ "$CHSH" = no ] && return
+
+  # If this user's login shell is already "zsh", do not attempt to switch.
+  [ "$(basename "$SHELL")" = "zsh" ] && return
+
+  # If this platform doesn't provide a "chsh" command, bail out.
+  if ! program_exists chsh; then
+    echo "I can't change your shell automatically because this system does not have chsh."
+    echo "${BLUE}Please manually change your default shell to zsh${RESET}"
+    return
+  fi
+
+  echo "${BLUE}Time to change your default shell to zsh:${RESET}"
+
+  # Prompt for user choice on changing the default login shell
+  printf "${YELLOW}Do you want to change your default shell to zsh? [Y/n]${RESET} "
+  read opt
+  case $opt in
+    y*|Y*|"") msg "Changing the shell..." ;;
+    n*|N*) msg "Shell change skipped."; return ;;
+    *) msg "Invalid choice. Shell change skipped."; return ;;
+  esac
+
+  local zsh
+  zsh="$(which zsh)"
+  backup_shell
+
+  # Actually change the default shell to zsh
+  if ! chsh -s "$zsh"; then
+    error "chsh command unsuccessful. Change your default shell manually."
+  else
+    echo "${GREEN}Shell successfully changed to '$zsh'.${RESET}"
+  fi
+}
+
 config_zinit() {
   local zinit="$HOME/.zinit"
   if [ ! -d "$zinit" ]; then
@@ -191,6 +236,8 @@ config_zinit() {
     lnif "$file" "$HOME/.$(parse "$file")"
   done
   lnif "$app_path/zsh/zshrc.zsh" "$HOME/.zshrc"
+
+  setup_shell
 
   success "Now configuring zinit."
 }
@@ -247,6 +294,7 @@ install_miniconda() {
     "mypy"
     "yapf"
     "virtualenv"
+    "ansible"
   )
 
   if [ ! -d "$conda" ]; then
