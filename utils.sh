@@ -4,6 +4,10 @@
 
 CHSH=${CHSH:-yes}
 
+is_ci() {
+  [ -z "$CI" ]
+}
+
 program_must_exist() {
   program_exists "$1" || {
     error "You must have '$1' installed to continue."
@@ -37,7 +41,7 @@ git_pull() {
 }
 
 update_vim_plugins() {
-  if [ -z "$CI" ]; then
+  if is_ci; then
     vim +PlugClean! +qall && vim +PlugUpdate +qall
   else
     vim +PlugClean! +qall >/dev/null 2>&1
@@ -94,7 +98,8 @@ setup_vim_plug() {
 
   safe_mkdir ~/.config/coc
   update_vim_plugins
-  if [ -z "$TRAVIS" ]; then
+
+  if is_ci; then
     program_exists go && vim +GoUpdateBinaries +qall
   fi
 
