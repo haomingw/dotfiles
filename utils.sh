@@ -2,6 +2,8 @@
 
 ############################  BASIC SETUP TOOLS
 
+CHSH=${CHSH:-yes}
+
 program_must_exist() {
   program_exists "$1" || {
     error "You must have '$1' installed to continue."
@@ -92,7 +94,9 @@ setup_vim_plug() {
 
   safe_mkdir ~/.config/coc
   update_vim_plugins
-  program_exists go && vim +GoUpdateBinaries +qall
+  if [ -z "$TRAVIS" ]; then
+    program_exists go && vim +GoUpdateBinaries +qall
+  fi
 
   export SHELL="$system_shell"
 
@@ -181,13 +185,15 @@ config_zshrc() {
 backup_shell() {
   # We're going to change the default shell, so back up the current one
   if [ -n "$SHELL" ]; then
-    echo $SHELL > ~/.shell.pre-zinit
+    echo "$SHELL" > ~/.shell.pre-zinit
   else
     grep "^$USER:" /etc/passwd | awk -F: '{print $7}' > ~/.shell.pre-zinit
   fi
 }
 
 setup_shell() {
+  # Run as unattended if stdin is closed
+  [ ! -t 0 ] && CHSH=no
   [ "$CHSH" = no ] && return
 
   # If this user's login shell is already "zsh", do not attempt to switch.
@@ -203,8 +209,8 @@ setup_shell() {
   echo "${BLUE}Time to change your default shell to zsh:${RESET}"
 
   # Prompt for user choice on changing the default login shell
-  printf "${YELLOW}Do you want to change your default shell to zsh? [Y/n]${RESET} "
-  read opt
+  printf "%sDo you want to change your default shell to zsh? [Y/n]%s " "${YELLOW}" "${RESET}"
+  read -r opt
   case $opt in
     y*|Y*|"") msg "Changing the shell..." ;;
     n*|N*) msg "Shell change skipped."; return ;;
@@ -212,7 +218,7 @@ setup_shell() {
   esac
 
   local zsh
-  zsh="$(which zsh)"
+  zsh="$(command -v zsh)"
   backup_shell
 
   # Actually change the default shell to zsh

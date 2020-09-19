@@ -199,7 +199,7 @@ setup() {
     "programming")    config_programming_langs ;;
     "tmux-mpv")       config_tmux_mpv ;;
     "sublime-vscode") config_sublime_vscode ;;
-    *)                error "Unexpected option: $1" ;;
+    *)                error "Unexpected option: $1"; return 1 ;;
   esac
 }
 
