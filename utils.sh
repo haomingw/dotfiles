@@ -4,7 +4,7 @@
 
 CHSH=${CHSH:-yes}
 
-is_ci() {
+is_not_ci() {
   [ -z "$CI" ]
 }
 
@@ -41,7 +41,7 @@ git_pull() {
 }
 
 update_vim_plugins() {
-  if is_ci; then
+  if is_not_ci; then
     vim +PlugClean! +qall && vim +PlugUpdate +qall
   else
     vim +PlugClean! +qall >/dev/null 2>&1
@@ -99,7 +99,7 @@ setup_vim_plug() {
   safe_mkdir ~/.config/coc
   update_vim_plugins
 
-  if is_ci; then
+  if is_not_ci; then
     program_exists go && vim +GoUpdateBinaries +qall
   fi
 
@@ -231,6 +231,7 @@ setup_shell() {
     error "chsh command unsuccessful. Change your default shell manually."
   else
     echo "${GREEN}Shell successfully changed to '$zsh'.${RESET}"
+    msg "Relogin to make changes to take effect."
   fi
 }
 
