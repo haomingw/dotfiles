@@ -273,11 +273,11 @@ gpgkid() {
 }
 
 gpgsend() {
-  gpg --keyserver hkps://keys.openpgp.org --send-keys $(gpgkid)
+  gpg --send-keys $(gpgkid)
 }
 
 gpgfd() {
-  gpg --keyserver hkps://keys.openpgp.org --search-key "$1"
+  gpg --search-key "$1"
 }
 
 gpgrecv() {
@@ -285,7 +285,7 @@ gpgrecv() {
     warning "No key id to retrieve"
     return 1
   }
-  gpg --keyserver hkps://keys.openpgp.org --recv-keys "$1"
+  gpg --recv-keys "$1"
 }
 
 gpgrvk() {
