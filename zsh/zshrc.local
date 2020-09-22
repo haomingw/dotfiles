@@ -404,7 +404,11 @@ pipS() {
     error "Run this command in a virtual env"
     return 1
   }
-  pip install $@
+  if [[ $# -lt 1 ]]; then
+    pip install -r requirements.txt
+  else
+    pip install $@
+  fi
 }
 
 pipcl() {
