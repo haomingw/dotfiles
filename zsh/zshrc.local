@@ -59,8 +59,19 @@ cut_cols() {
 }
 
 toclip() {
-  [[ -f "$1" ]] && program_exists xclip || return 1
-  cat "$1" | xclip -selection clipboard
+  program_exists xclip || return 1
+
+  if [[ $# -eq 0 ]]; then
+    local data
+    read data
+    echo -n $data | xclip -selection clipboard
+  else
+    [[ -f "$1" ]] || {
+      error "cat: $1: No such file"
+      return 1
+    }
+    cat "$1" | xclip -selection clipboard
+  fi
 }
 
 # Create a new directory and enter it
