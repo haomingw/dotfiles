@@ -99,9 +99,14 @@ custom_zinit() {
 config_programming_langs() {
   program_must_exist  "git"
 
-  rm -rf ~/.config/ptpython ~/.ptpython ~/.linter
+  rm -rf ~/.config/ptpython ~/.ptpython
   lnif "$APP_PATH/python/ptpython" ~/.config/ptpython
-  lnif "$APP_PATH/python/linter"   ~/.linter
+
+  for f in "$APP_PATH"/python/*; do
+    if [ -f "$f" ]; then
+      lnif "$f" "$HOME/.$(parse "$f")"
+    fi
+  done
 
   install_miniconda
   install_golang      "$APP_PATH"

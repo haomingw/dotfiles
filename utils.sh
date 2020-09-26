@@ -419,7 +419,7 @@ install_docker() {
 
     msg "Adding $USER to group docker"
     msg "Remember to log out and back in for this to take effect!"
-    sudo usermod -aG docker $USER
+    sudo usermod -aG docker "$USER"
     success "Now installing Docker."
   fi
 

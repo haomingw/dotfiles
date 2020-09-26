@@ -552,21 +552,13 @@ gemcl() {
 # Pre-commit {{
 
 set-pre-commit() {
-  is_venv && pip install pre-commit || {
-    error "Use a virtual env to setup pre-commit"
-    return 1
-  }
+  msg "Installing/updating pre-commit."
+  pip install -U pre-commit NN
+
   local repo=$(groot)
-  local name
-  [[ -n $repo ]] && [[ -d $HOME/.linter ]] && {
-    for file in $HOME/.linter/*; do
-      name=$(parse $file)
-      case $name in
-        setup.cfg) ;;
-        *) name=".$name" ;;  # hidden files
-      esac
-      [[ -f $repo/$name ]] || cpif $file "$repo/$name"
-    done
+  local pre_commit=".pre-commit-config.yaml"
+  [[ -n "$repo" ]] && [[ -L ~/"$pre_commit" ]] && {
+    [[ -f "$repo/$pre_commit" ]] || cpif ~/"$pre_commit" "$repo/$pre_commit"
     [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
   } || {
     error "Not in a git repo or pre-commit not configured"
@@ -576,7 +568,7 @@ set-pre-commit() {
 
 rm-pre-commit() {
   local repo=$(groot)
-  if [[ -n $repo ]]; then
+  if [[ -n "$repo" ]]; then
     rm -f "$repo/.git/hooks/pre-commit"
   fi
 }

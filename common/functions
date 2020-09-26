@@ -62,13 +62,13 @@ safe_mkdir() {
 
 lnif() {
   if [[ -e "$1" ]]; then
-    ln -sfn "$1" "$2"
+    ln -svfn "$1" "$2"
   fi
 }
 
 cpif() {
   if [[ -e "$1" ]]; then
-    cp -r "$1" "$2"
+    cp -rv "$1" "$2"
   fi
 }
 
