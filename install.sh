@@ -12,7 +12,7 @@ options=(
   "oh-my-zsh"
   "faster-zsh"
   "programming"
-  "tmux-mpv"
+  "tmux-docker"
   "sublime-vscode"
 )
 
@@ -112,7 +112,7 @@ config_programming_langs() {
   success "Now configuring programming."
 }
 
-config_tmux_mpv() {
+config_tmux_docker() {
   if program_exists tmux; then
     safe_mkdir "$HOME/.tmux/plugins"
     if [ ! -d ~/.tmux/plugins/tpm ]; then
@@ -138,6 +138,8 @@ config_tmux_mpv() {
 
     success "Now configuring gpg."
   fi
+
+  install_docker
 }
 
 config_sublime_vscode() {
@@ -205,7 +207,7 @@ setup() {
     "oh-my-zsh")      custom_oh_my_zsh ;;
     "faster-zsh")     custom_zinit ;;
     "programming")    config_programming_langs ;;
-    "tmux-mpv")       config_tmux_mpv ;;
+    "tmux-docker")    config_tmux_docker ;;
     "sublime-vscode") config_sublime_vscode ;;
     *)                error "Unexpected option: $1"; return 1 ;;
   esac

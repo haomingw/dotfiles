@@ -231,7 +231,7 @@ setup_shell() {
     error "chsh command unsuccessful. Change your default shell manually."
   else
     echo "${GREEN}Shell successfully changed to '$zsh'.${RESET}"
-    msg "Relogin to make changes to take effect."
+    msg "Remember to log out and back in for this to take effect!"
   fi
 }
 
@@ -388,6 +388,59 @@ install_node() {
     node="$(basename "$filename" .tar.xz)"
     cp -Tr "/tmp/$node" "$node_home"
     rm -rf "/tmp/$filename" "/tmp/$node"
+  fi
+}
+
+install_docker() {
+  # don not run on CI machines and non-ubuntu os
+  [ -z "$CI" ] || return 0
+  program_exists apt || return 0
+
+  if program_exists docker; then
+    msg "Docker already installed."
+  else
+    # allow apt to use a repository over HTTPS
+    sudo apt install -y \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      gnupg-agent \
+      software-properties-common
+
+    # Add Docker’s official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+    msg "Adding $USER to group docker"
+    msg "Remember to log out and back in for this to take effect!"
+    sudo usermod -aG docker $USER
+    success "Now installing Docker."
+  fi
+
+  local version
+  local current
+  version="$(wget -qO- https://github.com/docker/compose/releases | grep -oP '([0-9\.]+)/docker-compose-Linux' | head -n1 | grep -oP '[0-9\.]+')"
+  program_exists docker-compose && current="$(docker-compose --version | grep -oP '[0-9\.]+' | head -n1)"
+
+  if [ "$current" = "$version" ]; then
+    msg "Docker Compose is up to date."
+  else
+    if program_exists docker-compose; then
+      msg "Updating Docker Compose $current -> $version"
+    else
+      msg "Downloading Docker Compose."
+    fi
+    local target="/usr/local/bin/docker-compose"
+    sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
+    msg "Making it executable."
+    sudo chmod +x "$target"
+    success "Now installing Docker Compose."
   fi
 }
 

@@ -39,8 +39,8 @@ jobs:
       run:  |
         bash install.sh faster-zsh
 
-    - name: Configure tmux-mpv
+    - name: Configure tmux-docker
       if:   startsWith(matrix.os, 'ubuntu')
       run:  |
         tmux -V
-        bash install.sh tmux-mpv
+        bash install.sh tmux-docker
