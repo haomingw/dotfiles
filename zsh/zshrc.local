@@ -34,6 +34,7 @@ safe_use_cuda() {
   fi
 }
 safe_use_cuda "/usr/local/cuda"
+safe_use_cuda "/usr/lib/cuda"
 
 # }} // namespace path
 
@@ -356,6 +357,24 @@ program_exists apt && {
   #  modifier_map Mod4   { Muhenkan };
   #> sudo rm -rf /var/lib/xkb/*
 
+  set-cuda() {
+    program_exists nvcc || pS nvidia-cuda-toolkit
+
+    if [[ ! -d cuda ]]; then
+      warning "Download cuDNN from https://developer.nvidia.com/rdp/cudnn-archive"
+      return 1
+    fi
+
+    local cuda_home
+    [[ -d /usr/lib/cuda ]] && cuda_home=/usr/lib/cuda
+    [[ -d /usr/local/cuda ]] && cuda_home=/usr/local/cuda
+
+    if [[ -n "$cuda_home" ]]; then
+      sudo cp -v cuda/include/cudnn*.h $cuda_home/include
+      sudo cp -v cuda/lib64/libcudnn* $cuda_home/lib64
+      sudo chmod a+r $cuda_home/include/cudnn*.h $cuda_home/lib64/libcudnn*
+    fi
+  }
 }
 
 program_exists pacman && {
