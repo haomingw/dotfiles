@@ -358,6 +358,10 @@ program_exists apt && {
   #> sudo rm -rf /var/lib/xkb/*
 
   set-cuda() {
+    lspci | grep NVIDIA NN || {
+      warning "This device does not have NVIDIA GPU."
+      return 1
+    }
     program_exists nvcc || pS nvidia-cuda-toolkit
 
     if [[ ! -d cuda ]]; then
