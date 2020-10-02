@@ -411,7 +411,7 @@ program_exists brew && {
   alias pRR='brew list | xargs brew uninstall'
 
   essential="git neovim macvim tmux clang-format llvm gpg bash coreutils"
-  optional="node go"
+  optional="node go shellcheck"
 }
 
 alias install-essential='pS $(echo $essential)'

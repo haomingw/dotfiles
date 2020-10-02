@@ -218,7 +218,9 @@ set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " Formatting {{
 
-set nowrap
+if !exists('g:noplug')
+  set nowrap
+endif
 set autoindent                  " copy indent from previous line
 set smartindent                 " enable nice indent
 
