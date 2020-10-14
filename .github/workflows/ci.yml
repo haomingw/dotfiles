@@ -21,14 +21,13 @@ jobs:
     - name: Install dependencies
       if: startsWith(matrix.os, 'ubuntu')
       run: |
-        sudo add-apt-repository ppa:jonathonf/vim
-        sudo apt update
-        sudo apt install vim zsh tmux
+        lsb_release -a
+        sudo apt install zsh tmux
 
     - name: Configure vim
       run:  |
-        vim --version
         bash install.sh vim
+        vim --version
 
     - name: Install and configure Oh My Zsh
       run:  |
