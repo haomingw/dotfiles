@@ -43,7 +43,10 @@ print_select_menu() {
 
 ############################ MAIN FUNCTIONS
 
-install_or_update_vim() {
+setup_vim() {
+  install_vim
+  install_neovim
+
   program_must_exist  "vim"
   program_must_exist  "git"
 
@@ -208,7 +211,7 @@ bye() {
 
 setup() {
   case "$1" in
-    "vim")            install_or_update_vim ;;
+    "vim")            setup_vim ;;
     "oh-my-zsh")      custom_oh_my_zsh ;;
     "faster-zsh")     custom_zinit ;;
     "programming")    config_programming_langs ;;

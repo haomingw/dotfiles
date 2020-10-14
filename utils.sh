@@ -61,6 +61,30 @@ do_backup() {
   fi
 }
 
+install_vim() {
+  if is_ubuntu; then
+    if apt_repo_exists vim; then
+      msg "vim repo is up to date."
+    else
+      sudo add-apt-repository -y ppa:jonathonf/vim
+      sudo apt update
+      program_exists vim || sudo apt install vim
+    fi
+  fi
+}
+
+install_neovim() {
+  if is_ubuntu; then
+    if apt_repo_exists neovim; then
+      msg "neovim repo is up to date."
+    else
+      sudo add-apt-repository ppa:neovim-ppa/stable
+      sudo apt update
+      program_exists nvim || sudo apt install neovim
+    fi
+  fi
+}
+
 create_vim_symlinks() {
   local app="$1"
 
@@ -394,7 +418,7 @@ install_node() {
 install_docker() {
   # don not run on CI machines and non-ubuntu os
   [ -z "$CI" ] || return 0
-  program_exists apt || return 0
+  is_ubuntu || return 0
 
   if program_exists docker; then
     msg "Docker already installed."
@@ -407,7 +431,9 @@ install_docker() {
       gnupg-agent \
       software-properties-common
 
-    if grep -q docker /etc/apt/sources.list; then
+    if apt_repo_exists docker; then
+      msg "docker repo is up to date."
+    else
       # Add Docker’s official GPG key
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository \
