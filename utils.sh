@@ -49,6 +49,17 @@ update_vim_plugins() {
   fi
 }
 
+install_or_upgrade() {
+  if is_ubuntu; then
+    sudo apt update
+    if program_exists "$1"; then
+      sudo apt install -y "$1"
+    else
+      sudo apt upgrade -y
+    fi
+  fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -67,10 +78,9 @@ install_vim() {
       msg "Vim repo is up to date."
     else
       sudo add-apt-repository -y ppa:jonathonf/vim
-      sudo apt update
-      program_exists vim || sudo apt install -y vim
     fi
   fi
+  install_or_upgrade vim
 }
 
 install_neovim() {
