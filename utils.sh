@@ -431,7 +431,7 @@ install_node() {
 
 install_docker() {
   # don not run on CI machines and non-ubuntu os
-  [ -z "$CI" ] || return 0
+  is_not_ci || return 0
   is_ubuntu || return 0
 
   if program_exists docker; then

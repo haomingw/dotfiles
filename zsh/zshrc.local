@@ -264,7 +264,7 @@ gitgpg() {
 
 gprc() {
   local url="https://github.com/cli/cli"
-  program_exists gh && url=$(gh pr create --fill)
+  program_exists gh && url=$(gh pr create --draft --fill)
   navigate "$url"
 }
 
