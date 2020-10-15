@@ -28,7 +28,6 @@ jobs:
       run:  |
         bash install.sh vim
         vim --version
-        nvim --version
 
     - name: Install and configure Oh My Zsh
       run:  |

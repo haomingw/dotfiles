@@ -51,13 +51,18 @@ update_vim_plugins() {
 
 install_or_upgrade() {
   if is_ubuntu; then
-    sudo apt update
     if program_exists "$1"; then
       sudo apt install -y "$1"
     else
       sudo apt upgrade -y
     fi
   fi
+}
+
+add_apt_repo() {
+  is_ubuntu || return 0
+  sudo add-apt-repository -y "$1"
+  sudo apt update
 }
 
 ############################ SETUP FUNCTIONS
@@ -77,7 +82,7 @@ install_vim() {
     if apt_repo_exists vim; then
       msg "Vim repo is up to date."
     else
-      sudo add-apt-repository -y ppa:jonathonf/vim
+      add_apt_repo ppa:jonathonf/vim
     fi
   fi
   install_or_upgrade vim
@@ -88,8 +93,7 @@ install_neovim() {
     if apt_repo_exists neovim; then
       msg "Neovim repo is up to date."
     else
-      sudo add-apt-repository -y ppa:neovim-ppa/stable
-      sudo apt update
+      add_apt_repo ppa:neovim-ppa/stable
       program_exists nvim || sudo apt install -y neovim
     fi
   fi
