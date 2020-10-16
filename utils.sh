@@ -344,7 +344,6 @@ install_miniconda() {
     "mypy"
     "yapf"
     "virtualenv"
-    "ansible"
   )
 
   if [ ! -d "$conda" ]; then
