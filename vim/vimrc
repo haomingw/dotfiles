@@ -430,6 +430,7 @@ augroup vimrc
   autocmd FileType cpp :call Cpp_setup()
   autocmd FileType python :call Python_setup()
   autocmd FileType rust :call Rust_setup()
+  autocmd FileType sh :call Bash_setup()
 augroup END
 
 " }} // namespace autocmd
@@ -918,6 +919,11 @@ function! Rust_setup()
       map <leader>f :RustFmt<cr>
     endif
   endif
+endfunction
+
+" Setup bash file
+function! Bash_setup()
+  let &makeprg='bash %'
 endfunction
 
 function! OnBattery()
