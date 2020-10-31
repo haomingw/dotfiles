@@ -315,13 +315,12 @@ config_ssh() {
   local auth_keys="$HOME/.ssh/authorized_keys"
   read -ra users <<< "$AUTH_USERS"
 
+  touch "$auth_keys"
   for user in "${users[@]}"; do
     key="$(curl https://github.com/"$user".keys 2>/dev/null)"
     [ -z "$key" ] || {
       msg "Adding $user's github keys to ssh authorized_keys."
-      grep -q "$key" "$auth_keys" 2>/dev/null || {
-        echo "$key $user" >> "$auth_keys"
-      }
+      grep -q "$key" "$auth_keys" || echo "$key $user" >> "$auth_keys"
     }
   done
 
