@@ -61,7 +61,8 @@ prompt_callback() {
 }
 
 prompt_precmd() {
-  print -Pn '\e]0;%~\a'
+  local host="$(hostname)"
+  print -Pn '\e]0;${host:0:7}:%~\a'
   async_worker_eval 'prompt' builtin cd -q $PWD
   async_job 'prompt' prompt_git_fetch
 }
