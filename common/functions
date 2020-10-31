@@ -74,6 +74,13 @@ safe_mkdir() {
   [[ -d "$1" ]] || mkdir -p "$1"
 }
 
+safe_touch() {
+  if [[ ! -f "$1" ]]; then
+    mkdir -p $(dirname "$1")
+    touch "$1"
+  fi
+}
+
 lnif() {
   if [[ -e "$1" ]]; then
     ln -svfn "$1" "$2"
