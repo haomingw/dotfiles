@@ -265,7 +265,7 @@ setup_shell() {
   backup_shell
 
   # Actually change the default shell to zsh
-  if ! chsh -s "$zsh"; then
+  if ! sudo chsh -s "$zsh" "$USER"; then
     error "chsh command unsuccessful. Change your default shell manually."
   else
     echo "${GREEN}Shell successfully changed to '$zsh'.${RESET}"
@@ -282,6 +282,8 @@ config_zinit() {
   fi
 
   local app_path="$1"
+
+  lnif "$app_path/common" "$HOME/.common"
   for file in "$app_path"/zsh/*; do
     lnif "$file" "$HOME/.$(parse "$file")"
   done
