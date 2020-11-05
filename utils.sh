@@ -518,6 +518,10 @@ install_go_tools() {
 }
 
 install_cargo() {
+  program_exists gcc || {
+    warning "You must have gcc installed to configure Rust."
+    return 0
+  }
   local cargo="$HOME/.cargo"
 
   if [ ! -d "$cargo" ]; then

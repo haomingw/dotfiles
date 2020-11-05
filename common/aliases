@@ -13,7 +13,9 @@ alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
 
 # Docker {{
 
-alias di='docker image'
+alias dccl='docker container stop $(docker ps -aq) && docker container prune'
+alias dicl='docker rmi $(docker images -aq)'
+alias dcl='dccl;dicl'
 
 alias lzd='lazydocker'
 
