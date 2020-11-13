@@ -63,6 +63,7 @@ is_ubuntu() {
 
 apt_repo_exists() {
   is_ubuntu || return 1
+  local repo
   for repo in /etc/apt/sources.list.d/*.list; do
     [[ "$repo" == *"$1"* ]] && return 0
   done

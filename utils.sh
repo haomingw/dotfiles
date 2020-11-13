@@ -499,7 +499,7 @@ install_go_tools() {
       prog=$(parse "$url")
       program_exists "$prog" || {
         msg "Installing $prog"
-        GO111MODULE=on "$goroot/bin/go" get -u "$url" >/dev/null 2>&1
+        GO111MODULE=on "$go_bin" get -u "$url" >/dev/null 2>&1
       }
     done
 
