@@ -3,6 +3,7 @@
 ############################  BASIC SETUP TOOLS
 
 CHSH=${CHSH:-yes}
+app_path="$(dirname "$PWD/$0")"
 
 is_not_ci() {
   [ -z "$CI" ]
@@ -101,17 +102,16 @@ install_neovim() {
 }
 
 create_vim_symlinks() {
-  local app="$1"
-
   safe_mkdir "$HOME/.vim/undo"
-  for file in "$app"/vim/vim/*; do
+  for file in "$app_path"/vim/vim/*; do
     lnif "$file" "$HOME/.vim/$(parse "$file")"
   done
-  lnif "$app/vim/vimrc"                   "$HOME/.vimrc"
-  lnif "$app/vim/ideavimrc"               "$HOME/.ideavimrc"
 
-  lnif "$app/vim/vim/static/clang-format" "$HOME/.clang-format"
-  lnif "$app/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
+  lnif "$app_path/vim/vimrc"                   "$HOME/.vimrc"
+  lnif "$app_path/vim/ideavimrc"               "$HOME/.ideavimrc"
+
+  lnif "$app_path/vim/vim/static/clang-format" "$HOME/.clang-format"
+  lnif "$app_path/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
 
   success "Setting up vim symlinks."
 }
@@ -188,7 +188,6 @@ append_if_not_exists() {
 }
 
 config_zshrc() {
-  local app_path="$1"
   local zshrc="$HOME/.zshrc"
   local backup
 
@@ -282,8 +281,6 @@ config_zinit() {
     git_pull "$zinit"
   fi
 
-  local app_path="$1"
-
   lnif "$app_path/common" "$HOME/.common"
   for file in "$app_path"/zsh/*; do
     lnif "$file" "$HOME/.$(parse "$file")"
@@ -297,7 +294,6 @@ config_zinit() {
 }
 
 config_i3wm() {
-  local app_path="$1"
   local dest="$HOME/.config/i3"
 
   safe_mkdir "$dest"
@@ -399,8 +395,6 @@ install_golang() {
     cp -Tr /tmp/go "$goroot"
     rm -rf "/tmp/$filename" /tmp/go
   fi
-
-  install_go_tools "$@"
 }
 
 install_node() {
@@ -494,11 +488,13 @@ install_go_tools() {
     "github.com/jesseduffield/lazygit"
     "github.com/jesseduffield/lazydocker"
   )
-  local app_path="$1"
   local goroot="$HOME/.golang"
   local prog
+  local go_bin
+  program_exists go && go_bin="go"
+  [ -f "$goroot/bin/go" ] && go_bin="$goroot/bin/go"
 
-  if [ -f "$goroot/bin/go" ]; then
+  if [ -n "$go_bin" ]; then
     for url in "${go_tools[@]}"; do
       prog=$(parse "$url")
       program_exists "$prog" || {

@@ -50,7 +50,7 @@ setup_vim() {
   program_must_exist  "vim"
   program_must_exist  "git"
 
-  create_vim_symlinks "$APP_PATH"
+  create_vim_symlinks
 
   setup_neovim
 
@@ -76,9 +76,9 @@ install_zsh_plugins() {
   file_must_exist     "$HOME/.zshrc"
   file_must_exist     "$HOME/.oh-my-zsh"
 
-  config_zshrc        "$APP_PATH"
+  config_zshrc
   if is_linux; then
-    config_i3wm       "$APP_PATH"
+    config_i3wm
   fi
   config_ssh
   # shellcheck disable=SC2046
@@ -95,12 +95,13 @@ custom_zinit() {
   program_must_exist  "zsh"
 
   do_backup           "$HOME/.zshrc" "pre-zinit"
-  config_zinit        "$APP_PATH"
+  config_zinit
   config_ssh
 }
 
 config_programming_langs() {
   program_must_exist  "git"
+  program_must_exist  "wget"
 
   rm -rf ~/.config/ptpython ~/.ptpython
   lnif "$APP_PATH/python/ptpython" ~/.config/ptpython
@@ -112,7 +113,8 @@ config_programming_langs() {
   done
 
   install_miniconda
-  install_golang      "$APP_PATH"
+  install_golang
+  install_go_tools
   install_node
   install_cargo
   install_ruby
