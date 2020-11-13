@@ -49,20 +49,33 @@ update_vim_plugins() {
   fi
 }
 
-install_or_upgrade() {
-  if is_ubuntu; then
-    if program_exists "$1"; then
-      sudo apt install -y "$1"
-    else
-      sudo apt upgrade -y
+add_apt_repo() {
+  msg "Adding apt repo $1."
+  sudo add-apt-repository -y "$1"
+  sudo apt update
+}
+
+safe_install() {
+  local prog=${2:-$1}
+  if ! program_exists "$1"; then
+    if is_ubuntu; then
+      msg "Installing $prog."
+      sudo apt install -y "$prog"
     fi
   fi
 }
 
-add_apt_repo() {
-  is_ubuntu || return 0
-  sudo add-apt-repository -y "$1"
-  sudo apt update
+safe_add_repo() {
+  local pattern="$1"
+  local repo="$2"
+
+  if is_ubuntu; then
+    if apt_repo_exists "$pattern"; then
+      msg "$pattern repo is up to date."
+    else
+      add_apt_repo "$repo"
+    fi
+  fi
 }
 
 ############################ SETUP FUNCTIONS
@@ -78,25 +91,13 @@ do_backup() {
 }
 
 install_vim() {
-  if is_ubuntu; then
-    if apt_repo_exists vim; then
-      msg "Vim repo is up to date."
-    else
-      add_apt_repo ppa:jonathonf/vim
-    fi
-  fi
-  install_or_upgrade vim
+  safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
+  safe_install vim
 }
 
 install_neovim() {
-  if is_ubuntu; then
-    if apt_repo_exists neovim; then
-      msg "Neovim repo is up to date."
-    else
-      add_apt_repo ppa:neovim-ppa/stable
-      program_exists nvim || sudo apt install -y neovim
-    fi
-  fi
+  safe_add_repo neovim "ppa:neovim-ppa/stable"
+  safe_install nvim neovim
 }
 
 create_vim_symlinks() {

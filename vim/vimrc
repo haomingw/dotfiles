@@ -64,7 +64,7 @@ if count(g:plug_groups, 'general')
   Plug 'haomingw/vim-startscreen'
   Plug 'rafi/awesome-vim-colorschemes'
   Plug 'junegunn/fzf.vim'
-  Plug 'junegunn/fzf', { 'do': './install --all' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 endif
 
 " }}
