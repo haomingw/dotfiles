@@ -45,11 +45,11 @@ success() {
 }
 
 is_linux() {
-  [[ $(uname) == "Linux" ]]
+  [[ "$(uname)" == "Linux" ]]
 }
 
 is_macos() {
-  [[ $(uname) == "Darwin" ]]
+  [[ "$(uname)" == "Darwin" ]]
 }
 
 program_exists() {
