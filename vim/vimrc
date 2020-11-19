@@ -105,9 +105,11 @@ if count(g:plug_groups, 'programming')
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-  Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
   Plug 'neoclide/coc.nvim',
     \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
+  if has('conceal')
+    Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
+  endif
 endif
 
 " }}
