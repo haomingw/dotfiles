@@ -526,6 +526,9 @@ install_cargo() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > "$target"
     sh "$target" -y --no-modify-path
     rm "$target"
+  else
+    "$cargo/bin/rustup" update
+    msg "Rust is up to date."
   fi
 
   local packages=(
