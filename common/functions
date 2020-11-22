@@ -56,21 +56,6 @@ program_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
-is_ubuntu() {
-  program_exists lsb_release || return 1
-  lsb_release -i | grep -iq ubuntu
-}
-
-apt_repo_exists() {
-  is_ubuntu || return 1
-  local repo
-  for repo in /etc/apt/sources.list.d/*.list; do
-    [[ "$repo" == *"$1"* ]] && return 0
-  done
-  grep -q "$1" /etc/apt/sources.list && return 0
-  return 1
-}
-
 safe_mkdir() {
   [[ -d "$1" ]] || mkdir -p "$1"
 }
@@ -109,6 +94,32 @@ confirm() {
   esac
 }
 
+rename() {
+  # e.g. rename txt in
+  for file in *.$1; do
+    mv $file $(basename $file $1)$2
+  done
+}
+
+# }}
+
+# Utils {{
+
+is_ubuntu() {
+  program_exists lsb_release || return 1
+  lsb_release -i | grep -iq ubuntu
+}
+
+apt_repo_exists() {
+  is_ubuntu || return 1
+  local repo
+  for repo in /etc/apt/sources.list.d/*.list; do
+    [[ "$repo" == *"$1"* ]] && return 0
+  done
+  grep -q "$1" /etc/apt/sources.list && return 0
+  return 1
+}
+
 reverse() {
   local args=$@
   [[ $# -eq 0 ]] && read args
@@ -119,21 +130,60 @@ reverse() {
   fi
 }
 
-rename() {
-  # e.g. rename txt in
-  for file in *.$1; do
-    mv $file $(basename $file $1)$2
-  done
-}
-
 now() {
   is_linux && date +%s.%N
   is_macos && program_exists gdate && gdate +%s.%N
 }
 
-# }}
+compare_version() {
+  if [[ $1 == $2 ]]; then
+    return 2
+  fi
 
-# Advanced functions {{
+  local i idx offset=0
+  if program_exists setopt; then
+    setopt localoptions shwordsplit
+    offset=1
+  fi
+
+  local IFS=.
+  local va=${1%%[^0-9.]*} vb=${2%%[^0-9.]*}
+  local a=($va) b=($vb)
+  local aa=${1#$va} bb=${2#$vb}
+
+  for ((i=0; i<${#a[@]} || i<${#b[@]}; i++)); do
+    idx=$((i + offset))
+    if ((10#${a[idx]:-0} < 10#${b[idx]:-0})); then
+      return 1
+    elif ((10#${a[idx]:-0} > 10#${b[idx]:-0})); then
+      return 3
+    fi
+  done
+
+  if [[ "$aa" < "$bb" ]]; then
+    return 1
+  elif [[ "$aa" > "$bb" ]]; then
+    return 3
+  fi
+  return 2
+}
+
+check_version() {
+  local op
+  compare_version $1 $3
+  local ret=$?
+  case $ret in
+    1) op='<';;
+    2) op='=';;
+    3) op='>';;
+  esac
+  [[ $2 == $op ]] && return 0
+  [[ $2 == ">=" ]] && [[ $ret -ge 2 ]] && return 0
+  [[ $2 == "<=" ]] && [[ $ret -le 2 ]] && return 0
+  return 1
+}
+
+# }}
 
 # Awk {{
 
@@ -142,7 +192,5 @@ trim_last_char() {
   [[ $# -eq 0 ]] && read args
   echo $args | awk '{print substr($0, 1, length($0)-1)}'
 }
-
-# }}
 
 # }}
