@@ -361,7 +361,9 @@ install_miniconda() {
       && "$conda"/bin/conda update -y conda \
       && cleanup_miniconda_files "$target/$miniconda"
 
-      success "Writing pip packages to $init_pip_packages."
+      [ -f "$conda"/bin/pip ] || "$conda"/bin/conda install -y pip
+
+      msg "Writing pip packages to $init_pip_packages."
       "$conda"/bin/pip freeze > "$init_pip_packages"
     fi
   fi
