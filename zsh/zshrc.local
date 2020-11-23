@@ -451,7 +451,7 @@ pipcl() {
     pipls | cut -d' ' -f1 | xargs pip uninstall -y NE || \
       echo "No packages to remove"
   elif [[ -s $v ]]; then
-    pipls | awk -F== '{print $1}' \
+    pipls | grep -v @ | awk -F== '{print $1}' \
       | xargs -i sh -c "grep -q {} $v || pip uninstall -y {}"
   fi
 }
