@@ -401,7 +401,7 @@ program_exists brew && {
   alias pSyu='brew update && brew upgrade'
   alias pR='brew uninstall'
   alias pRa='brew cleanup'
-  alias pRR='brew list | xargs brew uninstall'
+  alias pRR='brew list --formula | xargs brew uninstall'
 
   essential="git neovim macvim tmux clang-format llvm gpg bash coreutils"
   optional="node go shellcheck"
