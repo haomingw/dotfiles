@@ -507,6 +507,7 @@ install_go_tools() {
 
     local lfrc="$HOME/.config/lf"
     safe_mkdir "$lfrc"
+    safe_mkdir "$HOME/.lftrash"
     lnif "$app_path/lf/lfrc" "$lfrc"
 
     success "Now configuring lf."
