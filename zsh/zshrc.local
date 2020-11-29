@@ -50,6 +50,9 @@ program_exists nnn && alias n=nnn
 
 program_exists xdg-open && alias open='xdg-open'
 
+is_linux && alias toclip='xclip -selection clipboard'
+is_macos && alias toclip='pbcopy'
+
 navigate() {
   open "$1" NN || sensible-browser "$1" NN
 }
@@ -57,22 +60,6 @@ navigate() {
 cut_cols() {
   # remove last n columns
   echo "$1" | rev | cut -d'/' -f"$(($2+1))"- | rev
-}
-
-toclip() {
-  program_exists xclip || return 1
-
-  if [[ $# -eq 0 ]]; then
-    local data
-    read data
-    echo -n $data | xclip -selection clipboard
-  else
-    [[ -f "$1" ]] || {
-      error "cat: $1: No such file"
-      return 1
-    }
-    cat "$1" | xclip -selection clipboard
-  fi
 }
 
 # Create a new directory and enter it
@@ -251,8 +238,14 @@ cdr() {
 }
 
 gclip() {
-  local url=$(xclip -selection clipboard -o)
-  local repo=$(parse $url | cut -d. -f1)
+  local url repo
+
+  program_exists xclip && url=$(xclip -selection clipboard -o)
+  program_exists pbpaste && url=$(pbpaste)
+  [[ -z "$url" ]] && return 1
+
+  repo=$(parse $url | cut -d. -f1)
+
   git clone "$url" && cd "$repo"
 }
 
