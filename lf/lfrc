@@ -28,9 +28,10 @@ cmd chmod %{{
 
 cmd git !git "$@"
 
-cmd trash $mv $fx ~/.trash
+$[ -d ~/.lftrash ] || mkdir -p ~/.lftrash
+cmd trash $mv $fx ~/.lftrash
 
-cmd empty_trash %echo "Empty trash" && rm -rf ~/.trash/*
+cmd empty_trash %echo "Empty trash" && rm -rf ~/.lftrash/*
 
 cmd extract ${{
   case "$f" in
