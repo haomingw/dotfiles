@@ -310,6 +310,7 @@ config_ssh() {
 }
 
 common_config_zsh() {
+  lnif "$app_path/bin" "$HOME/.bin"
   lnif "$app_path/common" "$HOME/.common"
 
   for file in "$app_path"/zsh/*; do

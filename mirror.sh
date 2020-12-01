@@ -18,10 +18,12 @@ targets=(
 
 # for large repos
 clang_format="vim/vim/static/clang-format.py"
+tldr_sh="bin/tldr"
 
 declare -A files=(
   ["$clang_format"]="https://raw.githubusercontent.com/llvm/llvm-project/\
 master/clang/tools/clang-format/clang-format.py"
+  ["$tldr_sh"]="https://raw.githubusercontent.com/raylee/tldr/master/tldr"
 )
 
 get_filename() {
