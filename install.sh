@@ -71,23 +71,19 @@ robbyrussell/oh-my-zsh/master/tools/install.sh"
   success "oh my zsh installed."
 }
 
-install_zsh_plugins() {
-  program_must_exist  "zsh"
+install_omz_plugins() {
   file_must_exist     "$HOME/.zshrc"
   file_must_exist     "$HOME/.oh-my-zsh"
 
-  config_zshrc
-  if is_linux; then
-    config_i3wm
-  fi
-  config_ssh
+  config_oh_my_zsh
+  common_config_zsh
   # shellcheck disable=SC2046
   zsh_plug            $(reverse "${zsh_plugins[@]}")
 }
 
 custom_oh_my_zsh() {
   install_oh_my_zsh
-  install_zsh_plugins
+  install_omz_plugins
 }
 
 custom_zinit() {
@@ -96,7 +92,7 @@ custom_zinit() {
 
   do_backup           "$HOME/.zshrc" "pre-zinit"
   config_zinit
-  config_ssh
+  common_config_zsh
 }
 
 config_programming_langs() {

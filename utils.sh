@@ -79,6 +79,14 @@ safe_add_repo() {
   fi
 }
 
+append_if_not_exists() {
+  local file="$1"
+  local content="$2"
+  if [ ! -f "$file" ] || ! grep -q "$content" "$file"; then
+    echo "$content" >> "$file"
+  fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -179,19 +187,10 @@ zsh_plug() {
   done
 }
 
-append_if_not_exists() {
-  local file="$1"
-  local content="$2"
-  if [ ! -f "$file" ] || ! grep -q "$content" "$file"; then
-    echo "$content" >> "$file"
-  fi
-}
-
-config_zshrc() {
+config_oh_my_zsh() {
   local zshrc="$HOME/.zshrc"
-  local backup
+  local backup="$HOME/.zshrc.pre-zinit"
 
-  backup="$HOME/.zshrc.pre-zinit"
   if [ -L "$zshrc" ] && [ -f "$backup" ]; then
     if grep -q "oh-my-zsh" "$backup"; then
       msg "Attempting to recover from your zshrc backup."
@@ -203,11 +202,6 @@ config_zshrc() {
   sed -i -e 's/plugins=(git)/plugins=(\'$'\n  git\\'$'\n)/' "$zshrc"
   sed -i -e 's/# DISABLE_MAGIC/DISABLE_MAGIC/' "$zshrc"
 
-  lnif "$app_path/common" "$HOME/.common"
-  for file in "$app_path"/zsh/*; do
-    lnif "$file" "$HOME/.$(parse "$file")"
-  done
-
   local custom_themes="$ZSH_CUSTOM/themes"
   for file in "$app_path"/zsh/zsh/themes/*; do
     lnif "$file" "$custom_themes/$(basename "$file" .zsh).zsh-theme"
@@ -216,11 +210,6 @@ config_zshrc() {
   # shellcheck disable=SC2016
   local cmd='[[ -s $HOME/.zshrc.local ]] && source $HOME/.zshrc.local'
   append_if_not_exists "$zshrc" "$cmd"
-
-  # set ibus for archlinux
-  program_exists pacman && {
-    append_if_not_exists "$HOME/.profile" "ibus-daemon -drx"
-  }
 
   success "Now configuring zsh."
 }
@@ -281,12 +270,8 @@ config_zinit() {
     git_pull "$zinit"
   fi
 
-  lnif "$app_path/common" "$HOME/.common"
-  for file in "$app_path"/zsh/*; do
-    lnif "$file" "$HOME/.$(parse "$file")"
-  done
-  lnif "$app_path/zsh/zshrc.zsh" "$HOME/.zshrc"
-  touch ~/.zshenv.local
+  lnif "$app_path/zsh/zinitrc.zsh" "$HOME/.zshrc"
+  safe_touch ~/.zshenv.local
 
   setup_shell
 
@@ -322,6 +307,24 @@ config_ssh() {
   done
 
   success "Now configuring ssh."
+}
+
+common_config_zsh() {
+  lnif "$app_path/common" "$HOME/.common"
+
+  for file in "$app_path"/zsh/*; do
+    if [[ "$file" != *zinit* ]]; then
+      lnif "$file" "$HOME/.$(parse "$file")"
+    fi
+  done
+
+  # set ibus for archlinux
+  program_exists pacman && {
+    append_if_not_exists "$HOME/.profile" "ibus-daemon -drx"
+  }
+
+  is_linux && config_i3wm
+  config_ssh
 }
 
 cleanup_miniconda_files() {

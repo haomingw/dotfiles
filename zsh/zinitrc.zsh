@@ -26,5 +26,5 @@ safe_source ~/.zshrc.local
 
 if [[ -n "$start" ]]; then
   dur=$(echo "$(now) - $start" | bc)
-  printf "Execution time: %.6f seconds\n" $dur
+  printf "Execution time: %.6f seconds\n" "$dur"
 fi
