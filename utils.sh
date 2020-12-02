@@ -111,8 +111,9 @@ install_neovim() {
 
 create_vim_symlinks() {
   safe_mkdir "$HOME/.vim/undo"
-  for file in "$app_path"/vim/vim/*; do
-    lnif "$file" "$HOME/.vim/$(parse "$file")"
+  local ff
+  for ff in "$app_path"/vim/vim/*; do
+    lnif "$ff" "$HOME/.vim/$(parse "$ff")"
   done
 
   lnif "$app_path/vim/vimrc"                   "$HOME/.vimrc"
@@ -203,8 +204,9 @@ config_oh_my_zsh() {
   sed -i -e 's/# DISABLE_MAGIC/DISABLE_MAGIC/' "$zshrc"
 
   local custom_themes="$ZSH_CUSTOM/themes"
-  for file in "$app_path"/zsh/zsh/themes/*; do
-    lnif "$file" "$custom_themes/$(basename "$file" .zsh).zsh-theme"
+  local ff
+  for ff in "$app_path"/zsh/zsh/themes/*; do
+    lnif "$ff" "$custom_themes/$(basename "$ff" .zsh).zsh-theme"
   done
 
   # shellcheck disable=SC2016
@@ -283,8 +285,9 @@ config_i3wm() {
 
   safe_mkdir "$dest"
 
-  for file in "$app_path"/i3/*; do
-    lnif "$file" "$dest"
+  local ff
+  for ff in "$app_path"/i3/*; do
+    lnif "$ff" "$dest"
   done
 
   success "Now configuring i3wm."
@@ -313,9 +316,10 @@ common_config_zsh() {
   lnif "$app_path/bin" "$HOME/.bin"
   lnif "$app_path/common" "$HOME/.common"
 
-  for file in "$app_path"/zsh/*; do
-    if [[ "$file" != *zinit* ]]; then
-      lnif "$file" "$HOME/.$(parse "$file")"
+  local ff
+  for ff in "$app_path"/zsh/*; do
+    if [[ "$ff" != *zinit* ]]; then
+      lnif "$ff" "$HOME/.$(parse "$ff")"
     fi
   done
 

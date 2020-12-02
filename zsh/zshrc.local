@@ -10,8 +10,8 @@ append_path() { [[ -d $1 ]] && path+=($1) }
 prepend_path $HOME/miniconda3/bin
 
 setopt localoptions nonomatch
-for file in /usr/local/jdk*; do
-  export JAVA_HOME=$file
+for ff in /usr/local/jdk*; do
+  export JAVA_HOME=$ff
   break
 done
 [[ -z "$JAVA_HOME" ]] || prepend_path "$JAVA_HOME/bin"
@@ -299,22 +299,23 @@ gpgrvk() {
 }
 
 gpgenc() {
-  for file in $@; do
-    msg "Encrypting $file"
-    gpg --encrypt --sign --recipient $(gpgkid) "$file"
+  local ff
+  for ff in $@; do
+    msg "Encrypting $ff"
+    gpg --encrypt --sign --recipient $(gpgkid) "$ff"
   done
 }
 
 gpgdec() {
-  local name
+  local name ff
 
-  for file in $@; do
-    name=$(basename $file .gpg)
+  for ff in $@; do
+    name=$(basename $ff .gpg)
     if [[ -f $name ]]; then
       warning "$name exists"
     else
-      msg "Decrypting $file"
-      gpg --decrypt $file > "$name"
+      msg "Decrypting $ff"
+      gpg --decrypt $ff > "$name"
     fi
   done
 }
@@ -322,6 +323,11 @@ gpgdec() {
 gpgpub() {
   local key_id=${1:=$(gpgkid)}
   gpg --armor --export $key_id
+}
+
+gpgedit() {
+  local key_id=${1:=$(gpgkid)}
+  gpg --edit-key $key_id
 }
 
 alias gpgpvt='gpg --export-secret-key $(gpgkid)'

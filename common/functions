@@ -96,8 +96,9 @@ confirm() {
 
 rename() {
   # e.g. rename txt in
-  for file in *.$1; do
-    mv $file $(basename $file $1)$2
+  local ff
+  for ff in *.$1; do
+    mv $ff $(basename $ff $1)$2
   done
 }
 

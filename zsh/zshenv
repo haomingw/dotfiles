@@ -5,8 +5,8 @@
 
 safe_source() { [[ -s "$1" ]] && source "$1" || true }
 
-for file in ~/.common/*; do
-  safe_source "$file"
+for ff in ~/.common/*; do
+  safe_source "$ff"
 done
 
 safe_source ~/.zshenv.local

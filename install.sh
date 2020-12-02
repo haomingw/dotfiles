@@ -24,9 +24,9 @@ zsh_plugins=(
   "zdharma/history-search-multi-word"
 )
 
-for file in "$APP_PATH"/common/*; do
+for ff in "$APP_PATH"/common/*; do
   # shellcheck disable=SC1090,SC1091
-  source "$file"
+  source "$ff"
 done
 # shellcheck disable=SC1090,SC1091
 source "$APP_PATH/utils.sh"
@@ -166,10 +166,11 @@ config_sublime_vscode() {
       sublime_home="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
       sublime_keymap="Default (OSX).sublime-keymap"
     }
+    local ff
     # shellcheck disable=SC2236
     if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
-      for file in "$APP_PATH"/sublime/*.sublime-settings; do
-        lnif "$file" "$sublime_home"
+      for ff in "$APP_PATH"/sublime/*.sublime-settings; do
+        lnif "$ff" "$sublime_home"
       done
       lnif "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
 
@@ -191,8 +192,8 @@ config_sublime_vscode() {
         rm -rf "$code_home/snippets"
         lnif "$APP_PATH/vscode/snippets" "$code_home"
       else
-        for file in "$APP_PATH"/vscode/snippets/*; do
-          lnif "$file" "$code_home/snippets"
+        for ff in "$APP_PATH"/vscode/snippets/*; do
+          lnif "$ff" "$code_home/snippets"
         done
       fi
 
