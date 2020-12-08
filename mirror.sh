@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-[ "$(uname)" == "Linux" ] || exit 1
+check_bash_version() {
+  local bv
+  bv=$(bash --version | head -n1 | grep -oP '\d(\.\d+)+' | cut -d. -f1)
+  ((bv >= $1)) || {
+    echo "mininum bash version is $1, current: $bv"
+    return 1
+  }
+}
+
+[ "$(uname)" == "Linux" ]
+check_bash_version 4
 
 app=$(dirname "$(readlink -f "$0")")
 

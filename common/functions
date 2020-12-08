@@ -170,6 +170,7 @@ compare_version() {
 }
 
 check_version() {
+  # usage: check_version $v '>=' 4
   local op
   compare_version $1 $3
   local ret=$?
