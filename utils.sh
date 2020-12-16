@@ -312,6 +312,14 @@ config_ssh() {
   success "Now configuring ssh."
 }
 
+config_git() {
+  # this is personal
+  if program_exists gpg && [ "$USER" == "haoming" ]; then
+    msg "Setting personal git config."
+    lnif "$app_path/git/config" ~/.gitconfig
+  fi
+}
+
 common_config_zsh() {
   lnif "$app_path/bin" "$HOME/.bin"
   lnif "$app_path/common" "$HOME/.common"
@@ -330,6 +338,7 @@ common_config_zsh() {
 
   is_linux && config_i3wm
   config_ssh
+  config_git
 }
 
 cleanup_miniconda_files() {

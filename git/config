@@ -1,0 +1,8 @@
+[user]
+	name = Haoming Wang
+	signingkey = AE2E2A7DAA089BD2
+	email = haoming.exe@gmail.com
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
