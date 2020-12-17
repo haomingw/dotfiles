@@ -3,3 +3,4 @@ repos:
   rev: master
   hooks:
   - id: shellcheck
+    exclude_types: ['zsh']

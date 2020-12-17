@@ -29,11 +29,13 @@ targets=(
 # for large repos
 clang_format="vim/vim/static/clang-format.py"
 tldr_sh="bin/tldr"
+zsh_aync="zsh/zsh/async.zsh"
 
 declare -A files=(
   ["$clang_format"]="https://raw.githubusercontent.com/llvm/llvm-project/\
 master/clang/tools/clang-format/clang-format.py"
   ["$tldr_sh"]="https://raw.githubusercontent.com/raylee/tldr/master/tldr"
+  ["$zsh_aync"]="https://raw.githubusercontent.com/mafredri/zsh-async/master/async.zsh"
 )
 
 get_filename() {
