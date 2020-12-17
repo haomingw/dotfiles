@@ -107,6 +107,8 @@ alias lff='lfcd'
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
 
+alias xc='xcode-select -p | rev | cut -d/ -f3- | rev | xargs open'
+
 extract() {
   if [[ -f "$1" ]]; then
     case "$1" in
