@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
+check_os() {
+  [ "$(uname)" == "Linux" ] || {
+    echo "Only linux is supported for now."
+    return 1
+  }
+}
+
 check_bash_version() {
   local bv
   bv=$(bash --version | head -n1 | grep -oP '\d(\.\d+)+' | cut -d. -f1)
@@ -10,7 +17,7 @@ check_bash_version() {
   }
 }
 
-[ "$(uname)" == "Linux" ]
+check_os
 check_bash_version 4
 
 app=$(dirname "$(readlink -f "$0")")
