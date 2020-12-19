@@ -482,8 +482,8 @@ install_docker() {
 
   local version
   local current
-  version="$(wget -qO- https://github.com/docker/compose/releases | grep -oP '([0-9\.]+)/docker-compose-Linux' | head -n1 | grep -oP '[0-9\.]+')"
-  program_exists docker-compose && current="$(docker-compose --version | grep -oP '[0-9\.]+' | head -n1)"
+  version="$(wget -qO- https://github.com/docker/compose/releases | grep -oP '(\d+\.){2}\d+/docker-compose-Linux' | head -n1 | grep -oP '[0-9\.]+')"
+  program_exists docker-compose && current="$(docker-compose --version | grep -oP '(\d+\.){2}\d+')"
 
   if [ "$current" = "$version" ]; then
     msg "Docker Compose is up to date."
