@@ -95,7 +95,7 @@ alias lff='lfcd'
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
 
-extract() {
+ext() {
   if [[ -f "$1" ]]; then
     case "$1" in
       *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$1" ;;
@@ -125,17 +125,7 @@ is_linux && {
 is_macos && {
   alias toclip='pbcopy'
 
-  toapp() {
-    local data
-    read data
-    if [[ "$data" != *.app* ]]; then
-      error "Invalid app path."
-      return 1
-    fi
-    echo "$(echo $data | sed 's/\.app.*//')".app
-  }
-
-  alias xc='xcode-select -p | toapp | xargs open'
+  alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
 }
 
 # }} // namespace utils
