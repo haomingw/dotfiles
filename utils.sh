@@ -568,6 +568,7 @@ install_ruby() {
     git clone https://github.com/rbenv/ruby-build.git "$rbenv"/plugins/ruby-build
   }
   git_pull "$rbenv"
+  git_pull "$rbenv"/plugins/ruby-build
 }
 
 watch_limit_is_increased() {

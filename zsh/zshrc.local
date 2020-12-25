@@ -677,8 +677,4 @@ program_exists fd && {
   export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
 }
 
-program_exists rbenv && eval "$(rbenv init -)"
-
-true
-
 # }} // namespace env
