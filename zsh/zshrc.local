@@ -51,9 +51,6 @@ program_exists nnn && alias n=nnn
 
 program_exists xdg-open && alias open='xdg-open'
 
-is_linux && alias toclip='xclip -selection clipboard'
-is_macos && alias toclip='pbcopy'
-
 navigate() {
   open "$1" NN || sensible-browser "$1" NN
 }
@@ -85,15 +82,6 @@ add-head() {
   fi
 }
 
-empty-trash() {
-  setopt localoptions rmstarsilent
-  setopt localoptions nonomatch
-  is_linux && {
-    rm -rf ~/.local/share/Trash/files/{,.}*
-    rm -rf ~/.local/share/Trash/info/{,.}*
-  }
-}
-
 lfcd() {
   local tmp="$(mktemp)"
   lf -last-dir-path="$tmp" "$@"
@@ -106,8 +94,6 @@ alias lff='lfcd'
 
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
-
-alias xc='xcode-select -p | rev | cut -d/ -f3- | rev | xargs open'
 
 extract() {
   if [[ -f "$1" ]]; then
@@ -123,6 +109,33 @@ extract() {
   else
     error "No such file: $1"
   fi
+}
+
+is_linux && {
+  alias toclip='xclip -selection clipboard'
+
+  empty-trash() {
+    setopt localoptions rmstarsilent
+    setopt localoptions nonomatch
+    rm -rf ~/.local/share/Trash/files/{,.}*
+    rm -rf ~/.local/share/Trash/info/{,.}*
+  }
+}
+
+is_macos && {
+  alias toclip='pbcopy'
+
+  toapp() {
+    local data
+    read data
+    if [[ "$data" != *.app* ]]; then
+      error "Invalid app path."
+      return 1
+    fi
+    echo "$(echo $data | sed 's/\.app.*//')".app
+  }
+
+  alias xc='xcode-select -p | toapp | xargs open'
 }
 
 # }} // namespace utils

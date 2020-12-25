@@ -491,7 +491,7 @@ install_docker() {
     if program_exists docker-compose; then
       msg "Updating Docker Compose $current -> $version"
     else
-      msg "Downloading Docker Compose."
+      msg "Installing Docker Compose $version"
     fi
     local target="/usr/local/bin/docker-compose"
     sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
