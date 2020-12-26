@@ -6,7 +6,7 @@ image: ubuntu:latest
 
 before_script:
   - echo "Before script section"
-  - lsb_release -a
+  - uname -a
 
 after_script:
   - echo "After script section"
@@ -15,4 +15,4 @@ after_script:
 build_vim:
   stage: build
   script:
-    - bash install.sh vim
+    - apt install vim

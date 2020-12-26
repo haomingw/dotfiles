@@ -877,7 +877,7 @@ function! C_setup()
   iabbrev inc #include
   iabbrev def #define
   iabbrev itn int
-  iabbrev mian() main()
+  iabbrev mian main
 
   if !filereadable(getcwd() . "/Makefile")
     let &makeprg='gcc % -DLOCAL'
