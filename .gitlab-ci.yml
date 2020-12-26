@@ -10,9 +10,13 @@ before_script:
 
 after_script:
   - echo "After script section"
-  - vim --version
 
 build_vim:
   stage: build
   script:
-    - apt install vim
+    - echo "Updating and configuring vim."
+
+test_vim:
+  stage: test
+  script:
+    - echo "Testing vim configuring."
