@@ -5,8 +5,6 @@
 
 alias sh='bash'
 
-alias sd='sudo shutdown now'
-
 alias head="head -n $((${LINES:=`tput lines 2>/dev/null || echo -n 12`} - 3))"
 
 # }} // namespace basics

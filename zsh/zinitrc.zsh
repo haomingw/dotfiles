@@ -22,8 +22,6 @@ safe_source ~/.zsh/themes/xpure.zsh
 
 safe_source ~/.zshrc.local
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 if [[ -n "$start" ]]; then
   dur=$(echo "$(now) - $start" | bc)
   printf "Execution time: %.6f seconds\n" "$dur"

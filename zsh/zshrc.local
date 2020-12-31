@@ -113,6 +113,8 @@ ext() {
 
 is_linux && {
   alias toclip='xclip -selection clipboard'
+  alias sd='sudo shutdown now'
+  alias rbt='sudo reboot'
 
   empty-trash() {
     setopt localoptions rmstarsilent
@@ -124,6 +126,8 @@ is_linux && {
 
 is_macos && {
   alias toclip='pbcopy'
+  alias sd='sudo shutdown -h now'
+  alias rbt='sudo shutdown -r now'
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
 }
