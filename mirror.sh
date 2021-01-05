@@ -2,17 +2,22 @@
 set -e
 
 check_os() {
-  [ "$(uname)" == "Linux" ] || {
-    echo "Only linux is supported for now."
-    return 1
-  }
+  case "$(uname)" in
+    "Linux") ;;
+    "Darwin") ;;
+    *) echo "Only *nix is supported for now."; return 1;;
+  esac
 }
 
 check_bash_version() {
   local bv
-  bv=$(bash --version | head -n1 | grep -oP '\d(\.\d+)+' | cut -d. -f1)
+  if [ "$(uname)" == "Linux" ]; then
+    bv=$(bash --version | grep -oP '\d(\.\d+)+' | head -n1 | cut -d. -f1)
+  else
+    bv=$(bash --version | grep -oE '\d(\.\d+)+' | head -n1 | cut -d. -f1)
+  fi
   ((bv >= $1)) || {
-    echo "mininum bash version is $1, current: $bv"
+    echo "Mininum bash version is $1, current: $bv"
     return 1
   }
 }
@@ -20,7 +25,11 @@ check_bash_version() {
 check_os
 check_bash_version 4
 
-app=$(dirname "$(readlink -f "$0")")
+if [ "$(uname)" == "Linux" ]; then
+  app=$(dirname "$(readlink -f "$0")")
+else
+  app=$(dirname "$PWD/$0")
+fi
 
 # for small repos
 mirrors=(
