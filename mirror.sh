@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+is_linux() {
+  [[ "$(uname)" == "Linux" ]]
+}
+
 check_os() {
   case "$(uname)" in
     "Linux") ;;
@@ -11,7 +15,7 @@ check_os() {
 
 check_bash_version() {
   local bv
-  if [ "$(uname)" == "Linux" ]; then
+  if is_linux; then
     bv=$(bash --version | grep -oP '\d(\.\d+)+' | head -n1 | cut -d. -f1)
   else
     bv=$(bash --version | grep -oE '\d(\.\d+)+' | head -n1 | cut -d. -f1)
@@ -25,7 +29,7 @@ check_bash_version() {
 check_os
 check_bash_version 4
 
-if [ "$(uname)" == "Linux" ]; then
+if is_linux; then
   app=$(dirname "$(readlink -f "$0")")
 else
   app=$(dirname "$PWD/$0")
