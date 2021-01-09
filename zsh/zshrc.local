@@ -23,6 +23,7 @@ prepend_path "$GOPATH/bin"
 prepend_path "$HOME/.bin"
 prepend_path "$HOME/.cargo/bin"
 prepend_path "$HOME/.node/bin"
+prepend_path "$HOME/.vim/bundle/fzf/bin"
 
 safe_use_cuda() {
   if [[ -d "$1/lib64" ]]; then

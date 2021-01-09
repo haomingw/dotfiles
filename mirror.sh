@@ -14,13 +14,14 @@ check_os() {
 }
 
 check_bash_version() {
-  local bv
+  local bv bvm
   if is_linux; then
-    bv=$(bash --version | grep -oP '\d(\.\d+)+' | head -n1 | cut -d. -f1)
+    bv=$(bash --version | grep -oP '\d(\.\d+)+' | head -n1)
   else
-    bv=$(bash --version | grep -oE '\d(\.\d+)+' | head -n1 | cut -d. -f1)
+    bv=$(bash --version | grep -oE '\d(\.\d+)+' | head -n1)
   fi
-  ((bv >= $1)) || {
+  bvm=$(echo "$bv" | cut -d. -f1)
+  ((bvm >= $1)) || {
     echo "Mininum bash version is $1, current: $bv"
     return 1
   }
