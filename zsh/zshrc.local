@@ -131,6 +131,7 @@ is_macos && {
   alias rbt='sudo shutdown -r now'
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
+  alias xcb='xcodebuild -target'
 }
 
 # }} // namespace utils
