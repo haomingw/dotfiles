@@ -880,8 +880,10 @@ function! C_setup()
   iabbrev mian main
 
   if !filereadable(getcwd() . "/Makefile")
-    let &makeprg='gcc % -DLOCAL'
+    let &makeprg='gcc % -DLOCAL -Wall -Wextra -Werror -Wshadow'
   endif
+
+  command! Run :!./a.out
 endfunction
 
 " Setup cpp file
