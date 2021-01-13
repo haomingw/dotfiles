@@ -262,7 +262,8 @@ gclip() {
 }
 
 gitgpg() {
-  git config user.signingkey $(gpgkid)
+  local key_id=${1:=$(gpgkid)}
+  git config user.signingkey "$key_id"
   git config gpg.program gpg
   git config commit.gpgsign true
 }
@@ -286,11 +287,12 @@ alias gpgprm='gpg --delete-key'
 alias gpgrm='gpg --delete-secret-key'
 
 gpgkid() {
-  gpgls | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
+  gpgls $1 | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
 }
 
 gpgsend() {
-  gpg --send-keys $(gpgkid)
+  local key_id=${1:=$(gpgkid)}
+  gpg --send-keys "$key_id"
 }
 
 gpgfd() {
@@ -306,7 +308,8 @@ gpgrecv() {
 }
 
 gpgrvk() {
-  gpg --output revoke.asc --gen-revoke $(gpgkid)
+  local key_id=${1:=$(gpgkid)}
+  gpg --output revoke.asc --gen-revoke "$key_id"
 }
 
 gpgenc() {
@@ -333,15 +336,18 @@ gpgdec() {
 
 gpgpub() {
   local key_id=${1:=$(gpgkid)}
-  gpg --armor --export $key_id
+  gpg --armor --export "$key_id"
 }
 
 gpgedit() {
   local key_id=${1:=$(gpgkid)}
-  gpg --edit-key $key_id
+  gpg --edit-key "$key_id"
 }
 
-alias gpgpvt='gpg --export-secret-key $(gpgkid)'
+gpgpvt() {
+  local key_id=${1:=$(gpgkid)}
+  gpg --export-secret-key "$key_id"
+}
 
 # }} // namespace gpg
 
