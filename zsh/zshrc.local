@@ -47,7 +47,6 @@ alias -g NE='2>/dev/null'
 alias -g NN='>/dev/null 2>&1'
 
 program_exists vim && alias vi=vim
-program_exists nvim && alias vim=nvim
 program_exists nnn && alias n=nnn
 
 program_exists xdg-open && alias open='xdg-open'
@@ -116,6 +115,7 @@ is_linux && {
   alias toclip='xclip -selection clipboard'
   alias sd='sudo shutdown now'
   alias rbt='sudo reboot'
+  program_exists nvim && alias vim=nvim
 
   empty-trash() {
     setopt localoptions rmstarsilent
@@ -131,7 +131,11 @@ is_macos && {
   alias rbt='sudo shutdown -r now'
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
-  alias xcb='xcodebuild -target'
+  xcb() {
+    local target=${1:=all}
+    msg "Building target $target"
+    xcodebuild -target "$target"
+  }
 }
 
 # }} // namespace utils
