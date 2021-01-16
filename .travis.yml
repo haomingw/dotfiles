@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 
 env:
   global:
@@ -34,7 +34,6 @@ script:
 branches:
   only:
   - master
-  - develop
 
 git:
   quiet: true
