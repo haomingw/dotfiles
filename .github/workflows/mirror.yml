@@ -16,10 +16,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Commit changes if there is any
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_KEY }}
+          passphrase: ${{ secrets.GPG_PWD }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+
+      - name: Commit changes if there are any
         run: |
-          git config --local user.email "31854632+haomingw@users.noreply.github.com"
-          git config --local user.name "Github Actions[bot]"
+          git config user.email "haoming.exe@gmail.com"
+          git config user.name "Github Actions[bot]"
           bash mirror.sh
 
       - name: Push changes

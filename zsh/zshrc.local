@@ -343,14 +343,19 @@ gpgpub() {
   gpg --armor --export "$key_id"
 }
 
-gpgedit() {
-  local key_id=${1:=$(gpgkid)}
-  gpg --edit-key "$key_id"
-}
-
 gpgpvt() {
   local key_id=${1:=$(gpgkid)}
   gpg --export-secret-key "$key_id"
+}
+
+gpgcpk() {
+  local key_id=${1:=$(gpgkid)}
+  gpg --armor --export-secret-key "$key_id" | toclip
+}
+
+gpgedit() {
+  local key_id=${1:=$(gpgkid)}
+  gpg --edit-key "$key_id"
 }
 
 # }} // namespace gpg
