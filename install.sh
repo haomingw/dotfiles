@@ -25,10 +25,10 @@ zsh_plugins=(
 )
 
 for ff in "$APP_PATH"/common/*; do
-  # shellcheck disable=SC1090,SC1091
+  # shellcheck disable=SC1090
   source "$ff"
 done
-# shellcheck disable=SC1090,SC1091
+# shellcheck disable=SC1090
 source "$APP_PATH/utils.sh"
 
 ############################ SETUP FUNCTIONS

@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
+if [[ "$(uname)" == "Linux" ]]; then
+  app=$(dirname "$(readlink -f "$0")")
+else
+  app=$(dirname "$PWD/$0")
+fi
+
+# shellcheck disable=SC1090
+source "$app/common/functions"
+
 check_os() {
   case "$(uname)" in
     "Linux") ;;
@@ -20,12 +29,6 @@ check_bash_version() {
 
 check_os
 check_bash_version 4
-
-if [[ "$(uname)" == "Linux" ]]; then
-  app=$(dirname "$(readlink -f "$0")")
-else
-  app=$(dirname "$PWD/$0")
-fi
 
 # for small repos
 mirrors=(
