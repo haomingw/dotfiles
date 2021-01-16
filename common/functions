@@ -6,8 +6,9 @@
 # Only use colors if connected to a terminal
 if [[ -t 1 ]]; then
   BOLD="$(tput bold 2>/dev/null || echo '\033[1m')"
-  GREY="$(tput setaf 0 2>/dev/null || echo '\033[90m')"
   UNDERLINE="$(tput smul 2>/dev/null || echo '\033[4m')"
+  REV="$(tput rev 2>/dev/null || echo '\033[7m')"
+  GREY="$(tput setaf 0 2>/dev/null || echo '\033[90m')"
   RED="$(tput setaf 1 2>/dev/null || echo '\033[31m')"
   GREEN="$(tput setaf 2 2>/dev/null || echo '\033[32m')"
   YELLOW="$(tput setaf 3 2>/dev/null || echo '\033[33m')"
@@ -17,8 +18,9 @@ if [[ -t 1 ]]; then
   RESET="$(tput sgr0 2>/dev/null || echo '\033[0m')"
 else
   BOLD=""
-  GREY=""
   UNDERLINE=""
+  REV=""
+  GREY=""
   RED=""
   GREEN=""
   YELLOW=""
@@ -27,6 +29,11 @@ else
   CYAN=""
   RESET=""
 fi
+
+doit() {
+  echo "${REV}$@${RESET}"
+  "$@"
+}
 
 msg() {
   echo "${BLUE}➜${RESET} $@"
@@ -121,8 +128,18 @@ apt_repo_exists() {
   return 1
 }
 
+getv() {
+  local data
+  read data
+  if is_linux; then
+    echo "$data" | grep -oP '\d+(\.\d+)+' | head -n1
+  else
+    echo "$data" | grep -oE '\d+(\.\d+)+' | head -n1
+  fi
+}
+
 reverse() {
-  local args=$@
+  local args="$@"
   [[ $# -eq 0 ]] && read args
   if program_exists "tac"; then
     echo $args | tr ' ' '\n' | tac | tr '\n' ' ' | xargs
@@ -190,7 +207,7 @@ check_version() {
 # Awk {{
 
 trim_last_char() {
-  local args=$@
+  local args="$@"
   [[ $# -eq 0 ]] && read args
   echo $args | awk '{print substr($0, 1, length($0)-1)}'
 }

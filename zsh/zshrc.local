@@ -578,17 +578,22 @@ gemcl() {
 
 set-pre-commit() {
   msg "Installing/updating pre-commit."
+  local pv=$(pip --version | getv)
+  check_version "$pv" ">=" 20 || {
+    echo "Current version: $pv, required version: 20"
+    return 1
+  }
   pip install -U pre-commit NN
 
   local repo=$(groot)
-  local pre_commit=".pre-commit-config.yaml"
-  [[ -n "$repo" ]] && [[ -L ~/"$pre_commit" ]] && {
-    [[ -f "$repo/$pre_commit" ]] || cpif ~/"$pre_commit" "$repo/$pre_commit"
+  local config=".pre-commit-config.yaml"
+  if [[ -n "$repo" ]] && [[ -L ~/"$config" ]]; then
+    [[ -f "$repo/$config" ]] || cpif ~/"$config" "$repo"
     [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
-  } || {
+  else
     error "Not in a git repo or pre-commit not configured"
     return 1
-  }
+  fi
 }
 
 rm-pre-commit() {

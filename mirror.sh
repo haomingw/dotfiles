@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-is_linux() {
-  [[ "$(uname)" == "Linux" ]]
-}
-
 check_os() {
   case "$(uname)" in
     "Linux") ;;
@@ -14,14 +10,9 @@ check_os() {
 }
 
 check_bash_version() {
-  local bv bvm
-  if is_linux; then
-    bv=$(bash --version | grep -oP '\d(\.\d+)+' | head -n1)
-  else
-    bv=$(bash --version | grep -oE '\d(\.\d+)+' | head -n1)
-  fi
-  bvm=$(echo "$bv" | cut -d. -f1)
-  ((bvm >= $1)) || {
+  local bv
+  bv=$(bash --version | getv | cut -d. -f1)
+  ((bv >= $1)) || {
     echo "Mininum bash version is $1, current: $bv"
     return 1
   }
@@ -30,7 +21,7 @@ check_bash_version() {
 check_os
 check_bash_version 4
 
-if is_linux; then
+if [[ "$(uname)" == "Linux" ]]; then
   app=$(dirname "$(readlink -f "$0")")
 else
   app=$(dirname "$PWD/$0")
