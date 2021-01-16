@@ -1,0 +1,29 @@
+name: Mirror
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Mirror update
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Commit changes if there is any
+        run: |
+          git config --local user.email "31854632+haomingw@users.noreply.github.com"
+          git config --local user.name "Github Actions[bot]"
+          bash mirror.sh
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          branch: master

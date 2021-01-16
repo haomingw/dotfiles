@@ -64,10 +64,13 @@ git_check_file() {
   local changes
   changes=$(git diff "$target")
 
-  [ -z "$changes" ] || {
+  if [ -z "$changes" ]; then
+    echo "No changes for $target"
+  else
+    echo "Committing changes of $target"
     git add "$target"
     git commit -m "$message"
-  }
+  fi
 }
 
 update_target() {
