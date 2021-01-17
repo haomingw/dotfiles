@@ -97,6 +97,7 @@ if count(g:plug_groups, 'programming')
   Plug 'sheerun/vim-polyglot'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
   Plug 'rhysd/git-messenger.vim'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
@@ -321,6 +322,7 @@ nnoremap ]t :tabn<cr>
 nnoremap [b :bprev<cr>
 nnoremap ]b :bnext<cr>
 
+" Move cursor in Insert mode
 if s:mac
   inoremap ˙ <Left>
   inoremap ∆ <Down>
@@ -342,9 +344,31 @@ else
   nnoremap <a-]> :call xming#tabmove(1)<cr>
 endif
 
+" Emacs/terminal compatible
+
+"" begin & end
 inoremap <c-e> <End>
 inoremap <c-a> <c-o>I
 cnoremap <c-a> <Home>
+
+"" move cursor by word
+inoremap <a-b> <c-o>b
+inoremap <a-f> <c-o>w
+if s:mac
+  inoremap ∫ <c-o>b
+  inoremap ƒ <c-o>w
+endif
+
+"" delete forward & backward, <ctrl-h> mapped by default
+inoremap <c-d> <Delete>
+cnoremap <c-d> <Delete>
+
+"" various deletes
+inoremap <c-k> <c-o>D
+cnoremap <c-k> <c-\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<cr>
+"" undoable
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
 
 " Window:
 nnoremap <c-h> <c-w>h
@@ -378,16 +402,6 @@ inoremap <c-s> <Esc>:w<cr>a
 inoremap <c-v> <Esc>pa
 inoremap <c-j> <Esc>o
 inoremap jj <Esc>O
-
-inoremap <c-b> <c-o>b
-inoremap <c-f> <c-o>w
-inoremap <c-k> <c-o>D
-" ctrl-h mapped to back space by default
-inoremap <c-d> <Delete>
-
-" undoable
-inoremap <c-u> <c-g>u<c-u>
-inoremap <c-w> <c-g>u<c-w>
 
 " utils
 nnoremap ; :
