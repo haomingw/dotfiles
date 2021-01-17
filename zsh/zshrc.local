@@ -115,6 +115,7 @@ is_linux && {
   alias toclip='xclip -selection clipboard'
   alias sd='sudo shutdown now'
   alias rbt='sudo reboot'
+  alias grepp='grep -oP'
   program_exists nvim && alias vim=nvim
 
   empty-trash() {
@@ -129,6 +130,7 @@ is_macos && {
   alias toclip='pbcopy'
   alias sd='sudo shutdown -h now'
   alias rbt='sudo shutdown -r now'
+  alias grepp='grep -oE'
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
   xcb() {
@@ -267,7 +269,10 @@ gclip() {
 
 gitgpg() {
   local key_id=${1:=$(gpgkid)}
+  local email=$(gpgmail "$key_id")
+  msg "Setting git email to $email"
   git config user.signingkey "$key_id"
+  git config user.email "$email"
   git config gpg.program gpg
   git config commit.gpgsign true
 }
@@ -292,6 +297,11 @@ alias gpgrm='gpg --delete-secret-key'
 
 gpgkid() {
   gpgls $1 | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
+}
+
+gpgmail() {
+  local key_id=${1:=$(gpgkid)}
+  gpgls "$key_id" | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+'
 }
 
 gpgsend() {
