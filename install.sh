@@ -99,9 +99,6 @@ config_programming_langs() {
   program_must_exist  "git"
   program_must_exist  "wget"
 
-  rm -rf ~/.config/ptpython ~/.ptpython
-  lnif "$APP_PATH/python/ptpython" ~/.config/ptpython
-
   for f in "$APP_PATH"/python/*; do
     if [ -f "$f" ]; then
       lnif "$f" "$HOME/.$(parse "$f")"
