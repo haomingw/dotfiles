@@ -20,11 +20,11 @@ check_os() {
 
 check_bash_version() {
   local bv
-  bv=$(bash --version | getv | cut -d. -f1)
-  ((bv >= $1)) || {
+  bv=$(bash --version | getv)
+  if check_version "$bv" "<" "$1"; then
     echo "Mininum bash version is $1, current: $bv"
     return 1
-  }
+  fi
 }
 
 check_os
