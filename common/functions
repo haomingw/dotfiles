@@ -204,7 +204,7 @@ check_version() {
 
 random() {
   # usage: random [pattern] [len]
-  cat /dev/urandom | LC_CTYPE=C tr -dc "$1" | head -c "$2"; echo
+  cat /dev/urandom | LC_CTYPE=C tr -dc "$1" | head -c "$2"
 }
 
 genf() {

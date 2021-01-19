@@ -140,6 +140,11 @@ is_macos && {
   }
 }
 
+genpwd() {
+  local len=${1:=20}
+  random "a-zA-Z0-9!#$%&()*+,-./:;<=>?@[\]^_{|}~" "$len" | toclip
+}
+
 # }} // namespace utils
 
 # Tools {{
