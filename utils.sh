@@ -295,18 +295,10 @@ config_i3wm() {
 
 config_ssh() {
   [ -z "$AUTH_USERS" ] && return 0
-
-  local key
-  local auth_keys="$HOME/.ssh/authorized_keys"
   read -ra users <<< "$AUTH_USERS"
 
-  safe_touch "$auth_keys"
   for user in "${users[@]}"; do
-    key="$(curl https://github.com/"$user".keys 2>/dev/null)"
-    [ -z "$key" ] || {
-      msg "Adding $user's github keys to ssh authorized_keys."
-      grep -q "$key" "$auth_keys" || echo "$key $user" >> "$auth_keys"
-    }
+    add_auth_key "$user"
   done
 
   success "Now configuring ssh."

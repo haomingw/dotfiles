@@ -109,6 +109,15 @@ rename() {
   done
 }
 
+args_must_exist() {
+  local min_argc="$1"
+  shift
+  [[ $# -ge $min_argc ]] || {
+    error "Required argc: $min_argc, current: $#"
+    return 1
+  }
+}
+
 # }}
 
 # Utils {{
@@ -210,6 +219,21 @@ random() {
 genf() {
   # usage: genf [filename] [size in MB]
   dd if=/dev/urandom of="$1" bs=1024k count="$2"
+}
+
+add_auth_key() {
+  args_must_exist 1 "$@" || return 1
+  local keyfile="$HOME/.ssh/authorized_keys"
+  local user="$1"
+  local key
+
+  safe_touch "$keyfile"
+  key="$(curl https://github.com/"$1".keys 2>/dev/null)"
+
+  [ -z "$key" ] || {
+    msg "Adding $user's github keys to ssh authorized_keys."
+    grep -q "$key" "$keyfile" || echo "$key $user" >> "$keyfile"
+  }
 }
 
 # }}
