@@ -353,17 +353,17 @@ gpgdec() {
   done
 }
 
-gpgpub() {
+gpgpk() {
   local key_id=${1:=$(gpgkid)}
   gpg --armor --export "$key_id"
 }
 
-gpgpvt() {
+gpgsk() {
   local key_id=${1:=$(gpgkid)}
   gpg --export-secret-key "$key_id"
 }
 
-gpgcpk() {
+gpgcpsk() {
   local key_id=${1:=$(gpgkid)}
   gpg --armor --export-secret-key "$key_id" | toclip
 }
