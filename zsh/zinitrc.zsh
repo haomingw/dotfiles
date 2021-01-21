@@ -6,9 +6,10 @@ source ~/.zinit/zinit.zsh
 zinit wait lucid for \
     rupa/z \
     OMZ::lib/completion.zsh \
-    OMZ::plugins/git/git.plugin.zsh \
+    ~/.zsh/plugins \
   atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma/fast-syntax-highlighting
+
 
 zinit light-mode for \
   zsh-users/zsh-autosuggestions \
