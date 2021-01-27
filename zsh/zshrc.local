@@ -273,9 +273,9 @@ gclip() {
 }
 
 gitgpg() {
-  local key_id=${1:=$(gpgkid)}
-  local email=$(gpgmail "$key_id")
-  msg "Setting git email to $email"
+  local key_id=$(gpgkid "$@")
+  local email=$(gpgmail "$@")
+  msg "Setting git email to $email, with signing key $key_id"
   git config user.signingkey "$key_id"
   git config user.email "$email"
   git config gpg.program gpg
@@ -305,12 +305,11 @@ gpgkid() {
 }
 
 gpgmail() {
-  local key_id=${1:=$(gpgkid)}
-  gpgls "$key_id" | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+'
+  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
 }
 
 gpgsend() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --send-keys "$key_id"
 }
 
@@ -327,7 +326,7 @@ gpgrecv() {
 }
 
 gpgrvk() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --output revoke.asc --gen-revoke "$key_id"
 }
 
@@ -354,22 +353,22 @@ gpgdec() {
 }
 
 gpgpk() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --armor --export "$key_id"
 }
 
 gpgsk() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --export-secret-key "$key_id"
 }
 
 gpgcpsk() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --armor --export-secret-key "$key_id" | toclip
 }
 
 gpgedit() {
-  local key_id=${1:=$(gpgkid)}
+  local key_id=$(gpgkid "$@")
   gpg --edit-key "$key_id"
 }
 
