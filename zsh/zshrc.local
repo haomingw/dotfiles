@@ -659,7 +659,11 @@ rrmd() {
 rmdot() {
   # remove current folder or git root folder
   local target
-  is_git && target=$(groot) || target=$(pwd)
+  if is_in_git_repo; then
+    target=$(groot)
+  else
+    target=$(pwd)
+  fi
   confirm "sure you want to delete $target?" && {
     cd "$target/.." && rm -rf $target
   }

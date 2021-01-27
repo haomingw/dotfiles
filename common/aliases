@@ -19,7 +19,7 @@ alias lzd='lazydocker'
 
 # Git {{
 
-alias is_git='git rev-parse --is-inside-work-tree &>/dev/null'
+alias is_in_git_repo='git rev-parse HEAD &>/dev/null'
 
 alias lg='lazygit'
 

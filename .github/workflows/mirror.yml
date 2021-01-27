@@ -30,8 +30,8 @@ jobs:
           echo "Signing with gpg key ${{ steps.import_gpg.outputs.keyid }}"
           git config user.email "haoming.exe@gmail.com"
           git config user.name "Github Actions[bot]"
-          git config pull.ff only
-          git config pull.rebase false
+          git config --global pull.ff only
+          git config --global pull.rebase false
           bash mirror.sh
 
       - name: Push changes
