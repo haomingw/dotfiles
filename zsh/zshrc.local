@@ -82,7 +82,7 @@ add-head() {
   fi
 }
 
-lfcd() {
+_lfcd() {
   local tmp="$(mktemp)"
   lf -last-dir-path="$tmp" "$@"
   [[ -f "$tmp" ]] || return 1
@@ -90,7 +90,6 @@ lfcd() {
   [[ -d "$dir" ]] && cd "$dir"
   rm -f "$tmp"
 }
-alias lff='lfcd'
 
 alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
   || echo error)'
@@ -289,6 +288,14 @@ gprc() {
 }
 
 # }} // namespace git
+
+# FZF {{
+
+_fzf_history() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+# }}
 
 # GPG {{
 
@@ -688,7 +695,8 @@ bindkey '^[l' down-case-word
 bindkey "^['" quote-line
 bindkey '^["' quote-region
 
-bindkey -s '^o' 'lfcd\n'
+bindkey -s '^o' '_lfcd\n'
+bindkey -s '^r' '_fzf_history\n'
 
 # }} // namespace bindings
 

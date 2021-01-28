@@ -13,7 +13,6 @@ zinit wait lucid for \
 
 zinit light-mode for \
   zsh-users/zsh-autosuggestions \
-  zdharma/history-search-multi-word \
   OMZ::lib/git.zsh \
   OMZ::lib/history.zsh \
   OMZ::lib/key-bindings.zsh \
