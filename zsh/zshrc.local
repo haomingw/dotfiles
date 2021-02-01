@@ -644,9 +644,16 @@ alias rustcl='rustls | xargs cargo uninstall'
 
 # Golang {{
 
+alias gotest='go test -cover -v'
+
 cdg() {
   local gosrc="$GOPATH/src"
   safe_mkdir "$gosrc" && cd "$gosrc/$1"
+}
+
+gocov() {
+  go test -coverprofile cover.out && go tool cover -html=cover.out \
+    && rm cover.out
 }
 
 # }} // namespace go
