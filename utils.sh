@@ -306,7 +306,7 @@ config_ssh() {
 
 config_git() {
   # this is personal
-  if program_exists gpg && [ "$USER" == "haoming" ]; then
+  if [ "$USER" == "haoming" ]; then
     msg "Setting personal git config."
     lnif "$app_path/git/config" ~/.gitconfig
   fi
