@@ -27,7 +27,7 @@ jobs:
 
       - name: Commit changes if there are any
         run: |
-          echo "Signing with gpg key ${{ steps.import_gpg.outputs.keyid }}"
+          echo "Signing with gpg key $(git config user.signingkey)"
           git config user.email "haoming.exe@gmail.com"
           git config user.name "Github Actions[bot]"
           git config --global pull.ff only
@@ -38,4 +38,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GH_PAT }}
-          branch: master
+          branch: ${{ github.ref }}
