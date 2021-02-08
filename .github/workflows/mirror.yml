@@ -22,13 +22,13 @@ jobs:
         with:
           gpg-private-key: ${{ secrets.GPG_KEY }}
           passphrase: ${{ secrets.GPG_PWD }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
 
       - name: Commit changes if there are any
         run: |
           git config --global user.email "haoming.exe@gmail.com"
           git config --global user.name "Github Actions[bot]"
-          git config --global user.signingkey CCFF6597AE72D4FB
-          git config --global commit.gpgsign true
           git config --global pull.ff only
           git config --global pull.rebase false
 
