@@ -97,7 +97,7 @@ custom_zinit() {
 
 config_programming_langs() {
   program_must_exist  "git"
-  program_must_exist  "wget"
+  must_have_any       "wget" "curl"
 
   for f in "$APP_PATH"/python/*; do
     if [ -f "$f" ]; then

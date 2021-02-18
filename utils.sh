@@ -16,12 +16,36 @@ program_must_exist() {
   }
 }
 
+must_have_any() {
+  for prog in "$@"; do
+    program_exists "$prog" && return 0
+  done
+  error "You must have one of [$@] installed to continue."
+  exit 1
+}
+
 file_must_exist() {
   local file_path="$1"
 
   if [ ! -f "$file_path" ] && [ ! -d "$file_path" ]; then
     error "You must have '$1' to continue."
     exit 1
+  fi
+}
+
+download_to() {
+  if program_exists wget; then
+    wget "$1" -P "$2"
+  else
+    cd "$2" && curl -O "$1" && cd -
+  fi
+}
+
+download_stdout() {
+  if program_exists wget; then
+    wget -qO- "$1"
+  else
+    curl -fsSL "$1"
   fi
 }
 
@@ -364,7 +388,7 @@ install_miniconda() {
       local miniconda
       miniconda=$(parse $url)
       local target="/tmp"
-      [ -f "$target/$miniconda" ] || wget $url -P $target
+      [ -f "$target/$miniconda" ] || download_to "$url" "$target"
       bash "$target/$miniconda" \
       && success "Miniconda successfully installed." \
       && "$conda"/bin/conda update -y conda \
@@ -387,7 +411,7 @@ install_golang() {
 
   local goroot="$HOME/.golang"
   local url
-  url="$(wget -qO- https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
+  url="$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
   local version
   version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
   local filename
@@ -401,7 +425,7 @@ install_golang() {
     else
       msg "Installing Golang $version"
     fi
-    [ -f "/tmp/$filename" ] || wget "https://golang.org$url" -P "/tmp"
+    [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
     tar xzf "/tmp/$filename" -C /tmp
     cp -Tr /tmp/go "$goroot"
     rm -rf "/tmp/$filename" /tmp/go
@@ -413,7 +437,7 @@ install_node() {
 
   local node_home="$HOME/.node"
   local url
-  url="$(wget -qO- https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
+  url="$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
   local version
   version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
   local filename
@@ -427,7 +451,7 @@ install_node() {
     else
       msg "Installing Node.js $version"
     fi
-    [ -f "/tmp/$filename" ] || wget "$url" -P "/tmp"
+    [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
     tar xJf "/tmp/$filename" -C /tmp
     local node
     node="$(basename "$filename" .tar.xz)"
@@ -456,7 +480,7 @@ install_docker() {
       msg "Docker repo is up to date."
     else
       # Add Docker’s official GPG key
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      download_stdout https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
@@ -474,7 +498,7 @@ install_docker() {
 
   local version
   local current
-  version="$(wget -qO- https://github.com/docker/compose/releases | grep -oP '\d+(\.\d+)+/docker-compose-Linux' | head -n1 | getv)"
+  version="$(download_stdout https://github.com/docker/compose/releases | grep -oP '\d+(\.\d+)+/docker-compose-Linux' | head -n1 | getv)"
   program_exists docker-compose && current="$(docker-compose --version | getv)"
 
   if [ "$current" = "$version" ]; then
@@ -486,7 +510,7 @@ install_docker() {
       msg "Installing Docker Compose $version"
     fi
     local target="/usr/local/bin/docker-compose"
-    sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
+    sudo download_to "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" "$target"
     msg "Making it executable."
     sudo chmod +x "$target"
     success "Now installing Docker Compose."

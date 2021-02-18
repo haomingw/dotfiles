@@ -201,6 +201,7 @@ alias gsmu='git submodule init && git submodule update --remote'
 alias gtcl='git tag -l | xargs git tag -d'
 alias gtu='gtcl && git fetch --tags'
 alias gcfix='git commit -m "fix"'
+alias grbim='git rebase -i $(git_main_branch)'
 
 gtrm() {
   local tag="$1"
