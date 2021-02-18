@@ -20,7 +20,7 @@ must_have_any() {
   for prog in "$@"; do
     program_exists "$prog" && return 0
   done
-  error "You must have one of [$@] installed to continue."
+  error "You must have one of [$*] installed to continue."
   exit 1
 }
 
@@ -37,7 +37,7 @@ download_to() {
   if program_exists wget; then
     wget "$1" -P "$2"
   else
-    cd "$2" && curl -O "$1" && cd -
+    cd "$2" && curl -O "$1" && cd - || return 1
   fi
 }
 
@@ -510,7 +510,7 @@ install_docker() {
       msg "Installing Docker Compose $version"
     fi
     local target="/usr/local/bin/docker-compose"
-    sudo download_to "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" "$target"
+    sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
     msg "Making it executable."
     sudo chmod +x "$target"
     success "Now installing Docker Compose."
