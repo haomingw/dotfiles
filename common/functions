@@ -59,6 +59,10 @@ is_macos() {
   [[ "$(uname)" == "Darwin" ]]
 }
 
+is_wsl() {
+  [[ "$(uname -a)" == *Microsoft* ]]
+}
+
 program_exists() {
   command -v "$@" >/dev/null 2>&1
 }

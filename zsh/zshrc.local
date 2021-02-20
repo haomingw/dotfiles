@@ -67,7 +67,11 @@ mk() {
 
 cdd() { local dir=~/Documents/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
 
-alias cdl='cd ~/Downloads'
+if [[ -n "$WINHOME" ]]; then
+  alias cdl='cd $WINHOME/Downloads'
+else
+  alias cdl='cd ~/Downloads'
+fi
 
 add-head() {
   # add text to the beginning or the specified line of a file
@@ -254,7 +258,7 @@ gitp() { local v="$1"; shift; git p$v "$@"; }
 cdr() {
   # cd to git repo root
   local repo=$(groot)
-  [[ -n $repo ]] && cd $repo || {
+  [[ -n "$repo" ]] && cd "$repo" || {
     echo "$(pwd) is not a git repo"
     return 1
   }
@@ -463,7 +467,7 @@ program_exists brew && {
 }
 
 alias install-essential='pS $(echo $essential)'
-[[ -n $optional ]] && alias install-optional='pS $(echo $optional)'
+[[ -n "$optional" ]] && alias install-optional='pS $(echo $optional)'
 
 # }} // namespace package_manager
 
@@ -712,13 +716,13 @@ bindkey -s '^r' '_fzf_history\n'
 
 upd() {
   local env_name=$(venv)
-  if [[ -n $env_name ]]; then
+  if [[ -n "$env_name" ]]; then
     echo "deactivating python virtual env: $env_name"
     uu
   fi
   success "updating zsh config"
   safe_source ~/.zshrc.local
-  if [[ -n $env_name ]]; then
+  if [[ -n "$env_name" ]]; then
     echo "restoring python virtual env: $env_name"
     u $env_name
   fi
