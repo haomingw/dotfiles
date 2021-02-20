@@ -147,9 +147,9 @@ config_tmux_docker() {
 
 config_sublime_vscode() {
   is_macos && {
-    local dest='/usr/local/bin'
-    lnif /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl $dest
-    lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code $dest
+    local dest="/usr/local/bin"
+    lnif /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl "$dest"
+    lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$dest"
   }
 
   if program_exists "subl"; then

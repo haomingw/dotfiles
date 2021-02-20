@@ -79,7 +79,7 @@ safe_touch() {
 }
 
 lnif() {
-  if [[ -e "$1" ]]; then
+  if [[ -f "$1" ]] && [[ -d "$2" ]] || [[ -f "$2" ]]; then
     ln -svfn "$1" "$2"
   fi
 }
