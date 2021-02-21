@@ -402,13 +402,6 @@ program_exists apt && {
     python3-distutils xclip ibus-rime gnupg fonts-symbola"
   optional="htop tree net-tools cmake ctags openssh-server mpv"
 
-  ## HHKB keyboard settings [HHKB mode]
-  #> sudo vim /usr/share/X11/xkb/symbols/pc
-  ## Add the following lines
-  #  modifier_map Control{ Henkan_Mode };
-  #  modifier_map Mod4   { Muhenkan };
-  #> sudo rm -rf /var/lib/xkb/*
-
   set-cuda() {
     lspci | grep NVIDIA NN || {
       warning "This device does not have NVIDIA GPU."

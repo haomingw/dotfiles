@@ -104,10 +104,24 @@ safe_add_repo() {
 }
 
 append_if_not_exists() {
-  local file="$1"
+  local target="$1"
   local content="$2"
-  if [ ! -f "$file" ] || ! grep -q "$content" "$file"; then
-    echo "$content" >> "$file"
+  if [ ! -f "$target" ] || ! grep -q "$content" "$target"; then
+    echo "$content" >> "$target"
+  fi
+}
+
+insert_after_matching() {
+  local pattern="$1"
+  local text="$2"
+  local target="$3"
+
+  if ! grep -q "$text" "$target"; then
+    if [ -w "$target" ]; then
+      sed -i "/$pattern/a $text" "$target"
+    else
+      sudo sed -i "/$pattern/a $text" "$target"
+    fi
   fi
 }
 
@@ -305,6 +319,7 @@ config_zinit() {
 }
 
 config_i3wm() {
+  is_linux || return 0
   local dest="$HOME/.config/i3"
 
   safe_mkdir "$dest"
@@ -336,6 +351,16 @@ config_git() {
   fi
 }
 
+config_hhkb() {
+  is_linux || return 0
+  local target="/usr/share/X11/xkb/symbols/pc"
+  insert_after_matching "Beginning" "\    modifier_map Control{ Henkan_Mode };" $target
+  insert_after_matching "Beginning" "\    modifier_map Mod4   { Muhenkan };"    $target
+
+  # sudo rm -rf /var/lib/xkb/*
+  success "Now configuring HHKB keyboard."
+}
+
 common_config_zsh() {
   lnif "$app_path/bin" "$HOME/.bin"
   lnif "$app_path/common" "$HOME/.common"
@@ -352,9 +377,10 @@ common_config_zsh() {
     append_if_not_exists "$HOME/.profile" "ibus-daemon -drx"
   }
 
-  is_linux && config_i3wm
+  config_i3wm
   config_ssh
   config_git
+  config_hhkb
 }
 
 cleanup_miniconda_files() {
