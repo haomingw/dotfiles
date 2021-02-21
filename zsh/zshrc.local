@@ -65,12 +65,13 @@ mk() {
   mkdir -p "$@" && cd "$_";
 }
 
-cdd() { local dir=~/Documents/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
-
 if [[ -n "$WINHOME" ]]; then
+  alias cdh='cd $WINHOME'
   alias cdl='cd $WINHOME/Downloads'
+  cdd() { local dir="$WINHOME/Documents/code/$1"; [[ -d "$dir" ]] && cd "$dir" }
 else
   alias cdl='cd ~/Downloads'
+  cdd() { local dir=~/Documents/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
 fi
 
 add-head() {
