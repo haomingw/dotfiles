@@ -79,8 +79,12 @@ safe_touch() {
 }
 
 lnif() {
-  if [[ -f "$1" ]] && [[ -d "$2" ]] || [[ -f "$2" ]]; then
-    ln -svfn "$1" "$2"
+  if ! [[ -f "$1" ]] && ! [[ -d "$1" ]]; then
+    warning "No such file: $1"
+  elif ! [[ -d "$(dirname "$2")" ]]; then
+    warning "Parent folder not exists: $2"
+  else
+    ln -svfn "$1" "$2" || sudo ln -svfn "$1" "$2"
   fi
 }
 

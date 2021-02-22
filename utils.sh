@@ -362,10 +362,14 @@ config_hhkb() {
 }
 
 common_config_zsh() {
-  lnif "$app_path/bin" "$HOME/.bin"
+  local ff
+
   lnif "$app_path/common" "$HOME/.common"
 
-  local ff
+  for ff in "$app_path"/bin/*; do
+    lnif "$ff" /usr/local/bin
+  done
+
   for ff in "$app_path"/zsh/*; do
     if [[ "$ff" != *zinit* ]]; then
       lnif "$ff" "$HOME/.$(parse "$ff")"

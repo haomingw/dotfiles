@@ -20,7 +20,6 @@ prepend_path "$HOME/.golang/bin"
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
 prepend_path "$GOPATH/bin"
 
-prepend_path "$HOME/.bin"
 prepend_path "$HOME/.cargo/bin"
 prepend_path "$HOME/.node/bin"
 prepend_path "$HOME/.vim/bundle/fzf/bin"
