@@ -108,9 +108,7 @@ if count(g:plug_groups, 'programming')
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'neoclide/coc.nvim',
     \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
-  if has('conceal')
-    Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
-  endif
+  Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
 endif
 
 " }}
@@ -728,9 +726,11 @@ if has_key(g:plugs, 'indentLine')
   let g:indentLine_color_term = 239
   let g:indentLine_color_gui = '#616161'
   nnoremap <leader>il :IndentLinesToggle<cr>
-  augroup vimrc
-    autocmd FileType c,cpp,python,sh IndentLinesToggle
-  augroup END
+  if has('conceal')
+    augroup vimrc
+      autocmd FileType c,cpp,python,sh IndentLinesToggle
+    augroup END
+  endif
 endif
 
 " }}
@@ -919,7 +919,6 @@ endfunction
 
 " Setup python file
 function! Python_setup()
-  call Tab4()
   iabbrev im import
   syn keyword pythonDecorator self
   let &makeprg='python %'
