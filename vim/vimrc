@@ -443,6 +443,7 @@ augroup vimrc
   " File type settings
   autocmd FileType c :call C_setup()
   autocmd FileType cpp :call Cpp_setup()
+  autocmd FileType objc :call Objc_setup()
   autocmd FileType python :call Python_setup()
   autocmd FileType rust :call Rust_setup()
   autocmd FileType sh :call Bash_setup()
@@ -915,6 +916,15 @@ function! Cpp_setup()
 
   " Clang format
   map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
+endfunction
+
+" Setup objc file
+function! Objc_setup()
+  call C_setup()
+
+  if !filereadable(getcwd() . "/Makefile")
+    let &makeprg='clang -framework Foundation %'
+  endif
 endfunction
 
 " Setup python file
