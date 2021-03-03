@@ -34,10 +34,12 @@ file_must_exist() {
 }
 
 download_to() {
+  local name
+  name=$(parse "$1")
   if program_exists wget; then
     wget "$1" -P "$2"
   else
-    cd "$2" && curl -O "$1" && cd - || return 1
+    curl -fsSL "$1" > "$2/$name"
   fi
 }
 
@@ -375,6 +377,23 @@ config_homebrew() {
   fi
 }
 
+install_utils() {
+  local url
+  local filename foldername
+
+  if is_macos; then
+    if ! program_exists shellcheck; then
+      url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o '/koalaman.*darwin.*xz' | head -n1)
+      filename=$(parse "$url")
+      foldername=$(basename "$filename" .darwin.x86_64.tar.xz)
+      download_to "github.com/$url" /tmp
+      tar xJf "/tmp/$filename" -C /tmp
+      msg "Installing shellcheck"
+      cp "/tmp/$foldername/shellcheck" /usr/local/bin
+    fi
+  fi
+}
+
 common_config_zsh() {
   local ff
 
@@ -400,6 +419,7 @@ common_config_zsh() {
   config_git
   config_hhkb
   config_homebrew
+  install_utils
 }
 
 cleanup_miniconda_files() {
