@@ -361,6 +361,20 @@ config_hhkb() {
   success "Now configuring HHKB keyboard."
 }
 
+config_homebrew() {
+  is_macos || return 0
+
+  local owner
+  for ff in /usr/local/*; do
+    owner=$(stat -f '%Su' "$ff")
+    break
+  done
+  if [ "$owner" != "$USER" ]; then
+    msg "Preparing disk permissions for Homebrew."
+    sudo chown -R "$USER" /usr/local/*
+  fi
+}
+
 common_config_zsh() {
   local ff
 
@@ -377,14 +391,15 @@ common_config_zsh() {
   done
 
   # set ibus for archlinux
-  program_exists pacman && {
+  if program_exists pacman; then
     append_if_not_exists "$HOME/.profile" "ibus-daemon -drx"
-  }
+  fi
 
   config_i3wm
   config_ssh
   config_git
   config_hhkb
+  config_homebrew
 }
 
 cleanup_miniconda_files() {
