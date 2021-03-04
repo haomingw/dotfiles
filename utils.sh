@@ -127,6 +127,23 @@ insert_after_matching() {
   fi
 }
 
+check_update() {
+  local current="$1"
+  local version="$2"
+  local prog="$3"
+
+  if [ "$current" = "$version" ]; then
+    msg "$prog is up to date."
+  else
+    if program_exists "$prog"; then
+      msg "Updating $prog $current -> $version"
+    else
+      msg "Installing $prog $version"
+    fi
+    return 1
+  fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -380,17 +397,21 @@ config_homebrew() {
 install_utils() {
   local url
   local filename foldername
+  local version current
 
   if is_macos; then
-    if ! program_exists shellcheck; then
-      url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o '/koalaman.*darwin.*xz' | head -n1)
+    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o '/koalaman.*darwin.*xz' | head -n1)
+    version=$(echo "$url" | getv)
+    program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
+
+    check_update "$current" "$version" "shellcheck" || {
       filename=$(parse "$url")
       foldername=$(basename "$filename" .darwin.x86_64.tar.xz)
       download_to "github.com/$url" /tmp
       tar xJf "/tmp/$filename" -C /tmp
-      msg "Installing shellcheck"
       cp "/tmp/$foldername/shellcheck" /usr/local/bin
-    fi
+      rm -rf "/tmp/$foldername" "/tmp/$filename"
+    }
   fi
 }
 
@@ -476,25 +497,21 @@ install_golang() {
 
   local goroot="$HOME/.golang"
   local url
-  url="$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
-  local version
-  version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
+  local current version
   local filename
+
+
+  url="$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
+  version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
   filename=$(parse "$url")
 
-  if [ -f "$goroot/VERSION" ] && [ "$(cat "$goroot/VERSION")" = "$version" ]; then
-    msg "Golang is up to date."
-  else
-    if [ -f "$goroot/VERSION" ]; then
-      msg "Updating Golang $(cat "$goroot/VERSION") -> $version"
-    else
-      msg "Installing Golang $version"
-    fi
+  [ -f "$goroot/VERSION" ] && current=$(cat "$goroot/VERSION")
+  check_update "$current" "$version" "go" || {
     [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
     tar xzf "/tmp/$filename" -C /tmp
     cp -Tr /tmp/go "$goroot"
     rm -rf "/tmp/$filename" /tmp/go
-  fi
+  }
 }
 
 install_node() {
@@ -502,27 +519,23 @@ install_node() {
 
   local node_home="$HOME/.node"
   local url
-  url="$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
-  local version
-  version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
+  local current version
   local filename
-  filename=$(parse "$url")
 
-  if [ -f "$node_home/bin/node" ] && [ "$("$node_home/bin/node" -v)" = "$version" ]; then
-    msg "Node.js is up to date."
-  else
-    if [ -f "$node_home/bin/node" ]; then
-      msg "Updating Node.js $("$node_home/bin/node" -v) -> $version"
-    else
-      msg "Installing Node.js $version"
-    fi
+
+  url="$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
+  version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
+  filename=$(parse "$url")
+  [ -f "$node_home/bin/node" ] && current=$("$node_home/bin/node" -v)
+
+  check_update "$current" "$version" "node" || {
     [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
     tar xJf "/tmp/$filename" -C /tmp
     local node
     node="$(basename "$filename" .tar.xz)"
     cp -Tr "/tmp/$node" "$node_home"
     rm -rf "/tmp/$filename" "/tmp/$node"
-  fi
+  }
 }
 
 install_docker() {
@@ -566,20 +579,13 @@ install_docker() {
   version="$(download_stdout https://github.com/docker/compose/releases | grep -oP '\d+(\.\d+)+/docker-compose-Linux' | head -n1 | getv)"
   program_exists docker-compose && current="$(docker-compose --version | getv)"
 
-  if [ "$current" = "$version" ]; then
-    msg "Docker Compose is up to date."
-  else
-    if program_exists docker-compose; then
-      msg "Updating Docker Compose $current -> $version"
-    else
-      msg "Installing Docker Compose $version"
-    fi
+  check_update || {
     local target="/usr/local/bin/docker-compose"
     sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
     msg "Making it executable."
     sudo chmod +x "$target"
     success "Now installing Docker Compose."
-  fi
+  }
 }
 
 install_go_tools() {
