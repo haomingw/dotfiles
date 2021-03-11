@@ -526,26 +526,37 @@ install_golang() {
 }
 
 install_node() {
-  is_linux || return 0
-
   local node_home="$HOME/.node"
   local url
   local current version
   local filename
 
-
-  url="$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')"
-  version="$(echo "$url" | grep -oP 'v[0-9\.]+' | head -n1)"
+  if is_linux; then
+    url=$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')
+  else
+    url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-x64.tar.gz')
+  fi
+  version=$(echo "$url" | getv)
   filename=$(parse "$url")
-  [ -f "$node_home/bin/node" ] && current=$("$node_home/bin/node" -v)
+
+  if program_exists node; then
+    current=$(node -v | getv)
+  elif [ -f "$node_home/bin/node" ]; then
+    current=$("$node_home/bin/node" -v | getv)
+  fi
 
   check_update "$current" "$version" "node" || {
     [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
-    tar xJf "/tmp/$filename" -C /tmp
     local node
-    node="$(basename "$filename" .tar.xz)"
-    cp -Tr "/tmp/$node" "$node_home"
-    rm -rf "/tmp/$filename" "/tmp/$node"
+    if is_linux; then
+      tar xJf "/tmp/$filename" -C /tmp
+      node="$(basename "$filename" .tar.xz)"
+    else
+      tar xzf "/tmp/$filename" -C /tmp
+      node="$(basename "$filename" .tar.gz)"
+    fi
+    rm -rf "$node_home" "/tmp/$filename"
+    mv "/tmp/$node" "$node_home"
   }
 }
 
