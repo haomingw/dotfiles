@@ -419,6 +419,7 @@ common_config_zsh() {
   local ff
 
   lnif "$app_path/common" "$HOME/.common"
+  safe_mkdir ~/.ssh
 
   for ff in "$app_path"/bin/*; do
     lnif "$ff" /usr/local/bin
@@ -493,24 +494,34 @@ install_miniconda() {
 }
 
 install_golang() {
-  is_linux || return 0
-
-  local goroot="$HOME/.golang"
   local url
   local current version
   local filename
+  local goroot="$HOME/.golang"
 
-
-  url="$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)"
-  version="$(echo "$url" | grep -oP 'go[0-9\.]+' | head -c -2)"
+  if is_linux; then
+    url=$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)
+  else
+    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-amd64.pkg' | head -n1)
+  fi
+  version=$(echo "$url" | getv)
   filename=$(parse "$url")
 
-  [ -f "$goroot/VERSION" ] && current=$(cat "$goroot/VERSION")
+  if program_exists go; then
+    current=$(go version | getv)
+  elif [ -f "$goroot/VERSION" ]; then
+    current=$(getv < "$goroot/VERSION")
+  fi
+
   check_update "$current" "$version" "go" || {
-    [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
-    tar xzf "/tmp/$filename" -C /tmp
-    cp -Tr /tmp/go "$goroot"
-    rm -rf "/tmp/$filename" /tmp/go
+    if is_linux; then
+      [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
+      tar xzf "/tmp/$filename" -C /tmp
+      cp -Tr /tmp/go "$goroot"
+      rm -rf "/tmp/$filename" /tmp/go
+    else
+      download_to "https://golang.org$url" ~/Downloads
+    fi
   }
 }
 
