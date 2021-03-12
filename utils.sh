@@ -394,7 +394,7 @@ config_homebrew() {
   fi
 }
 
-install_utils() {
+install_shellcheck() {
   local url
   local filename foldername
   local version current
@@ -409,10 +409,35 @@ install_utils() {
       foldername=$(basename "$filename" .darwin.x86_64.tar.xz)
       download_to "github.com/$url" /tmp
       tar xJf "/tmp/$filename" -C /tmp
-      cp "/tmp/$foldername/shellcheck" /usr/local/bin
+      cpif "/tmp/$foldername/shellcheck" /usr/local/bin
       rm -rf "/tmp/$foldername" "/tmp/$filename"
     }
   fi
+}
+
+install_clangd() {
+  local url
+  local filename foldername
+  local version current
+
+  if is_macos; then
+    url=$(curl -sSL https://github.com/clangd/clangd/releases/latest | grep -oE '/clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
+    version=$(echo "$url" | getv)
+    program_exists clangd && current=$(clangd --version | getv)
+
+    check_update "$current" "$version" "clangd" || {
+      filename=$(parse "$url")
+      download_to "github.com/$url" /tmp
+      unzip "/tmp/$filename" -d /tmp >/dev/null
+      cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
+      rm -rf /tmp/clangd*
+    }
+  fi
+}
+
+install_utils() {
+  install_shellcheck
+  install_clangd
 }
 
 common_config_zsh() {

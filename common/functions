@@ -91,6 +91,8 @@ lnif() {
 cpif() {
   if [[ -e "$1" ]]; then
     cp -rv "$1" "$2"
+  else
+    warning "File or directory $1 doesn't exist"
   fi
 }
 
