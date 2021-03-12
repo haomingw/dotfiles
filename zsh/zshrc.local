@@ -445,7 +445,7 @@ program_exists pacman && {
   alias mkp='makepkg -si'
 
   essential="base-devel clang wget tk tmux xclip vim gnupg ibus-rime \
-    python-neovim neovim xdg-utils ttf-dejavu ttf-ubuntu-font-family"
+    xdg-utils ttf-dejavu ttf-ubuntu-font-family"
   optional="htop tree net-tools cmake ctags openssh mpv"
 }
 
@@ -460,8 +460,7 @@ program_exists brew && {
   alias pRa='brew cleanup'
   alias pRR='brew list --formula | xargs brew uninstall'
 
-  essential="tmux clang-format gpg bash coreutils"
-  optional="node go shellcheck"
+  essential="clang-format bash coreutils"
 }
 
 alias install-essential='pS $(echo $essential)'

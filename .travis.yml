@@ -10,10 +10,8 @@ addons:
   apt:
     sources:
     - sourceline: 'ppa:jonathonf/vim'
-    - sourceline: 'ppa:neovim-ppa/stable'
     packages:
     - vim
-    - neovim
     - zsh
     - shellcheck
     - tmux

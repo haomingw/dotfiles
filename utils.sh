@@ -162,8 +162,29 @@ install_vim() {
 }
 
 install_neovim() {
-  safe_add_repo neovim "ppa:neovim-ppa/stable"
-  safe_install nvim neovim
+  local url
+  local filename foldername
+  local version current
+
+  if is_linux; then
+    url=$(curl -sSL https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz')
+    foldername="nvim-linux64"
+  else
+    url=$(curl -sSL https://github.com/neovim/neovim/releases/latest | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz')
+    foldername="nvim-osx64"
+  fi
+  version=$(echo "$url" | getv)
+  program_exists nvim && current=$(nvim --version | getv)
+
+  check_update "$current" "$version" "nvim" || {
+    filename=$(parse "$url")
+    download_to "github.com/$url" /tmp
+    tar xzf "/tmp/$filename" -C /tmp
+    rm -rf ~/.neovim
+    mv "/tmp/$foldername" ~/.neovim
+    rm "/tmp/$filename"
+    lnif ~/.neovim/bin/nvim /usr/local/bin
+  }
 }
 
 create_vim_symlinks() {
@@ -184,9 +205,15 @@ create_vim_symlinks() {
 
 setup_neovim() {
   safe_mkdir "$HOME/.config"
-  if is_macos; then
+  if is_linux; then
+    if [ -f /usr/bin/pip3 ]; then
+      /usr/bin/pip3 install -U pynvim
+    else
+      warning "Install 'python3-pip' with your package manager."
+    fi
+  else
     if [ -f /usr/local/bin/pip3 ]; then
-      /usr/local/bin/pip3 install -U neovim
+      /usr/local/bin/pip3 install -U pynvim
     else
       warning "Run 'brew install python'"
     fi
@@ -400,7 +427,7 @@ install_shellcheck() {
   local version current
 
   if is_macos; then
-    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o '/koalaman.*darwin.*xz' | head -n1)
+    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*darwin.*xz' | head -n1)
     version=$(echo "$url" | getv)
     program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
 
@@ -417,11 +444,11 @@ install_shellcheck() {
 
 install_clangd() {
   local url
-  local filename foldername
+  local filename
   local version current
 
   if is_macos; then
-    url=$(curl -sSL https://github.com/clangd/clangd/releases/latest | grep -oE '/clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
+    url=$(curl -sSL https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
     version=$(echo "$url" | getv)
     program_exists clangd && current=$(clangd --version | getv)
 
