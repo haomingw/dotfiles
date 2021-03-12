@@ -208,6 +208,8 @@ setup_neovim() {
   if is_linux; then
     if [ -f /usr/bin/pip3 ]; then
       /usr/bin/pip3 install -U pynvim
+    elif is_ubuntu; then
+      sudo apt install python3-pip
     else
       warning "Install 'python3-pip' with your package manager."
     fi
