@@ -35,7 +35,7 @@ file_must_exist() {
 
 download_to() {
   local name
-  name=$(parse "$1")
+  name=${3:-$(parse "$1")}
   if program_exists wget; then
     wget "$1" -P "$2"
   else
@@ -435,9 +435,25 @@ install_clangd() {
   fi
 }
 
+install_gpg() {
+  is_macos || return 0
+  local url
+  local filename
+  local version current
+
+  url=$(curl -sSL https://sourceforge.net/p/gpgosx/docu/Download/ | grep -oE 'https://sourceforge.net/projects/gpgosx/files/GnuPG-[0-9.]+.dmg/download' | head -n1)
+  version=$(echo "$url" | getv)
+  program_exists gpg && current=$(gpg --version | getv)
+
+  check_update "$current" "$version" "gpg" || {
+    download_to "$url" ~/Downloads "GnuPG-$version.dmg"
+  }
+}
+
 install_utils() {
   install_shellcheck
   install_clangd
+  install_gpg
 }
 
 common_config_zsh() {
