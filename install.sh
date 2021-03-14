@@ -49,6 +49,7 @@ setup_vim() {
 
   program_must_exist  "vim"
   program_must_exist  "git"
+  must_have_one_of    "wget" "curl"
 
   create_vim_symlinks
 
@@ -97,7 +98,7 @@ custom_zinit() {
 
 config_programming_langs() {
   program_must_exist  "git"
-  must_have_any       "wget" "curl"
+  must_have_one_of    "wget" "curl"
 
   for f in "$APP_PATH"/python/*; do
     if [ -f "$f" ]; then

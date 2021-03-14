@@ -16,7 +16,7 @@ program_must_exist() {
   }
 }
 
-must_have_any() {
+must_have_one_of() {
   for prog in "$@"; do
     program_exists "$prog" && return 0
   done
@@ -167,10 +167,10 @@ install_neovim() {
   local version current
 
   if is_linux; then
-    url=$(curl -sSL https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz')
+    url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz')
     foldername="nvim-linux64"
   else
-    url=$(curl -sSL https://github.com/neovim/neovim/releases/latest | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz')
+    url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz')
     foldername="nvim-osx64"
   fi
   version=$(echo "$url" | getv)
