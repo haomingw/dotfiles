@@ -5,7 +5,6 @@
 image: ubuntu:latest
 
 before_script:
-- echo "Before script section"
 - uname -a
 
 after_script:
@@ -14,11 +13,20 @@ after_script:
 build_vim:
   stage: build
   script:
-  - echo "Updating and configuring vim."
-  - pwd
-  - ls
+  - bash install.sh vim
+  - vim --version
 
-test_vim:
-  stage: test
+build_on_my_zsh:
+  stage: build
   script:
-  - echo "Testing vim configuring."
+  - bash install.sh oh-my-zsh
+
+build_faster_zsh:
+  stage: build
+  script:
+  - bash install.sh faster-zsh
+
+build_tmux_docker:
+  stage: build
+  script:
+  - bash install.sh tmux-docker
