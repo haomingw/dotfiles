@@ -428,20 +428,26 @@ install_shellcheck() {
   local filename foldername
   local version current
 
-  if is_macos; then
-    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*darwin.*xz' | head -n1)
-    version=$(echo "$url" | getv)
-    program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
-
-    check_update "$current" "$version" "shellcheck" || {
-      filename=$(parse "$url")
-      foldername=$(basename "$filename" .darwin.x86_64.tar.xz)
-      download_to "github.com/$url" /tmp
-      tar xJf "/tmp/$filename" -C /tmp
-      cpif "/tmp/$foldername/shellcheck" /usr/local/bin
-      rm -rf "/tmp/$foldername" "/tmp/$filename"
-    }
+  if is_linux; then
+    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*linux.x86_64.tar.xz' | head -n1)
+  else
+    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*darwin.x86_64.tar.xz' | head -n1)
   fi
+  version=$(echo "$url" | getv)
+  program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
+
+  check_update "$current" "$version" "shellcheck" || {
+    filename=$(parse "$url")
+    if is_linux; then
+      foldername=$(basename "$filename" .linux.x86_64.tar.xz)
+    else
+      foldername=$(basename "$filename" .darwin.x86_64.tar.xz)
+    fi
+    download_to "github.com/$url" /tmp
+    tar xJf "/tmp/$filename" -C /tmp
+    cpif "/tmp/$foldername/shellcheck" /usr/local/bin
+    rm -rf "/tmp/$foldername" "/tmp/$filename"
+  }
 }
 
 install_clangd() {

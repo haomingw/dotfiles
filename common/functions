@@ -84,13 +84,13 @@ lnif() {
   elif ! [[ -d "$(dirname "$2")" ]]; then
     warning "Parent folder not exists: $2"
   else
-    ln -svfn "$1" "$2" || sudo ln -svfn "$1" "$2"
+    ln -svfn "$1" "$2" || doit sudo ln -svfn "$1" "$2"
   fi
 }
 
 cpif() {
   if [[ -e "$1" ]]; then
-    cp -rv "$1" "$2"
+    cp -rv "$1" "$2" || doit sudo cp -rv "$1" "$2"
   else
     warning "File or directory $1 doesn't exist"
   fi

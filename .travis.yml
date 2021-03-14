@@ -13,7 +13,6 @@ addons:
     packages:
     - vim
     - zsh
-    - shellcheck
     - tmux
 
 before_script:
@@ -23,11 +22,11 @@ before_script:
 - tmux -V
 
 script:
-- shellcheck *.sh
 - bash install.sh vim
 - bash install.sh oh-my-zsh
 - bash install.sh faster-zsh
 - bash install.sh tmux-docker
+- shellcheck *.sh
 
 branches:
   only:
