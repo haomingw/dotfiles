@@ -811,10 +811,6 @@ endif
 if has_key(g:plugs, 'coc.nvim')
   let g:coc_global_extensions = ['coc-python', 'coc-clangd']
 
-  if s:mac
-    let g:coc_user_config = {'clangd.path': '/usr/local/opt/llvm/bin/clangd'}
-  endif
-
   nmap <silent> <leader>py :CocCommand python.setInterpreter<cr>
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gi <Plug>(coc-implementation)
