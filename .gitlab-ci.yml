@@ -1,11 +1,14 @@
 # This file is a template, and might need editing before it works on your project.
 # see https://docs.gitlab.com/ee/ci/yaml/README.html for all available options
+image: ubuntu:latest
 
-default:
-  image: ubuntu:latest
+stages:
+  - build
 
 before_script:
 - uname -a
+- apt update -y && apt upgrade -y
+- apt install -y git zsh curl tmux
 
 after_script:
 - echo "After script section"
@@ -14,19 +17,10 @@ build_vim:
   stage: build
   script:
   - bash install.sh vim
-  - vim --version
-
-build_on_my_zsh:
-  stage: build
-  script:
-  - bash install.sh oh-my-zsh
-
-build_faster_zsh:
-  stage: build
-  script:
-  - bash install.sh faster-zsh
+  - test -f ~/.vimrc
 
 build_tmux_docker:
   stage: build
   script:
   - bash install.sh tmux-docker
+  - test -d ~/.tmux/plugins

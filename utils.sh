@@ -227,6 +227,8 @@ setup_neovim() {
 }
 
 setup_vim_plug() {
+  program_exists vim || return 0
+
   local system_shell="$SHELL"
   export SHELL='/bin/sh'
 

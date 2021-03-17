@@ -44,17 +44,13 @@ print_select_menu() {
 ############################ MAIN FUNCTIONS
 
 setup_vim() {
-  install_vim
-  install_neovim
-
-  program_must_exist  "vim"
   program_must_exist  "git"
   must_have_one_of    "wget" "curl"
 
+  install_vim
+  install_neovim
   create_vim_symlinks
-
   setup_neovim
-
   setup_vim_plug
 }
 
