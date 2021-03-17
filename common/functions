@@ -35,6 +35,14 @@ doit() {
   "$@"
 }
 
+admin() {
+  if [[ "$EUID" -ne 0 ]]; then
+    sudo "$@"
+  else
+    "$@"
+  fi
+}
+
 msg() {
   echo "${BLUE}➜${RESET} $@"
 }
@@ -61,6 +69,10 @@ is_macos() {
 
 is_wsl() {
   [[ "$(uname -a)" == *Microsoft* ]]
+}
+
+is_docker() {
+  grep -q docker /proc/1/cgroup
 }
 
 program_exists() {

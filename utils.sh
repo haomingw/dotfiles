@@ -84,11 +84,9 @@ add_apt_repo() {
 
 safe_install() {
   local prog=${2:-$1}
-  if ! program_exists "$1"; then
-    if is_ubuntu; then
-      msg "Installing $prog."
-      sudo apt install -y "$prog"
-    fi
+  if ! program_exists "$1" && program_exists apt; then
+    msg "Installing $prog."
+    admin apt install -y "$prog"
   fi
 }
 
@@ -209,7 +207,7 @@ setup_neovim() {
     if [ -f /usr/bin/pip3 ]; then
       /usr/bin/pip3 install -U pynvim
     elif is_ubuntu; then
-      sudo apt install python3-pip
+      sudo apt install -y python3-pip
     else
       warning "Install 'python3-pip' with your package manager."
     fi
@@ -402,13 +400,14 @@ config_git() {
 }
 
 config_hhkb() {
-  is_linux || return 0
   local target="/usr/share/X11/xkb/symbols/pc"
-  insert_after_matching "Beginning" "\    modifier_map Control{ Henkan_Mode };" $target
-  insert_after_matching "Beginning" "\    modifier_map Mod4   { Muhenkan };"    $target
 
-  # sudo rm -rf /var/lib/xkb/*
-  success "Now configuring HHKB keyboard."
+  if [ -f "$target" ]; then
+    insert_after_matching "Beginning" "\    modifier_map Control{ Henkan_Mode };" "$target"
+    insert_after_matching "Beginning" "\    modifier_map Mod4   { Muhenkan };"    "$target"
+    # sudo rm -rf /var/lib/xkb/*
+    success "Now configuring HHKB keyboard."
+  fi
 }
 
 config_homebrew() {
@@ -639,9 +638,10 @@ install_node() {
 }
 
 install_docker() {
-  # don not run on CI machines and non-ubuntu os
+  # don't run on CI, non-ubuntu os and within docker
   is_not_ci || return 0
   is_ubuntu || return 0
+  is_docker && return 0
 
   if program_exists docker; then
     msg "Docker already installed."
