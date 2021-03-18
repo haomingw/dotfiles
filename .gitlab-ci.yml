@@ -3,24 +3,32 @@
 image: ubuntu:latest
 
 stages:
-  - build
+- test
+- build
 
 before_script:
 - uname -a
-- apt update -y && apt upgrade -y
-- apt install -y git zsh curl tmux
 
 after_script:
 - echo "After script section"
 
-build_vim:
-  stage: build
+test_config:
+  stage: test
+  before_script:
+  - apt update -y && apt upgrade -y
+  - apt install -y git curl tmux
   script:
   - bash install.sh vim
   - test -f ~/.vimrc
-
-build_tmux_docker:
-  stage: build
-  script:
   - bash install.sh tmux-docker
   - test -d ~/.tmux/plugins
+
+build_docker:
+  image: docker:19.03.12
+  stage: build
+  services:
+  - docker:19.03.12-dind
+  script:
+  - docker login -u $GITLAB_USER -p $GITLAB_TOKEN registry.gitlab.com
+  - docker build -t registry.gitlab.com/haomingw/dotfiles:latest .
+  - docker push registry.gitlab.com/haomingw/dotfiles:latest
