@@ -72,7 +72,7 @@ is_wsl() {
 }
 
 is_docker() {
-  grep -q docker /proc/1/cgroup
+  grep -q -E "docker|containerd" /proc/1/cgroup
 }
 
 program_exists() {

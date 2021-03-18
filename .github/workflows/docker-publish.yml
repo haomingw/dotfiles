@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish Docker image
 
 on:
   release:
@@ -19,20 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
-
-      - name: Log into registry
-        run: echo "${{ secrets.GH_PAT }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
-      - name: Push image
-        id: find_tag
+      - name: Get tag
+        id: get_tag
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
@@ -42,9 +31,25 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
-          echo IMAGE_ID=$IMAGE_ID
+
           echo VERSION=$VERSION
           echo ::set-output name=tags::${VERSION}
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+
+      - name: Login and Push to Github Packages
+        if: ${{ steps.get_tag.outputs.tags != 'latest' }}
+        run: |
+          echo "${{ secrets.GH_PAT }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          VERSION=${{ steps.get_tag.outputs.tags }}
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          echo IMAGE_ID=$IMAGE_ID
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
@@ -60,7 +65,7 @@ jobs:
         id: docker_build
         with:
           push: true
-          tags: flyingmouse/dotfiles:${{ steps.find_tag.outputs.tags }}
+          tags: flyingmouse/dotfiles:${{ steps.get_tag.outputs.tags }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
