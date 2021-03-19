@@ -457,7 +457,7 @@ install_clangd() {
   local version current
 
   if is_macos; then
-    url=$(curl -sSL https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
+    url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
     version=$(echo "$url" | getv)
     program_exists clangd && current=$(clangd --version | getv)
 
@@ -477,7 +477,7 @@ install_gpg() {
   local filename
   local version current
 
-  url=$(curl -sSL https://sourceforge.net/p/gpgosx/docu/Download/ | grep -oE 'https://sourceforge.net/projects/gpgosx/files/GnuPG-[0-9.]+.dmg/download' | head -n1)
+  url=$(download_stdout https://sourceforge.net/p/gpgosx/docu/Download/ | grep -oE 'https://sourceforge.net/projects/gpgosx/files/GnuPG-[0-9.]+.dmg/download' | head -n1)
   version=$(echo "$url" | getv)
   program_exists gpg && current=$(gpg --version | getv)
 
@@ -486,10 +486,33 @@ install_gpg() {
   }
 }
 
+install_swiftlint() {
+  local url
+  local filename
+  local version current
+
+  url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
+  version=$(echo "$url" | getv)
+  program_exists swiftlint && current=$(swiftlint --version | getv)
+
+  check_update "$current" "$version" "swiftlint" || {
+    download_to "github.com/$url" /tmp
+    filename=$(parse "$url")
+    program_exists unzip || {
+      warning "Install unzip to extract zip files."
+      return 0
+    }
+    unzip "/tmp/$filename" -d /tmp/swiftlint
+    cpif /tmp/swiftlint/swiftlint /usr/local/bin
+    rm -rf "/tmp/$filename" /tmp/swiftlint
+  }
+}
+
 install_utils() {
   install_shellcheck
   install_clangd
   install_gpg
+  install_swiftlint
 }
 
 common_config_zsh() {
