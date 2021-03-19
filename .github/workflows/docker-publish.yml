@@ -31,7 +31,6 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
-
           echo VERSION=$VERSION
           echo ::set-output name=tags::${VERSION}
 

@@ -9,8 +9,9 @@ alias sh='bash'
 
 # Docker {{
 
-alias dccl='docker container stop $(docker ps -aq) && docker container prune'
-alias dicl='docker rmi $(docker images -aq)'
+alias dcstop='docker container stop $(docker ps -aq)'
+alias dccl='docker container prune'
+alias dicl='docker image -a'
 alias dcl='dccl;dicl'
 
 alias lzd='lazydocker'
