@@ -108,6 +108,7 @@ config_programming_langs() {
   install_node
   install_cargo
   install_ruby
+  install_java
 
   success "Now configuring programming."
 }

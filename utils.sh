@@ -660,6 +660,26 @@ install_node() {
   }
 }
 
+install_java() {
+  local url
+  local filename
+  local jdk="$HOME/.jdk"
+
+  [ -d "$jdk" ] && return 0
+  mkdir "$jdk"
+  msg "Installing openjdk-16"
+
+  if is_linux; then
+    url=$(download_stdout https://jdk.java.net/16/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+  else
+    url=$(download_stdout https://jdk.java.net/16/ | grep -o 'https.*osx-x64_bin.tar.gz' | head -n1)
+  fi
+  filename=$(parse "$url")
+  download_to "$url" /tmp
+  tar xzf "/tmp/$filename" -C "$jdk"
+  rm "/tmp/$filename"
+}
+
 install_docker() {
   # don't run on CI, non-ubuntu os and within docker
   is_not_ci || return 0

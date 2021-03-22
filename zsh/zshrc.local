@@ -23,6 +23,8 @@ prepend_path "$GOPATH/bin"
 prepend_path "$HOME/.cargo/bin"
 prepend_path "$HOME/.node/bin"
 prepend_path "$HOME/.vim/bundle/fzf/bin"
+prepend_path "/usr/local/opt/openjdk/bin"
+prepend_path "$HOME/.jdk/jdk-16.jdk/Contents/Home/bin"
 
 safe_use_cuda() {
   if [[ -d "$1/lib64" ]]; then

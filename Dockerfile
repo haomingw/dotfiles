@@ -15,9 +15,9 @@ RUN apt update -y \
   software-properties-common \
 && apt autoremove -y
 
-RUN useradd -m docker -s $(which zsh)
-RUN usermod -aG sudo docker
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd -m docker -s $(which zsh) \
+&& usermod -aG sudo docker \
+&& echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER docker
 
