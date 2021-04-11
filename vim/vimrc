@@ -104,6 +104,8 @@ if count(g:plug_groups, 'programming')
   Plug 'haomingw/vim-snippets'
   Plug 'jeetsukumaran/vim-indentwise'
   Plug 'junegunn/rainbow_parentheses.vim'
+  Plug 'sbdchd/neoformat'
+  Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
   Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'neoclide/coc.nvim',
@@ -445,7 +447,6 @@ augroup vimrc
   autocmd FileType cpp :call Cpp_setup()
   autocmd FileType objc :call Objc_setup()
   autocmd FileType python :call Python_setup()
-  autocmd FileType rust :call Rust_setup()
   autocmd FileType sh :call Bash_setup()
 augroup END
 
@@ -644,6 +645,14 @@ if has_key(g:plugs, 'rainbow_parentheses.vim')
     autocmd FileType c,cpp,python,sh RainbowParentheses
   augroup END
   let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+endif
+
+" }}
+
+" Neoformat {{
+
+if has_key(g:plugs, 'neoformat')
+  map <leader>f :Neoformat<cr>
 endif
 
 " }}
@@ -909,9 +918,6 @@ function! Cpp_setup()
     let &makeprg='g++ % -DLOCAL -std=c++14 -O2 -Wall -Wextra
       \ -Wpedantic -Wshadow -Wno-unused-result'
   endif
-
-  " Clang format
-  map <leader>f :py3f ~/.vim/static/clang-format.py<cr>
 endfunction
 
 " Setup objc file
@@ -928,21 +934,6 @@ function! Python_setup()
   iabbrev im import
   syn keyword pythonDecorator self
   let &makeprg='python %'
-
-  if !exists('g:noplug')
-    if has_key(g:plugs, 'ale')
-      map <leader>f :ALEFix<cr>
-    endif
-  endif
-endfunction
-
-" Setup rust file
-function! Rust_setup()
-  if !exists('g:noplug')
-    if has_key(g:plugs, 'rust.vim')
-      map <leader>f :RustFmt<cr>
-    endif
-  endif
 endfunction
 
 " Setup bash file
