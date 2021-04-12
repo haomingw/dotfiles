@@ -58,9 +58,9 @@ get_filename() {
 }
 
 git_check_file() {
+  pushd "$app" >/dev/null
   local target="$1"
   local message="$2"
-
   local changes
   changes=$(git diff "$target")
 
@@ -71,6 +71,7 @@ git_check_file() {
     git add "$target"
     git commit -m "$message"
   fi
+  popd >/dev/null
 }
 
 update_target() {
@@ -83,12 +84,18 @@ update_target() {
   if [ ! -d ~/.mirrors/"$name" ]; then
     git clone "$mirror" ~/.mirrors/"$name"
   fi
-  cd ~/.mirrors/"$name" && git pull
+  pushd ~/.mirrors/"$name" >/dev/null
+  git pull
+
+  if [ "$name" = git-secret ]; then
+    make build
+  fi
+
   local msg
   msg=$(git show -s --format=%s)
   cp "$from" "$app/$to"
-  cd "$app"
   git_check_file "$to" "[$name] $msg"
+  popd >/dev/null
 }
 
 mirror_small() {
