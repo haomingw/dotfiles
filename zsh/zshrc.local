@@ -368,11 +368,13 @@ gpgdec() {
   for ff in $@; do
     name=$(basename $ff .gpg)
     if [[ -f $name ]]; then
-      warning "$name exists"
-    else
-      msg "Decrypting $ff"
-      gpg --decrypt $ff > "$name"
+      confirm "File $name exists, overwrite?" || {
+        msg "Not overwriting $name"
+        continue
+      }
     fi
+    msg "Decrypting $ff"
+    gpg --decrypt $ff > "$name"
   done
 }
 
