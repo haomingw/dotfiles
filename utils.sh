@@ -456,7 +456,7 @@ install_clangd() {
   local filename
   local version current
 
-  if is_macos; then
+  if is_macos && [ ! -f /usr/bin/clangd ]; then
     url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
     version=$(echo "$url" | getv)
     program_exists clangd && current=$(clangd --version | getv)
