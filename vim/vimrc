@@ -94,7 +94,6 @@ if count(g:plug_groups, 'programming')
   Plug 'fatih/vim-go'
   Plug 'rust-lang/rust.vim'
   Plug 'dense-analysis/ale'
-  Plug 'sheerun/vim-polyglot'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
