@@ -393,7 +393,7 @@ config_ssh() {
 
 config_git() {
   # this is personal
-  if [ "$USER" == "haoming" ]; then
+  if is_personal; then
     msg "Setting personal git config."
     lnif "$app_path/git/config" ~/.gitconfig
   fi
@@ -593,7 +593,7 @@ install_miniconda() {
   done
 
   # this is personal
-  if [ "$USER" == "haoming" ]; then
+  if is_personal; then
     msg "Setting personal python packages."
     "$conda"/bin/pip install -U beancount fava
   fi

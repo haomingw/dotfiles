@@ -258,6 +258,10 @@ add_auth_key() {
   }
 }
 
+is_personal() {
+  [[ "$USER" == "haoming" ]]
+}
+
 # }}
 
 # Awk {{
