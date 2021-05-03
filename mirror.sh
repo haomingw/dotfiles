@@ -7,7 +7,7 @@ else
   app=$(dirname "$PWD/$0")
 fi
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1090,SC1091
 source "$app/common/functions"
 
 check_os() {
