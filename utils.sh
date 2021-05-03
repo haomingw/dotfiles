@@ -591,6 +591,12 @@ install_miniconda() {
   for package in "${python_packages[@]}"; do
     "$conda"/bin/pip install -U "$package"
   done
+
+  # this is personal
+  if [ "$USER" == "haoming" ]; then
+    msg "Setting personal python packages."
+    "$conda"/bin/pip install -U beancount fava
+  fi
 }
 
 install_golang() {
