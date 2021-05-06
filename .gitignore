@@ -2,3 +2,4 @@
 .mypy_cache/
 .DS_Store
 a.out
+work.zsh

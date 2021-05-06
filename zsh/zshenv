@@ -9,6 +9,7 @@ for ff in ~/.common/*; do
   safe_source "$ff"
 done
 
+safe_source ~/.work.zsh
 safe_source ~/.zshenv.local
 
 # }}
