@@ -319,18 +319,9 @@ _fzf_history() {
 alias gpgen='gpg --full-generate-key'
 
 alias gpgpls='gpg --list-keys'
-alias gpgls='gpg --list-secret-keys --keyid-format LONG'
 
 alias gpgprm='gpg --delete-key'
 alias gpgrm='gpg --delete-secret-key'
-
-gpgkid() {
-  gpgls $1 | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
-}
-
-gpgmail() {
-  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
-}
 
 gpgsend() {
   local key_id=$(gpgkid "$@")

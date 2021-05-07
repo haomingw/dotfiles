@@ -525,7 +525,7 @@ common_config_zsh() {
     lnif "$ff" /usr/local/bin
   done
 
-  if is_personal && program_exists gpg; then
+  if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
       msg "Decrypting $ff"
       gpg --decrypt "$ff" > "$app_path/zsh/$(basename "$ff" .gpg)"
