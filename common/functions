@@ -144,14 +144,12 @@ args_must_exist() {
 
 # GPG {{
 
-alias gpgls='gpg --list-secret-keys --keyid-format LONG'
+gpgls() {
+  gpg --list-secret-keys --keyid-format LONG "$@"
+}
 
 gpgkid() {
   gpgls $1 | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
-}
-
-gpgmail() {
-  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
 }
 
 # }}

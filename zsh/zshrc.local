@@ -215,6 +215,10 @@ alias gcfix='git commit -m "fixup!"'
 alias grbim='git rebase -i $(git_main_branch)'
 alias grhm='git reset --hard origin/$(git_main_branch)'
 
+gpgmail() {
+  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
+}
+
 gtrm() {
   local tag="$1"
   git tag -d $tag
