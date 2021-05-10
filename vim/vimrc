@@ -447,6 +447,7 @@ augroup vimrc
   autocmd FileType objc :call Objc_setup()
   autocmd FileType python :call Python_setup()
   autocmd FileType sh :call Bash_setup()
+  autocmd FileType swift :call Swift_setup()
 augroup END
 
 " }} // namespace autocmd
@@ -938,6 +939,11 @@ endfunction
 " Setup bash file
 function! Bash_setup()
   let &makeprg='bash %'
+endfunction
+
+" Setup Swift file
+function! Swift_setup()
+  let &makeprg='swiftc %'
 endfunction
 
 function! OnBattery()
