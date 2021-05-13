@@ -491,7 +491,11 @@ install_swiftlint() {
   local filename
   local version current
 
-  url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
+  if is_linux; then
+    url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*swiftlint_linux.zip' | head -n1)
+  else
+    url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
+  fi
   version=$(echo "$url" | getv)
   program_exists swiftlint && current=$(swiftlint --version | getv)
 
