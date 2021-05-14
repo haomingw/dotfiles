@@ -22,6 +22,7 @@ prepend_path "$GOPATH/bin"
 
 prepend_path "$HOME/.cargo/bin"
 prepend_path "$HOME/.node/bin"
+append_path "$HOME/.swift/usr/bin"
 prepend_path "$HOME/.vim/bundle/fzf/bin"
 prepend_path "/usr/local/opt/openjdk/bin"
 

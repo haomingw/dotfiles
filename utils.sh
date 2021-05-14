@@ -630,7 +630,7 @@ install_golang() {
     current=$(getv < "$goroot/VERSION")
   fi
 
-  check_update "$current" "$version" "go" || {
+  check_update "$current" "$version" "Go" || {
     if is_linux; then
       [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
       tar xzf "/tmp/$filename" -C /tmp
@@ -662,7 +662,7 @@ install_node() {
     current=$("$node_home/bin/node" -v | getv)
   fi
 
-  check_update "$current" "$version" "node" || {
+  check_update "$current" "$version" "Node.js" || {
     [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
     local node
     if is_linux; then
@@ -695,6 +695,32 @@ install_java() {
   download_to "$url" /tmp
   tar xzf "/tmp/$filename" -C "$jdk"
   rm "/tmp/$filename"
+}
+
+install_swift() {
+  is_ubuntu || return 0
+  local current version
+  local url filename
+  local swift="$HOME/.swift"
+  [ -d "$swift" ] && return 0
+  mkdir "$swift"
+
+  url=$(download_stdout "https://swift.org/download/#releases" | grep -o 'builds/.*RELEASE-ubuntu20.04.tar.gz' | head -n1)
+  url="https://swift.org/$url"
+  version=$(echo "$url" | getv)
+  filename=$(parse "$url")
+
+  if [ -f "$swift/usr/bin/swift" ]; then
+    current=$("$swift"/usr/bin/swift --version | getv)
+  fi
+  check_update "$current" "$version" "Swift" || {
+    [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
+    tar xzf "/tmp/$filename" -C /tmp
+    local extracted
+    extracted="$(basename "$filename" .tar.gz)"
+    cp -r /tmp/"$extracted"/* "$swift"
+    rm -rf "/tmp/$filename" "/tmp/$extracted"
+  }
 }
 
 install_docker() {
@@ -734,12 +760,11 @@ install_docker() {
     success "Now installing Docker."
   fi
 
-  local version
-  local current
+  local current version
   version="$(download_stdout https://github.com/docker/compose/releases | grep -oP '\d+(\.\d+)+/docker-compose-Linux' | head -n1 | getv)"
   program_exists docker-compose && current="$(docker-compose --version | getv)"
 
-  check_update || {
+  check_update "$current" "$version" "Docker-compose" || {
     local target="/usr/local/bin/docker-compose"
     sudo curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o "$target"
     msg "Making it executable."
