@@ -133,7 +133,7 @@ check_update() {
   if [ "$current" = "$version" ]; then
     msg "$prog is up to date."
   else
-    if program_exists "$prog"; then
+    if [ -n "$current" ]; then
       msg "Updating $prog $current -> $version"
     else
       msg "Installing $prog $version"
