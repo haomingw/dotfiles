@@ -53,6 +53,7 @@ alias -g NE='2>/dev/null'
 alias -g NN='>/dev/null 2>&1'
 
 program_exists vim && alias vi=vim
+program_exists nvim && alias vim=nvim
 program_exists nnn && alias n=nnn
 
 program_exists xdg-open && alias open='xdg-open'
@@ -126,7 +127,6 @@ is_linux && {
   alias sd='sudo shutdown now'
   alias rbt='sudo reboot'
   alias grepp='grep -oP'
-  program_exists nvim && alias vim=nvim
 
   empty-trash() {
     setopt localoptions rmstarsilent
