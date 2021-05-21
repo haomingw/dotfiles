@@ -31,7 +31,7 @@ else
 fi
 
 doit() {
-  echo "${REV}$@${RESET}"
+  echo "${REV}$*${RESET}"
   "$@"
 }
 
@@ -44,19 +44,19 @@ admin() {
 }
 
 msg() {
-  echo "${BLUE}➜${RESET} $@"
+  echo "${BLUE}➜${RESET} $*"
 }
 
 warning() {
-  echo "${YELLOW}! $@${RESET}"
+  echo "${YELLOW}! $*${RESET}"
 }
 
 error() {
-  echo "${RED}✗ $@${RESET}" >&2
+  echo "${RED}✗ $*${RESET}" >&2
 }
 
 success() {
-  echo "${GREEN}✓${RESET} $@"
+  echo "${GREEN}✓${RESET} $*"
 }
 
 is_linux() {

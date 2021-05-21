@@ -159,7 +159,7 @@ config_sublime_vscode() {
       sublime_keymap="Default (Linux).sublime-keymap"
     }
     is_macos && {
-      sublime_home="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
+      sublime_home="$HOME/Library/Application Support/Sublime Text/Packages/User"
       sublime_keymap="Default (OSX).sublime-keymap"
     }
     local ff
