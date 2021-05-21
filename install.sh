@@ -181,18 +181,19 @@ config_sublime_vscode() {
     local code_home
     is_linux && code_home="$HOME/.config/Code/User"
     is_macos && code_home="$HOME/Library/Application Support/Code/User"
+    is_wsl && code_home="$WINHOME/AppData/Roaming/Code/User"
     is_linux && increase_watch_limit
     install_vscode_extensions
     # shellcheck disable=SC2236
     if [ ! -z "$code_home" ]; then
-      lnif "$APP_PATH/vscode/settings.json" "$code_home"
-      lnif "$APP_PATH/vscode/keybindings.json" "$code_home"
+      $link "$APP_PATH/vscode/settings.json" "$code_home"
+      $link "$APP_PATH/vscode/keybindings.json" "$code_home"
       if is_linux; then
         rm -rf "$code_home/snippets"
-        lnif "$APP_PATH/vscode/snippets" "$code_home"
+        $link "$APP_PATH/vscode/snippets" "$code_home"
       else
         for ff in "$APP_PATH"/vscode/snippets/*; do
-          lnif "$ff" "$code_home/snippets"
+          $link "$ff" "$code_home/snippets"
         done
       fi
 
