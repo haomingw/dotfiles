@@ -151,27 +151,30 @@ config_sublime_vscode() {
     lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$dest"
   }
 
-  if program_exists "subl"; then
-    local sublime_home
-    local sublime_keymap
-    is_linux && {
-      sublime_home="$HOME/.config/sublime-text-3/Packages/User"
-      sublime_keymap="Default (Linux).sublime-keymap"
-    }
-    is_macos && {
-      sublime_home="$HOME/Library/Application Support/Sublime Text/Packages/User"
-      sublime_keymap="Default (OSX).sublime-keymap"
-    }
-    local ff
-    # shellcheck disable=SC2236
-    if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
-      for ff in "$APP_PATH"/sublime/*.sublime-settings; do
-        lnif "$ff" "$sublime_home"
-      done
-      lnif "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
+  local sublime_home sublime_keymap
+  local link=lnif
+  is_linux && {
+    sublime_home="$HOME/.config/sublime-text-3/Packages/User"
+    sublime_keymap="Default (Linux).sublime-keymap"
+  }
+  is_macos && {
+    sublime_home="$HOME/Library/Application Support/Sublime Text/Packages/User"
+    sublime_keymap="Default (OSX).sublime-keymap"
+  }
+  is_wsl && {
+    link=cpif
+    sublime_home="$WINHOME/AppData/Roaming/Sublime Text/Packages/User"
+    sublime_keymap="Default (Windows).sublime-keymap"
+  }
+  local ff
+  # shellcheck disable=SC2236
+  if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
+    for ff in "$APP_PATH"/sublime/*.sublime-settings; do
+      $link "$ff" "$sublime_home"
+    done
+    $link "$APP_PATH/sublime/$sublime_keymap" "$sublime_home"
 
-      success "Now configuring sublime-text."
-    fi
+    success "Now configuring sublime-text."
   fi
 
   if program_exists "code"; then
