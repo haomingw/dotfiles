@@ -578,13 +578,15 @@ install_miniconda() {
 
   if [ ! -d "$conda" ]; then
     local url
-    local conda_repo="https://repo.anaconda.com/miniconda"
-    is_linux && url="$conda_repo/Miniconda3-latest-Linux-x86_64.sh"
-    is_macos && url="$conda_repo/Miniconda3-latest-MacOSX-x86_64.sh"
+    if is_linux; then
+      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*Linux-x86_64.sh' | head -n1)
+    else
+      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.sh' | head -n1)
+    fi
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
       local miniconda
-      miniconda=$(parse $url)
+      miniconda=$(parse "$url")
       local target="/tmp"
       [ -f "$target/$miniconda" ] || download_to "$url" "$target"
       bash "$target/$miniconda" \
