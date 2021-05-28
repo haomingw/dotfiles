@@ -578,7 +578,9 @@ install_miniconda() {
 
   if [ ! -d "$conda" ]; then
     local url
-    if is_linux; then
+    if is_wsl; then
+      url="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+    elif is_linux; then
       url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*Linux-x86_64.sh' | head -n1)
     else
       url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.sh' | head -n1)
