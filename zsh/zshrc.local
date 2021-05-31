@@ -220,6 +220,10 @@ gpgmail() {
   gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
 }
 
+gtrd() {
+  git show -s "$1" --format='%H'
+}
+
 gtrm() {
   local tag="$1"
   git tag -d $tag
