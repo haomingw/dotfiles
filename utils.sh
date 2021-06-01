@@ -142,6 +142,11 @@ check_update() {
   fi
 }
 
+gpgdec() {
+  msg "Decrypting file to $2"
+  gpg --decrypt "$1" > "$2"
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -381,12 +386,27 @@ config_i3wm() {
 }
 
 config_ssh() {
-  [ -z "$AUTH_USERS" ] && return 0
-  read -ra users <<< "$AUTH_USERS"
+  local target
+  safe_mkdir ~/.ssh
 
-  for user in "${users[@]}"; do
-    add_auth_key "$user"
-  done
+  if is_personal; then
+    for ff in "$app_path"/ssh/*.gpg; do
+      target=$(basename "$ff" .gpg)
+      if [ ! -f "$HOME/.ssh/$target" ]; then
+        gpgdec "$ff" "$HOME/.ssh/$target"
+        chmod 600 "$HOME/.ssh/$target"
+      fi
+    done
+    cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
+  fi
+
+  if [ -n "$AUTH_USERS" ]; then
+    read -ra users <<< "$AUTH_USERS"
+
+    for user in "${users[@]}"; do
+      add_auth_key "$user"
+    done
+  fi
 
   success "Now configuring ssh."
 }
@@ -523,7 +543,6 @@ common_config_zsh() {
   local ff
 
   lnif "$app_path/common" "$HOME/.common"
-  safe_mkdir ~/.ssh
 
   for ff in "$app_path"/bin/*; do
     lnif "$ff" /usr/local/bin
@@ -531,8 +550,7 @@ common_config_zsh() {
 
   if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
-      msg "Decrypting $ff"
-      gpg --decrypt "$ff" > "$app_path/zsh/$(basename "$ff" .gpg)"
+      gpgdec "$ff" "$app_path/zsh/$(basename "$ff" .gpg)"
     done
   fi
 
