@@ -145,6 +145,7 @@ check_update() {
 gpgdec() {
   msg "Decrypting file to $2"
   gpg --decrypt "$1" > "$2"
+  chmod 600 "$2"
 }
 
 ############################ SETUP FUNCTIONS
@@ -394,7 +395,6 @@ config_ssh() {
       target=$(basename "$ff" .gpg)
       if [ ! -f "$HOME/.ssh/$target" ]; then
         gpgdec "$ff" "$HOME/.ssh/$target"
-        chmod 600 "$HOME/.ssh/$target"
       fi
     done
     cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
@@ -540,7 +540,7 @@ install_utils() {
 }
 
 common_config_zsh() {
-  local ff
+  local ff target
 
   lnif "$app_path/common" "$HOME/.common"
 
@@ -551,6 +551,15 @@ common_config_zsh() {
   if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
       gpgdec "$ff" "$app_path/zsh/$(basename "$ff" .gpg)"
+    done
+    success "Private zshrc setup"
+
+    for ff in "$app_path"/zsh/kaggle/*.gpg; do
+      target="$app_path/zsh/kaggle/$(basename "$ff" .gpg)"
+      if [ ! -f "$target" ]; then
+        gpgdec "$ff" "$target"
+        success "Kaggle credentials"
+      fi
     done
   fi
 
