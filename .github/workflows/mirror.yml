@@ -16,23 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v3
-        with:
-          gpg-private-key: ${{ secrets.GPG_KEY }}
-          passphrase: ${{ secrets.GPG_PWD }}
-          git-user-signingkey: true
-          git-commit-gpgsign: true
-
       - name: Commit changes if there are any
         run: |
-          git config --global user.email "haoming.exe@gmail.com"
-          git config --global user.name "Github Actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global pull.ff only
           git config --global pull.rebase false
 
-          echo "Signing with gpg key $(git config user.signingkey)"
           bash mirror.sh
 
       - name: Push changes

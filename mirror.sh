@@ -87,13 +87,9 @@ update_target() {
   pushd ~/.mirrors/"$name" >/dev/null
   git pull
 
-  if [ "$name" = git-secret ]; then
-    make build
-  fi
-
   local msg
   msg=$(git show -s --format=%s)
-  cp "$from" "$app/$to"
+  cp -v "$from" "$app/$to"
   git_check_file "$to" "[$name] $msg"
   popd >/dev/null
 }
