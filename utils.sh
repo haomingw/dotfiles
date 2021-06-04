@@ -411,6 +411,16 @@ config_ssh() {
   success "Now configuring ssh."
 }
 
+config_gpg() {
+  if program_exists gpg; then
+    local gpg_conf="$HOME/.gnupg"
+    safe_mkdir "$gpg_conf"
+    lnif "$app_path/gpg/gpg.conf" "$gpg_conf"
+
+    success "Now configuring gpg."
+  fi
+}
+
 config_git() {
   # this is personal
   if is_personal; then
@@ -576,6 +586,7 @@ common_config_zsh() {
 
   config_i3wm
   config_ssh
+  config_gpg
   config_git
   config_hhkb
   config_homebrew

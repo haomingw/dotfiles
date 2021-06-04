@@ -133,14 +133,6 @@ config_tmux_docker() {
     success "Now configuring mpv."
   fi
 
-  if program_exists gpg; then
-    local gpg_conf="$HOME/.gnupg"
-    safe_mkdir "$gpg_conf"
-    lnif "$APP_PATH/gpg/gpg.conf" "$gpg_conf"
-
-    success "Now configuring gpg."
-  fi
-
   install_docker
 }
 
