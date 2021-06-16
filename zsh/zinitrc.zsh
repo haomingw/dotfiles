@@ -16,6 +16,7 @@ zinit light-mode for \
   OMZ::lib/git.zsh \
   OMZ::lib/history.zsh \
   OMZ::lib/key-bindings.zsh \
+  zdharma/history-search-multi-word \
   OMZ::lib/theme-and-appearance.zsh
 
 safe_source ~/.zsh/themes/xpure.zsh
