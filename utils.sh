@@ -554,6 +554,7 @@ common_config_zsh() {
 
   lnif "$app_path/common" "$HOME/.common"
 
+  [ -d /usr/local/bin ] || sudo mkdir -p /usr/local/bin
   for ff in "$app_path"/bin/*; do
     lnif "$ff" /usr/local/bin
   done
