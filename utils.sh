@@ -542,11 +542,38 @@ install_swiftlint() {
   }
 }
 
+install_swiftformat() {
+  local url
+  local filename
+  local version current
+
+  if is_linux; then
+    url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat_linux.zip' | head -n1)
+  else
+    url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
+  fi
+  version=$(echo "$url" | getv)
+  program_exists swiftformat && current=$(swiftformat --version | getv)
+
+  check_update "$current" "$version" "swiftformat" || {
+    download_to "github.com/$url" /tmp
+    filename=$(parse "$url")
+    program_exists unzip || {
+      warning "Install unzip to extract zip files."
+      return 0
+    }
+    unzip "/tmp/$filename" -d /tmp/swiftformat
+    cpif /tmp/swiftformat/swiftformat /usr/local/bin
+    rm -rf "/tmp/$filename" /tmp/swiftformat
+  }
+}
+
 install_utils() {
   install_shellcheck
   install_clangd
   install_gpg
   install_swiftlint
+  install_swiftformat
 }
 
 common_config_zsh() {
