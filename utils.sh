@@ -568,12 +568,25 @@ install_swiftformat() {
   }
 }
 
+optional_downloads() {
+  is_macos || return 0
+  local url version
+
+  url=$(download_stdout https://github.com/p0deje/Maccy/releases | grep -o 'p0deje/.*Maccy.app.zip' | head -n1)
+  if confirm "Do you want to download Maccy?"; then
+    download_to "github.com/$url" ~/Downloads
+    version=$(echo "$url" | getv)
+    msg "Downloading Maccy $version."
+  fi
+}
+
 install_utils() {
   install_shellcheck
   install_clangd
   install_gpg
   install_swiftlint
   install_swiftformat
+  optional_downloads
 }
 
 common_config_zsh() {
