@@ -605,11 +605,13 @@ gemcl() {
 
 # }}
 
-# Pre-commit {{
+# Git-hooks {{
 
 set-pre-commit() {
   msg "Installing/updating pre-commit."
+
   local pv=$(pip --version | getv)
+
   check_version "$pv" ">=" 20 || {
     echo "Current version: $pv, required version: 20"
     return 1
@@ -618,6 +620,7 @@ set-pre-commit() {
 
   local repo=$(groot)
   local config=".pre-commit-config.yaml"
+
   if [[ -n "$repo" ]] && [[ -L ~/"$config" ]]; then
     [[ -f "$repo/$config" ]] || cpif ~/"$config" "$repo"
     [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
@@ -629,12 +632,26 @@ set-pre-commit() {
 
 rm-pre-commit() {
   local repo=$(groot)
+
   if [[ -n "$repo" ]]; then
     rm -f "$repo/.git/hooks/pre-commit"
   fi
 }
 
-# }} // namespace pre-commit
+set-post-merge() {
+  msg "Setting post-merge git hook."
+
+  local repo=$(groot)
+
+  if [[ -n "$repo" ]] && [[ -f "$repo/.post-merge" ]]; then
+    [[ -f "$repo/.git/hooks/post-merge" ]] || cpif "$repo/.post-merge" "$repo/.git/hooks/post-merge"
+  else
+    error "Not in a git repo or post-merge not configured"
+    return 1
+  fi
+}
+
+# }} // namespace git-hooks
 
 # }} // namespace python
 
