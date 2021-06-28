@@ -543,15 +543,13 @@ install_swiftlint() {
 }
 
 install_swiftformat() {
+  is_macos || return 0
+
   local url
   local filename
   local version current
 
-  if is_linux; then
-    url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat_linux.zip' | head -n1)
-  else
-    url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
-  fi
+  url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
   version=$(echo "$url" | getv)
   program_exists swiftformat && current=$(swiftformat --version | getv)
 
