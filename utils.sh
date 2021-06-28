@@ -653,6 +653,7 @@ install_miniconda() {
     "mypy"
     "yapf"
     "virtualenv"
+    "youtube-dl"
   )
 
   if [ ! -d "$conda" ]; then

@@ -642,12 +642,21 @@ set-post-merge() {
   msg "Setting post-merge git hook."
 
   local repo=$(groot)
+  local config=".git-post-merge"
 
-  if [[ -n "$repo" ]] && [[ -f "$repo/.post-merge" ]]; then
-    [[ -f "$repo/.git/hooks/post-merge" ]] || cpif "$repo/.post-merge" "$repo/.git/hooks/post-merge"
+  if [[ -n "$repo" ]] && [[ -f "$repo/$config" ]]; then
+    [[ -f "$repo/.git/hooks/post-merge" ]] || lnif "$repo/$config" "$repo/.git/hooks/post-merge"
   else
     error "Not in a git repo or post-merge not configured"
     return 1
+  fi
+}
+
+rm-post-merge() {
+  local repo=$(groot)
+
+  if [[ -n "$repo" ]]; then
+    rm -f "$repo/.git/hooks/post-merge"
   fi
 }
 
