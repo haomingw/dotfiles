@@ -639,15 +639,13 @@ rm-pre-commit() {
 }
 
 set-post-merge() {
-  msg "Setting post-merge git hook."
-
   local repo=$(groot)
-  local config=".git-post-merge"
 
-  if [[ -n "$repo" ]] && [[ -f "$repo/$config" ]]; then
-    [[ -f "$repo/.git/hooks/post-merge" ]] || lnif "$repo/$config" "$repo/.git/hooks/post-merge"
+  if [[ -n "$repo" ]]; then
+    msg "Setting post-merge git hook."
+    lnif "$HOME/.githooks/post-merge" "$repo/.git/hooks/post-merge"
   else
-    error "Not in a git repo or post-merge not configured"
+    error "Not in a git repo."
     return 1
   fi
 }

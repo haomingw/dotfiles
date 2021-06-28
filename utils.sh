@@ -422,6 +422,8 @@ config_gpg() {
 }
 
 config_git() {
+  lnif "$app_path/git/hooks" ~/.githooks
+
   # this is personal
   if is_personal; then
     msg "Setting personal git config."

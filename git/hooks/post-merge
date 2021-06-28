@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+source "$HOME/.common/functions"
+
+main() {
+  program_exists gpg || return 0
+
+  local repo
+  local f target
+
+  repo=$(git rev-parse --show-toplevel)
+
+  find "$repo" -type f -name "*.gpg" -print0 | while IFS= read -r -d '' f; do
+    target=${f%.gpg}
+    if [ -f "$target" ]; then
+      confirm "File $target exists, overwrite?" || {
+        msg "Not overwriting $target"
+        continue
+      }
+    fi
+    msg "Decrypting $f"
+    gpg --decrypt "$f" > "$target"
+  done
+}
+
+main
