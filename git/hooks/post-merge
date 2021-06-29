@@ -12,7 +12,8 @@ main() {
 
   repo=$(git rev-parse --show-toplevel)
 
-  find "$repo" -type f -name "*.gpg" -print0 | while IFS= read -r -d '' f; do
+  # shellcheck disable=SC2044
+  for f in $(find "$repo" -type f -name "*.gpg"); do
     target=${f%.gpg}
     if [ -f "$target" ]; then
       confirm "File $target exists, overwrite?" || {
