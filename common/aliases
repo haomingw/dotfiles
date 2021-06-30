@@ -11,7 +11,7 @@ alias sh='bash'
 
 alias dcstop='docker container stop $(docker ps -aq)'
 alias dccl='docker container prune'
-alias dicl='docker image -a'
+alias dicl='docker image prune -a'
 alias dcl='dccl;dicl'
 
 alias lzd='lazydocker'
