@@ -12,6 +12,7 @@ main() {
 
   repo=$(git rev-parse --show-toplevel)
 
+  exec < /dev/tty
   # shellcheck disable=SC2044
   for f in $(find "$repo" -type f -name "*.gpg"); do
     target=${f%.gpg}
