@@ -148,6 +148,20 @@ gpgdec() {
   chmod 600 "$2"
 }
 
+download_app() {
+  local app="$1"
+  local url="$2"
+  local version
+
+  macos_has "$app" && return 0
+
+  if confirm "Do you want to download $app?"; then
+    download_to "$url" ~/Downloads
+    version=$(echo "$url" | getv)
+    msg "Downloading $app $version."
+  fi
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -570,14 +584,10 @@ install_swiftformat() {
 
 optional_downloads() {
   is_macos || return 0
-  local url version
+  local url
 
   url=$(download_stdout https://github.com/p0deje/Maccy/releases | grep -o 'p0deje/.*Maccy.app.zip' | head -n1)
-  if confirm "Do you want to download Maccy?"; then
-    download_to "github.com/$url" ~/Downloads
-    version=$(echo "$url" | getv)
-    msg "Downloading Maccy $version."
-  fi
+  download_app Maccy "github.com/$url"
 }
 
 install_utils() {
