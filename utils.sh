@@ -6,7 +6,7 @@ CHSH=${CHSH:-yes}
 app_path="$(dirname "$PWD/$0")"
 
 is_not_ci() {
-  [ -z "$CI" ]
+  [ -z "${CI:-}" ]
 }
 
 program_must_exist() {
@@ -182,7 +182,7 @@ install_vim() {
 install_neovim() {
   local url
   local filename foldername
-  local version current
+  local version current=
 
   if is_linux; then
     url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz')
@@ -441,7 +441,7 @@ install_git_lfs() {
 
   local url
   local filename
-  local version current
+  local version current=
 
   url=$(download_stdout https://github.com/git-lfs/git-lfs/releases | grep -o 'git-lfs/.*git-lfs-darwin.*.zip' | head -n1)
   version=$(echo "$url" | getv)
@@ -496,7 +496,7 @@ config_homebrew() {
 install_shellcheck() {
   local url
   local filename foldername
-  local version current
+  local version current=
 
   if is_linux; then
     url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*linux.x86_64.tar.xz' | head -n1)
@@ -523,7 +523,7 @@ install_shellcheck() {
 install_clangd() {
   local url
   local filename
-  local version current
+  local version current=
 
   if is_macos && [ ! -f /usr/bin/clangd ]; then
     url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
@@ -544,7 +544,7 @@ install_gpg() {
   is_macos || return 0
   local url
   local filename
-  local version current
+  local version current=
 
   url=$(download_stdout https://sourceforge.net/p/gpgosx/docu/Download/ | grep -oE 'https://sourceforge.net/projects/gpgosx/files/GnuPG-[0-9.]+.dmg/download' | head -n1)
   version=$(echo "$url" | getv)
@@ -563,7 +563,7 @@ install_swiftlint() {
 
   local url
   local filename
-  local version current
+  local version current=
 
   if is_linux; then
     url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*swiftlint_linux.zip' | head -n1)
@@ -587,7 +587,7 @@ install_swiftformat() {
 
   local url
   local filename
-  local version current
+  local version current=
 
   url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
   version=$(echo "$url" | getv)
@@ -682,6 +682,7 @@ install_miniconda() {
   local conda="$HOME/miniconda3"
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
+    "pip"
     "jedi"
     "flake8"
     "mypy"
