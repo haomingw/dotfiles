@@ -538,6 +538,11 @@ install_swiftlint() {
   local filename
   local version current
 
+  program_exists unzip || {
+    warning "Install unzip to extract zip files."
+    return 0
+  }
+
   if is_linux; then
     url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*swiftlint_linux.zip' | head -n1)
   else
@@ -549,10 +554,6 @@ install_swiftlint() {
   check_update "$current" "$version" "swiftlint" || {
     download_to "github.com/$url" /tmp
     filename=$(parse "$url")
-    program_exists unzip || {
-      warning "Install unzip to extract zip files."
-      return 0
-    }
     unzip "/tmp/$filename" -d /tmp/swiftlint
     cpif /tmp/swiftlint/swiftlint /usr/local/bin
     rm -rf "/tmp/$filename" /tmp/swiftlint
