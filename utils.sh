@@ -414,7 +414,7 @@ config_ssh() {
     cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
   fi
 
-  if [ -n "$AUTH_USERS" ]; then
+  if [ -n "${AUTH_USERS:-}" ]; then
     read -ra users <<< "$AUTH_USERS"
 
     for user in "${users[@]}"; do
@@ -436,8 +436,30 @@ config_gpg() {
   fi
 }
 
+install_git_lfs() {
+  is_macos || return 0
+
+  local url
+  local filename
+  local version current
+
+  url=$(download_stdout https://github.com/git-lfs/git-lfs/releases | grep -o 'git-lfs/.*git-lfs-darwin.*.zip' | head -n1)
+  version=$(echo "$url" | getv)
+  program_exists git-lfs && current=$(git-lfs --version | getv)
+
+  check_update "$current" "$version" "git-lfs" || {
+    download_to "github.com/$url" /tmp
+    filename=$(parse "$url")
+    unzip "/tmp/$filename" -d /tmp/git-lfs
+    cpif /tmp/git-lfs/git-lfs /usr/local/bin
+    rm -rf "/tmp/$filename" /tmp/git-lfs
+  }
+}
+
 config_git() {
   lnif "$app_path/git/hooks" ~/.githooks
+
+  install_git_lfs
 
   # this is personal
   if is_personal; then
@@ -534,14 +556,14 @@ install_gpg() {
 }
 
 install_swiftlint() {
-  local url
-  local filename
-  local version current
-
   program_exists unzip || {
     warning "Install unzip to extract zip files."
     return 0
   }
+
+  local url
+  local filename
+  local version current
 
   if is_linux; then
     url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*swiftlint_linux.zip' | head -n1)
@@ -615,7 +637,7 @@ common_config_zsh() {
     for ff in "$app_path"/zsh/*.gpg; do
       gpgdec "$ff" "$app_path/zsh/$(basename "$ff" .gpg)"
     done
-    success "Private zshrc setup"
+    success "Private zshrc setup."
 
     for ff in "$app_path"/zsh/kaggle/*.gpg; do
       target="$app_path/zsh/kaggle/$(basename "$ff" .gpg)"

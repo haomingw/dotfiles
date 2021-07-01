@@ -149,7 +149,7 @@ gpgls() {
 }
 
 gpgkid() {
-  gpgls $1 | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
+  gpgls ${1:-} | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
 }
 
 # }} // namespace gpg

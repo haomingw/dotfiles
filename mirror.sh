@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 if [[ "$(uname)" == "Linux" ]]; then
   app=$(dirname "$(readlink -f "$0")")
