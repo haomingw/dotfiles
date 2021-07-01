@@ -38,7 +38,7 @@ print_select_menu() {
   PS3=""
   # dummy select
   echo toto | select _ in "${options[@]}"; do break; done
-  PS3=$prev
+  PS3="$prev"
 }
 
 ############################ MAIN FUNCTIONS

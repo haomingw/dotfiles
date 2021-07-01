@@ -153,13 +153,13 @@ download_app() {
   local url="$2"
   local version
 
-  macos_has "$app" && return 0
-
-  if confirm "Do you want to download $app?"; then
-    download_to "$url" ~/Downloads
-    version=$(echo "$url" | getv)
-    msg "Downloading $app $version."
-  fi
+  macos_has "$app" || {
+    if confirm "Do you want to download $app?"; then
+      download_to "$url" ~/Downloads
+      version=$(echo "$url" | getv)
+      msg "Downloading $app $version."
+    fi
+  }
 }
 
 ############################ SETUP FUNCTIONS
@@ -427,9 +427,10 @@ config_ssh() {
 
 config_gpg() {
   if program_exists gpg; then
-    local gpg_conf="$HOME/.gnupg"
-    safe_mkdir "$gpg_conf"
-    lnif "$app_path/gpg/gpg.conf" "$gpg_conf"
+    local gpg_home="$HOME/.gnupg"
+    safe_mkdir "$gpg_home"
+    chmod 700 "$gpg_home"
+    lnif "$app_path/gpg/gpg.conf" "$gpg_home"
 
     success "Now configuring gpg."
   fi
