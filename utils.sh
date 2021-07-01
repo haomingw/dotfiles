@@ -148,6 +148,10 @@ gpgdec() {
   chmod 600 "$2"
 }
 
+gpgdecif() {
+  [ -f "$2" ] || gpgdec "$1" "$2"
+}
+
 download_app() {
   local app="$1"
   local url="$2"
@@ -407,9 +411,7 @@ config_ssh() {
   if is_personal; then
     for ff in "$app_path"/ssh/*.gpg; do
       target=$(basename "$ff" .gpg)
-      if [ ! -f "$HOME/.ssh/$target" ]; then
-        gpgdec "$ff" "$HOME/.ssh/$target"
-      fi
+      gpgdecif "$ff" "$HOME/.ssh/$target"
     done
     cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
   fi
@@ -641,10 +643,7 @@ common_config_zsh() {
 
     for ff in "$app_path"/zsh/kaggle/*.gpg; do
       target="$app_path/zsh/kaggle/$(basename "$ff" .gpg)"
-      if [ ! -f "$target" ]; then
-        gpgdec "$ff" "$target"
-        success "Kaggle credentials"
-      fi
+      gpgdecif "$ff" "$target"
     done
   fi
 
