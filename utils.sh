@@ -614,6 +614,9 @@ optional_downloads() {
 
   url=$(download_stdout https://github.com/p0deje/Maccy/releases | grep -o 'p0deje/.*Maccy.app.zip' | head -n1)
   download_app Maccy "github.com/$url"
+
+  url=$(download_stdout https://freemacsoft.net/appcleaner/ | grep -o 'https.*AppCleaner.*.zip' | head -n1)
+  download_app AppCleaner "$url"
 }
 
 install_utils() {
