@@ -279,6 +279,10 @@ is_personal() {
   program_exists gpg && [[ $(gpgkid) == "CCFF6597AE72D4FB" ]]
 }
 
+is_pro() {
+  program_exists gpg && [[ $(gpgkid apple) == "F7ECF5AA6AF345C8" ]]
+}
+
 # }} // namespace utils
 
 # Awk {{

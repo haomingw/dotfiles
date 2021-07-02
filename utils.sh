@@ -148,7 +148,7 @@ gpgdec() {
   chmod 600 "$2"
 }
 
-gpgdecif() {
+safe_gpgdec() {
   [ -f "$2" ] || gpgdec "$1" "$2"
 }
 
@@ -411,7 +411,7 @@ config_ssh() {
   if is_personal; then
     for ff in "$app_path"/ssh/*.gpg; do
       target=$(basename "$ff" .gpg)
-      gpgdecif "$ff" "$HOME/.ssh/$target"
+      safe_gpgdec "$ff" "$HOME/.ssh/$target"
     done
     cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
   fi
@@ -643,7 +643,7 @@ common_config_zsh() {
 
     for ff in "$app_path"/zsh/kaggle/*.gpg; do
       target="$app_path/zsh/kaggle/$(basename "$ff" .gpg)"
-      gpgdecif "$ff" "$target"
+      safe_gpgdec "$ff" "$target"
     done
   fi
 
