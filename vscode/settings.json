@@ -33,5 +33,7 @@
         "files.trimTrailingWhitespace": false
     },
     "gitlens.advanced.telemetry.enabled": false,
-    "terminal.integrated.inheritEnv": false
+    "terminal.integrated.inheritEnv": false,
+    "editor.inlineSuggest.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open"
 }
