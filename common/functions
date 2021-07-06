@@ -149,7 +149,7 @@ gpgls() {
 }
 
 gpgkid() {
-  gpgls ${1:-} | grep sec | awk '{print $2}' | head -n1 | cut -d'/' -f2
+  gpgls ${1:-} | grep sec | head -n1 | awk '{print $2}' | cut -d'/' -f2
 }
 
 # }} // namespace gpg
@@ -280,7 +280,9 @@ is_personal() {
 }
 
 is_pro() {
-  program_exists gpg && [[ $(gpgkid apple) == "F7ECF5AA6AF345C8" ]]
+  local domain
+  domain=$(gpgls | grep "@" | grep -v gmail | cut -d'@' -f2 | cut -d'.' -f1)
+  program_exists gpg && [[ $(gpgkid "$domain") == "F7ECF5AA6AF345C8" ]]
 }
 
 # }} // namespace utils
