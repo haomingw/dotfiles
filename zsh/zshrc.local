@@ -624,6 +624,7 @@ set-pre-commit() {
   if [[ -n "$repo" ]] && [[ -L ~/"$config" ]]; then
     [[ -f "$repo/$config" ]] || cpif ~/"$config" "$repo"
     [[ -f "$repo/.git/hooks/pre-commit" ]] || pre-commit install
+    pre-commit autoupdate
   else
     error "Not in a git repo or pre-commit not configured"
     return 1
