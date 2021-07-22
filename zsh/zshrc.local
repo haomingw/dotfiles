@@ -396,7 +396,7 @@ gpgedit() {
 
 # Package manager {{
 
-program_exists apt && {
+is_linux && program_exists apt && {
   # for debian/ubuntu
   alias pS='sudo apt install'
   alias pSs='apt search'
