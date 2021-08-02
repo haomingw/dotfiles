@@ -686,6 +686,17 @@ gocov() {
     && rm cover.out
 }
 
+upgo() {
+  [ -f go.mod ] || {
+    error "Not a golang module."
+    return 1
+  }
+  local module=$(cat go.mod | head -n1 | cut -d' ' -f2)
+  rm go.mod
+  go mod init "$module"
+  go mod tidy
+}
+
 # }} // namespace go
 
 # Files {{
