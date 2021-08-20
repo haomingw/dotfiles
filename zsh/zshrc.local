@@ -217,6 +217,7 @@ alias gtu='gtcl && git fetch --tags'
 alias gcfix='git commit -m "fixup!"'
 alias grbim='git rebase -i $(git_main_branch)'
 alias grhm='git reset --hard origin/$(git_main_branch)'
+alias grrst='git remote set-head origin -a'
 
 gpgmail() {
   gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
