@@ -196,7 +196,7 @@ config_sublime_vscode() {
 
 bye() {
   msg "Thanks for installing $app_name."
-  msg "© $(date +%Y) http://flyingmouse.github.io/"
+  msg "© $(date +%Y) http://haomingw.github.io/"
   exit
 }
 
