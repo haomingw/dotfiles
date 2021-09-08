@@ -67,6 +67,10 @@ is_macos() {
   [[ "$(uname)" == "Darwin" ]]
 }
 
+is_arm() {
+  [[ "$(uname -m)" == "arm64" ]]
+}
+
 is_wsl() {
   [[ "$(uname -a)" == *Microsoft* ]]
 }

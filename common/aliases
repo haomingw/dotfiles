@@ -4,6 +4,7 @@
 # Basics {{
 
 alias sh='bash'
+alias ...='cd ../..'
 
 # }} // namespace basics
 

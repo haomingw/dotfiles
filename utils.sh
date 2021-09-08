@@ -681,6 +681,8 @@ cleanup_miniconda_files() {
 }
 
 install_miniconda() {
+  is_arm && return 0
+
   local conda="$HOME/miniconda3"
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
