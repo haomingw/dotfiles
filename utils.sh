@@ -671,10 +671,12 @@ common_config_zsh() {
 }
 
 cleanup_miniconda_files() {
-  local installation_file="$1"
+  local target="$HOME"
+  if is_arm; then
+    target="/opt"
+  fi
 
-  rm "$installation_file"
-  find "$HOME/miniconda3" \( -type f -o -type l \) \
+  find "$target/miniconda3" \( -type f -o -type l \) \
     -not -path "$HOME/miniconda3/pkgs*" \
     -regex ".*bin/wish[0-9\.]*$" -ls -delete
   success "Cleaning up miniconda files."
@@ -709,17 +711,18 @@ install_miniconda() {
     fi
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
+      local miniconda target="/tmp"
+      miniconda=$(parse "$url")
+      [ -f "$target/$miniconda" ] || download_to "$url" "$target"
       if is_arm; then
-        download_to "$url" ~/Downloads
+        sudo installer -target / -pkg "$target/$miniconda"
       else
-        local miniconda target="/tmp"
-        miniconda=$(parse "$url")
-        [ -f "$target/$miniconda" ] || download_to "$url" "$target"
-        bash "$target/$miniconda" \
-        && success "Miniconda successfully installed." \
-        && "$conda"/bin/conda update -y conda \
-        && cleanup_miniconda_files "$target/$miniconda"
+        bash "$target/$miniconda"
       fi
+      success "Miniconda successfully installed."
+      "$conda"/bin/conda update -y conda
+      rm "$target/$miniconda"
+      cleanup_miniconda_files
 
       [ -f "$conda"/bin/pip ] || "$conda"/bin/conda install -y pip
 
@@ -762,13 +765,14 @@ install_golang() {
   fi
 
   check_update "$current" "$version" "Go" || {
+    [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
     if is_linux; then
-      [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
       tar xzf "/tmp/$filename" -C /tmp
       cp -Tr /tmp/go "$goroot"
       rm -rf "/tmp/$filename" /tmp/go
     else
-      download_to "https://golang.org$url" ~/Downloads
+      sudo installer -target / -pkg "/tmp/$filename" \
+      && rm "$target/$filename"
     fi
   }
 }
