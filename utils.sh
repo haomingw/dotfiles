@@ -681,8 +681,6 @@ cleanup_miniconda_files() {
 }
 
 install_miniconda() {
-  is_arm && return 0
-
   local conda="$HOME/miniconda3"
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
@@ -694,6 +692,9 @@ install_miniconda() {
     "virtualenv"
     "youtube-dl"
   )
+  if is_arm; then
+    conda="/opt/miniconda3"
+  fi
 
   if [ ! -d "$conda" ]; then
     local url
@@ -701,19 +702,24 @@ install_miniconda() {
       url="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
     elif is_linux; then
       url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*Linux-x86_64.sh' | head -n1)
+    elif is_arm; then
+      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.pkg' | head -n1)
     else
       url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.sh' | head -n1)
     fi
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
-      local miniconda
-      miniconda=$(parse "$url")
-      local target="/tmp"
-      [ -f "$target/$miniconda" ] || download_to "$url" "$target"
-      bash "$target/$miniconda" \
-      && success "Miniconda successfully installed." \
-      && "$conda"/bin/conda update -y conda \
-      && cleanup_miniconda_files "$target/$miniconda"
+      if is_arm; then
+        download_to "$url" ~/Downloads
+      else
+        local miniconda target="/tmp"
+        miniconda=$(parse "$url")
+        [ -f "$target/$miniconda" ] || download_to "$url" "$target"
+        bash "$target/$miniconda" \
+        && success "Miniconda successfully installed." \
+        && "$conda"/bin/conda update -y conda \
+        && cleanup_miniconda_files "$target/$miniconda"
+      fi
 
       [ -f "$conda"/bin/pip ] || "$conda"/bin/conda install -y pip
 

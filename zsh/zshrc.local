@@ -8,6 +8,7 @@ append_path() { [[ -d $1 ]] && path+=($1) }
 
 # added by Miniconda3 installer
 prepend_path $HOME/miniconda3/bin
+prepend_path /opt/miniconda3/bin
 
 setopt localoptions nonomatch
 for ff in /usr/local/jdk*; do
