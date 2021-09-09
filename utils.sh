@@ -741,6 +741,8 @@ install_golang() {
 
   if is_linux; then
     url=$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)
+  elif is_arm; then
+    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-arm64.pkg' | head -n1)
   else
     url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-amd64.pkg' | head -n1)
   fi
