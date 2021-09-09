@@ -772,7 +772,7 @@ install_golang() {
       rm -rf "/tmp/$filename" /tmp/go
     else
       sudo installer -target / -pkg "/tmp/$filename" \
-      && rm "$target/$filename"
+      && rm "/tmp/$filename"
     fi
   }
 }
