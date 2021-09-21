@@ -208,6 +208,87 @@ program_exists tmux && {
 
 # }} // namespace tmux
 
+# GPG {{
+
+alias gpgen='gpg --full-generate-key'
+
+alias gpgpls='gpg --list-keys'
+
+alias gpgprm='gpg --delete-key'
+alias gpgrm='gpg --delete-secret-key'
+
+gpgsend() {
+  local key_id=$(gpgkid "$@")
+  gpg --send-keys "$key_id"
+}
+
+gpgfd() {
+  gpg --search-key "$1"
+}
+
+gpgrecv() {
+  [[ $# -eq 0 ]] && {
+    warning "No key id to retrieve"
+    return 1
+  }
+  gpg --recv-keys "$1"
+}
+
+gpgrvk() {
+  local key_id=$(gpgkid "$@")
+  gpg --output revoke.asc --gen-revoke "$key_id"
+}
+
+gpgenc() {
+  local ff
+  for ff in $@; do
+    msg "Encrypting $ff"
+    gpg --encrypt --sign --recipient $(gpgkid) "$ff"
+  done
+}
+
+gpgdec() {
+  local name ff
+
+  for ff in $@; do
+    name=$(basename $ff .gpg)
+    if [[ -f $name ]]; then
+      confirm "File $name exists, overwrite?" || {
+        msg "Not overwriting $name"
+        continue
+      }
+    fi
+    msg "Decrypting $ff"
+    gpg --decrypt $ff > "$name"
+  done
+}
+
+gpgpk() {
+  local key_id=$(gpgkid "$@")
+  gpg --armor --export "$key_id"
+}
+
+gpgsk() {
+  local key_id=$(gpgkid "$@")
+  gpg --export-secret-key "$key_id"
+}
+
+gpgcpsk() {
+  local key_id=$(gpgkid "$@")
+  gpg --armor --export-secret-key "$key_id" | toclip
+}
+
+gpgedit() {
+  local key_id=$(gpgkid "$@")
+  gpg --edit-key "$key_id"
+}
+
+gpgmail() {
+  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
+}
+
+# }} // namespace gpg
+
 # Git {{
 
 alias gbrm='git branch -D'
@@ -220,10 +301,7 @@ alias gcfix='git commit -m "fixup!"'
 alias grbim='git rebase -i $(git_main_branch)'
 alias grhm='git reset --hard origin/$(git_main_branch)'
 alias grrst='git remote set-head origin -a'
-
-gpgmail() {
-  gpgls $1 | grep uid | grepp '[a-z0-9\.\_]+@[a-z\.]+' | head -n1
-}
+alias gsf='git commit --amend --signoff'
 
 gtrd() {
   git show -s "$1" --format='%H'
@@ -319,83 +397,6 @@ gprc() {
 }
 
 # }} // namespace git
-
-# GPG {{
-
-alias gpgen='gpg --full-generate-key'
-
-alias gpgpls='gpg --list-keys'
-
-alias gpgprm='gpg --delete-key'
-alias gpgrm='gpg --delete-secret-key'
-
-gpgsend() {
-  local key_id=$(gpgkid "$@")
-  gpg --send-keys "$key_id"
-}
-
-gpgfd() {
-  gpg --search-key "$1"
-}
-
-gpgrecv() {
-  [[ $# -eq 0 ]] && {
-    warning "No key id to retrieve"
-    return 1
-  }
-  gpg --recv-keys "$1"
-}
-
-gpgrvk() {
-  local key_id=$(gpgkid "$@")
-  gpg --output revoke.asc --gen-revoke "$key_id"
-}
-
-gpgenc() {
-  local ff
-  for ff in $@; do
-    msg "Encrypting $ff"
-    gpg --encrypt --sign --recipient $(gpgkid) "$ff"
-  done
-}
-
-gpgdec() {
-  local name ff
-
-  for ff in $@; do
-    name=$(basename $ff .gpg)
-    if [[ -f $name ]]; then
-      confirm "File $name exists, overwrite?" || {
-        msg "Not overwriting $name"
-        continue
-      }
-    fi
-    msg "Decrypting $ff"
-    gpg --decrypt $ff > "$name"
-  done
-}
-
-gpgpk() {
-  local key_id=$(gpgkid "$@")
-  gpg --armor --export "$key_id"
-}
-
-gpgsk() {
-  local key_id=$(gpgkid "$@")
-  gpg --export-secret-key "$key_id"
-}
-
-gpgcpsk() {
-  local key_id=$(gpgkid "$@")
-  gpg --armor --export-secret-key "$key_id" | toclip
-}
-
-gpgedit() {
-  local key_id=$(gpgkid "$@")
-  gpg --edit-key "$key_id"
-}
-
-# }} // namespace gpg
 
 # Package manager {{
 

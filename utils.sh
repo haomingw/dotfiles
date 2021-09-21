@@ -186,7 +186,7 @@ install_vim() {
 install_neovim() {
   local url
   local filename foldername
-  local version current=
+  local version current
 
   if is_linux; then
     url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
@@ -608,6 +608,29 @@ install_swiftformat() {
   }
 }
 
+install_github_cli() {
+  is_macos || return 0
+  is_arm && return 0
+
+  local url
+  local filename
+  local version current
+
+  url=$(download_stdout https://github.com/cli/cli/releases | grep -o 'cli/.*macOS_amd64.tar.gz' | head -n1)
+  version=$(echo "$url" | getv)
+  program_exists gh && current=$(gh --version | getv)
+
+  check_update "$current" "$version" "gh" || {
+    local dir
+    download_to "github.com/$url" /tmp
+    filename=$(parse "$url")
+    tar xzf "/tmp/$filename" -C /tmp
+    dir="$(basename "$filename" .tar.gz)"
+    cpif "/tmp/$dir/bin/gh" /usr/local/bin
+    rm -rf "/tmp/$dir" "/tmp/$filename"
+  }
+}
+
 optional_downloads() {
   is_macos || return 0
   local url
@@ -625,6 +648,7 @@ install_utils() {
   install_gpg
   install_swiftlint
   install_swiftformat
+  install_github_cli
   optional_downloads
 }
 
