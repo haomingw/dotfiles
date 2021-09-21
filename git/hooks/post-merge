@@ -4,6 +4,19 @@ set -eu
 
 source "$HOME/.common/functions"
 
+should_ignore() {
+  # ignore past records
+  local name="$1"
+  local current
+
+  current=$(date +"%Y")
+
+  if [[ "$name" =~ [0-9]{4}.* ]] && [[ "$name" != *"$current"* ]]; then
+    return 0
+  fi
+  return 1
+}
+
 main() {
   program_exists gpg || return 0
 
@@ -15,6 +28,10 @@ main() {
   exec < /dev/tty
   # shellcheck disable=SC2044
   for f in $(find "$repo" -type f -name "*.gpg"); do
+    if should_ignore "$f"; then
+      msg "Ignoring $f"
+      continue
+    fi
     target=${f%.gpg}
     if [ -f "$target" ]; then
       confirm "File $target exists, overwrite?" || {
