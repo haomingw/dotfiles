@@ -186,7 +186,7 @@ install_vim() {
 install_neovim() {
   local url
   local filename foldername
-  local version current
+  local version current=
 
   if is_linux; then
     url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
@@ -614,7 +614,7 @@ install_github_cli() {
 
   local url
   local filename
-  local version current
+  local version current=
 
   url=$(download_stdout https://github.com/cli/cli/releases | grep -o 'cli/.*macOS_amd64.tar.gz' | head -n1)
   version=$(echo "$url" | getv)
