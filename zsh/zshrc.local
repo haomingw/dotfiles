@@ -748,6 +748,8 @@ transfer() {
     return 1
   fi
   local file_name file="$1"
+  local records="$HOME/.transfer_history"
+
   if tty -s; then
     file_name=$(basename "$file")
     if [ ! -e "$file" ]; then
@@ -756,15 +758,15 @@ transfer() {
     fi
     if [ -d "$file" ]; then
       file_name="$file_name.zip"
-      cd "$file" && zip -r -q - . | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+      cd "$file" && zip -r -q - . | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg" | tee -a "$records"
     else
-      cat "$file" | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+      cat "$file" | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg" | tee -a "$records"
     fi
   else
     file_name=$1
-    gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+    gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg" | tee -a "$records"
   fi
-  echo
+  echo | tee -a "$records"
 }
 
 # }} // namespace files
