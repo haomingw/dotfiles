@@ -241,26 +241,36 @@ gpgrvk() {
 
 gpgenc() {
   local ff
-  for ff in $@; do
-    msg "Encrypting $ff"
-    gpg --encrypt --sign --recipient $(gpgkid) "$ff"
-  done
+
+  if tty -s; then
+    for ff in $@; do
+      msg "Encrypting $ff"
+      gpg --encrypt --sign --recipient $(gpgkid) "$ff"
+    done
+  else
+    gpg --encrypt --sign --recipient $(gpgkid)
+  fi
+
 }
 
 gpgdec() {
   local name ff
 
-  for ff in $@; do
-    name=$(basename $ff .gpg)
-    if [[ -f $name ]]; then
-      confirm "File $name exists, overwrite?" || {
-        msg "Not overwriting $name"
-        continue
-      }
-    fi
-    msg "Decrypting $ff"
-    gpg --decrypt $ff > "$name"
-  done
+  if tty -s; then
+    for ff in $@; do
+      name=$(basename $ff .gpg)
+      if [[ -f $name ]]; then
+        confirm "File $name exists, overwrite?" || {
+          msg "Not overwriting $name"
+          continue
+        }
+      fi
+      msg "Decrypting $ff"
+      gpg --decrypt $ff > "$name"
+    done
+  else
+    gpg --decrypt
+  fi
 }
 
 gpgpk() {
@@ -731,6 +741,31 @@ rmdot() {
 alias rmds='rrmt DS_Store'
 alias rmpyc='rrmt pyc && rrmd __pycache__'
 alias rmzsh='rm -rf ~/.zsh ~/.zshrc.*'
+
+transfer() {
+  if [ $# -eq 0 ]; then
+    echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2
+    return 1
+  fi
+  local file_name file="$1"
+  if tty -s; then
+    file_name=$(basename "$file")
+    if [ ! -e "$file" ]; then
+      echo "$file: No such file or directory">&2
+      return 1
+    fi
+    if [ -d "$file" ]; then
+      file_name="$file_name.zip"
+      cd "$file" && zip -r -q - . | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+    else
+      cat "$file" | gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+    fi
+  else
+    file_name=$1
+    gpgenc | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name.gpg"
+  fi
+  echo
+}
 
 # }} // namespace files
 
