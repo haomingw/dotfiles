@@ -554,6 +554,10 @@ install_gpg() {
 
   check_update "$current" "$version" "gpg" || {
     download_to "$url" ~/Downloads "GnuPG-$version.dmg"
+    if is_not_ci; then
+      hdiutil attach ~/Downloads/"GnuPG-$version.dmg"
+      sudo installer -target / -pkg "/Volumes/GnuPG $version/Install.pkg"
+    fi
   }
 }
 
