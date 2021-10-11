@@ -19,6 +19,7 @@ safe_source ~/.zshenv.local
 export EDITOR=vim
 export CONDA_AUTO_ACTIVATE_BASE=false
 export GPG_TTY=$(tty)
+export LANG=en_US.UTF-8
 
 program_exists nnn && {
   export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
