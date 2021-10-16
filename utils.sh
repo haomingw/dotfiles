@@ -130,7 +130,7 @@ check_update() {
   local version="$2"
   local prog="$3"
 
-  if [ "$current" = "$version" ]; then
+  if [ "$current" = "$version" ] && [ "$current" != "nightly" ]; then
     msg "$prog is up to date."
   else
     if [ -n "$current" ]; then
@@ -189,13 +189,17 @@ install_neovim() {
   local version current=
 
   if is_linux; then
-    url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
+    url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
     foldername="nvim-linux64"
   else
-    url=$(download_stdout https://github.com/neovim/neovim/releases/latest | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz' | head -n1)
+    url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz' | head -n1)
     foldername="nvim-osx64"
   fi
   version=$(echo "$url" | getv)
+  if [ -z "$version" ]; then
+    error "Can't parse version from url"
+    return 0
+  fi
   program_exists nvim && current=$(nvim --version | getv)
 
   check_update "$current" "$version" "nvim" || {
