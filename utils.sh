@@ -36,6 +36,10 @@ file_must_exist() {
 download_to() {
   local name
   name=${3:-$(parse "$1")}
+  if [ -z "$name" ]; then
+    error "No filename parsed."
+    return 1
+  fi
   if program_exists wget; then
     wget "$1" -P "$2"
   else
@@ -853,12 +857,12 @@ install_java() {
 
   [ -d "$jdk" ] && return 0
   mkdir "$jdk"
-  msg "Installing openjdk-16"
+  msg "Installing openjdk-17"
 
   if is_linux; then
-    url=$(download_stdout https://jdk.java.net/16/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/17/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
   else
-    url=$(download_stdout https://jdk.java.net/16/ | grep -o 'https.*osx-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/17/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
   fi
   filename=$(parse "$url")
   download_to "$url" /tmp
