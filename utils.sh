@@ -421,7 +421,9 @@ config_ssh() {
       target=$(basename "$ff" .gpg)
       safe_gpgdec "$ff" "$HOME/.ssh/$target"
     done
-    cpif "$app_path/ssh/id_rsa.pub" ~/.ssh
+    for ff in "$app_path"/ssh/*.pub; do
+      cpif "$ff" ~/.ssh
+    done
   fi
 
   if [ -n "${AUTH_USERS:-}" ]; then

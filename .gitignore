@@ -4,5 +4,6 @@
 a.out
 work.zsh
 id_rsa
+id_ed25519
 kaggle.json
 ssh/config
