@@ -20,8 +20,8 @@ zsh_plugins=(
   "z"
   "git"
   "zsh-users/zsh-autosuggestions"
-  "zdharma/fast-syntax-highlighting"
-  "zdharma/history-search-multi-word"
+  "zdharma-continuum/fast-syntax-highlighting"
+  "zdharma-continuum/history-search-multi-word"
 )
 
 for ff in "$APP_PATH"/common/*; do

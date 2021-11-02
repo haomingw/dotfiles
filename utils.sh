@@ -385,7 +385,7 @@ setup_shell() {
 config_zinit() {
   local zinit="$HOME/.zinit"
   if [ ! -d "$zinit" ]; then
-    git clone https://github.com/zdharma/zinit.git "$zinit"
+    git clone https://github.com/zdharma-continuum/zinit.git "$zinit"
   else
     git_pull "$zinit"
   fi

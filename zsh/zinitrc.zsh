@@ -8,7 +8,7 @@ zinit wait lucid for \
     OMZ::lib/completion.zsh \
     ~/.zsh/plugins \
   atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-    zdharma/fast-syntax-highlighting
+    zdharma-continuum/fast-syntax-highlighting
 
 
 zinit light-mode for \
@@ -16,7 +16,7 @@ zinit light-mode for \
   OMZ::lib/git.zsh \
   OMZ::lib/history.zsh \
   OMZ::lib/key-bindings.zsh \
-  zdharma/history-search-multi-word \
+  zdharma-continuum/history-search-multi-word \
   OMZ::lib/theme-and-appearance.zsh
 
 safe_source ~/.zsh/themes/xpure.zsh
