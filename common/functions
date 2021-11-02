@@ -268,15 +268,15 @@ add_auth_key() {
   args_must_exist 1 "$@" || return 1
   local keyfile="$HOME/.ssh/authorized_keys"
   local user="$1"
-  local key
+  local key name
 
   safe_touch "$keyfile"
-  key="$(curl https://github.com/"$1".keys 2>/dev/null)"
 
-  [ -z "$key" ] || {
-    msg "Adding $user's github keys to ssh authorized_keys."
+  curl https://github.com/"$1".keys 2>/dev/null | while IFS= read -r key; do
+    name=$(echo "$key" | awk '{print $1}')
+    msg "Adding $user's github $name key to ssh authorized_keys."
     grep -q "$key" "$keyfile" || echo "$key $user" >> "$keyfile"
-  }
+  done
 }
 
 is_personal() {
