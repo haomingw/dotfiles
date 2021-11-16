@@ -147,6 +147,7 @@ is_macos && {
   alias grepp='grep -oE'
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
+  alias xct='xcodebuild test -scheme'
 
   xcb() {
     local target=${1:=all}
