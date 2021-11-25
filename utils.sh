@@ -67,8 +67,22 @@ git_clone_to() {
   fi
 }
 
+# Check if main exists and use instead of master
+function git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+}
+
+_git_pull_main_branch() {
+  git pull || {
+    git remote set-head origin -a
+    git checkout "$(git_main_branch)"
+    git pull
+  }
+}
+
 git_pull() {
-  pushd "$1" >/dev/null && git pull && popd >/dev/null || return 1
+  pushd "$1" >/dev/null && _git_pull_main_branch && popd >/dev/null || return 1
 }
 
 update_vim_plugins() {
