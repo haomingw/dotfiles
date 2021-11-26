@@ -98,6 +98,7 @@ if count(g:plug_groups, 'programming')
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
+  Plug 'ruanyl/vim-gh-line'
   Plug 'rhysd/git-messenger.vim'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
@@ -698,11 +699,10 @@ endif
 " Fugitive {{
 
 if has_key(g:plugs, 'vim-fugitive')
-  nnoremap <silent> <leader>gs :Gstatus<cr>
-  nnoremap <silent> <leader>gd :Gdiff<cr>
-  nnoremap <silent> <leader>gc :Gcommit<cr>
-  nnoremap <silent> <leader>gb :Gblame<cr>
-  nnoremap <silent> <leader>gl :Glog<cr>
+  nnoremap <silent> <leader>gd :Git diff<cr>
+  nnoremap <silent> <leader>gc :Git commit<cr>
+  nnoremap <silent> <leader>gb :Git blame<cr>
+  nnoremap <silent> <leader>gl :Gclog<cr>
   nnoremap <silent> <leader>gp :Git push<cr>
   nnoremap <silent> <leader>gr :Gread<cr>
   nnoremap <silent> <leader>gw :Gwrite<cr>
@@ -726,6 +726,18 @@ if has_key(g:plugs, 'git-messenger.vim')
     autocmd!
     autocmd FileType gitmessengerpopup :call <SID>setup_git_messenger_popup()
   augroup END
+endif
+
+"}}
+
+" Vim-gh-line {{
+
+if has_key(g:plugs, 'vim-gh-line')
+  let g:gh_line_map_default = 0
+  let g:gh_line_blame_map_default = 0
+
+  let g:gh_line_map = '<leader>gh'
+  let g:gh_repo_map = '<leader>go'
 endif
 
 "}}
@@ -800,7 +812,7 @@ endif
 " Vim-go {{
 
 if has_key(g:plugs, 'vim-go')
-  nnoremap <silent> <leader>go :GoUpdateBinaries<cr>
+  nnoremap <silent> <leader>gu :GoUpdateBinaries<cr>
   let g:go_fmt_command = "goimports"
   let g:go_highlight_fields = 1
   let g:go_highlight_function_calls = 1
