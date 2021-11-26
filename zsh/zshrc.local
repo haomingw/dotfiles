@@ -313,11 +313,13 @@ alias gupd='git remote set-head origin -a'
 alias gsf='git commit --amend --signoff'
 
 ghcl() {
-  git clone "https://github.com/haomingw/$1.git"
+  local user=${GH_USER:-haomingw}
+  git clone "https://github.com/$user/$1.git"
 }
 
 ghcls() {
-  git clone "git@github.com:haomingw/$1.git"
+  local user=${GH_USER:-haomingw}
+  git clone "git@github.com:$user/$1.git"
 }
 
 gtrd() {
