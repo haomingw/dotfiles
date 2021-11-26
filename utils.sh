@@ -736,8 +736,8 @@ cleanup_miniconda_files() {
   success "Cleaning up miniconda files."
 }
 
-install_miniconda() {
-  local conda="$HOME/miniconda3"
+install_miniforge() {
+  local conda="$HOME/miniforge3"
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
     "pip"
@@ -748,35 +748,19 @@ install_miniconda() {
     "virtualenv"
     "youtube-dl"
   )
-  if is_arm; then
-    conda="/opt/miniconda3"
-  fi
 
   if [ ! -d "$conda" ]; then
     local url
-    if is_wsl; then
-      url="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
-    elif is_linux; then
-      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*Linux-x86_64.sh' | head -n1)
-    elif is_arm; then
-      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.pkg' | head -n1)
-    else
-      url=$(download_stdout https://conda.io/miniconda.html | grep -o 'https.*MacOSX-x86_64.sh' | head -n1)
-    fi
+    url="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
-      local miniconda target="/tmp"
-      miniconda=$(parse "$url")
-      [ -f "$target/$miniconda" ] || download_to "$url" "$target"
-      if is_arm; then
-        sudo installer -target / -pkg "$target/$miniconda"
-      else
-        bash "$target/$miniconda"
-      fi
-      success "Miniconda successfully installed."
+      local miniforge target="/tmp"
+      miniforge=$(parse "$url")
+      [ -f "$target/$miniforge" ] || download_to "$url" "$target"
+      bash "$target/$miniforge"
+      success "Miniforge successfully installed."
       "$conda"/bin/conda update -y conda
-      rm "$target/$miniconda"
-      cleanup_miniconda_files
+      rm "$target/$miniforge"
 
       [ -f "$conda"/bin/pip ] || "$conda"/bin/conda install -y pip
 

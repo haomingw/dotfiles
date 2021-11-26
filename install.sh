@@ -102,7 +102,7 @@ config_programming_langs() {
     fi
   done
 
-  install_miniconda
+  install_miniforge
   install_golang
   install_go_tools
   install_node
