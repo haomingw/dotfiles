@@ -314,6 +314,14 @@ alias grhm='git reset --hard origin/$(git_main_branch)'
 alias gupd='git remote set-head origin -a'
 alias gsf='git commit --amend --signoff'
 
+ghcl() {
+  git clone "https://github.com/haomingw/$1.git"
+}
+
+ghcls() {
+  git clone "git@github.com:haomingw/$1.git"
+}
+
 gtrd() {
   git show -s "$1" --format='%H'
 }
