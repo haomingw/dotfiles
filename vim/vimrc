@@ -708,7 +708,7 @@ if has_key(g:plugs, 'vim-fugitive')
   nnoremap <silent> <leader>gw :Gwrite<cr>
   nnoremap <silent> <leader>ge :Gedit<cr>
   " Mnemonic _i_nteractive
-  nnoremap <silent> <leader>gi :Git add -p %<cr>
+  nnoremap <silent> <leader>ga :Git add -p %<cr>
   nnoremap <silent> <leader>gg :SignifyToggle<cr>
 endif
 
