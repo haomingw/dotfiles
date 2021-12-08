@@ -35,5 +35,6 @@
     "gitlens.advanced.telemetry.enabled": false,
     "terminal.integrated.inheritEnv": false,
     "editor.inlineSuggest.enabled": true,
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.fontSize": 16
 }
