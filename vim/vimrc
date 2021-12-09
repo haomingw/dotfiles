@@ -463,6 +463,7 @@ if !exists('g:noplug')
 if has_key(g:plugs, 'ultisnips')
   " Trigger configuration. Do not use <tab>
   let g:UltiSnipsExpandTrigger = "<c-l>"
+  let g:UltiSnipsJumpForwardTrigger="<c-l>"
   " If you want :UltiSnipsEdit to split your window.
   let g:UltiSnipsEditSplit = "vertical"
 endif
