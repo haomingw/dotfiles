@@ -782,7 +782,7 @@ install_miniforge() {
 
 install_golang() {
   local url
-  local current version
+  local version current=
   local filename
   local goroot="$HOME/.golang"
 
@@ -818,7 +818,7 @@ install_golang() {
 install_node() {
   local node_home="$HOME/.node"
   local url
-  local current version
+  local version current=
   local filename
 
   if is_linux; then
@@ -872,7 +872,7 @@ install_java() {
 
 install_swift() {
   is_ubuntu || return 0
-  local current version
+  local version current=
   local url filename
   local swift="$HOME/.swift"
   [ -d "$swift" ] && return 0
@@ -933,7 +933,7 @@ install_docker() {
     success "Now installing Docker."
   fi
 
-  local current version
+  local version current=
   version="$(download_stdout https://github.com/docker/compose/releases | grep -oP '\d+(\.\d+)+/docker-compose-Linux' | head -n1 | getv)"
   program_exists docker-compose && current="$(docker-compose --version | getv)"
 
@@ -999,6 +999,7 @@ install_cargo() {
     "fd-find"
     "ripgrep"
   )
+  is_wsl && return 0
   for package in "${packages[@]}"; do
     "$cargo"/bin/cargo install "$package"
   done
