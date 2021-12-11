@@ -309,6 +309,7 @@ alias gtu='gtcl && git fetch --tags'
 alias gcfix='git commit -m "fixup!"'
 alias grbim='git rebase -i $(git_main_branch)'
 alias grhm='git reset --hard origin/$(git_main_branch)'
+alias grhc='git reset --hard origin/$(git_current_branch)'
 alias gupd='git remote set-head origin -a'
 alias gsf='git commit --amend --signoff'
 
