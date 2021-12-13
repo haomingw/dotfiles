@@ -272,6 +272,24 @@ gpgdec() {
   fi
 }
 
+gpgcmp() {
+  local filename
+  local target="/tmp/content"
+
+  if [[ "$1" == *.gpg ]]; then
+    filename=$(basename $1 .gpg)
+    cat "$1" | gpgdec > "$target"
+  else
+    filename="$1"
+    cat "$1.gpg" | gpgdec > "$target"
+  fi
+
+  msg "Comparing $filename and $target"
+  diff "$filename" "$target"
+  msg "Removing $target"
+  rm "$target"
+}
+
 gpgpk() {
   local key_id=$(gpgkid "$@")
   gpg --armor --export "$key_id"
