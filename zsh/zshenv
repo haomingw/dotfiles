@@ -29,6 +29,6 @@ is_linux && program_exists nvim && export EDITOR=nvim
 
 is_wsl && export WINHOME="/mnt/c/Users/$(whoami.exe | cut -d'\' -f2 | head -c -2)"
 
-export RBENV_VERSION=3.0.0
+export RBENV_VERSION=3.0.3
 
 # }} // namespace env

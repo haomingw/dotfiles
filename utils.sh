@@ -213,6 +213,7 @@ install_neovim() {
     url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz' | head -n1)
     foldername="nvim-osx64"
   fi
+  filename=$(parse "$url")
   version=$(echo "$url" | getv)
   if [ -z "$version" ]; then
     error "Can't parse version from url"
@@ -221,7 +222,6 @@ install_neovim() {
   program_exists nvim && current=$(nvim --version | getv)
 
   check_update "$current" "$version" "nvim" || {
-    filename=$(parse "$url")
     download_to "github.com/$url" /tmp
     tar xzf "/tmp/$filename" -C /tmp
     rm -rf ~/.neovim
@@ -569,7 +569,6 @@ install_clangd() {
 install_gpg() {
   is_macos || return 0
   local url
-  local filename
   local version current=
 
   url=$(download_stdout https://sourceforge.net/p/gpgosx/docu/Download/ | grep -oE 'https://sourceforge.net/projects/gpgosx/files/GnuPG-[0-9.]+.dmg/download' | head -n1)
@@ -583,6 +582,28 @@ install_gpg() {
       sudo installer -target / -pkg "/Volumes/GnuPG $version/Install.pkg"
       umount "/Volumes/GnuPG $version"
       rm ~/Downloads/"GnuPG-$version.dmg"
+    fi
+  }
+}
+
+install_vagrant() {
+  is_macos || return 0
+  local url
+  local filename
+  local version current=
+
+  url=$(download_stdout https://www.vagrantup.com/downloads | grep -oE 'https://releases.hashicorp.com/vagrant/[0-9.]+/vagrant_[0-9.]+_x86_64.dmg' | head -n1)
+  filename=$(parse "$url")
+  version=$(echo "$url" | getv)
+  program_exists vagrant && current=$(vagrant --version | getv)
+
+  check_update "$current" "$version" "vagrant" || {
+    download_to "$url" ~/Downloads
+    if is_not_ci; then
+      hdiutil attach ~/Downloads/"$filename"
+      sudo installer -target / -pkg "/Volumes/Vagrant/vagrant.pkg"
+      umount "/Volumes/Vagrant"
+      rm ~/Downloads/"$filename"
     fi
   }
 }
@@ -602,12 +623,12 @@ install_swiftlint() {
   else
     url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
   fi
+  filename=$(parse "$url")
   version=$(echo "$url" | getv)
   program_exists swiftlint && current=$(swiftlint --version | getv)
 
   check_update "$current" "$version" "swiftlint" || {
     download_to "github.com/$url" /tmp
-    filename=$(parse "$url")
     unzip "/tmp/$filename" -d /tmp/swiftlint
     cpif /tmp/swiftlint/swiftlint /usr/local/bin
     rm -rf "/tmp/$filename" /tmp/swiftlint
@@ -622,12 +643,12 @@ install_swiftformat() {
   local version current=
 
   url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
+  filename=$(parse "$url")
   version=$(echo "$url" | getv)
   program_exists swiftformat && current=$(swiftformat --version | getv)
 
   check_update "$current" "$version" "swiftformat" || {
     download_to "github.com/$url" /tmp
-    filename=$(parse "$url")
     program_exists unzip || {
       warning "Install unzip to extract zip files."
       return 0
@@ -647,13 +668,13 @@ install_github_cli() {
   local version current=
 
   url=$(download_stdout https://github.com/cli/cli/releases | grep -o 'cli/.*macOS_amd64.tar.gz' | head -n1)
+  filename=$(parse "$url")
   version=$(echo "$url" | getv)
   program_exists gh && current=$(gh --version | getv)
 
   check_update "$current" "$version" "gh" || {
     local dir
     download_to "github.com/$url" /tmp
-    filename=$(parse "$url")
     tar xzf "/tmp/$filename" -C /tmp
     dir="$(basename "$filename" .tar.gz)"
     cpif "/tmp/$dir/bin/gh" /usr/local/bin
@@ -676,6 +697,7 @@ install_utils() {
   install_shellcheck
   install_clangd
   install_gpg
+  install_vagrant
   install_swiftlint
   install_swiftformat
   install_github_cli
