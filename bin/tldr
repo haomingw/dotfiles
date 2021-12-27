@@ -22,7 +22,7 @@ silent() {
 set -uf
 # Some shells don't support setting pipefail, so try it silently and
 # ignore any errors.
-silent set -o pipefail || true 
+# silent set -o pipefail || true
 
 
 main() {
@@ -33,7 +33,7 @@ main() {
 
 	# Some people like running this without saving any state.
 	cache true
-	if [ "${TLDR_CACHE-}" = no ]; then
+	if [ "${TLDR_CACHE:-}" = no ]; then
 		cache false
 		debug log Disabling cache
 	fi
@@ -85,7 +85,7 @@ main() {
 
 	# Download a copy of the pages locally if we don't have them already.
 	if ! exists "$(page_cache)/index.json"; then
-		update_tldr_cache 
+		update_tldr_cache
 	fi
 
 	if listing; then
@@ -93,12 +93,14 @@ main() {
 		exit 0
 	fi
 
-	if exists "$*"; then
-		display_tldr < "$*"
-	fi
+	# # as an extension, this script can also parse arbitary md files.
+	# if exists "$*"; then
+	# 	display_tldr < "$*"
+	# 	exit 0
+	# fi
 
 	if [ -z "$Cmd" ]; then
-		# Check if our input is from a pipeline or a file.
+		# If stdin is a pipeline or a file, display it as a page.
 		if ! interactive; then
 			display_tldr "$(cat)"
 		else
@@ -116,7 +118,7 @@ main() {
 
 	# Freshen our local copy of the pages if they're out of date.
 	if ! recent "$(page_cache)/index.json"; then
-		update_tldr_cache 
+		update_tldr_cache
 	fi
 }
 
@@ -149,23 +151,32 @@ base_url() {
 }
 
 upstream_pages() {
-	echo https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/master/assets/tldr.zip 
+	echo https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/master/assets/tldr.zip
 }
 
 # cache_dir returns the base path for caching tldr data files.
 cache_dir() {
-	if [ -d "${XDG_CACHE_HOME-}" ]; then
+	if [ -n "${XDG_CACHE_HOME:-}" ]; then
 		echo "${XDG_CACHE_HOME}/tldr"
-	elif [ -d "$HOME/.cache" ]; then
-		echo "$HOME/.cache/tldr"
-	else
-		echo "$HOME/.tldr"
+		return
 	fi
+
+	if [ -n "${HOME:-}" ]; then
+		if [ -d "$HOME/.cache" ]; then
+			echo "$HOME/.cache/tldr"
+		else
+			echo "$HOME/.tldr"
+		fi
+		return
+	fi
+
+	echo "/tmp"
 }
+
 
 # page_cache returns the base path for tldr markdown pages.
 page_cache() {
-	# if [ -z "${page_cache_path-}" ]; then
+	# if [ -z "${page_cache_path:-}" ]; then
 	# 	page_cache_path="$(cache_dir)/page-source"
 	# fi
 	# echo "$page_cache_path"
@@ -187,7 +198,7 @@ exists() {
 	silent test -e "$1"
 }
 
-# recent tests whether "$1" exists and is more recent than $(cache_days) old. 
+# recent tests whether "$1" exists and is more recent than $(cache_days) old.
 recent() {
 	exists "$(find "$1" -mtime "-$(cache_days)" 2>/dev/null)"
 }
@@ -203,7 +214,7 @@ basename() {
 
 # extension returns the portion of the filename after the last ., if any.
 extension() {
-	echo "${1##*.}"	
+	echo "${1##*.}"
 }
 
 # lang_cc returns the ${language}_${country_code} portion of a locale.
@@ -216,7 +227,7 @@ lang_cc() {
 
 Get() {
 	if installed curl; then
-		curl -sfLS "$1"
+		curl -sfL "$1"
 	else
 		wget -O - "$1"
 	fi
@@ -227,7 +238,7 @@ Get() {
 # Calling `cache` with no parameters changes the success code to true or false.
 cache() {
 	case $# in
-		0) [ "${cache_bool-}" = true ] ;;
+		0) [ "${cache_bool:-}" = true ] ;;
 		1) cache_bool=$1 ;;
 	esac
 }
@@ -265,7 +276,7 @@ preferred_platform() {
 	esac
 }
 
-# platform_order returns an list of search paths, with one (harmless) duplicate.
+# platform_order returns a list of search paths, with one (harmless) duplicate.
 platform_order() {
 	echo "$(preferred_platform)" common linux osx windows sunos android
 }
@@ -274,7 +285,7 @@ platform_order() {
 # values to set.
 preferred_language() {
 	case $# in
-		0) echo "${preferred_language_code-}" ;;
+		0) echo "${preferred_language_code:-}" ;;
 		*) preferred_language_code="$*" ;;
 	esac
 }
@@ -289,14 +300,14 @@ i18n_paths() {
 	fi
 
 	# if $LANG is unset or empty, English is the fallback.
-	if [ -z "${LANG-}" ]; then
+	if [ -z "${LANG:-}" ]; then
 		debug log i18n: LANGless
 		echo pages
 		return
 	fi
 
 	# else the languages are ordered by $LANGUAGE, then $LANG, then English.
-	for i in $(split : "${LANGUAGE-}") $LANG; do
+	for i in $(split : "${LANGUAGE:-}") $LANG; do
 		case $i in
 			C|POSIX) continue ;;
 		esac
@@ -311,7 +322,7 @@ i18n_paths() {
 split() {
 	IFS="$1"
 	shift
-	# shellcheck disable=SC2048
+	# shellcheck disable=2048
 	for x in $*; do
 		echo "$x"
 	done
@@ -322,19 +333,19 @@ split() {
 # client spec. The path to the first page found in that order is returned.
 page_path() {
 	for p in $(platform_order); do
-		for l in $(i18n_paths); do 
+		for l in $(i18n_paths); do
 			if exists "$(page_cache)/$l/$p/$1.md"; then
 				echo "$(page_cache)/$l/$p/$1.md"
 				return
 			fi
-		done 
+		done
 	done
 }
 
 # term emits termcodes for style names passed as arguments.
 term() {
 	for arg; do
-		# shellcheck disable=SC2086
+		# shellcheck disable=2086
 		case $arg in
 			reset)        tput sgr0 || tput me ;;
 			bold)         tput bold || tput md ;;
@@ -364,7 +375,7 @@ term() {
 	done
 }
 
-# headinf formats its arguments as a heading.
+# heading formats its arguments as a heading.
 heading() {
 	printf "%s\n" "$(term sheader)$*$(term reset)"
 }
@@ -379,7 +390,7 @@ list_item() {
 	echo "$(term sdescription)$*$(term reset)"
 }
 
-# style_params wraps every param in its arguments with the appropriate styling.
+# style_params styles each {{...}} span as parameters.
 style_params() {
 	printf %s "$*" | sed "s/{{/$(term sparam)/g;s/}}/$(term eparam)/g"
 }
@@ -399,7 +410,7 @@ text() {
 
 # contains tests whether $1 occurs inside $2.
 contains() {
-	# shellcheck disable=SC2295
+	# shellcheck disable=2295
 	test "${2#*$1}" != "$2"
 }
 
@@ -509,7 +520,7 @@ Examples:
 	Show commands for all platforms:
 		tldr -l -p all
 	If you have fzf installed, try:
-		tldr -l -p all | fzf --preview 'tldr {}' 
+		tldr -l -p all | fzf --preview 'tldr {}'
 	Show the Russian page for tar:
 		tldr -L ru tar
 	List pages in the Android section:
@@ -524,7 +535,7 @@ trace() {
 	set +x
 }
 
-# profile runs its args as a command with profiling turned on (only works in bash).
+# profile runs its continuation with profiling turned on (only works in bash).
 # eg `profile main "$@"`
 profile() {
 	PS4=' $(linestamp) ' trace "$@"
@@ -533,16 +544,17 @@ profile() {
 # linestamp gives the current time and function caller formatted for a gutter.
 # For use in bash, not sh.
 linestamp() {
-	# shellcheck disable=SC3028 disable=3054
+	# shellcheck disable=3028 disable=3054
 	printf "%0.3f %-20s |"  "$EPOCHREALTIME" "${FUNCNAME[1]}"
 }
 
-# debug only executes its parameters if the environment variable tldrDebug exists.
+# debug only executes the continuation if the environment variable
+# tldrDebug exists.
 debug() {
 	[ -n "${tldrDebug+x}" ] && "$@"
 }
 
-# italic executes the continuation with italics on
+# italic executes the continuation with italics on, eg: `italic cat ...`.
 italic() {
 	term italic
 	"$@"
@@ -565,20 +577,20 @@ interactive() {
 # name [true|false]
 # if name; then...  if ! name; then...    name && ...
 bool() {
-        _bool_var_name=_bool_$1
-		# Yeah, I'm judging me too. I'm trying this on for size, to see
-		# if localized complexity helps simplify the rest.
-		# Anyway, this creates a new function using $1 as its name,
-		# acting per the description of `bool` above.
-        eval "
-                $1() {
-                        case \$# in
-                        0) \$$_bool_var_name ;;
-                        1) [ \"\$1\" = true ] && $_bool_var_name=true || $_bool_var_name=false ;;
-                        esac
-                }
-                $_bool_var_name=false
-        "
+	_bool_var_name=_bool_$1
+	# Yeah, I'm judging me too. I'm trying this on for size, to see if
+	# localized complexity helps simplify the rest.
+	# Anyway, this creates a new global function using $1 as its name,
+	# acting per the description of `bool` above.
+		eval "
+				$1() {
+						case \$# in
+						0) \$$_bool_var_name ;;
+						1) [ \"\$1\" = true ] && $_bool_var_name=true || $_bool_var_name=false ;;
+						esac
+				}
+				$_bool_var_name=false
+		"
 }
 
 main "$@"
