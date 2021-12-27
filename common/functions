@@ -289,6 +289,14 @@ is_pro() {
   program_exists gpg && [[ $(gpgkid "$domain") == "F7ECF5AA6AF345C8" ]]
 }
 
+make_sound() {
+  if is_macos; then
+    afplay /System/Library/Sounds/Ping.aiff
+  else
+    tput bel
+  fi
+}
+
 # }} // namespace utils
 
 # Awk {{
