@@ -7,12 +7,13 @@ source "$HOME/.common/functions"
 should_ignore() {
   # ignore past records
   local name="$1"
+  local target=${1%.gpg}
   local current
 
   current=$(date +"%Y")
 
   if [[ "$name" =~ [0-9]{4}.* ]] && [[ "$name" != *"$current"* ]]; then
-    return 0
+    [ -f "$target" ] && return 0 || return 1
   fi
   return 1
 }
