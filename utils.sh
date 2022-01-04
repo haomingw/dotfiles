@@ -974,9 +974,14 @@ install_go_tools() {
     "github.com/jesseduffield/lazygit"
     "github.com/jesseduffield/lazydocker"
   )
-  local goroot="$HOME/.golang"
-  local prog
-  local go_bin
+  local goroot prog go_bin
+
+  if is_macos; then
+    goroot='/usr/local/go'
+  else
+    goroot="$HOME/.golang"
+  fi
+
   program_exists go && go_bin="go"
   [ -f "$goroot/bin/go" ] && go_bin="$goroot/bin/go"
 
