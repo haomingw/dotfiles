@@ -532,6 +532,15 @@ endif
 if has_key(g:plugs, 'limelight.vim')
   " Number of preceding/following paragraphs to include (default: 0)
   let g:limelight_paragraph_span = 1
+  let g:limelight_priority = -1
+
+  " Color name (:help cterm-colors) or ANSI code
+  let g:limelight_conceal_ctermfg = 'gray'
+  let g:limelight_conceal_ctermfg = 240
+
+  " Color name (:help gui-colors) or RGB color
+  let g:limelight_conceal_guifg = 'DarkGray'
+  let g:limelight_conceal_guifg = '#777777'
 
   autocmd! User GoyoEnter Limelight
   autocmd! User GoyoLeave Limelight!
