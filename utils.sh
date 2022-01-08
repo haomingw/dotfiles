@@ -808,12 +808,16 @@ install_golang() {
   local filename
   local goroot="$HOME/.golang"
 
+  if is_macos && [ -d /usr/local/go ]; then
+    sudo rm -rf /usr/local/go /etc/paths.d/go
+  fi
+
   if is_linux; then
     url=$(download_stdout https://golang.org/dl/ | grep -oP '\/dl\/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n1)
   elif is_arm; then
-    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-arm64.pkg' | head -n1)
+    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-arm64.tar.gz' | head -n1)
   else
-    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-amd64.pkg' | head -n1)
+    url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-amd64.tar.gz' | head -n1)
   fi
   version=$(echo "$url" | getv)
   filename=$(parse "$url")
@@ -826,14 +830,9 @@ install_golang() {
 
   check_update "$current" "$version" "Go" || {
     [ -f "/tmp/$filename" ] || download_to "https://golang.org$url" "/tmp"
-    if is_linux; then
-      tar xzf "/tmp/$filename" -C /tmp
-      cp -Tr /tmp/go "$goroot"
-      rm -rf "/tmp/$filename" /tmp/go
-    else
-      sudo installer -target / -pkg "/tmp/$filename" \
-      && rm "/tmp/$filename"
-    fi
+    tar xzf "/tmp/$filename" -C /tmp
+    rsync -a --delete /tmp/go/ "$goroot"
+    rm -rf "/tmp/$filename" /tmp/go
   }
 }
 
