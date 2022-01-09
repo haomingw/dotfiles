@@ -33,24 +33,26 @@ check_bash_version 4
 # for small repos
 mirrors=(
   "https://github.com/junegunn/vim-plug.git"
+  "https://github.com/raylee/tldr-sh-client.git"
+  "https://github.com/mafredri/zsh-async.git"
 )
 sources=(
   "plug.vim"
+  "tldr"
+  "async.zsh"
 )
 targets=(
   "vim/vim/autoload/plug.vim"
+  "bin/tldr"
+  "zsh/zsh/async.zsh"
 )
 
 # for large repos
 clang_format="vim/vim/static/clang-format.py"
-tldr_sh="bin/tldr"
-zsh_aync="zsh/zsh/async.zsh"
 
 declare -A files=(
   ["$clang_format"]="https://raw.githubusercontent.com/llvm/llvm-project/\
 main/clang/tools/clang-format/clang-format.py"
-  ["$tldr_sh"]="https://raw.githubusercontent.com/raylee/tldr/master/tldr"
-  ["$zsh_aync"]="https://raw.githubusercontent.com/mafredri/zsh-async/master/async.zsh"
 )
 
 get_filename() {
@@ -87,10 +89,10 @@ update_target() {
   pushd ~/.mirrors/"$name" >/dev/null
   git pull
 
-  local msg
-  msg=$(git show -s --format=%s)
+  local message
+  message=$(git show -s --format=%s)
   cp -v "$from" "$app/$to"
-  git_check_file "$to" "[$name] $msg"
+  git_check_file "$to" "[$name] $message"
   popd >/dev/null
 }
 
@@ -99,6 +101,7 @@ mirror_small() {
   for mirror in "${mirrors[@]}"; do
     update_target "$mirror" "${sources[$i]}" "${targets[$i]}"
     ((i+=1))
+    sleep 1
   done
 }
 
