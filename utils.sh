@@ -809,6 +809,7 @@ install_golang() {
   local goroot="$HOME/.golang"
 
   if is_macos && [ -d /usr/local/go ]; then
+    msg "Removing golang pkg"
     sudo rm -rf /usr/local/go /etc/paths.d/go
   fi
 
