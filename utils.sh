@@ -9,13 +9,6 @@ is_not_ci() {
   [ -z "${CI:-}" ]
 }
 
-program_must_exist() {
-  program_exists "$1" || {
-    error "You must have '$1' installed to continue."
-    exit 1
-  }
-}
-
 must_have_one_of() {
   for prog in "$@"; do
     program_exists "$prog" && return 0
@@ -973,6 +966,7 @@ install_go_tools() {
     "github.com/gokcehan/lf"
     "github.com/jesseduffield/lazygit"
     "github.com/jesseduffield/lazydocker"
+    "github.com/prasmussen/gdrive"
   )
   local prog go_bin
   local goroot="$HOME/.golang"

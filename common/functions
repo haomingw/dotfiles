@@ -135,6 +135,13 @@ rename() {
   done
 }
 
+program_must_exist() {
+  program_exists "$1" || {
+    error "You must have '$1' installed to continue."
+    return 1
+  }
+}
+
 args_must_exist() {
   local min_argc="$1"
   shift
