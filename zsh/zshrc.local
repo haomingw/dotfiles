@@ -257,6 +257,10 @@ gpgdec() {
 
   if tty -s; then
     for ff in $@; do
+      [[ "$ff" == *.gpg ]] || {
+        msg "$ff isn't an encrypted file."
+        continue
+      }
       name=$(basename $ff .gpg)
       if [[ -f $name ]]; then
         confirm "File $name exists, overwrite?" || {
