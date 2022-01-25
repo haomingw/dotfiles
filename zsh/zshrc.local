@@ -164,7 +164,7 @@ is_macos && {
     if fava_loaded; then
       msg "fava service already launched"
     else
-      if [[ -f ~/Library/LaunchAgents/com.beancount.fava.plist ]]
+      if [[ -f ~/Library/LaunchAgents/com.beancount.fava.plist ]]; then
         msg "Starting service com.beancount.fava"
         launchctl load -w ~/Library/LaunchAgents/com.beancount.fava.plist
       else
