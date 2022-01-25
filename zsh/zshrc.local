@@ -152,6 +152,26 @@ is_macos && {
     msg "Building target $target"
     xcodebuild -target "$target"
   }
+
+  fava_loaded() {
+    if lcls | grep beancount; then
+      return 0
+    fi
+    return 1
+  }
+
+  favald() {
+    if fava_loaded; then
+      msg "fava service already launched"
+    else
+      msg "Starting service com.beancount.fava"
+      launchctl load -w ~/Library/LaunchAgents/com.beancount.fava.plist
+    fi
+  }
+
+  favauld() {
+    launchctl unload ~/Library/LaunchAgents/com.beancount.fava.plist
+  }
 }
 
 genpwd() {

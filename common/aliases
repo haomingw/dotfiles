@@ -26,3 +26,13 @@ alias is_in_git_repo='git rev-parse HEAD &>/dev/null'
 alias lg='lazygit'
 
 # }} // namespace git
+
+# Launchd {{
+
+alias cdlc='cd ~/Library/LaunchAgents'
+
+alias lcls='launchctl list'
+alias lcld='launchctl load -w'
+alias lculd='launchctl unload -w'
+
+# }} // namespace launchd

@@ -512,6 +512,12 @@ config_homebrew() {
   fi
 }
 
+config_launchd() {
+  msg "Setting launchd services"
+
+  lnif "$app_path/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents/"
+}
+
 install_shellcheck() {
   local url
   local filename foldername
@@ -736,6 +742,7 @@ common_config_zsh() {
   config_git
   config_hhkb
   config_homebrew
+  config_launchd
   install_utils
 }
 
