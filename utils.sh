@@ -513,6 +513,9 @@ config_homebrew() {
 }
 
 config_launchd() {
+  is_macos || return 0
+  is_personal || return 0
+
   msg "Setting launchd services"
 
   lnif "$app_path/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents/"
