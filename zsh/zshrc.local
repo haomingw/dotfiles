@@ -163,13 +163,17 @@ is_macos && {
   favald() {
     if fava_loaded; then
       msg "fava service already launched"
+      return 0
+    fi
+    program_exists fava || {
+      warning "fava not installed"
+      return 1
+    }
+    if [[ -f ~/Library/LaunchAgents/com.beancount.fava.plist ]]; then
+      msg "Starting service com.beancount.fava"
+      launchctl load -w ~/Library/LaunchAgents/com.beancount.fava.plist
     else
-      if [[ -f ~/Library/LaunchAgents/com.beancount.fava.plist ]]; then
-        msg "Starting service com.beancount.fava"
-        launchctl load -w ~/Library/LaunchAgents/com.beancount.fava.plist
-      else
-        warning "service com.beancount.fava.plist doesn't exist."
-      fi
+      warning "service com.beancount.fava.plist doesn't exist."
     fi
   }
 
@@ -565,6 +569,10 @@ pipS() {
   else
     pip install $@
   fi
+}
+
+pipv() {
+  pip list | grep "$1"
 }
 
 pipcl() {
