@@ -512,14 +512,19 @@ config_homebrew() {
   fi
 }
 
-config_launchd() {
-  is_macos || return 0
+config_services() {
   is_personal || return 0
 
-  msg "Setting launchd services"
+  if is_macos; then
+    msg "Setting launchd services"
 
-  [ -d ~/Library/LaunchAgents ] || mkdir "$HOME/Library/LaunchAgents"
-  lnif "$app_path/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents/"
+    [ -d ~/Library/LaunchAgents ] || mkdir "$HOME/Library/LaunchAgents"
+    lnif "$app_path/service/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents/"
+  fi
+
+  if is_linux; then
+    msg "TODO: Setting systemd services"
+  fi
 }
 
 install_shellcheck() {
@@ -746,7 +751,7 @@ common_config_zsh() {
   config_git
   config_hhkb
   config_homebrew
-  config_launchd
+  config_services
   install_utils
 }
 
