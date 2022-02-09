@@ -712,15 +712,29 @@ install_utils() {
   optional_downloads
 }
 
+config_binary() {
+  msg "Setting binaries"
+  local ff target
+
+  [ -d /usr/local/bin ] || sudo mkdir -p /usr/local/bin
+
+  for ff in "$app_path"/bin/*; do
+    if [[ "$ff" != *.* ]]; then
+      lnif "$ff" /usr/local/bin
+    elif [[ "$ff" == *.c ]]; then
+      target=$(basename "$ff" .c)
+      if [ ! -f "/usr/local/bin/$target" ]; then
+        echo "compiling $ff -> /usr/local/bin/$target"
+        gcc "$ff" -o "/usr/local/bin/$target"
+      fi
+    fi
+  done
+}
+
 common_config_zsh() {
   local ff target
 
   lnif "$app_path/common" "$HOME/.common"
-
-  [ -d /usr/local/bin ] || sudo mkdir -p /usr/local/bin
-  for ff in "$app_path"/bin/*; do
-    lnif "$ff" /usr/local/bin
-  done
 
   if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
@@ -753,6 +767,7 @@ common_config_zsh() {
   config_homebrew
   config_services
   install_utils
+  config_binary
 }
 
 cleanup_miniconda_files() {
