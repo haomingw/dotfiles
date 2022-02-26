@@ -699,6 +699,15 @@ optional_downloads() {
 
   url=$(download_stdout https://freemacsoft.net/appcleaner/ | grep -o 'https.*AppCleaner.*.zip' | head -n1)
   download_app AppCleaner "$url"
+
+  url=$(download_stdout https://github.com/wez/wezterm/releases | grep -o '/wez/wezterm/.*macos.*.zip' | head -n1)
+  download_app WezTerm "github.com/$url"
+}
+
+config_terminal() {
+  msg "Setting up WezTerm"
+  safe_mkdir "$HOME/.config/wezterm"
+  lnif "$app_path/wezterm/wezterm.lua" "$HOME/.config/wezterm"
 }
 
 install_utils() {
@@ -710,6 +719,7 @@ install_utils() {
   install_swiftformat
   install_github_cli
   optional_downloads
+  config_terminal
 }
 
 config_binary() {

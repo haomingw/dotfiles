@@ -243,6 +243,7 @@ alias gpgpls='gpg --list-keys'
 
 alias gpgprm='gpg --delete-key'
 alias gpgrm='gpg --delete-secret-key'
+alias gpgi='gpg --import'
 
 gpgsend() {
   local key_id=$(gpgkid "$@")
