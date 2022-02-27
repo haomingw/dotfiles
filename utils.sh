@@ -733,9 +733,10 @@ config_binary() {
       lnif "$ff" /usr/local/bin
     elif [[ "$ff" == *.c ]]; then
       target=$(basename "$ff" .c)
-      if [ ! -f "/usr/local/bin/$target" ]; then
+      if [ ! -f "/usr/local/bin/$target" ] && program_exists clang; then
         echo "compiling $ff -> /usr/local/bin/$target"
-        gcc "$ff" -o "/usr/local/bin/$target"
+        clang "$ff" -o "/tmp/$target"
+        cpif "/tmp/$target" /usr/local/bin
       fi
     fi
   done

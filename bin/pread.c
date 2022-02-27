@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
   res = pread(fd, buf, length, offset);
   if (res < 0) {
-    fprintf(stderr, "Unable to read {offset:%llu, length:%lu}: %s\n", offset,
+    fprintf(stderr, "Unable to read {offset:%lld, length:%lu}: %s\n", offset,
             length, strerror(errno));
     return 1;
   }
