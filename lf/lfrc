@@ -10,7 +10,7 @@ set scrolloff 10
 
 cmd open ${{
   case $(file --mime-type "$f" -b) in
-    text/*|application/csv|inode/x-empty) $EDITOR "$f" ;;
+    text/*|application/[csv,xml,json]|inode/x-empty) $EDITOR "$f" ;;
     *) $OPENER "$f" ;;
   esac
 }}
