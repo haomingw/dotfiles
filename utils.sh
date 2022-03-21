@@ -36,7 +36,7 @@ download_to() {
   if program_exists wget; then
     wget "$1" -P "$2"
   else
-    curl "$1" -o "$2/$name"
+    curl -fsSL "$1" > "$2/$name"
   fi
 }
 
