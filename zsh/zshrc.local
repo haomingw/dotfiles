@@ -147,6 +147,8 @@ is_macos && {
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
   alias xct='xcodebuild test -scheme'
 
+  alias wezterm='/Applications/WezTerm.app/Contents/MacOS/wezterm'
+
   xcb() {
     local target=${1:=all}
     msg "Building target $target"
