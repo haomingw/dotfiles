@@ -113,8 +113,8 @@ cpif() {
 }
 
 parse() {
-  local data="$1"
-  [[ $# -eq 0 ]] && read data
+  local data
+  [[ $# -eq 0 ]] && read data || data="$1"
   echo $data | rev | cut -d'/' -f1 | rev
 }
 
