@@ -436,6 +436,10 @@ gitd() {
   GIT_AUTHOR_DATE=$desc GIT_COMMITTER_DATE="$desc" git "$@"
 }
 
+gdc() {
+  git diff "$1~" "$1"
+}
+
 gitg() { local v="$1"; shift; git g$v "$@"; }
 gitp() { local v="$1"; shift; git p$v "$@"; }
 

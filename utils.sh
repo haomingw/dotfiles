@@ -1016,7 +1016,7 @@ install_go_tools() {
   local go_tools=(
     "github.com/gokcehan/lf"
     "github.com/jesseduffield/lazygit"
-    "github.com/jesseduffield/lazydocker"
+    # "github.com/jesseduffield/lazydocker"
     "github.com/prasmussen/gdrive"
   )
   local prog go_bin
@@ -1028,10 +1028,8 @@ install_go_tools() {
   if [ -n "$go_bin" ]; then
     for url in "${go_tools[@]}"; do
       prog=$(parse "$url")
-      program_exists "$prog" || {
-        msg "Installing $prog"
-        GO111MODULE=on "$go_bin" get -u "$url" >/dev/null 2>&1
-      }
+      msg "Installing/Updating $prog"
+      "$go_bin" install "$url@latest" >/dev/null 2>&1
     done
 
     local lfrc="$HOME/.config/lf"
