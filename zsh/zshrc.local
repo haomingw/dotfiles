@@ -189,6 +189,19 @@ genpwd() {
   random "a-zA-Z0-9!#$%&()*+,-./:;<=>?@[\]^_{|}~" "$len" | toclip
 }
 
+bak() {
+  if [[ "$1" == *.bak ]]; then
+    local name="$(basename "$1" .bak)"
+    if [[ -d "$name" ]] || [[ -f "$name" ]]; then
+      warning "$name already exists"
+    else
+      mv "$1" "$name"
+    fi
+  else
+    mv "$1" "$1.bak"
+  fi
+}
+
 # }} // namespace utils
 
 # Tools {{
