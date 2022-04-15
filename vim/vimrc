@@ -288,8 +288,8 @@ function! ToggleBG()
   endif
 endfunction
 nnoremap <leader>bg :call ToggleBG()<cr>
-nnoremap <leader>bt :set noexpandtab<cr>
-nnoremap <leader>br :%retab!<cr>
+nnoremap <leader>bt :%retab!<cr>
+nnoremap <leader>bi gg=G<c-o>
 
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
@@ -401,6 +401,7 @@ endif
 " Fast editting
 nnoremap <c-s> :w<cr>
 nnoremap cl ggdG
+nnoremap <leader>Y :%y<cr>
 inoremap <c-s> <Esc>:w<cr>a
 inoremap <c-v> <Esc>pa
 inoremap <c-j> <Esc>o
