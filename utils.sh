@@ -740,6 +740,10 @@ config_binary() {
   for ff in "$app_path"/bin/*; do
     if [[ "$ff" != *.* ]]; then
       lnif "$ff" /usr/local/bin
+    elif [[ "$ff" == *.macos ]]; then
+      if is_macos; then
+        lnif "$ff" /usr/local/bin/"$(basename "$ff" .macos)"
+      fi
     elif [[ "$ff" == *.c ]]; then
       target=$(basename "$ff" .c)
       if [ ! -f "/usr/local/bin/$target" ] && program_exists clang; then
