@@ -352,7 +352,7 @@ gpgcmp() {
   fi
 
   msg "Comparing $filename and $target"
-  diff "$filename" "$target"
+  diff "$target" "$filename"
   msg "Removing $target"
   rm "$target"
 }
