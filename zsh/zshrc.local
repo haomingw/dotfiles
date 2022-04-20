@@ -235,17 +235,29 @@ program_exists awk && {
 alias txls='tmux ls | cut -d: -f1'
 alias txrm='tmux kill-session -t'
 
-program_exists tmux && {
-  txat() {
-    [[ $# -ge 1 ]] && tmux attach -t $1 || tmux attach
+txat() {
+  if [[ $# -ge 1 ]]; then
+    tmux attach -t $1
+    return
+  fi
+  local session sessions
+  sessions=$(tmux ls) && {
+    if [[ $(echo "$sessions" | wc -l | xargs) -eq 1 ]]; then
+      tmux attach
+    else
+      echo "$sessions"
+      echo -n "enter session name: "
+      read session
+      tmux attach -t "$session"
+    fi
   }
+}
 
-  txcl() {
-    for session in $(txls); do
-      echo "deleting session #$session"
-      txrm $session
-    done
-  }
+txcl() {
+  for session in $(txls); do
+    echo "deleting session #$session"
+    txrm $session
+  done
 }
 
 # }} // namespace tmux
