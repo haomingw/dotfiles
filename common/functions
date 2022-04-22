@@ -71,6 +71,10 @@ is_arm() {
   [[ "$(uname -m)" == "arm64" ]]
 }
 
+is_intel() {
+  [[ "$(uname -m)" == "x86_64" ]]
+}
+
 is_wsl() {
   [[ "$(uname -a)" == *Microsoft* ]]
 }

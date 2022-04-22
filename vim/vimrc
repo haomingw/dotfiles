@@ -843,7 +843,7 @@ endif
 " coc.nvim {{
 
 if has_key(g:plugs, 'coc.nvim')
-  let g:coc_global_extensions = ['coc-python', 'coc-clangd']
+  let g:coc_global_extensions = ['coc-python', 'coc-clangd', 'coc-json', 'coc-tsserver']
 
   nmap <silent> <leader>py :CocCommand python.setInterpreter<cr>
   nmap <silent> gd <Plug>(coc-definition)
@@ -940,7 +940,7 @@ function! Cpp_setup()
   syn keyword cppType ll pii
 
   if !filereadable(getcwd() . "/Makefile")
-    let &makeprg='g++ % -DLOCAL -std=c++14 -O2 -Wall -Wextra
+    let &makeprg='g++ % -DLOCAL -std=c++17 -O2 -Wall -Wextra
       \ -Wpedantic -Wshadow -Wno-unused-result'
   endif
 endfunction
