@@ -588,7 +588,7 @@ install_gpg() {
     if is_not_ci; then
       hdiutil attach ~/Downloads/"GnuPG-$version.dmg"
       sudo installer -target / -pkg "/Volumes/GnuPG $version/Install.pkg"
-      umount "/Volumes/GnuPG $version"
+      diskutil eject "/Volumes/GnuPG $version"
       rm ~/Downloads/"GnuPG-$version.dmg"
     fi
   }
