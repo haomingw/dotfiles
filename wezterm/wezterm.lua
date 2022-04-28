@@ -6,7 +6,7 @@ return {
   font = wezterm.font("JetBrains Mono"),
   font_size = 20,
   harfbuzz_features = {"calt=0", "clig=0", "liga=0"},
-  default_cursor_style = "BlinkingUnderline",
+  default_cursor_style = "SteadyUnderline",
   send_composed_key_when_left_alt_is_pressed = true,
   send_composed_key_when_right_alt_is_pressed = false,
   keys = {

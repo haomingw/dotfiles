@@ -232,6 +232,7 @@ program_exists awk && {
 
 # Tmux {{
 
+alias tx='tmux attach || tmux'
 alias txls='tmux ls | cut -d: -f1'
 alias txrm='tmux kill-session -t'
 

@@ -699,6 +699,11 @@ optional_downloads() {
 
   url=$(download_stdout https://freemacsoft.net/appcleaner/ | grep -o 'https.*AppCleaner.*.zip' | head -n1)
   download_app AppCleaner "$url"
+
+  if is_pro; then
+    url=$(download_stdout https://sqlitebrowser.org/dl/ | grep -o 'https.*SQLite.*.dmg' | head -n1)
+    download_app "DB Browser for SQLite" "$url"
+  fi
 }
 
 config_terminal() {
