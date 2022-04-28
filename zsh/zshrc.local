@@ -458,6 +458,10 @@ git_has_remote() {
 
 graa() {
   local repo=$(git remote get-url origin | cut -d: -f2)
+  if [[ "$repo" == /* ]]; then
+    warning "Wrong format, ignore remote adding"
+    return 0
+  fi
   git_has_remote "gitlab" || {
     msg "Adding remote gitlab: git@gitlab.com:$repo"
     git remote add gitlab "git@gitlab.com:$repo"
