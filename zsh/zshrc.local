@@ -442,6 +442,32 @@ gpa() {
   done
 }
 
+grcl() {
+  local remotes
+  read -A remotes <<< "$(git remote | grep -v origin | xargs)"
+
+  for remote in "${remotes[@]}"; do
+    msg "Removing git remote: $remote"
+    git remote remove "$remote"
+  done
+}
+
+git_has_remote() {
+  git remote -v | grep -i "$1" N
+}
+
+graa() {
+  local repo=$(git remote get-url origin | cut -d: -f2)
+  git_has_remote "gitlab" || {
+    msg "Adding remote gitlab: git@gitlab.com:$repo"
+    git remote add gitlab "git@gitlab.com:$repo"
+  }
+  git_has_remote "bitbucket" || {
+    msg "Adding remote bit: git@bitbucket.org:$repo"
+    git remote add bit "git@bitbucket.org:$repo"
+  }
+}
+
 gitd() {
   local parsed
   is_linux && {
