@@ -157,7 +157,7 @@ set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
 " Better Unix / Windows compatibility
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore         " Allow for cursor beyond last character
-set history=200
+set history=1000
 set hidden                      " Allow buffer switching without saving
 set iskeyword-=.                " '.' is an end of word designator
 set iskeyword-=#                " '#' is an end of word designator
@@ -172,6 +172,12 @@ if has('persistent_undo')
   " Maximum number lines to save for undo on a buffer reload
   set undoreload=10000
 endif
+
+set nrformats-=octal
+set complete-=i                 " Searching includes can be slow
+set ruler
+set formatoptions+=j            " Delete comment character when joining commented lines
+set autoread
 
 " }} // namespace general
 
@@ -214,6 +220,9 @@ set scrolloff=3                 " Minimum lines to keep above and below cursor
 set foldenable                  " Auto fold code
 set list
 set laststatus=2                " Display status line
+set lazyredraw
+set sessionoptions-=options
+set viewoptions-=options
 
 " Highlight problematic whitespace
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
@@ -232,6 +241,7 @@ set shiftwidth=2                " Use indents of 2 spaces
 set tabstop=2                   " An indentation every four columns
 set softtabstop=2               " Let backspace delete indent
 set expandtab                   " Tabs are spaces, not tabs
+set smarttab
 
 set splitright splitbelow
 set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
@@ -558,7 +568,7 @@ if has_key(g:plugs, 'lightline.vim')
   \ 'active': {
   \   'left': [ ['mode', 'paste'],
   \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-  \   'right': [ [ 'lineinfo' ], ['percent'] ]
+  \   'right': [ ['lineinfo'], ['percent'] ]
   \ },
   \ 'tabline' : {
   \   'right' : []
