@@ -127,7 +127,6 @@ endif
 set mouse=a                     " Automatically enable mouse usage
 set mousehide                   " Hide the mouse cursor while typing
 scriptencoding utf-8
-set wildignore+=*.o,*.so,*.pyc,*/__pycache__/,.git/*,.DS_Store
 
 if has('clipboard')
   if has('unnamedplus')         " When possible use + register for copy-paste
@@ -178,6 +177,8 @@ set complete-=i                 " Searching includes can be slow
 set ruler
 set formatoptions+=j            " Delete comment character when joining commented lines
 set autoread
+set virtualedit=block
+set textwidth=0
 
 " }} // namespace general
 
@@ -203,6 +204,7 @@ if !exists('g:noplug')
   set noshowmode                " Don't display the current mode
 endif
 set showcmd                     " Show partial commands in status line
+set visualbell
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set showmatch                   " Show matching brackets/parenthesis
@@ -212,8 +214,8 @@ set winminheight=0              " Windows can be 0 line high
 set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
-set wildmode=list:longest,full  " Command <Tab> completion, list matches,
-                                " then longest common part, then all.
+set wildmode=full               " Command <Tab> completion, list matches
+set wildignore+=*.o,*.so,*.pyc,*/__pycache__/,.git/*,.DS_Store
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set scrolljump=5                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
