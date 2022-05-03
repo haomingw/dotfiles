@@ -222,7 +222,9 @@ set scrolloff=3                 " Minimum lines to keep above and below cursor
 set foldenable                  " Auto fold code
 set list
 set laststatus=2                " Display status line
-set lazyredraw
+if has('nvim')
+  set lazyredraw
+endif
 set sessionoptions-=options
 set viewoptions-=options
 
