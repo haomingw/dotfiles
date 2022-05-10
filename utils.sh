@@ -1025,7 +1025,7 @@ install_go_tools() {
   local go_tools=(
     "github.com/gokcehan/lf"
     "github.com/jesseduffield/lazygit"
-    # "github.com/jesseduffield/lazydocker"
+    "github.com/jesseduffield/lazydocker"
     "github.com/prasmussen/gdrive"
   )
   local prog go_bin
