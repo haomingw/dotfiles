@@ -728,7 +728,6 @@ if has_key(g:plugs, 'vim-fugitive')
   nnoremap <silent> <leader>gd :Git diff<cr>
   nnoremap <silent> <leader>gc :Git commit<cr>
   nnoremap <silent> <leader>gb :Git blame<cr>
-  nnoremap <silent> <leader>gl :Gclog<cr>
   nnoremap <silent> <leader>gp :Git push<cr>
   nnoremap <silent> <leader>gr :Gread<cr>
   nnoremap <silent> <leader>gw :Gwrite<cr>
@@ -736,6 +735,14 @@ if has_key(g:plugs, 'vim-fugitive')
   " Mnemonic _i_nteractive
   nnoremap <silent> <leader>ga :Git add -p %<cr>
   nnoremap <silent> <leader>gg :SignifyToggle<cr>
+endif
+
+"}}
+
+" gv.vim {{
+
+if has_key(g:plugs, 'gv.vim')
+  nnoremap <silent> <leader>gl :GV<cr>
 endif
 
 "}}
