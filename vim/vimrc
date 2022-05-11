@@ -186,8 +186,6 @@ set textwidth=0
 
 " Vim UI {{
 
-set background=dark
-
 try
   color gruvbox
   if exists('+termguicolors')
@@ -198,6 +196,9 @@ try
 catch
   color desert
 endtry
+
+set background=dark
+highlight Normal     ctermbg=NONE guibg=NONE
 
 set relativenumber
 set number                      " Line numbers on
