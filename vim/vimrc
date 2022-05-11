@@ -81,6 +81,7 @@ if count(g:plug_groups, 'editing')
   Plug 'easymotion/vim-easymotion'
   Plug 'terryma/vim-expand-region'
   Plug 'michaeljsmith/vim-indent-object'
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   if !has('nvim')
