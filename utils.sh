@@ -500,6 +500,7 @@ config_hhkb() {
 
 config_homebrew() {
   is_macos || return 0
+  program_exists brew || return 0
 
   local owner
   for ff in /usr/local/*; do
@@ -555,23 +556,22 @@ install_shellcheck() {
 }
 
 install_clangd() {
+  is_macos || return 0
   local url
   local filename
   local version current=
 
-  if is_macos && [ ! -f /usr/bin/clangd ]; then
-    url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
-    version=$(echo "$url" | getv)
-    program_exists clangd && current=$(clangd --version | getv)
+  url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
+  version=$(echo "$url" | getv)
+  [ -f /usr/local/bin/clangd ] && current=$(/usr/local/bin/clangd --version | getv)
 
-    check_update "$current" "$version" "clangd" || {
-      filename=$(parse "$url")
-      download_to "github.com/$url" /tmp
-      unzip "/tmp/$filename" -d /tmp >/dev/null
-      cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
-      rm -rf /tmp/clangd*
-    }
-  fi
+  check_update "$current" "$version" "clangd" || {
+    filename=$(parse "$url")
+    download_to "github.com/$url" /tmp
+    unzip "/tmp/$filename" -d /tmp >/dev/null
+    cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
+    rm -rf /tmp/clangd*
+  }
 }
 
 install_gpg() {
