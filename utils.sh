@@ -524,7 +524,8 @@ config_services() {
   fi
 
   if is_linux; then
-    msg "TODO: Setting systemd services"
+    msg "Setting systemd services"
+    lnif "$app_path/service/systemd/fava.service" /etc/systemd/system/
   fi
 }
 
