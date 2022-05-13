@@ -63,11 +63,11 @@ map <delete> trash
 map x trash
 map X empty_trash
 
-map te extract
-map tc tar
-map td mkdir
-map tt touch
-map tm chmod
+map ze extract
+map zc tar
+map zd mkdir
+map zf touch
+map zm chmod
 
 # execute current file (must be executable)
 map <c-e> !"$f"
