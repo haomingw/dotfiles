@@ -178,6 +178,7 @@ endif
 
 set nrformats-=octal
 set complete-=i                 " Searching includes can be slow
+set updatetime=300
 set ruler
 set formatoptions+=j            " Delete comment character when joining commented lines
 set autoread
@@ -207,6 +208,7 @@ highlight Normal     ctermbg=NONE guibg=NONE
 
 set relativenumber
 set number                      " Line numbers on
+set signcolumn=number
 if !exists('g:noplug')
   set cursorline                " Highlight current line
   set noshowmode                " Don't display the current mode
@@ -881,6 +883,8 @@ if has_key(g:plugs, 'coc.nvim')
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
+
+  nmap <leader>rn <Plug>(coc-rename)
 
   function! s:check_back_space() abort
     let col = col('.') - 1
