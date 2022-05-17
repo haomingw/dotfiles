@@ -166,13 +166,13 @@ safe_gpgdec() {
 download_app() {
   local app="$1"
   local url="$2"
-  local version="$3"
+  local version="${3:-}"
 
   macos_has "$app" || {
     if confirm "Do you want to download $app?"; then
-      download_to "$url" ~/Downloads
       [ -n "$version" ] || version=$(echo "$url" | getv)
       msg "Downloading $app $version."
+      download_to "$url" ~/Downloads
     fi
   }
 }
