@@ -439,6 +439,7 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
+nnoremap <leader>p :echo expand('%:p')<cr>
 
 " Open new line below and above current line
 nnoremap <leader>o o<esc>
@@ -877,7 +878,6 @@ endif
 if has_key(g:plugs, 'coc.nvim')
   let g:coc_global_extensions = ['coc-pyright', 'coc-clangd', 'coc-json', 'coc-tsserver']
 
-  nmap <silent> <leader>py :CocCommand python.setInterpreter<cr>
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)

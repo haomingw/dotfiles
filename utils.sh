@@ -171,7 +171,7 @@ download_app() {
   macos_has "$app" || {
     if confirm "Do you want to download $app?"; then
       [ -n "$version" ] || version=$(echo "$url" | getv)
-      msg "Downloading $app $version."
+      msg "Downloading $app $version"
       download_to "$url" ~/Downloads
     fi
   }
