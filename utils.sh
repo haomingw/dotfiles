@@ -166,12 +166,12 @@ safe_gpgdec() {
 download_app() {
   local app="$1"
   local url="$2"
-  local version
+  local version="$3"
 
   macos_has "$app" || {
     if confirm "Do you want to download $app?"; then
       download_to "$url" ~/Downloads
-      version=$(echo "$url" | getv)
+      [ -n "$version" ] || version=$(echo "$url" | getv)
       msg "Downloading $app $version."
     fi
   }
@@ -718,11 +718,16 @@ config_terminal() {
   local url version current=
   url=$(download_stdout https://github.com/wez/wezterm/releases | grep -o '/wez/wezterm/.*macos.*.zip' | head -n1)
   version=$(echo "$url" | parse | grep -oE "20[a-z0-9\-]+")
-  macos_has WezTerm && current="$(/Applications/WezTerm.app/Contents/MacOS/wezterm --version | cut -d' ' -f2)"
 
-  check_update "$current" "$version" "WezTerm" || {
-    download_to "github.com/$url" ~/Downloads
-  }
+  download_app WezTerm "github.com/$url" "$version"
+
+  if macos_has WezTerm; then
+    # check update and download without confirmation
+    current="$(/Applications/WezTerm.app/Contents/MacOS/wezterm --version | cut -d' ' -f2)"
+    check_update "$current" "$version" "WezTerm" || {
+      download_to "github.com/$url" ~/Downloads
+    }
+  fi
 }
 
 install_utils() {
