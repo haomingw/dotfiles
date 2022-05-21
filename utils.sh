@@ -33,6 +33,13 @@ download_to() {
     error "No filename parsed."
     return 1
   fi
+
+  if [ -f "$2/$name" ]; then
+    echo "$2/$name already exists, skip downloading."
+    return 0
+  fi
+
+  echo "Downloading to $2/$name"
   if program_exists wget; then
     wget "$1" -P "$2"
   else
@@ -933,22 +940,33 @@ install_node() {
 
 install_java() {
   local url
-  local filename
+  local filename ff
   local jdk="$HOME/.jdk"
+  local version current=
 
-  [ -d "$jdk" ] && return 0
-  mkdir "$jdk"
-  msg "Installing openjdk-17"
+  safe_mkdir "$jdk"
 
   if is_linux; then
-    url=$(download_stdout https://jdk.java.net/17/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
   else
-    url=$(download_stdout https://jdk.java.net/17/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
   fi
+  version=$(echo "$url" | getv)
   filename=$(parse "$url")
-  download_to "$url" /tmp
-  tar xzf "/tmp/$filename" -C "$jdk"
-  rm "/tmp/$filename"
+  if [ -f "$jdk/Contents/Home/bin/javac" ]; then
+    current=$("$jdk/Contents/Home/bin/javac" -version | getv)
+  fi
+
+  check_update "$current" "$version" "openjdk" || {
+    download_to "$url" /tmp
+    tar xzf "/tmp/$filename" -C ~/Downloads
+    for ff in ~/Downloads/jdk*; do
+      mv -v "$ff"/* "$jdk"
+      break
+    done
+    rmdir "$ff"
+    rm "/tmp/$filename"
+  }
 }
 
 install_swift() {

@@ -8,12 +8,15 @@ append_path() { [[ -d $1 ]] && path+=($1) }
 
 prepend_path $HOME/miniforge3/bin
 
-setopt localoptions nonomatch
-for ff in /usr/local/jdk*; do
-  export JAVA_HOME=$ff
-  break
-done
-[[ -z "$JAVA_HOME" ]] || prepend_path "$JAVA_HOME/bin"
+if is_linux; then
+  java_home="$HOME/.jdk"
+else
+  java_home="$HOME/.jdk/Contents/Home"
+fi
+if [[ -d "$java_home" ]]; then
+  export JAVA_HOME="$java_home"
+  prepend_path "$java_home/bin"
+fi
 
 prepend_path "$HOME/.golang/bin"
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
@@ -26,12 +29,6 @@ prepend_path "/usr/local/opt/openjdk/bin"
 
 append_path "$HOME/.swift/usr/bin"
 append_path "$HOME/.local/bin"
-
-if is_linux; then
-  prepend_path "$HOME/.jdk/jdk-16/bin"
-else
-  prepend_path "$HOME/.jdk/jdk-16.jdk/Contents/Home/bin"
-fi
 
 safe_use_cuda() {
   if [[ -d "$1/lib64" ]]; then
