@@ -1062,7 +1062,9 @@ install_go_tools() {
     for url in "${go_tools[@]}"; do
       prog=$(parse "$url")
       msg "Installing/Updating $prog"
-      "$go_bin" install "$url@latest" >/dev/null 2>&1
+      "$go_bin" install "$url@latest" >/dev/null 2>&1 || {
+        error "Error installing $url"
+      }
     done
 
     local lfrc="$HOME/.config/lf"
