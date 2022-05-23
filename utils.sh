@@ -775,6 +775,7 @@ config_binary() {
 
 common_config_zsh() {
   local ff target
+  safe_mkdir ~/Downloads
 
   lnif "$app_path/common" "$HOME/.common"
 
