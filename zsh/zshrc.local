@@ -199,6 +199,14 @@ bak() {
   fi
 }
 
+cpdl() {
+  cp "$1" ~/Downloads
+}
+
+mvdl() {
+  mv "$1" ~/Downloads
+}
+
 # }} // namespace utils
 
 # Tools {{

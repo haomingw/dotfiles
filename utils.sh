@@ -771,6 +771,17 @@ config_binary() {
       fi
     fi
   done
+
+  local version current
+  local homepage="http://mama.indstate.edu/users/ice/tree"
+  if is_macos && [ -f /usr/local/bin/tree ]; then
+    current=$(/usr/local/bin/tree --version | getv)
+    url=$(download_stdout "$homepage" | grep -oE 'src/tree-([0-9\.]+).tgz' | head -n1)
+    version=$(echo "$url" | getv)
+    check_update "$current" "$version" "tree" || {
+      warning "Consider updating tree.macos"
+    }
+  fi
 }
 
 common_config_zsh() {
