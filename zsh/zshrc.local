@@ -203,6 +203,10 @@ cpdl() {
   cp "$1" ~/Downloads
 }
 
+scpdl() {
+  scp "$1" ~/Downloads
+}
+
 mvdl() {
   mv "$1" ~/Downloads
 }
