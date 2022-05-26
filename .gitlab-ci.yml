@@ -24,11 +24,14 @@ test_config:
   - test -d ~/.tmux/plugins
 
 build_docker:
-  image: docker:19.03.12
+  image: docker:20.10.16
   stage: build
   services:
-  - docker:19.03.12-dind
+  - docker:20.10.16-dind
   script:
+  - apt clean
+  - docker image prune -f
+  - docker container prune -f
   - docker login -u $GITLAB_USER -p $GITLAB_TOKEN registry.gitlab.com
   - docker build -t registry.gitlab.com/haomingw/dotfiles:latest .
   - docker push registry.gitlab.com/haomingw/dotfiles:latest
