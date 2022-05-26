@@ -1024,19 +1024,19 @@ install_docker() {
   else
     # allow apt to use a repository over HTTPS
     sudo apt install -y \
-      apt-transport-https \
       ca-certificates \
       curl \
-      gnupg-agent \
-      software-properties-common
+      gnupg \
+      lsb-release
 
     if apt_repo_exists docker; then
       msg "Docker repo is up to date."
     else
       # Add Docker’s official GPG key
-      download_stdout https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo mkdir -p /etc/apt/keyrings
+      download_stdout https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
       sudo add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+       "deb [arch=$(dpkg --print-architecture)] signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
        $(lsb_release -cs) \
        stable"
     fi
