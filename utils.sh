@@ -197,7 +197,13 @@ do_backup() {
 }
 
 install_vim() {
-  safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
+  if is_ubuntu; then
+    local release
+    release=$(lsb_release -r | getv)
+    check_version "$release" ">=" "22.04" || {
+      safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
+    }
+  fi
   safe_install vim
 }
 
@@ -1111,7 +1117,7 @@ install_cargo() {
     "fd-find"
     "ripgrep"
   )
-  is_wsl && return 0
+  is_wsl1 && return 0
   for package in "${packages[@]}"; do
     "$cargo"/bin/cargo install "$package"
   done

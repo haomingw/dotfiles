@@ -32,7 +32,7 @@ repos:
     - flake8-docstrings
     - flake8-logging-format
 - repo: https://github.com/sqlalchemyorg/zimports
-  rev: 0.2.0
+  rev: 0.6.0
   hooks:
   - id: zimports
     args: ['--multi-imports']

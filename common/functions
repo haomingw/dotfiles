@@ -75,7 +75,7 @@ is_intel() {
   [[ "$(uname -m)" == "x86_64" ]]
 }
 
-is_wsl() {
+is_wsl1() {
   [[ "$(uname -a)" == *Microsoft* ]]
 }
 
