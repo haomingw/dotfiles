@@ -1022,6 +1022,7 @@ install_docker() {
   if program_exists docker; then
     msg "Docker already installed."
   else
+    confirm "Do you want to install Docker?" || return 0
     # allow apt to use a repository over HTTPS
     sudo apt install -y \
       ca-certificates \

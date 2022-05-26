@@ -1,4 +1,4 @@
-from ubuntu:20.04
+from ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
