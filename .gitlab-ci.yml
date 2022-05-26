@@ -29,7 +29,6 @@ build_docker:
   services:
   - docker:20.10.16-dind
   script:
-  - apt clean
   - docker image prune -f
   - docker container prune -f
   - docker login -u $GITLAB_USER -p $GITLAB_TOKEN registry.gitlab.com
