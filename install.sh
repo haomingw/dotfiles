@@ -153,7 +153,7 @@ config_sublime_vscode() {
     sublime_home="$HOME/Library/Application Support/Sublime Text/Packages/User"
     sublime_keymap="Default (OSX).sublime-keymap"
   }
-  is_wsl1 && {
+  is_wsl && {
     link=cpif
     sublime_home="$WINHOME/AppData/Roaming/Sublime Text/Packages/User"
     sublime_keymap="Default (Windows).sublime-keymap"
@@ -173,7 +173,7 @@ config_sublime_vscode() {
     local code_home
     is_linux && code_home="$HOME/.config/Code/User"
     is_macos && code_home="$HOME/Library/Application Support/Code/User"
-    is_wsl1 && code_home="$WINHOME/AppData/Roaming/Code/User"
+    is_wsl && code_home="$WINHOME/AppData/Roaming/Code/User"
     is_linux && increase_watch_limit
     install_vscode_extensions
     # shellcheck disable=SC2236

@@ -75,8 +75,8 @@ is_intel() {
   [[ "$(uname -m)" == "x86_64" ]]
 }
 
-is_wsl1() {
-  [[ "$(uname -a)" == *Microsoft* ]]
+is_wsl() {
+  uname -a | grep -iq microsoft
 }
 
 is_docker() {

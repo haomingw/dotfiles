@@ -1122,7 +1122,6 @@ install_cargo() {
     "fd-find"
     "ripgrep"
   )
-  is_wsl1 && return 0
   for package in "${packages[@]}"; do
     "$cargo"/bin/cargo install "$package"
   done
