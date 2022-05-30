@@ -475,15 +475,19 @@ install_git_lfs() {
   local filename
   local version current=
 
-  url=$(download_stdout https://github.com/git-lfs/git-lfs/releases | grep -o 'git-lfs/.*git-lfs-darwin.*.zip' | head -n1)
+  if is_arm; then
+    url=$(download_stdout https://github.com/git-lfs/git-lfs/releases | grep -o 'git-lfs/.*git-lfs-darwin-arm.*.zip' | head -n1)
+  else
+    url=$(download_stdout https://github.com/git-lfs/git-lfs/releases | grep -o 'git-lfs/.*git-lfs-darwin-amd.*.zip' | head -n1)
+  fi
   version=$(echo "$url" | getv)
   program_exists git-lfs && current=$(git-lfs --version | getv)
 
   check_update "$current" "$version" "git-lfs" || {
     download_to "github.com/$url" /tmp
     filename=$(parse "$url")
-    unzip "/tmp/$filename" -d /tmp/git-lfs
-    cpif /tmp/git-lfs/git-lfs /usr/local/bin
+    unzip "/tmp/$filename" -d /tmp
+    cpif /tmp/git-lfs-"$version"/git-lfs /usr/local/bin
     rm -rf "/tmp/$filename" /tmp/git-lfs
   }
 }
