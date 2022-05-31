@@ -708,6 +708,30 @@ install_github_cli() {
   }
 }
 
+install_jq() {
+  is_arm && return 0
+
+  local url
+  local filename
+  local version current=
+
+  if is_macos; then
+    url=$(download_stdout https://github.com/stedolan/jq/releases | grep -o 'stedolan/.*jq-osx-amd64' | head -n1)
+  else
+    url=$(download_stdout https://github.com/stedolan/jq/releases | grep -o 'stedolan/.*jq-linux64' | head -n1)
+  fi
+  filename=$(parse "$url")
+  version=$(echo "$url" | getv)
+  program_exists jq && current=$(gh --version | getv)
+
+  check_update "$current" "$version" "jq" || {
+    download_to "github.com/$url" /tmp
+    chmod +x "/tmp/$filename"
+    cpif "/tmp/$filename" /usr/local/bin/jq
+    rm "/tmp/$filename"
+  }
+}
+
 optional_downloads() {
   is_macos || return 0
   local url
@@ -755,6 +779,7 @@ install_utils() {
   install_swiftlint
   install_swiftformat
   install_github_cli
+  install_jq
   optional_downloads
   config_terminal
 }
