@@ -995,23 +995,27 @@ install_java() {
 
   if is_linux; then
     url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+    if [ -f "$jdk/bin/javac" ]; then
+      current=$("$jdk/bin/javac" -version | getv)
+    fi
   else
     url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    if [ -f "$jdk/Contents/Home/bin/javac" ]; then
+      current=$("$jdk/Contents/Home/bin/javac" -version | getv)
+    fi
   fi
   version=$(echo "$url" | getv)
   filename=$(parse "$url")
-  if [ -f "$jdk/Contents/Home/bin/javac" ]; then
-    current=$("$jdk/Contents/Home/bin/javac" -version | getv)
-  fi
 
   check_update "$current" "$version" "openjdk" || {
     download_to "$url" /tmp
     tar xzf "/tmp/$filename" -C ~/Downloads
     for ff in ~/Downloads/jdk*; do
-      mv -v "$ff"/* "$jdk"
+      rsync -a --delete "$ff"/* "$jdk/"
+      rm -rf "$ff"
       break
     done
-    rmdir "$ff"
+
     rm "/tmp/$filename"
   }
 }
