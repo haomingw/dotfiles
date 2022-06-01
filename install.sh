@@ -109,7 +109,6 @@ config_programming_langs() {
   install_cargo
   install_ruby
   install_java
-  install_swift
 
   success "Now configuring programming."
 }

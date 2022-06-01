@@ -635,6 +635,7 @@ install_vagrant() {
 }
 
 install_swiftlint() {
+  is_macos || return 0
   program_exists unzip || {
     warning "Install unzip to extract zip files."
     return 0
@@ -644,11 +645,7 @@ install_swiftlint() {
   local filename
   local version current=
 
-  if is_linux; then
-    url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*swiftlint_linux.zip' | head -n1)
-  else
-    url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
-  fi
+  url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
   filename=$(parse "$url")
   version=$(echo "$url" | getv)
   program_exists swiftlint && current=$(swiftlint --version | getv)
@@ -722,7 +719,7 @@ install_jq() {
   fi
   filename=$(parse "$url")
   version=$(echo "$url" | getv)
-  program_exists jq && current=$(gh --version | getv)
+  program_exists jq && current=$(jq --version | getv)
 
   check_update "$current" "$version" "jq" || {
     download_to "github.com/$url" /tmp
@@ -1017,32 +1014,6 @@ install_java() {
     done
 
     rm "/tmp/$filename"
-  }
-}
-
-install_swift() {
-  is_ubuntu || return 0
-  local version current=
-  local url filename
-  local swift="$HOME/.swift"
-  [ -d "$swift" ] && return 0
-  mkdir "$swift"
-
-  url=$(download_stdout "https://swift.org/download/#releases" | grep -o 'builds/.*RELEASE-ubuntu20.04.tar.gz' | head -n1)
-  url="https://swift.org/$url"
-  version=$(echo "$url" | getv)
-  filename=$(parse "$url")
-
-  if [ -f "$swift/usr/bin/swift" ]; then
-    current=$("$swift"/usr/bin/swift --version | getv)
-  fi
-  check_update "$current" "$version" "Swift" || {
-    [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
-    tar xzf "/tmp/$filename" -C /tmp
-    local extracted
-    extracted="$(basename "$filename" .tar.gz)"
-    cp -r /tmp/"$extracted"/* "$swift"
-    rm -rf "/tmp/$filename" "/tmp/$extracted"
   }
 }
 
