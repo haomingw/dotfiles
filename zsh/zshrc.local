@@ -27,7 +27,6 @@ prepend_path "$HOME/.node/bin"
 prepend_path "$HOME/.vim/bundle/fzf/bin"
 prepend_path "/usr/local/opt/openjdk/bin"
 
-append_path "$HOME/.swift/usr/bin"
 append_path "$HOME/.local/bin"
 
 safe_use_cuda() {
