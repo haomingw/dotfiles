@@ -122,6 +122,7 @@ ext() {
 
 is_linux && {
   alias toclip='xclip -selection clipboard'
+  alias getclip='xclip -selection clipboard -o'
   alias sd='sudo shutdown now'
   alias rbt='sudo reboot'
   alias grepp='grep -oP'
@@ -136,6 +137,7 @@ is_linux && {
 
 is_macos && {
   alias toclip='pbcopy'
+  alias getclip='pbpaste'
   alias sd='sudo shutdown -h now'
   alias rbt='sudo shutdown -r now'
   alias grepp='grep -oE'
@@ -203,7 +205,7 @@ cpdl() {
 }
 
 scpdl() {
-  scp "$1" ~/Downloads
+  scp "$1:${2:=$(getclip)}" ~/Downloads
 }
 
 mvdl() {
@@ -519,11 +521,10 @@ cdr() {
 gclip() {
   local url repo
 
-  program_exists xclip && url=$(xclip -selection clipboard -o)
-  program_exists pbpaste && url=$(pbpaste)
+  url="$(getclip)"
   [[ -z "$url" ]] && return 1
 
-  repo=$(parse $url | cut -d. -f1)
+  repo="$(parse $url | cut -d. -f1)"
 
   git clone "$url" && cd "$repo"
 }
