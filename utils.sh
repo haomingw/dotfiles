@@ -515,21 +515,6 @@ config_hhkb() {
   fi
 }
 
-config_homebrew() {
-  is_macos || return 0
-  program_exists brew || return 0
-
-  local owner
-  for ff in /usr/local/*; do
-    owner=$(stat -f '%Su' "$ff")
-    break
-  done
-  if [ "$owner" != "$USER" ]; then
-    msg "Preparing disk permissions for Homebrew."
-    sudo chown -R "$USER" /usr/local/*
-  fi
-}
-
 config_services() {
   is_personal || return 0
 
@@ -858,7 +843,6 @@ common_config_zsh() {
   config_gpg
   config_git
   config_hhkb
-  config_homebrew
   config_services
   install_utils
   config_binary
