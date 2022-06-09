@@ -594,6 +594,14 @@ install_clangd() {
 
 install_gpg() {
   is_macos || return 0
+  if is_arm; then
+    program_exists gpg && return 0
+    program_exists brew || confirm "Do you want to install Homebrew?" || return 0
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /opt/homebrew/bin/brew install gpg
+    return 0
+  fi
+
   local url
   local version current=
 

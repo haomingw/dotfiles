@@ -26,6 +26,7 @@ prepend_path "$HOME/.cargo/bin"
 prepend_path "$HOME/.node/bin"
 prepend_path "$HOME/.vim/bundle/fzf/bin"
 prepend_path "/usr/local/opt/openjdk/bin"
+prepend_path "/opt/homebrew/bin"
 
 append_path "$HOME/.local/bin"
 
