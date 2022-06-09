@@ -889,7 +889,7 @@ install_miniforge() {
       local miniforge target="/tmp"
       miniforge=$(parse "$url")
       [ -f "$target/$miniforge" ] || download_to "$url" "$target"
-      bash "$target/$miniforge"
+      bash "$target/$miniforge" -b
       success "Miniforge successfully installed."
       "$conda"/bin/conda update -y conda
       rm "$target/$miniforge"
