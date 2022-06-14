@@ -607,6 +607,8 @@ install_gpg() {
 
 install_vagrant() {
   is_macos || return 0
+  confirm "Do you want to install Vagrant?" || return 0
+
   local url
   local filename
   local version current=
@@ -765,13 +767,16 @@ install_utils() {
   install_shellcheck
   install_clangd
   install_gpg
-  install_vagrant
   install_swiftlint
   install_swiftformat
   install_github_cli
   install_jq
   optional_downloads
   config_terminal
+
+  if is_personal; then
+    install_vagrant
+  fi
 }
 
 config_binary() {
