@@ -110,7 +110,7 @@ if count(g:plug_groups, 'programming')
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'sbdchd/neoformat'
   Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
-  Plug 'SirVer/ultisnips', has('python3') ? {} : { 'on': [] }
+  Plug 'SirVer/ultisnips', { 'on': 'IndentLinesToggle', 'for': 'cpp' }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'neoclide/coc.nvim',
     \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
