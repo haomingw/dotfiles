@@ -102,6 +102,7 @@ if count(g:plug_groups, 'programming')
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
   Plug 'ruanyl/vim-gh-line'
+  Plug 'kdheepak/lazygit.nvim'
   Plug 'rhysd/git-messenger.vim'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
@@ -110,7 +111,7 @@ if count(g:plug_groups, 'programming')
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'sbdchd/neoformat'
   Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
-  Plug 'SirVer/ultisnips', { 'on': 'IndentLinesToggle', 'for': 'cpp' }
+  Plug 'SirVer/ultisnips', { 'on': [] }
   Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'neoclide/coc.nvim',
     \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
@@ -495,6 +496,7 @@ if has_key(g:plugs, 'ultisnips')
   let g:UltiSnipsJumpForwardTrigger="<c-l>"
   " If you want :UltiSnipsEdit to split your window.
   let g:UltiSnipsEditSplit = "vertical"
+  command! LoadSnips call plug#load('ultisnips')
 endif
 
 " }}
@@ -747,7 +749,7 @@ if has_key(g:plugs, 'vim-fugitive')
   nnoremap <silent> <leader>ge :Gedit<cr>
   " Mnemonic _i_nteractive
   nnoremap <silent> <leader>ga :Git add -p %<cr>
-  nnoremap <silent> <leader>gg :SignifyToggle<cr>
+  nnoremap <silent> <leader>gs :SignifyToggle<cr>
 endif
 
 "}}
@@ -784,6 +786,14 @@ if has_key(g:plugs, 'vim-gh-line')
 
   let g:gh_line_map = '<leader>gh'
   let g:gh_repo_map = '<leader>go'
+endif
+
+"}}
+
+" Lazygit {{
+
+if has_key(g:plugs, 'lazygit.nvim')
+  nnoremap <silent> <leader>gg :LazyGit<cr>
 endif
 
 "}}
