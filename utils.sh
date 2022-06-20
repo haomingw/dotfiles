@@ -577,13 +577,22 @@ install_clangd() {
   }
 }
 
+install_homebrew() {
+  is_macos || return 0
+  program_exists brew && return 0
+  confirm "Do you want to install Homebrew?" || return 0
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
 install_gpg() {
   is_macos || return 0
   if is_arm; then
     program_exists gpg && return 0
-    program_exists brew || confirm "Do you want to install Homebrew?" || return 0
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    /opt/homebrew/bin/brew install gpg
+    if program_exists brew; then
+      brew install gpg
+    else
+      warning "gpg should be installed with homebrew."
+    fi
     return 0
   fi
 
@@ -766,6 +775,7 @@ config_terminal() {
 install_utils() {
   install_shellcheck
   install_clangd
+  install_homebrew
   install_gpg
   install_swiftlint
   install_swiftformat
