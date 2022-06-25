@@ -11,7 +11,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/Users/haoming/miniforge3/bin/fava</string>
-    <string>/Users/haoming/Documents/code/compta/main.bean</string>
+    <string>/opt/main.bean</string>
     <string>-p</string>
     <string>5001</string>
   </array>

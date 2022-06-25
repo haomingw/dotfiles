@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=haoming
-ExecStart=/home/haoming/miniforge3/bin/fava /home/haoming/Documents/code/compta/main.bean -p 5001
+ExecStart=/home/haoming/miniforge3/bin/fava /opt/main.bean -p 5001
 
 [Install]
 WantedBy=multi-user.target
