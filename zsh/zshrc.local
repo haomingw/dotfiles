@@ -155,10 +155,7 @@ is_macos && {
   }
 
   fava_loaded() {
-    if lcls | grep beancount; then
-      return 0
-    fi
-    return 1
+    launchctl list | grep beancount >/dev/null
   }
 
   favald() {
