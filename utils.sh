@@ -208,16 +208,13 @@ install_vim() {
 }
 
 install_neovim() {
-  local url
-  local filename foldername
+  local url filename
   local version current=
 
   if is_linux; then
     url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
-    foldername="nvim-linux64"
   else
     url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz' | head -n1)
-    foldername="nvim-osx64"
   fi
   filename=$(parse "$url")
   version=$(echo "$url" | getv)
@@ -231,7 +228,13 @@ install_neovim() {
     download_to "github.com/$url" /tmp
     tar xzf "/tmp/$filename" -C /tmp
     rm -rf ~/.neovim
-    mv "/tmp/$foldername" ~/.neovim
+    local ff
+    for ff in /tmp/nvim*; do
+      if [ -d "$ff" ]; then
+        mv -v "$ff" ~/.neovim
+        break
+      fi
+    done
     rm "/tmp/$filename"
     lnif ~/.neovim/bin/nvim /usr/local/bin
   }
