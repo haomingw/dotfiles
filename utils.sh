@@ -583,6 +583,8 @@ install_clangd() {
 
 install_homebrew() {
   is_macos || return 0
+  # only install homebrew for Apple Silicon
+  is_arm || return 0
   program_exists brew && return 0
   confirm "Do you want to install Homebrew?" || return 0
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -620,6 +622,7 @@ install_gpg() {
 
 install_vagrant() {
   is_macos || return 0
+  program_exists vagrant && return 0
   confirm "Do you want to install Vagrant?" || return 0
 
   local url
