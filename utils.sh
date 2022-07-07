@@ -826,7 +826,7 @@ config_binary() {
     url=$(download_stdout "$homepage" | grep -oE 'src/tree-([0-9\.]+).tgz' | head -n1)
     version=$(echo "$url" | getv)
     check_update "$current" "$version" "tree" || {
-      warning "Consider updating tree.macos"
+      warning "Consider updating tree.macos from $homepage"
     }
   fi
 }
@@ -1123,10 +1123,7 @@ install_cargo() {
   local cargo="$HOME/.cargo"
 
   if [ ! -d "$cargo" ]; then
-    local target='/tmp/install-rust.sh'
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > "$target"
-    sh "$target" -y --no-modify-path
-    rm "$target"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   else
     "$cargo/bin/rustup" update
     msg "Rust is up to date."
