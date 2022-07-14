@@ -145,6 +145,7 @@ is_macos && {
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
   alias xct='xcodebuild test -scheme'
+  alias xccl='rm -rf ~/Library/Developer/Xcode/DerivedData'
 
   alias wezterm='/Applications/WezTerm.app/Contents/MacOS/wezterm'
 
