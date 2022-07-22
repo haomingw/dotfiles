@@ -200,14 +200,26 @@ bak() {
 }
 
 cpdl() {
-  cp "$1" ~/Downloads
+  [[ $# -eq 0 ]] && {
+    error "No source file or directory"
+    return 1
+  }
+  cp -r "$1" ~/Downloads
 }
 
 scpdl() {
+  [[ $# -eq 0 ]] && {
+    error "Please enter host name"
+    return 1
+  }
   scp "$1:${2:=$(getclip)}" ~/Downloads
 }
 
 mvdl() {
+  [[ $# -eq 0 ]] && {
+    error "No source file or directory"
+    return 1
+  }
   mv "$1" ~/Downloads
 }
 
