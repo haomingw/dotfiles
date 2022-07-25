@@ -977,7 +977,11 @@ function! C_setup()
     let &makeprg='gcc % -DLOCAL -Wall -Wextra -Werror -Wshadow'
   endif
 
-  command! Run :!./a.out
+  if s:win
+    command! Run :!a.exe
+  else
+    command! Run :!./a.out
+  endif
 endfunction
 
 " Setup cpp file
