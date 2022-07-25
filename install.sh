@@ -109,6 +109,7 @@ config_programming_langs() {
   install_cargo
   install_ruby
   install_java
+  install_mingw
 
   success "Now configuring programming."
 }

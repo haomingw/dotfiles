@@ -1037,6 +1037,17 @@ install_java() {
   }
 }
 
+install_mingw() {
+  is_wsl || return 0
+  confirm "Do you want to install mingw64?" || return 0
+
+  local url version
+  url=$(download_stdout https://github.com/niXman/mingw-builds-binaries/releases | grep -o '/niXman/mingw-builds-binaries.*x86_64.*posix-seh.*.7z' | head -n1)
+  version=$(echo "$url" | getv)
+  msg "Downloading mingw $version"
+  download_to "github.com$url" "$WINHOME"/Downloads
+}
+
 install_docker() {
   # don't run on CI, non-ubuntu os and within docker
   is_not_ci || return 0
