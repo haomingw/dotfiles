@@ -204,7 +204,9 @@ catch
 endtry
 
 set background=dark
-highlight Normal     ctermbg=NONE guibg=NONE
+if !has('gui_running')
+  highlight Normal ctermbg=NONE guibg=NONE
+endif
 
 set relativenumber
 set number                      " Line numbers on
@@ -441,7 +443,9 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
-nnoremap <leader>p :echo expand('%:p')<cr>
+nnoremap <leader>pa :echo expand('%:p')<cr>
+nnoremap <leader>pu :PlugUpdate!<cr>
+nnoremap <leader>pc :PlugClean!<cr>
 
 " Open new line below and above current line
 nnoremap <leader>o o<esc>
@@ -939,9 +943,9 @@ if has('gui_running')
       \Menlo-Regular:h12,
       \CourierNewPSMT:h14
   elseif s:win
-    set guifont=Andale_Mono:h10,
-      \Menlo:h10,
-      \Courier_New:h10
+    set guifont=Andale_Mono:h14,
+      \Menlo:h14,
+      \Courier_New:h14
   endif
 else
   " Enable 256 colors to stop the CSApprox warning and

@@ -253,6 +253,12 @@ create_vim_symlinks() {
   lnif "$app_path/vim/vim/static/clang-format" "$HOME/.clang-format"
   lnif "$app_path/vim/vim/static/style.yapf"   "$HOME/.style.yapf"
 
+  if [[ -n "$WINHOME" ]]; then
+    msg "Copying vim config files for Windows."
+    rsync -a "$app_path"/vim/vim "$WINHOME"/.vim
+    cp -v "$app_path"/vim/vimrc "$WINHOME/.vimrc"
+  fi
+
   success "Setting up vim symlinks."
 }
 
