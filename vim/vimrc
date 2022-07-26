@@ -155,7 +155,6 @@ if !exists('g:xming_no_restore_cursor')
   augroup END
 endif
 
-set t_vb=                       " Shut up bell
 set shortmess=at                " Abbrev. of messages (avoids 'hit enter')
 " Better Unix / Windows compatibility
 set viewoptions=folds,options,cursor,unix,slash
@@ -217,7 +216,7 @@ if !exists('g:noplug')
 endif
 set confirm
 set showcmd                     " Show partial commands in status line
-set visualbell
+set vb t_vb=                    " Shut up bell
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set showmatch                   " Show matching brackets/parenthesis
@@ -325,7 +324,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<cr>
-map <leader>ew :e %%
+map <leader>ee :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%

@@ -204,7 +204,8 @@ cpdl() {
     error "No source file or directory"
     return 1
   }
-  cp -r "$1" ~/Downloads
+  local home=${WINHOME:-$HOME}
+  cp -r "$1" "$home"/Downloads
 }
 
 scpdl() {
@@ -220,7 +221,8 @@ mvdl() {
     error "No source file or directory"
     return 1
   }
-  mv "$1" ~/Downloads
+  local home=${WINHOME:-$HOME}
+  mv "$1" "$home"/Downloads
 }
 
 # }} // namespace utils
