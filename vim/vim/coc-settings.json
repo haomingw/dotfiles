@@ -6,5 +6,6 @@
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"]
     }
-  }
+  },
+  "rust-analyzer.serverPath": "~/.cargo/bin/rust-analyzer"
 }

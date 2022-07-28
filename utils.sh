@@ -1170,11 +1170,10 @@ install_cargo() {
     fi
   fi
 
-  local target="/tmp/rust-analyzer"
+  local target="$HOME/.cargo/bin/rust-analyzer"
   msg "Downloading rust-analyzer to $target"
   curl -sSL "github.com$url" | gunzip -c - > "$target"
   chmod +x "$target"
-  sudo mv -v "$target" /usr/local/bin
 }
 
 install_ruby() {
