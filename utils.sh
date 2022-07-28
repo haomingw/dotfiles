@@ -1039,6 +1039,7 @@ install_java() {
 
 install_mingw() {
   is_wsl || return 0
+  [ -d /mnt/c/mingw64 ] && return 0
   confirm "Do you want to install mingw64?" || return 0
 
   local url version
@@ -1161,7 +1162,7 @@ install_cargo() {
 
   local url
   if is_linux; then
-    url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*aarch64-apple-darwin.gz' | sed -n 2p)"
+    url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*x86_64-unknown-linux-gnu.gz' | sed -n 2p)"
   else
     if is_arm; then
       url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*aarch64-apple-darwin.gz' | sed -n 2p)"
