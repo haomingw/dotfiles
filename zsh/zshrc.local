@@ -325,44 +325,6 @@ gpgrvk() {
   gpg --output revoke.asc --gen-revoke "$key_id"
 }
 
-gpgenc() {
-  local ff
-
-  if tty -s; then
-    for ff in $@; do
-      msg "Encrypting $ff"
-      gpg --encrypt --sign --recipient $(gpgkid) "$ff"
-    done
-  else
-    gpg --encrypt --sign --recipient $(gpgkid)
-  fi
-
-}
-
-gpgdec() {
-  local name ff
-
-  if tty -s; then
-    for ff in $@; do
-      [[ "$ff" == *.gpg ]] || {
-        msg "$ff isn't an encrypted file."
-        continue
-      }
-      name=$(basename $ff .gpg)
-      if [[ -f $name ]]; then
-        confirm "File $name exists, overwrite?" || {
-          msg "Not overwriting $name"
-          continue
-        }
-      fi
-      msg "Decrypting $ff"
-      gpg --decrypt $ff > "$name"
-    done
-  else
-    gpg --decrypt
-  fi
-}
-
 gpgcmp() {
   local filename
   local target="/tmp/content"

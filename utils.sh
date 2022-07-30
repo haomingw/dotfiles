@@ -160,14 +160,13 @@ check_update() {
   fi
 }
 
-gpgdec() {
-  msg "Decrypting file to $2"
-  gpg --decrypt "$1" > "$2"
-  chmod 600 "$2"
-}
-
 safe_gpgdec() {
-  [ -f "$2" ] || gpgdec "$1" "$2"
+  local target=${2:-$(basename "$1" .gpg)}
+  [ -f "$target" ] && return 0
+
+  msg "Decrypting file to $target"
+  gpg --decrypt "$1" > "$target"
+  chmod 600 "$target"
 }
 
 download_app() {
@@ -844,14 +843,11 @@ common_config_zsh() {
   lnif "$app_path/common" "$HOME/.common"
 
   if is_personal; then
-    for ff in "$app_path"/zsh/*.gpg; do
-      gpgdec "$ff" "$app_path/zsh/$(basename "$ff" .gpg)"
-    done
+    gpgdec "$app_path"/zsh/*.gpg
     success "Private zshrc setup."
 
     for ff in "$app_path"/zsh/kaggle/*.gpg; do
-      target="$app_path/zsh/kaggle/$(basename "$ff" .gpg)"
-      safe_gpgdec "$ff" "$target"
+      safe_gpgdec "$ff"
     done
   fi
 

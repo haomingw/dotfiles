@@ -442,7 +442,7 @@ nnoremap <c-Up> <c-y>
 nnoremap <c-Down> <c-e>
 " yank text in command mode
 cnoremap <c-v> <c-r>+
-nnoremap <leader>pa :echo expand('%:p')<cr>
+nnoremap <leader>pp :echo expand('%:p')<cr>
 nnoremap <leader>pu :PlugUpdate!<cr>
 nnoremap <leader>pc :PlugClean!<cr>
 
@@ -458,6 +458,8 @@ iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
 iabbrev #! #!/usr/bin/env
 
 xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<cr>
+
+command! Enc :!gpgenc % > %.gpg
 
 " }} // namespace remapping
 
