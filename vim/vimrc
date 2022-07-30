@@ -459,7 +459,7 @@ iabbrev #! #!/usr/bin/env
 
 xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<cr>
 
-command! Enc :!gpgenc % > %.gpg
+command! Enc :!cat % | gpgenc > %.gpg
 
 " }} // namespace remapping
 
