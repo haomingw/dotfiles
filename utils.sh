@@ -805,8 +805,6 @@ config_binary() {
   msg "Setting binaries"
   local ff target
 
-  [ -d /usr/local/bin ] || sudo mkdir -p /usr/local/bin
-
   for ff in "$app_path"/bin/*; do
     if [[ "$ff" != *.* ]]; then
       lnif "$ff" /usr/local/bin
@@ -839,6 +837,7 @@ config_binary() {
 common_config_zsh() {
   local ff target
   safe_mkdir ~/Downloads
+  safe_mkdir /usr/local/bin
 
   lnif "$app_path/common" "$HOME/.common"
 

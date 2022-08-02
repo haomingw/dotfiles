@@ -88,7 +88,7 @@ program_exists() {
 }
 
 safe_mkdir() {
-  [[ -d "$1" ]] || mkdir -p "$1"
+  [[ -d "$1" ]] || mkdir -p "$1" || sudo mkdir -p "$1"
 }
 
 safe_touch() {
