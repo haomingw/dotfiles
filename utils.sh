@@ -85,6 +85,10 @@ git_pull() {
   pushd "$1" >/dev/null && _git_pull_main_branch && popd >/dev/null || return 1
 }
 
+make_it() {
+  pushd "$1" >/dev/null && make && popd >/dev/null || return 1
+}
+
 update_vim_plugins() {
   if is_not_ci; then
     vim +PlugClean! +qall && vim +PlugUpdate +qall
@@ -801,17 +805,38 @@ install_utils() {
   fi
 }
 
+compile_tree() {
+  is_macos || return 0
+  if [ -L /usr/local/bin/tree ]; then
+    sudo rm /usr/local/bin/tree
+  fi
+
+  local page="https://github.com/Old-Man-Programmer/tree"
+  if [ -f /usr/local/bin/tree ]; then
+    local version current
+    current=$(/usr/local/bin/tree --version | getv)
+    version=$(download_stdout "$page/tags" | grep -oE '([0-9\.]+).zip' | head -n1 | getv)
+    check_update "$current" "$version" "tree" && return 0
+  fi
+
+  git clone "$page.git" /tmp/tree
+  cp "$app_path/bin/tree/Makefile" /tmp/tree/
+  make_it /tmp/tree
+  cpif /tmp/tree/tree /usr/local/bin/
+  rm -rf /tmp/tree
+}
+
 config_binary() {
   msg "Setting binaries"
   local ff target
 
   for ff in "$app_path"/bin/*; do
+    if [[ -d "$ff" ]]; then
+      echo "ignore folder $ff in bin"
+      continue
+    fi
     if [[ "$ff" != *.* ]]; then
       lnif "$ff" /usr/local/bin
-    elif [[ "$ff" == *.macos ]]; then
-      if is_macos; then
-        lnif "$ff" /usr/local/bin/"$(basename "$ff" .macos)"
-      fi
     elif [[ "$ff" == *.c ]]; then
       target=$(basename "$ff" .c)
       if [ ! -f "/usr/local/bin/$target" ] && program_exists clang; then
@@ -822,16 +847,7 @@ config_binary() {
     fi
   done
 
-  local version current
-  local homepage="http://mama.indstate.edu/users/ice/tree"
-  if is_macos && [ -f /usr/local/bin/tree ]; then
-    current=$(/usr/local/bin/tree --version | getv)
-    url=$(download_stdout "$homepage" | grep -oE 'src/tree-([0-9\.]+).tgz' | head -n1)
-    version=$(echo "$url" | getv)
-    check_update "$current" "$version" "tree" || {
-      warning "Consider updating tree.macos from $homepage"
-    }
-  fi
+  compile_tree
 }
 
 common_config_zsh() {

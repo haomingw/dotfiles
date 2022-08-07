@@ -116,6 +116,12 @@ cpif() {
   fi
 }
 
+rmif() {
+  if [[ -f "$1" ]]; then
+    rm "$1" || doit sudo rm "$1"
+  fi
+}
+
 parse() {
   local data
   [[ $# -eq 0 ]] && read data || data="$1"
