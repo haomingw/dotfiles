@@ -988,7 +988,7 @@ install_node() {
     url=$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')
   else
     if is_arm; then
-      url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+.pkg' | head -n1)
+      url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-arm64.tar.gz')
     else
       url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-x64.tar.gz')
     fi
@@ -1009,12 +1009,8 @@ install_node() {
       tar xJf "/tmp/$filename" -C /tmp
       node="$(basename "$filename" .tar.xz)"
     else
-      if is_arm; then
-        sudo installer -target / -pkg "$filename"
-      else
-        tar xzf "/tmp/$filename" -C /tmp
-        node="$(basename "$filename" .tar.gz)"
-      fi
+      tar xzf "/tmp/$filename" -C /tmp
+      node="$(basename "$filename" .tar.gz)"
     fi
     rm -rf "$node_home" "/tmp/$filename"
     mv "/tmp/$node" "$node_home"
