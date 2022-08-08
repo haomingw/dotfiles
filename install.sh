@@ -159,8 +159,7 @@ config_sublime_vscode() {
     sublime_keymap="Default (Windows).sublime-keymap"
   }
   local ff
-  # shellcheck disable=SC2236
-  if [ ! -z "$sublime_home" ] && [ -d "$sublime_home" ]; then
+  if [[ -n "$sublime_home" ]] && [ -d "$sublime_home" ]; then
     for ff in "$APP_PATH"/sublime/*.sublime-settings; do
       $link "$ff" "$sublime_home"
     done
@@ -176,8 +175,7 @@ config_sublime_vscode() {
     is_wsl && code_home="$WINHOME/AppData/Roaming/Code/User"
     is_linux && increase_watch_limit
     install_vscode_extensions
-    # shellcheck disable=SC2236
-    if [ ! -z "$code_home" ]; then
+    if [[ -n "$code_home" ]]; then
       $link "$APP_PATH/vscode/settings.json" "$code_home"
       $link "$APP_PATH/vscode/keybindings.json" "$code_home"
       if is_linux; then
@@ -187,6 +185,10 @@ config_sublime_vscode() {
         for ff in "$APP_PATH"/vscode/snippets/*; do
           $link "$ff" "$code_home/snippets"
         done
+      fi
+
+      if is_macos && xattr -l "/Applications/Visual Studio Code.app" | grep -q quarantine; then
+        xattr -dr com.apple.quarantine "/Applications/Visual Studio Code.app"
       fi
 
       success "Now configuring vscode."
