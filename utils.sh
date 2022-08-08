@@ -1170,24 +1170,25 @@ install_cargo() {
     "$cargo"/bin/cargo install "$package"
   done
 
-  if program_exists rust-analyzer; then
-    echo "current: $(rust-analyzer --version)"
-    confirm "Do you want to update rust-analyzer?" || return 0
+  local url
+  local page="https://github.com/rust-lang/rust-analyzer/releases"
+  if is_linux; then
+    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*x86_64-unknown-linux-gnu.gz' | head -n1)"
+  elif is_arm; then
+    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*aarch64-apple-darwin.gz' | head -n1)"
+  else
+    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*x86_64-apple-darwin.gz' | head -n1)"
   fi
 
-  local url
-  if is_linux; then
-    url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*x86_64-unknown-linux-gnu.gz' | sed -n 2p)"
-  else
-    if is_arm; then
-      url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*aarch64-apple-darwin.gz' | sed -n 2p)"
-    else
-      url="$(download_stdout https://github.com/rust-lang/rust-analyzer/releases | grep -o '/rust-lang/.*x86_64-apple-darwin.gz' | sed -n 2p)"
-    fi
+  if program_exists rust-analyzer; then
+    echo "current: $(rust-analyzer --version)"
+    echo "latest: $url"
+    confirm "Do you want to update rust-analyzer?" || return 0
   fi
 
   local target="$HOME/.cargo/bin/rust-analyzer"
   msg "Downloading rust-analyzer to $target"
+  rmif "$target"
   curl -sSL "github.com$url" | gunzip -c - > "$target"
   chmod +x "$target"
 }
