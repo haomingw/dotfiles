@@ -10,7 +10,7 @@
   <string>com.beancount.fava</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/haoming/miniforge3/bin/fava</string>
+    <string>/usr/local/bin/fava</string>
     <string>/opt/main.bean</string>
     <string>-p</string>
     <string>5001</string>

@@ -424,6 +424,9 @@ tnoremap <c-l> <c-\><c-N><c-w>l
 if has('nvim')
   nnoremap <leader>ts :split +terminal<cr>
   nnoremap <leader>tv :vsplit +terminal<cr>
+else
+  nnoremap <leader>ts :terminal<cr>
+  nnoremap <leader>tv :vertical terminal<cr>
 endif
 
 " Fast editting

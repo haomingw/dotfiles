@@ -940,6 +940,7 @@ install_miniforge() {
   if is_personal; then
     msg "Setting personal python packages."
     "$conda"/bin/pip install -U beancount fava
+    lnif "$conda"/bin/fava /usr/local/bin/fava
   fi
 }
 
