@@ -74,6 +74,7 @@ map <c-e> !"$f"
 map <c-x> push !"$f"<space>
 
 map <c-p> $lf -remote "send $id select '$(fzf)'"
+# select: (default space)
 
 # goto
 map gd cd ~/Documents

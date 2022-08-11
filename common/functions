@@ -244,6 +244,16 @@ getv() {
   fi
 }
 
+getdate() {
+  local data
+  read data
+  if is_linux; then
+    echo "$data" | grep -oP '\d+(\-\d+)+' | head -n1
+  else
+    echo "$data" | grep -oE '\d+(\-\d+)+' | head -n1
+  fi
+}
+
 reverse() {
   local args="$@"
   [[ $# -eq 0 ]] && read args

@@ -1183,7 +1183,7 @@ install_cargo() {
 
   if program_exists rust-analyzer; then
     echo "current: $(rust-analyzer --version)"
-    echo "latest: $url"
+    echo "latest: $(echo "$url" | getdate)"
     confirm "Do you want to update rust-analyzer?" || return 0
   fi
 
