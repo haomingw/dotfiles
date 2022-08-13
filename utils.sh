@@ -535,7 +535,7 @@ config_services() {
     msg "Setting launchd services"
 
     [ -d ~/Library/LaunchAgents ] || mkdir "$HOME/Library/LaunchAgents"
-    lnif "$app_path/service/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents/"
+    lnif "$app_path/service/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents"
   fi
 
   if is_linux; then
