@@ -258,7 +258,7 @@ create_vim_symlinks() {
 
   if is_wsl; then
     msg "Copying vim config files for Windows."
-    rsync -a "$app_path"/vim/vim "$WINHOME"/.vim
+    rsync -a "$app_path"/vim/vim/ "$WINHOME"/.vim
     cp -v "$app_path"/vim/vimrc "$WINHOME/.vimrc"
   fi
 
