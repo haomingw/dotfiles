@@ -165,7 +165,7 @@ check_update() {
 }
 
 safe_gpgdec() {
-  local target=${2:-$(basename "$1" .gpg)}
+  local target=${2:-${1%.gpg}}
   [ -f "$target" ] && return 0
 
   msg "Decrypting file to $target"
@@ -932,14 +932,21 @@ install_miniforge() {
     fi
   fi
 
+  local package
   for package in "${python_packages[@]}"; do
     "$conda"/bin/pip install -U "$package"
   done
 
   # this is personal
+  local personal_packages=(
+    "beancount"
+    "fava"
+  )
   if is_personal; then
     msg "Setting personal python packages."
-    "$conda"/bin/pip install -U beancount fava
+    for package in "${personal_packages[@]}"; do
+      "$conda"/bin/pip install -U "$package"
+    done
     lnif "$conda"/bin/fava /usr/local/bin/fava
   fi
 }
