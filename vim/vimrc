@@ -79,10 +79,8 @@ if count(g:plug_groups, 'editing')
   Plug 'rhysd/clever-f.vim'
   Plug 'junegunn/vim-easy-align'
   Plug 'easymotion/vim-easymotion'
-  Plug 'terryma/vim-expand-region'
   Plug 'michaeljsmith/vim-indent-object'
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   if !has('nvim')
     Plug 'machakann/vim-highlightedyank'
@@ -101,13 +99,11 @@ if count(g:plug_groups, 'programming')
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
-  Plug 'ruanyl/vim-gh-line'
   Plug 'kdheepak/lazygit.nvim'
   Plug 'rhysd/git-messenger.vim'
   Plug 'scrooloose/nerdcommenter'
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'haomingw/vim-snippets'
-  Plug 'jeetsukumaran/vim-indentwise'
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'sbdchd/neoformat'
   Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
@@ -464,6 +460,10 @@ xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<cr>
 
 command! Enc :!cat % | gpgenc > %.gpg
 
+" docs
+" zR: open all folds
+" zm: close all folds
+
 " }} // namespace remapping
 
 " Autocmd {{
@@ -632,15 +632,6 @@ endif
 
 " }}
 
-" Vim-expand-region {{
-
-if has_key(g:plugs, 'vim-expand-region')
-  xmap L <Plug>(expand_region_expand)
-  xmap H <Plug>(expand_region_shrink)
-endif
-
-" }}
-
 " Vim-highlightedyank {{
 
 if has_key(g:plugs, 'vim-highlightedyank')
@@ -659,15 +650,6 @@ endif
 " <count>ii   Inner Indentation level (no line above).
 " <count>aI   An Indentation level and lines above/below.
 " <count>iI   Inner Indentation level (no lines above/below).
-
-" }}
-
-" Undotree {{
-
-if has_key(g:plugs, 'undotree')
-  let g:undotree_WindowLayout = 2
-  nnoremap U :UndotreeToggle<cr>
-endif
 
 " }}
 
@@ -782,18 +764,6 @@ if has_key(g:plugs, 'git-messenger.vim')
     autocmd!
     autocmd FileType gitmessengerpopup :call <SID>setup_git_messenger_popup()
   augroup END
-endif
-
-"}}
-
-" Vim-gh-line {{
-
-if has_key(g:plugs, 'vim-gh-line')
-  let g:gh_line_map_default = 0
-  let g:gh_line_blame_map_default = 0
-
-  let g:gh_line_map = '<leader>gh'
-  let g:gh_repo_map = '<leader>go'
 endif
 
 "}}
