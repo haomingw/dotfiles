@@ -1,7 +1,7 @@
 .PHONY: install
 install:
-	bash install.sh vim
 	bash install.sh faster-zsh
+	bash install.sh vim
 	bash install.sh programming
 
 .PHONY: clean
