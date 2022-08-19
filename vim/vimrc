@@ -58,8 +58,6 @@ call plug#begin('~/.vim/bundle')
 
 if count(g:plug_groups, 'general')
   Plug 'romainl/vim-cool'
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/limelight.vim'
   Plug 'itchyny/lightline.vim'
   Plug 'haomingw/vim-startscreen'
   Plug 'rafi/awesome-vim-colorschemes'
@@ -79,7 +77,6 @@ if count(g:plug_groups, 'editing')
   Plug 'rhysd/clever-f.vim'
   Plug 'junegunn/vim-easy-align'
   Plug 'easymotion/vim-easymotion'
-  Plug 'michaeljsmith/vim-indent-object'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   if !has('nvim')
@@ -558,35 +555,6 @@ endif
 
 " }}
 
-" Goyo {{
-
-if has_key(g:plugs, 'goyo.vim')
-  nnoremap <leader>gy :Goyo<cr>
-endif
-
-" }}
-
-" Limelight {{
-
-if has_key(g:plugs, 'limelight.vim')
-  " Number of preceding/following paragraphs to include (default: 0)
-  let g:limelight_paragraph_span = 1
-  let g:limelight_priority = -1
-
-  " Color name (:help cterm-colors) or ANSI code
-  let g:limelight_conceal_ctermfg = 'gray'
-  let g:limelight_conceal_ctermfg = 240
-
-  " Color name (:help gui-colors) or RGB color
-  let g:limelight_conceal_guifg = 'DarkGray'
-  let g:limelight_conceal_guifg = '#777777'
-
-  autocmd! User GoyoEnter Limelight
-  autocmd! User GoyoLeave Limelight!
-endif
-
-" }}
-
 " Lightline {{
 
 if has_key(g:plugs, 'lightline.vim')
@@ -641,15 +609,6 @@ if has_key(g:plugs, 'vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 100
   highlight HighlightedyankRegion cterm=reverse gui=reverse
 endif
-
-" }}
-
-" Vim-indent-object {{
-
-" <count>ai   An Indentation level and line above.
-" <count>ii   Inner Indentation level (no line above).
-" <count>aI   An Indentation level and lines above/below.
-" <count>iI   Inner Indentation level (no lines above/below).
 
 " }}
 
