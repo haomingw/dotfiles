@@ -105,7 +105,6 @@ if count(g:plug_groups, 'programming')
   Plug 'sbdchd/neoformat'
   Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
   Plug 'SirVer/ultisnips', { 'on': [] }
-  Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'neoclide/coc.nvim',
     \ executable('node') ? { 'branch': 'release' } : { 'on': [] }
   Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
@@ -667,15 +666,6 @@ if has_key(g:plugs, 'nerdcommenter')
 endif
 
 " }}
-
-" Tagbar {{
-
-if has_key(g:plugs, 'tagbar')
-  let g:tagbar_sort = 0
-  nnoremap <leader>tb :TagbarToggle<cr>
-endif
-
-"}}
 
 " Vim-signify {{
 
