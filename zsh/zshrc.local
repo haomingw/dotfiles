@@ -98,9 +98,6 @@ _lfcd() {
   rm -f "$tmp"
 }
 
-alias alert='notify-send -u low -i $([ $? -eq 0 ] && echo terminal \
-  || echo error)'
-
 ext() {
   if [[ -f "$1" ]]; then
     case "$1" in
@@ -124,6 +121,11 @@ is_linux && {
   alias rbt='sudo reboot'
   alias grepp='grep -oP'
 
+  alert() {
+    local notif="$([ $? -eq 0 ] && echo terminal || echo error)"
+    notify-send -u low -i "$notif" "$@"
+  }
+
   empty-trash() {
     setopt localoptions rmstarsilent
     setopt localoptions nonomatch
@@ -138,6 +140,10 @@ is_macos && {
   alias sd='sudo shutdown -h now'
   alias rbt='sudo shutdown -r now'
   alias grepp='grep -oE'
+
+  alert() {
+    osascript -e "display notification \"$1\" with title \"${2:-Title}\""
+  }
 
   alias xc="xcode-select -p | sed 's/\.app.*/\.app/' | xargs open"
   alias xct='xcodebuild test -scheme'
