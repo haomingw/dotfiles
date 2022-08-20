@@ -502,6 +502,7 @@ if has_key(g:plugs, 'ultisnips')
   " If you want :UltiSnipsEdit to split your window.
   let g:UltiSnipsEditSplit = "vertical"
   command! LoadSnips call plug#load('ultisnips')
+  nnoremap <leader>sn :LoadSnips<cr>
 endif
 
 " }}

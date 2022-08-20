@@ -909,7 +909,6 @@ install_miniforge() {
     "mypy"
     "yapf"
     "virtualenv"
-    "youtube-dl"
   )
 
   if [ ! -d "$conda" ]; then
@@ -941,6 +940,7 @@ install_miniforge() {
   local personal_packages=(
     "beancount"
     "fava"
+    "yt-dlp"
   )
   if is_personal; then
     msg "Setting personal python packages."
