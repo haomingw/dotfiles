@@ -92,7 +92,6 @@ if count(g:plug_groups, 'programming')
   Plug 'fatih/vim-go'
   Plug 'keith/swift.vim'
   Plug 'rust-lang/rust.vim'
-  Plug 'dense-analysis/ale'
   Plug 'mhinz/vim-signify'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
@@ -755,41 +754,6 @@ if has_key(g:plugs, 'vim-easymotion')
   map <leader>k <Plug>(easymotion-k)
   map <leader>l <Plug>(easymotion-lineforward)
   map <leader>. <Plug>(easymotion-repeat)
-endif
-
-" }}
-
-" Ale {{
-
-if has_key(g:plugs, 'ale')
-  let g:ale_echo_msg_error_str = 'E'
-  let g:ale_echo_msg_warning_str = 'W'
-  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-  " Only run linting when saving the file
-  let g:ale_lint_on_text_changed = 'never'
-  let g:ale_lint_on_insert_leave = 0
-  " Don't run linters on opening a file
-  let g:ale_lint_on_enter = 0
-
-  " Only run linters named in ale_linters settings.
-  let g:ale_linters_explicit = 1
-  let g:ale_linters = {
-  \ 'cpp': 'all',
-  \ 'python': ['flake8', 'mypy', 'pylint'],
-  \ 'go': ['gofmt', 'golint', 'govet'],
-  \ 'rust': ['cargo'],
-  \ 'sh': ['shell'],
-  \ 'zsh': ['shell'],
-  \ 'markdown': 'all',
-  \ 'yaml': 'all',
-  \}
-
-  " Fix Python files with autopep8 and yapf.
-  let g:ale_fixers = {
-  \ 'python': ['autopep8', 'yapf'],
-  \}
-
 endif
 
 " }}
