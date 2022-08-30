@@ -239,7 +239,7 @@ au TextYankPost * silent! lua vim.highlight.on_yank()
 
 " Formatting {{
 
-if !exists('g:noplug')
+if exists('g:noplug') || !exists('$TMUX')
   set nowrap
 endif
 set linebreak                   " Avoid wrapping a line in the middle of a word
