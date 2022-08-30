@@ -1,5 +1,6 @@
 {
   "python.linting.enabled": false,
+  "suggest.noselect": true,
   "languageserver": {
     "golang": {
       "command": "gopls",
