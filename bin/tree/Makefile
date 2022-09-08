@@ -31,62 +31,62 @@ OBJS=tree.o list.o hash.o color.o file.o filter.o info.o unix.o xml.o json.o htm
 # Uncomment options below for your particular OS:
 
 # Linux defaults:
-#CFLAGS=-ggdb -pedantic -Wall -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-# CFLAGS=-O3 -pedantic -Wall -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-# LDFLAGS=-s
+#CFLAGS+=-ggdb -pedantic -Wall -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+#CFLAGS+=-O3 -pedantic -Wall -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+#LDFLAGS+=-s
 
 # Uncomment for FreeBSD:
 #CC=cc
-#CFLAGS=-O2 -Wall -fomit-frame-pointer
-#LDFLAGS=-s
+#CFLAGS+=-O2 -Wall -fomit-frame-pointer
+#LDFLAGS+=-s
 
 # Uncomment for OpenBSD:
 #TREE_DEST=colortree
 #MAN=colortree.1
-#CFLAGS=-O2 -Wall -fomit-frame-pointer
-#LDFLAGS=-s
+#CFLAGS+=-O2 -Wall -fomit-frame-pointer
+#LDFLAGS+=-s
 
 # Uncomment for Solaris:
 #CC=cc
-#CFLAGS=-xO0 -v
-#LDFLAGS=
+#CFLAGS+=-xO0 -v
+#LDFLAGS+=
 #MANDIR=${prefix}/share/man
 
 # Uncomment for Cygwin:
-#CFLAGS=-O2 -Wall -fomit-frame-pointer
-#LDFLAGS=-s
+#CFLAGS+=-O2 -Wall -fomit-frame-pointer
+#LDFLAGS+=-s
 #TREE_DEST=tree.exe
 
 # Uncomment for OS X:
 # It is not allowed to install to /usr/bin on OS X any longer (SIP):
 CC=cc
-CFLAGS=-O2 -Wall -fomit-frame-pointer -no-cpp-precomp
-LDFLAGS=
+CFLAGS+=-O2 -Wall -fomit-frame-pointer -no-cpp-precomp
+#LDFLAGS+=
 MANDIR=${PREFIX}/share/man
 
 # Uncomment for HP/UX:
 #prefix=/opt
 #CC=cc
 # manpage of mbsrtowcs() requires C99 and the two defines
-#CFLAGS=+w -D_XOPEN_SOURCE=500 -D_POSIX_C_SOURCE=200112 -AC99
-#LDFLAGS=
+#CFLAGS+=+w -D_XOPEN_SOURCE=500 -D_POSIX_C_SOURCE=200112 -AC99
+#LDFLAGS+=
 #MANDIR=${PREFIX}/share/man
 
 # Uncomment for OS/2:
-#CFLAGS=-02 -Wall -fomit-frame-pointer -Zomf -Zsmall-conv
-#LDFLAGS=-s -Zomf -Zsmall-conv
+#CFLAGS+=-02 -Wall -fomit-frame-pointer -Zomf -Zsmall-conv
+#LDFLAGS+=-s -Zomf -Zsmall-conv
 
 # Uncomment for HP NonStop:
 #prefix = /opt
 #CC=c89
-#CFLAGS=-Wextensions -WIEEE_float -g -Wnowarn=1506 -D_XOPEN_SOURCE_EXTENDED=1 \
+#CFLAGS+=-Wextensions -WIEEE_float -g -Wnowarn=1506 -D_XOPEN_SOURCE_EXTENDED=1 \
 #	 -Wallow_cplusplus_comments
-#LDFLAGS=
+#LDFLAGS+=
 
 # AIX
 #CC=cc_r -q64
 #LD=ld -d64
-#LDFLAGS=-lc
+#LDFLAGS+=-lc
 
 #------------------------------------------------------------
 
@@ -102,10 +102,7 @@ clean:
 	rm -f $(TREE_DEST) *.o *~
 
 install: tree
-	$(INSTALL) -d $(DESTDIR)
-	$(INSTALL) -d $(MANDIR)/man1
-	$(INSTALL) $(TREE_DEST) $(DESTDIR)/$(TREE_DEST); \
-	$(INSTALL) -m 644 doc/$(MAN) $(MANDIR)/man1/$(MAN)
+	$(INSTALL) $(TREE_DEST) $(DESTDIR)/$(TREE_DEST)
 
 distclean:
 	rm -f *.o *~

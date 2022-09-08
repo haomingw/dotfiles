@@ -85,8 +85,8 @@ git_pull() {
   pushd "$1" >/dev/null && _git_pull_main_branch && popd >/dev/null || return 1
 }
 
-make_it() {
-  pushd "$1" >/dev/null && make && popd >/dev/null || return 1
+make_install_it() {
+  pushd "$1" >/dev/null && make && sudo make install && popd >/dev/null || return 1
 }
 
 update_vim_plugins() {
@@ -821,8 +821,7 @@ compile_tree() {
 
   git clone "$page.git" /tmp/tree
   cp "$app_path/bin/tree/Makefile" /tmp/tree/
-  make_it /tmp/tree
-  cpif /tmp/tree/tree /usr/local/bin/
+  make_install_it /tmp/tree
   rm -rf /tmp/tree
 }
 
