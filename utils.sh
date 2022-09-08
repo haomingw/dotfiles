@@ -1252,6 +1252,7 @@ increase_watch_limit() {
 install_vscode_extensions() {
   local extensions=(
     "golang.go"
+    "sswg.swift-lang"
     "eamodio.gitlens"
     "ms-python.python"
     "mitaki28.vscode-clang"

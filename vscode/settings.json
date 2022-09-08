@@ -36,5 +36,6 @@
     "terminal.integrated.inheritEnv": false,
     "editor.inlineSuggest.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
-    "editor.fontSize": 16
+    "editor.fontSize": 16,
+    "security.workspace.trust.enabled": false
 }
