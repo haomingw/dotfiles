@@ -453,6 +453,7 @@ config_ssh() {
       target=$(basename "$ff" .gpg)
       safe_gpgdec "$ff" "$HOME/.ssh/$target"
     done
+    local ff
     for ff in "$app_path"/ssh/*.pub; do
       cpif "$ff" ~/.ssh
     done
@@ -461,6 +462,7 @@ config_ssh() {
   if [ -n "${AUTH_USERS:-}" ]; then
     read -ra users <<< "$AUTH_USERS"
 
+    local user
     for user in "${users[@]}"; do
       add_auth_key "$user"
     done
@@ -1177,14 +1179,18 @@ install_cargo() {
     "$cargo"/bin/cargo install "$package"
   done
 
-  local url
-  local page="https://github.com/rust-lang/rust-analyzer/releases"
+  local url tag
+  local page="https://github.com/rust-lang/rust-analyzer"
   if is_linux; then
-    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*x86_64-unknown-linux-gnu.gz' | head -n1)"
-  elif is_arm; then
-    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*aarch64-apple-darwin.gz' | head -n1)"
+    tag="$(download_stdout "$page" | grep -oP 'releases/tag/[0-9\-]+' | parse)"
+    url="$page/releases/download/$tag/rust-analyzer-x86_64-unknown-linux-gnu.gz"
   else
-    url="$(download_stdout "$page" | grep -v nightly | grep -o '/rust-lang/.*x86_64-apple-darwin.gz' | head -n1)"
+    tag="$(download_stdout "$page" | grep -oE 'releases/tag/[0-9\-]+' | parse)"
+    if is_arm; then
+      url="$page/releases/download/$tag/rust-analyzer-aarch64-apple-darwin.gz"
+    else
+      url="$page/releases/download/$tag/rust-analyzer-x86_64-apple-darwin.gz"
+    fi
   fi
 
   if program_exists rust-analyzer; then
@@ -1196,7 +1202,7 @@ install_cargo() {
   local target="$HOME/.cargo/bin/rust-analyzer"
   msg "Downloading rust-analyzer to $target"
   rmif "$target"
-  curl -sSL "github.com$url" | gunzip -c - > "$target"
+  curl -sSL "$url" | gunzip -c - > "$target"
   chmod +x "$target"
 }
 
