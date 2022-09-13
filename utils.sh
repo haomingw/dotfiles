@@ -283,7 +283,6 @@ setup_neovim() {
     fi
   fi
   lnif "$HOME/.vim"     "$HOME/.config/nvim"
-  lnif "$HOME/.vimrc"   "$HOME/.config/nvim/init.vim"
 
   success "Setting up neovim."
 }
