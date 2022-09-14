@@ -45,6 +45,10 @@ return packer.startup(function(use)
   use "windwp/nvim-autopairs"
   use "romainl/vim-cool"
   use "nathangrigg/vim-beancount"
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+  }
 
   -- Development
   use "sbdchd/neoformat"
