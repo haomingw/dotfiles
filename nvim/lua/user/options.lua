@@ -12,7 +12,7 @@ local options = {
   showmode = false,                        -- we don't need to see things like -- INSERT -- anymore
   hidden = true,                           -- allow buffer switching without saving
   joinspaces = false,                      -- prevents inserting two spaces after punctuation on a join (J)
-  showtabline = 2,                         -- always show tabs
+  showcmd = true,                          -- show partial commands in status line
   smartcase = true,                        -- smart case
   smartindent = true,                      -- make indenting smarter again
   splitbelow = true,                       -- force all horizontal splits to go below current window
@@ -23,7 +23,7 @@ local options = {
   expandtab = true,                        -- convert tabs to spaces
   shiftwidth = 2,                          -- the number of spaces inserted for each indentation
   tabstop = 2,                             -- insert 2 spaces for a tab
-  softtabstop = 2,                         -- Let backspace delete indent
+  softtabstop = 2,                         -- let backspace delete indent
   cursorline = true,                       -- highlight the current line
   number = true,                           -- set numbered lines
   relativenumber = true,                   -- set relative numbered lines
@@ -34,9 +34,9 @@ local options = {
 }
 
 vim.opt.shortmess:append "c"
+vim.opt.iskeyword:append("-")
+vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
 
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
-
-vim.cmd "set whichwrap+=<,>,[,],h,l,b,s"        -- Backspace and cursor keys wrap too
