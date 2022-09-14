@@ -26,10 +26,10 @@ local options = {
   softtabstop = 2,                         -- let backspace delete indent
   cursorline = true,                       -- highlight the current line
   number = true,                           -- set numbered lines
-  relativenumber = true,                   -- set relative numbered lines
+  -- relativenumber = true,                   -- set relative numbered lines
   signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
   wrap = false,                            -- display lines as one long line
-  scrolloff = 8,                           -- is one of my fav
+  scrolloff = 8,                           -- lines to scroll when cursor leaves screen
   sidescrolloff = 8,
 }
 

@@ -235,7 +235,7 @@ mvdl() {
 
 alias v='vim'
 program_exists vim && alias vi=vim
-program_exists nvim && alias vim=nvim
+# program_exists nvim && alias vim=nvim
 
 alias vimrc='vim ~/.vimrc'
 alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'

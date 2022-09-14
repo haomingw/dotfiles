@@ -39,6 +39,7 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   -- My plugins here
   use "nvim-lua/plenary.nvim"
+  use "lewis6991/gitsigns.nvim"
   use "windwp/nvim-autopairs"
   use "romainl/vim-cool"
 

@@ -1,5 +1,7 @@
-require "user.options"
-require "user.keymaps"
-require "user.plugins"
-require "user.colorscheme"
-require "user.autopairs"
+require "options"
+require "keymaps"
+require "plugins"
+require "colorscheme"
+
+require "config.autopairs"
+require "config.gitsigns"
