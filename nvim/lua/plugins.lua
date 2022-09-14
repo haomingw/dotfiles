@@ -45,7 +45,10 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   -- General
   use 'lewis6991/impatient.nvim'
-  use "windwp/nvim-autopairs"
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup() end
+  }
   use "romainl/vim-cool"
   use "nathangrigg/vim-beancount"
   use {
@@ -63,9 +66,7 @@ return packer.startup(function(use)
   -- Colorschemes
   use {
     "sainnhe/gruvbox-material",
-    config = function()
-      vim.cmd "colorscheme gruvbox-material"
-    end,
+    config = function() vim.cmd "colorscheme gruvbox-material" end
   }
 
   -- Completion
