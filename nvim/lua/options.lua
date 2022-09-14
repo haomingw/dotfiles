@@ -32,6 +32,13 @@ local options = {
   scrolloff = 8,                           -- lines to scroll when cursor leaves screen
   sidescrolloff = 8,
   completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+  list = true,
+  listchars = {
+    tab = "› ",
+    extends = "#",
+    trail = "•",
+    nbsp = "."
+  },
 }
 
 vim.opt.shortmess:append "c"
@@ -41,3 +48,18 @@ vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
+
+-- Auto commands
+-- strip trailing whitespaces on saving
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Hightlight selection on yank',
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 100 }
+  end,
+})

@@ -34,6 +34,9 @@ packer.init {
   },
 }
 
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true }
+
 -- Install your plugins here
 return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
@@ -42,15 +45,18 @@ return packer.startup(function(use)
   use "lewis6991/gitsigns.nvim"
   use "windwp/nvim-autopairs"
   use "romainl/vim-cool"
+  use "nathangrigg/vim-beancount"
+  use "christoomey/vim-tmux-navigator"
+  use "sbdchd/neoformat"
 
   -- Colorschemes
-  use { "lunarvim/darkplus.nvim" }
+  use "EdenEast/nightfox.nvim"
 
   -- cmp plugins
-  use "hrsh7th/nvim-cmp" -- The completion plugin
-  use "hrsh7th/cmp-buffer" -- buffer completions
-  use "hrsh7th/cmp-path" -- path completions
-  use "hrsh7th/cmp-cmdline" -- cmdline completions
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-cmdline"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
