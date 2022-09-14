@@ -5,3 +5,4 @@ require "colorscheme"
 
 require "config.autopairs"
 require "config.gitsigns"
+require "config.cmp"

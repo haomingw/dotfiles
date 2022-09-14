@@ -31,6 +31,7 @@ local options = {
   wrap = false,                            -- display lines as one long line
   scrolloff = 8,                           -- lines to scroll when cursor leaves screen
   sidescrolloff = 8,
+  completeopt = { "menuone", "noselect" }, -- mostly just for cmp
 }
 
 vim.opt.shortmess:append "c"
