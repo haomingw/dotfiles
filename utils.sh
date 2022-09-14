@@ -282,7 +282,7 @@ setup_neovim() {
       warning "Run 'brew install python'"
     fi
   fi
-  lnif "$HOME/.vim"     "$HOME/.config/nvim"
+  lnif "$app_path/nvim" "$HOME/.config/nvim"
 
   success "Setting up neovim."
 }
