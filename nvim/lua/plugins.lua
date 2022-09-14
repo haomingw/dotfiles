@@ -40,23 +40,46 @@ local opts = { noremap = true }
 -- Install your plugins here
 return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-  -- My plugins here
-  use "nvim-lua/plenary.nvim"
-  use "lewis6991/gitsigns.nvim"
+  -- General
+  use 'lewis6991/impatient.nvim'
   use "windwp/nvim-autopairs"
   use "romainl/vim-cool"
   use "nathangrigg/vim-beancount"
-  use "christoomey/vim-tmux-navigator"
+
+  -- Development
   use "sbdchd/neoformat"
+  use "lewis6991/gitsigns.nvim"
+  use "christoomey/vim-tmux-navigator"
+  use "tpope/vim-surround"
+  use "tpope/vim-fugitive"
 
   -- Colorschemes
-  use "EdenEast/nightfox.nvim"
+  use {
+    "sainnhe/gruvbox-material",
+    config = function()
+      vim.cmd "colorscheme gruvbox-material"
+    end,
+  }
 
-  -- cmp plugins
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
+  -- Completion
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+  }
+
+  -- Fuzzy finder
+  use "nvim-lua/popup.nvim"
+  use {
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+    },
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

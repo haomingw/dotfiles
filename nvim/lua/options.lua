@@ -8,7 +8,7 @@ local options = {
   undofile = true,                         -- enable persistent undo
   hlsearch = true,                         -- highlight all matches on previous search pattern
   ignorecase = true,                       -- ignore case in search patterns
-  pumheight = 10,                          -- pop up menu height
+  -- pumheight = 10,                          -- pop up menu height
   showmode = false,                        -- we don't need to see things like -- INSERT -- anymore
   hidden = true,                           -- allow buffer switching without saving
   joinspaces = false,                      -- prevents inserting two spaces after punctuation on a join (J)
@@ -49,17 +49,3 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
--- Auto commands
--- strip trailing whitespaces on saving
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  command = [[%s/\s\+$//e]],
-})
-
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Hightlight selection on yank',
-  pattern = '*',
-  callback = function()
-    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 100 }
-  end,
-})

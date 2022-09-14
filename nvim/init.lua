@@ -1,7 +1,7 @@
 require "options"
 require "keymaps"
 require "plugins"
-require "colorscheme"
+require "commands"
 
 require "config.autopairs"
 require "config.gitsigns"
