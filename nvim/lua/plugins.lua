@@ -25,6 +25,9 @@ if not status_ok then
   return
 end
 
+-- Speed up loading Lua modules in Neovim to improve startup time
+pcall(require, 'impatient')
+
 -- Have packer use a popup window
 packer.init {
   display = {
