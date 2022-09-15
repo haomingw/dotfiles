@@ -45,10 +45,6 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   -- General
   use 'lewis6991/impatient.nvim'
-  use {
-    "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup() end
-  }
   use "romainl/vim-cool"
   use "nathangrigg/vim-beancount"
   use {
@@ -79,6 +75,18 @@ return packer.startup(function(use)
       "hrsh7th/cmp-nvim-lsp",
     },
   }
+
+  -- Syntax
+    use {
+      'nvim-treesitter/nvim-treesitter',
+      run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+      requires = {
+        {
+          "windwp/nvim-autopairs",
+          config = function() require("nvim-autopairs").setup { check_ts = true } end
+        },
+      }
+    }
 
   -- Fuzzy finder
   use "nvim-lua/popup.nvim"
