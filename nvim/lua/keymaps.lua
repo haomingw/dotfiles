@@ -22,6 +22,20 @@ vim.g.maplocalleader = " "
 -- Utils
 keymap("n", ";", ":", opts)
 keymap("n", "Y", "y$", opts)
+-- Wrapped lines goes down/up to next row, rather than next line in file.
+keymap("n", "j", "gj", opts)
+keymap("n", "k", "gk", opts)
+
+keymap("n", "n", "nzzzv", opts)
+keymap("n", "N", "Nzzzv", opts)
+
+keymap("n", "{", "{zz", opts)
+keymap("n", "}", "}zz", opts)
+keymap("n", "[[", "[[zz", opts)
+keymap("n", "]]", "]]zz", opts)
+keymap("n", "[]", "[]zz", opts)
+keymap("n", "][", "][zz", opts)
+
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)

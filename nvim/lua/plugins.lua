@@ -47,6 +47,7 @@ return packer.startup(function(use)
   use 'lewis6991/impatient.nvim'
   use "romainl/vim-cool"
   use "nathangrigg/vim-beancount"
+  use "rhysd/clever-f.vim"
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -57,13 +58,11 @@ return packer.startup(function(use)
   use "lewis6991/gitsigns.nvim"
   use "christoomey/vim-tmux-navigator"
   use "tpope/vim-surround"
+  use 'tpope/vim-repeat'
   use "tpope/vim-fugitive"
 
   -- Colorschemes
-  use {
-    "sainnhe/gruvbox-material",
-    config = function() vim.cmd "colorscheme gruvbox-material" end
-  }
+  use "sainnhe/gruvbox-material"
 
   -- Completion
   use {
@@ -96,6 +95,8 @@ return packer.startup(function(use)
       "nvim-lua/plenary.nvim",
     },
   }
+
+  -- LSP
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

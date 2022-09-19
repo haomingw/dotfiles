@@ -41,6 +41,17 @@ local options = {
   },
 }
 
+-- Colortheme
+vim.cmd [[
+try
+  colorscheme gruvbox-material
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
+]]
+
+vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
+
 vim.opt.shortmess:append "c"
 vim.opt.iskeyword:append("-")
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
