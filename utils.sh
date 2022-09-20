@@ -546,16 +546,17 @@ config_services() {
 }
 
 install_shellcheck() {
+  local repo="koalaman/shellcheck"
   local url
   local filename foldername
   local version current=
 
+  version=$(get_tag "$repo")
   if is_linux; then
-    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*linux.x86_64.tar.xz' | head -n1)
+    url="$repo/releases/download/v$version/shellcheck-v$version.linux.x86_64.tar.xz"
   else
-    url=$(download_stdout https://github.com/koalaman/shellcheck/releases | grep -o 'koalaman.*darwin.x86_64.tar.xz' | head -n1)
+    url="$repo/releases/download/v$version/shellcheck-v$version.darwin.x86_64.tar.xz"
   fi
-  version=$(echo "$url" | getv)
   program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
 
   check_update "$current" "$version" "shellcheck" || {
@@ -574,12 +575,14 @@ install_shellcheck() {
 
 install_clangd() {
   is_macos || return 0
+
+  local repo="clangd/clangd"
   local url
   local filename
   local version current=
 
-  url=$(download_stdout https://github.com/clangd/clangd/releases/latest | grep -oE 'clangd/clangd/releases/download/[0-9.]+/clangd-mac-[0-9.]+.zip')
-  version=$(echo "$url" | getv)
+  version=$(get_tag "$repo")
+  url="$repo/releases/download/$version/clangd-mac-$version.zip"
   [ -f /usr/local/bin/clangd ] && current=$(/usr/local/bin/clangd --version | getv)
 
   check_update "$current" "$version" "clangd" || {
@@ -662,13 +665,15 @@ install_swiftlint() {
     return 0
   }
 
+  local repo="realm/SwiftLint"
   local url
   local filename
   local version current=
 
-  url=$(download_stdout https://github.com/realm/SwiftLint/releases | grep -o 'realm/.*portable_swiftlint.zip' | head -n1)
+  version=$(get_tag "$repo")
+  url="$repo/releases/download/$version/portable_swiftlint.zip"
   filename=$(parse "$url")
-  version=$(echo "$url" | getv)
+
   program_exists swiftlint && current=$(swiftlint --version | getv)
 
   check_update "$current" "$version" "swiftlint" || {
@@ -682,13 +687,15 @@ install_swiftlint() {
 install_swiftformat() {
   is_macos || return 0
 
+  local repo="nicklockwood/SwiftFormat"
   local url
   local filename
   local version current=
 
-  url=$(download_stdout https://github.com/nicklockwood/SwiftFormat/releases | grep -o 'nicklockwood/.*swiftformat.zip' | head -n1)
+  version=$(get_tag "$repo")
+  url="$repo/releases/download/$version/swiftformat.zip"
   filename=$(parse "$url")
-  version=$(echo "$url" | getv)
+
   program_exists swiftformat && current=$(swiftformat --version | getv)
 
   check_update "$current" "$version" "swiftformat" || {
@@ -707,13 +714,14 @@ install_github_cli() {
   is_macos || return 0
   is_arm && return 0
 
+  local repo="cli/cli"
   local url
   local filename
   local version current=
 
-  url=$(download_stdout https://github.com/cli/cli/releases | grep -o 'cli/.*macOS_amd64.tar.gz' | head -n1)
+  version=$(get_tag "$repo")
+  url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_amd64.tar.gz
   filename=$(parse "$url")
-  version=$(echo "$url" | getv)
   program_exists gh && current=$(gh --version | getv)
 
   check_update "$current" "$version" "gh" || {
@@ -729,17 +737,18 @@ install_github_cli() {
 install_jq() {
   is_arm && return 0
 
+  local repo="stedolan/jq"
   local url
   local filename
   local version current=
 
+  version=$(get_tag "$repo")
   if is_macos; then
-    url=$(download_stdout https://github.com/stedolan/jq/releases | grep -o 'stedolan/.*jq-osx-amd64' | head -n1)
+    url="$repo/releases/download/jq-$version/jq-osx-amd64"
   else
-    url=$(download_stdout https://github.com/stedolan/jq/releases | grep -o 'stedolan/.*jq-linux64' | head -n1)
+    url="$repo/releases/download/jq-$version/jq-linux64"
   fi
   filename=$(parse "$url")
-  version=$(echo "$url" | getv)
   program_exists jq && current=$(jq --version | getv)
 
   check_update "$current" "$version" "jq" || {
@@ -774,9 +783,10 @@ config_terminal() {
 
   is_macos || return 0
 
+  local repo="wez/wezterm"
   local url version current=
-  url=$(download_stdout https://github.com/wez/wezterm/releases | grep -o '/wez/wezterm/.*macos.*.zip' | head -n1)
-  version=$(echo "$url" | parse | grep -oE "20[a-z0-9\-]+")
+  version=$(download_stdout "https://github.com/$repo/tags" | grep -o "wez.*.zip" | head -n1 | grep -oE "20[a-z0-9\-]+")
+  url="$repo/releases/download/$version/WezTerm-macos-$version.zip"
 
   download_app WezTerm "github.com/$url" "$version"
 
@@ -867,7 +877,7 @@ common_config_zsh() {
   fi
 
   for ff in "$app_path"/zsh/*; do
-    if [[ "$ff" != *zinit* ]]; then
+    if [[ "$ff" != *zinit* ]] && [[ "$ff" != *.gpg ]]; then
       lnif "$ff" "$HOME/.$(parse "$ff")"
     fi
   done

@@ -254,6 +254,12 @@ getdate() {
   fi
 }
 
+get_tag() {
+  local user=$(echo "$1" | cut -d/ -f1)
+  local repo=$(echo "$1" | cut -d/ -f2)
+  curl -sSL "https://github.com/$user/$repo/tags" | grep -o "$user.*.zip" | head -n1 | getv
+}
+
 reverse() {
   local args="$@"
   [[ $# -eq 0 ]] && read args
