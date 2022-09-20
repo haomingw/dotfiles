@@ -47,7 +47,15 @@ return packer.startup(function(use)
   use "lewis6991/impatient.nvim"
   use "romainl/vim-cool"
   use "rhysd/clever-f.vim"
-  use "numToStr/Comment.nvim"
+  use {
+    "junegunn/vim-easy-align",
+    config = function()
+      vim.cmd[[
+        xmap ga <Plug>(EasyAlign)
+        nmap ga <Plug>(EasyAlign)
+      ]]
+    end
+  }
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "kyazdani42/nvim-web-devicons", opt = true },
@@ -61,6 +69,7 @@ return packer.startup(function(use)
   use "tpope/vim-repeat"
   use "tpope/vim-fugitive"
   use "nathangrigg/vim-beancount"
+  use "numToStr/Comment.nvim"
 
   -- Colorschemes
   use "sainnhe/gruvbox-material"
