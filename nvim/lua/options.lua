@@ -41,6 +41,10 @@ local options = {
   },
 }
 
+for k, v in pairs(options) do
+  vim.opt[k] = v
+end
+
 -- Colortheme
 vim.cmd [[
 try
@@ -55,8 +59,3 @@ vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
 vim.opt.shortmess:append "c"
 vim.opt.iskeyword:append("-")
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
-
-for k, v in pairs(options) do
-  vim.opt[k] = v
-end
-

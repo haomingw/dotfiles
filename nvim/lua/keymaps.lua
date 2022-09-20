@@ -29,6 +29,16 @@ keymap("n", "k", "gk", opts)
 keymap("n", "n", "nzzzv", opts)
 keymap("n", "N", "Nzzzv", opts)
 
+-- Editting
+keymap("n", "cl", "ggdG", opts)
+keymap("n", "<leader>Y", ":%y<cr>", opts)
+keymap("i", "<c-j>", "<Esc>o", opts)
+keymap("i", "jj", "<Esc>O", opts)
+
+-- Visual shifting (does not exit Visual mode)
+keymap("v", "<", "<gv", opts)
+keymap("v", ">", ">gv", opts)
+
 keymap("n", "{", "{zz", opts)
 keymap("n", "}", "}zz", opts)
 keymap("n", "[[", "[[zz", opts)

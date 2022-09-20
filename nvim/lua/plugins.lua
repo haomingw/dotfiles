@@ -1,8 +1,8 @@
 local ensure_packer = function()
   local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
     vim.cmd [[packadd packer.nvim]]
     return true
   end
@@ -26,7 +26,7 @@ if not status_ok then
 end
 
 -- Speed up loading Lua modules in Neovim to improve startup time
-pcall(require, 'impatient')
+pcall(require, "impatient")
 
 -- Have packer use a popup window
 packer.init {
@@ -42,15 +42,15 @@ local opts = { noremap = true }
 
 -- Install your plugins here
 return packer.startup(function(use)
-  use 'wbthomason/packer.nvim'
+  use "wbthomason/packer.nvim"
   -- General
-  use 'lewis6991/impatient.nvim'
+  use "lewis6991/impatient.nvim"
   use "romainl/vim-cool"
-  use "nathangrigg/vim-beancount"
   use "rhysd/clever-f.vim"
+  use "numToStr/Comment.nvim"
   use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    "nvim-lualine/lualine.nvim",
+    requires = { "kyazdani42/nvim-web-devicons", opt = true },
   }
 
   -- Development
@@ -58,8 +58,9 @@ return packer.startup(function(use)
   use "lewis6991/gitsigns.nvim"
   use "christoomey/vim-tmux-navigator"
   use "tpope/vim-surround"
-  use 'tpope/vim-repeat'
+  use "tpope/vim-repeat"
   use "tpope/vim-fugitive"
+  use "nathangrigg/vim-beancount"
 
   -- Colorschemes
   use "sainnhe/gruvbox-material"
@@ -76,16 +77,10 @@ return packer.startup(function(use)
   }
 
   -- Syntax
-    use {
-      'nvim-treesitter/nvim-treesitter',
-      run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-      requires = {
-        {
-          "windwp/nvim-autopairs",
-          config = function() require("nvim-autopairs").setup { check_ts = true } end
-        },
-      }
-    }
+  use "nvim-treesitter/nvim-treesitter"
+
+  -- LSP
+  use "neovim/nvim-lspconfig"
 
   -- Fuzzy finder
   use "nvim-lua/popup.nvim"
@@ -96,11 +91,9 @@ return packer.startup(function(use)
     },
   }
 
-  -- LSP
-
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
-    require('packer').sync()
+    require("packer").sync()
   end
 end)
