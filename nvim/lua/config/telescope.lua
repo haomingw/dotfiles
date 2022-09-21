@@ -27,3 +27,4 @@ local keymap = vim.api.nvim_set_keymap
 
 keymap("n", "<C-p>", ":Telescope find_files<cr>", opts)
 keymap("n", "<leader>rg", ":Telescope live_grep<cr>", opts)
+keymap("n", "<leader>gg", ":LazyGit<cr>", opts)

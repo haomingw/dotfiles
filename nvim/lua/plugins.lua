@@ -48,6 +48,10 @@ return packer.startup(function(use)
   use "romainl/vim-cool"
   use "rhysd/clever-f.vim"
   use {
+    "nvim-lualine/lualine.nvim",
+    requires = { "kyazdani42/nvim-web-devicons", opt = true },
+  }
+  use {
     "junegunn/vim-easy-align",
     config = function()
       vim.cmd[[
@@ -55,10 +59,6 @@ return packer.startup(function(use)
         nmap ga <Plug>(EasyAlign)
       ]]
     end
-  }
-  use {
-    "nvim-lualine/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", opt = true },
   }
 
   -- Development
@@ -89,6 +89,8 @@ return packer.startup(function(use)
   use "nvim-treesitter/nvim-treesitter"
 
   -- LSP
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
   use "neovim/nvim-lspconfig"
 
   -- Fuzzy finder
@@ -97,6 +99,7 @@ return packer.startup(function(use)
     "nvim-telescope/telescope.nvim",
     requires = {
       "nvim-lua/plenary.nvim",
+      "kdheepak/lazygit.nvim",
     },
   }
 
