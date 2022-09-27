@@ -266,7 +266,6 @@ create_vim_symlinks() {
 }
 
 setup_neovim() {
-  safe_mkdir "$HOME/.config"
   if is_linux; then
     if [ -f /usr/bin/pip3 ]; then
       /usr/bin/pip3 install -U pynvim
@@ -776,16 +775,17 @@ optional_downloads() {
 }
 
 config_terminal() {
-  msg "Setting up WezTerm"
+  msg "Setting up Alacritty"
+  lnif "$app_path/alacritty" "$HOME/.config"
 
-  safe_mkdir "$HOME/.config/wezterm"
-  lnif "$app_path/wezterm/wezterm.lua" "$HOME/.config/wezterm"
+  msg "Setting up WezTerm"
+  lnif "$app_path/wezterm" "$HOME/.config"
 
   is_macos || return 0
 
   local repo="wez/wezterm"
   local url version current=
-  version=$(download_stdout "https://github.com/$repo/tags" | grep -o "wez.*.zip" | head -n1 | grep -oE "20[a-z0-9\-]+")
+  version=$(download_stdout "https://github.com/$repo/tags" | grep -o "wez.*.zip" | grep -oE "20[a-z0-9\-]+" | head -n1)
   url="$repo/releases/download/$version/WezTerm-macos-$version.zip"
 
   download_app WezTerm "github.com/$url" "$version"
@@ -864,6 +864,7 @@ common_config_zsh() {
   local ff target
   safe_mkdir ~/Downloads
   safe_mkdir /usr/local/bin
+  safe_mkdir ~/.config
 
   lnif "$app_path/common" "$HOME/.common"
 
