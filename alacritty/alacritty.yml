@@ -4,3 +4,13 @@ font:
   normal:
     family: JetBrains Mono
   size: 20.0
+cursor:
+  # Cursor style
+  #
+  # Values for `style`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Underline
+import:
+  - ~/.config/alacritty/dracula.yml
