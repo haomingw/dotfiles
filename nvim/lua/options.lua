@@ -57,5 +57,4 @@ endtry
 vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
 
 vim.opt.shortmess:append "c"
-vim.opt.iskeyword:append("-")
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
