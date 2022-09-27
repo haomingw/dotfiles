@@ -779,6 +779,7 @@ config_terminal() {
   lnif "$app_path/alacritty" "$HOME/.config"
 
   msg "Setting up WezTerm"
+  [ -d "$HOME/.config/wezterm" ] && rm -rf "$HOME/.config/wezterm"
   lnif "$app_path/wezterm" "$HOME/.config"
 
   is_macos || return 0
