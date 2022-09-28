@@ -14,6 +14,7 @@ local options = {
   joinspaces = false,                      -- prevents inserting two spaces after punctuation on a join (J)
   showcmd = true,                          -- show partial commands in status line
   smartcase = true,                        -- smart case
+  autoindent = true,                       -- copy indent from previous line
   smartindent = true,                      -- make indenting smarter again
   splitbelow = true,                       -- force all horizontal splits to go below current window
   splitright = true,                       -- force all vertical splits to go to the right of current window
