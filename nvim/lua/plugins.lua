@@ -72,7 +72,16 @@ return packer.startup(function(use)
   use "numToStr/Comment.nvim"
 
   -- Colorschemes
-  use "sainnhe/gruvbox-material"
+  use {
+    "ellisonleao/gruvbox.nvim",
+    config = function()
+      require('gruvbox').setup({
+        transparent_mode = true,
+      })
+      vim.cmd("colorscheme gruvbox")
+      -- vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
+    end
+  }
 
   -- Completion
   use {
