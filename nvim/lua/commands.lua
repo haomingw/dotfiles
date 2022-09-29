@@ -20,6 +20,11 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   command = [[if line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
 })
 
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = {"*.ptest"},
+  command = "set filetype=json",
+})
+
 -- User commands
 vim.api.nvim_create_user_command(
   "Enc",
