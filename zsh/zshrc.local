@@ -227,6 +227,11 @@ mvdl() {
   mv "$1" "$home"/Downloads
 }
 
+myip() {
+  local key="${1:-ip}"
+  curl ipinfo.io/"$key"
+}
+
 # }} // namespace utils
 
 # Tools {{
