@@ -862,7 +862,7 @@ config_binary() {
 }
 
 common_config_zsh() {
-  local ff target
+  local ff
   safe_mkdir ~/Downloads
   safe_mkdir /usr/local/bin
   safe_mkdir ~/.config
@@ -870,7 +870,13 @@ common_config_zsh() {
   lnif "$app_path/common" "$HOME/.common"
 
   if is_personal; then
-    gpgdec "$app_path"/zsh/*.gpg
+    for ff in "$app_path"/zsh/*.gpg; do
+      if [[ "$ff" == *work* ]]; then
+        gpgdec "$ff"
+      else
+        safe_gpgdec "$ff"
+      fi
+    done
     success "Private zshrc setup."
 
     for ff in "$app_path"/zsh/kaggle/*.gpg; do

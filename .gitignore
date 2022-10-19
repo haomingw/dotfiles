@@ -3,6 +3,7 @@
 .DS_Store
 a.out
 work.zsh
+s3curl
 id_rsa
 id_ed25519
 kaggle.json
