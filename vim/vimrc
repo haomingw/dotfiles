@@ -440,6 +440,10 @@ nnoremap <leader>pp :echo expand('%:p')<cr>
 nnoremap <leader>pu :PlugUpdate!<cr>
 nnoremap <leader>pc :PlugClean!<cr>
 
+" Copy filename/path
+nnoremap <leader>yf :let @*=expand("%")<cr>
+nnoremap <leader>yp :let @*=expand("%:p")<cr>
+
 " Open new line below and above current line
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>

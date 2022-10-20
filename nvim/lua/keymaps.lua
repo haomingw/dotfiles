@@ -1,6 +1,6 @@
 local opts = { noremap = true }
 
-local term_opts = { silent = true }
+local term_opts = { noremap = true, silent = true }
 
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
@@ -72,6 +72,10 @@ keymap("n", "<leader>es", ":sp ", opts)
 keymap("n", "<leader>ev", ":vsp ", opts)
 keymap("n", "<leader>et", ":tabe ", opts)
 keymap("n", "<leader>rp", ":%s/", opts)
+
+-- Copy filename
+keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
+keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
 -- Plugins --
 keymap("n", "<leader>f", ":Neoformat<cr>", opts)
