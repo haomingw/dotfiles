@@ -1146,7 +1146,7 @@ install_go_tools() {
     "github.com/gokcehan/lf"
     "github.com/jesseduffield/lazygit"
     "github.com/jesseduffield/lazydocker"
-    "github.com/prasmussen/gdrive"
+    # "github.com/prasmussen/gdrive"
   )
   local prog go_bin
   local goroot="$HOME/.golang"
