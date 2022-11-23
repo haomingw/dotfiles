@@ -214,13 +214,14 @@ install_neovim() {
   local url filename
   local version current=
 
+  version=$(get_tag "neovim/neovim")
   if is_linux; then
-    url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oP 'neovim/neovim/releases/download/v[0-9\.]+/nvim-linux64.tar.gz' | head -n1)
+    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
   else
-    url=$(download_stdout https://github.com/neovim/neovim/releases | grep -oE 'neovim/neovim/releases/download/v[0-9.]+/nvim-macos.tar.gz' | head -n1)
+    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-macos.tar.gz"
   fi
   filename=$(parse "$url")
-  version=$(echo "$url" | getv)
+
   if [ -z "$version" ]; then
     error "Can't parse version from url"
     return 0
@@ -228,7 +229,7 @@ install_neovim() {
   program_exists nvim && current=$(nvim --version | getv)
 
   check_update "$current" "$version" "nvim" || {
-    download_to "github.com/$url" /tmp
+    download_to "$url" /tmp
     tar xzf "/tmp/$filename" -C /tmp
     rm -rf ~/.neovim
     local ff
@@ -823,15 +824,15 @@ compile_tree() {
     sudo rm /usr/local/bin/tree
   fi
 
-  local page="https://github.com/Old-Man-Programmer/tree"
+  local repo="Old-Man-Programmer/tree"
   if [ -f /usr/local/bin/tree ]; then
     local version current
     current=$(/usr/local/bin/tree --version | getv)
-    version=$(download_stdout "$page/tags" | grep -oE '([0-9\.]+).zip' | head -n1 | getv)
+    version=$(get_tag "$repo")
     check_update "$current" "$version" "tree" && return 0
   fi
 
-  git clone "$page.git" /tmp/tree
+  git clone "https://github.com/$repo.git" /tmp/tree
   cp "$app_path/bin/tree/Makefile" /tmp/tree/
   make_install_it /tmp/tree
   rm -rf /tmp/tree
