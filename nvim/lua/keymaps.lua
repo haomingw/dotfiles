@@ -52,10 +52,10 @@ keymap("n", "[]", "[]zz", opts)
 keymap("n", "][", "][zz", opts)
 
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+keymap("n", "<c-h>", "<c-w>h", opts)
+keymap("n", "<c-j>", "<c-w>j", opts)
+keymap("n", "<c-k>", "<c-w>k", opts)
+keymap("n", "<c-l>", "<c-w>l", opts)
 
 -- Switch between tabs
 if is_macos then
