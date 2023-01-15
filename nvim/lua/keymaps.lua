@@ -7,7 +7,7 @@ local keymap = vim.api.nvim_set_keymap
 
 -- Functions
 function is_macos()
-  return vim.fn.has('macunix')
+  return vim.fn.has("macunix")
 end
 
 -- Remap space as leader key
@@ -37,8 +37,21 @@ keymap("n", "N", "Nzzzv", opts)
 -- Editting
 keymap("n", "cl", "ggdG", opts)
 keymap("n", "<leader>Y", ":%y<cr>", opts)
-keymap("i", "<c-j>", "<Esc>o", opts)
-keymap("i", "jj", "<Esc>O", opts)
+keymap("i", "<c-j>", "<c-o>o", opts)
+keymap("i", "jj", "<c-o>O", opts)
+
+--- set emacs keybindings in insert mode
+keymap("i", "<c-b>", "<Left>", opts)
+keymap("i", "<c-f>", "<Right>", opts)
+keymap("i", "<c-a>", "<Home>", opts)
+keymap("i", "<c-e>", "<End>", opts)
+keymap("i", "<c-d>", "<Del>", opts)
+keymap("i", "<c-h>", "<BS>", opts)
+keymap("i", "<c-k>", "<c-o>D", opts)
+keymap("i", "<c-p>", "<Up>", opts)
+keymap("i", "<c-n>", "<Down>", opts)
+keymap("i", "<a-f>", "<c-o>w", opts)
+keymap("i", "<a-b>", "<c-o>b", opts)
 
 -- Visual shifting (does not exit Visual mode)
 keymap("v", "<", "<gv", opts)
