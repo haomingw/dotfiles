@@ -10,7 +10,9 @@ null_ls.setup({
 	debug = false,
   sources = {
     formatting.stylua,
+    formatting.rustfmt,
     formatting.bean_format,
+    formatting.clang_format,
     formatting.black.with({ extra_args = { "--fast" } }),
   },
 })

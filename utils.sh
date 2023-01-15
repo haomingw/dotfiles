@@ -1196,32 +1196,6 @@ install_cargo() {
   for package in "${packages[@]}"; do
     "$cargo"/bin/cargo install "$package"
   done
-
-  local url tag
-  local page="https://github.com/rust-lang/rust-analyzer"
-  if is_linux; then
-    tag="$(download_stdout "$page" | grep -oP 'releases/tag/[0-9\-]+' | parse)"
-    url="$page/releases/download/$tag/rust-analyzer-x86_64-unknown-linux-gnu.gz"
-  else
-    tag="$(download_stdout "$page" | grep -oE 'releases/tag/[0-9\-]+' | parse)"
-    if is_arm; then
-      url="$page/releases/download/$tag/rust-analyzer-aarch64-apple-darwin.gz"
-    else
-      url="$page/releases/download/$tag/rust-analyzer-x86_64-apple-darwin.gz"
-    fi
-  fi
-
-  if program_exists rust-analyzer; then
-    echo "current: $(rust-analyzer --version)"
-    echo "latest: $(echo "$url" | getdate)"
-    confirm "Do you want to update rust-analyzer?" || return 0
-  fi
-
-  local target="$HOME/.cargo/bin/rust-analyzer"
-  msg "Downloading rust-analyzer to $target"
-  rmif "$target"
-  curl -sSL "$url" | gunzip -c - > "$target"
-  chmod +x "$target"
 }
 
 install_ruby() {
