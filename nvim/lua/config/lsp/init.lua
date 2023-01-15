@@ -4,4 +4,4 @@ if not ok then
   return
 end
 
-require("config.lsp.installer")
+require("config.lsp.mason")
