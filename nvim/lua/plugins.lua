@@ -37,9 +37,6 @@ packer.init {
   },
 }
 
-local keymap = vim.api.nvim_set_keymap
-local opts = { noremap = true }
-
 -- Install your plugins here
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"
@@ -62,7 +59,6 @@ return packer.startup(function(use)
   }
 
   -- Development
-  use "sbdchd/neoformat"
   use "lewis6991/gitsigns.nvim"
   use "christoomey/vim-tmux-navigator"
   use "tpope/vim-surround"
@@ -99,9 +95,10 @@ return packer.startup(function(use)
   use "nvim-treesitter/nvim-treesitter"
 
   -- LSP
-  use "williamboman/mason.nvim"
-  use "williamboman/mason-lspconfig.nvim"
-  use "neovim/nvim-lspconfig"
+  use "williamboman/mason.nvim" -- simple to use language server installer
+  use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
+  use "neovim/nvim-lspconfig" -- enable LSP
+  use 'jose-elias-alvarez/null-ls.nvim' -- LSP diagnostics and code actions
 
   -- Fuzzy finder
   use "nvim-lua/popup.nvim"
