@@ -49,6 +49,14 @@ return packer.startup(function(use)
     requires = { "kyazdani42/nvim-web-devicons", opt = true },
   }
   use {
+    "nvim-tree/nvim-tree.lua",
+    config = function()
+      require("nvim-tree").setup({
+        disable_netrw = true,
+      })
+    end
+  }
+  use {
     "junegunn/vim-easy-align",
     config = function()
       vim.cmd[[
@@ -71,7 +79,7 @@ return packer.startup(function(use)
   use {
     "ellisonleao/gruvbox.nvim",
     config = function()
-      require('gruvbox').setup({
+      require("gruvbox").setup({
         transparent_mode = true,
       })
       vim.cmd("colorscheme gruvbox")
@@ -98,7 +106,7 @@ return packer.startup(function(use)
   use "williamboman/mason.nvim" -- simple to use language server installer
   use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
   use "neovim/nvim-lspconfig" -- enable LSP
-  use 'jose-elias-alvarez/null-ls.nvim' -- LSP diagnostics and code actions
+  use "jose-elias-alvarez/null-ls.nvim" -- LSP diagnostics and code actions
 
   -- Fuzzy finder
   use "nvim-lua/popup.nvim"

@@ -89,3 +89,6 @@ keymap("n", "<leader>rp", ":%s/", opts)
 -- Copy filename
 keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
 keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
+
+-- Nvimtree
+keymap("n", "<leader>t", ":NvimTreeToggle<cr>", opts)
