@@ -39,7 +39,10 @@ keymap("n", "<leader>Y", ":%y<cr>", opts)
 keymap("i", "<c-j>", "<c-o>o", opts)
 keymap("i", "jj", "<c-o>O", opts)
 
---- set emacs keybindings in insert mode
+-- set emacs keybindings
+--- insert mode
+keymap("i", "<c-p>", "<Up>", opts)
+keymap("i", "<c-n>", "<Down>", opts)
 keymap("i", "<c-b>", "<Left>", opts)
 keymap("i", "<c-f>", "<Right>", opts)
 keymap("i", "<c-a>", "<Home>", opts)
@@ -47,10 +50,18 @@ keymap("i", "<c-e>", "<End>", opts)
 keymap("i", "<c-d>", "<Del>", opts)
 keymap("i", "<c-h>", "<BS>", opts)
 keymap("i", "<c-k>", "<c-o>D", opts)
-keymap("i", "<c-p>", "<Up>", opts)
-keymap("i", "<c-n>", "<Down>", opts)
 keymap("i", "<a-f>", "<c-o>w", opts)
 keymap("i", "<a-b>", "<c-o>b", opts)
+--- command mode
+keymap("c", "<c-p>", "<Up>", opts)
+keymap("c", "<c-n>", "<Down>", opts)
+keymap("c", "<c-b>", "<Left>", opts)
+keymap("c", "<c-f>", "<Right>", opts)
+keymap("c", "<c-a>", "<Home>", opts)
+keymap("c", "<c-e>", "<End>", opts)
+keymap("c", "<c-d>", "<Del>", opts)
+keymap("c", "<c-h>", "<BS>", opts)
+keymap("c", "<c-k>", "<c-\\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<cr>", opts)
 
 -- Visual shifting (does not exit Visual mode)
 keymap("v", "<", "<gv", opts)
