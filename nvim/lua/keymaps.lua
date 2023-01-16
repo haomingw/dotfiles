@@ -1,5 +1,4 @@
 local opts = { noremap = true }
-
 local term_opts = { noremap = true, silent = true }
 
 -- Shorten function name
@@ -90,5 +89,19 @@ keymap("n", "<leader>rp", ":%s/", opts)
 keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
 keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
--- Nvimtree
+-- Plugins
 keymap("n", "<leader>t", ":NvimTreeToggle<cr>", opts)
+keymap("n", "<leader>gg", ":LazyGit<cr>", opts)
+
+-- LSP
+vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format { async = true } end, term_opts)
+
+--- Telescope
+keymap("n", "<C-p>", ":Telescope find_files<cr>", opts)
+keymap("n", "<leader>rg", ":Telescope live_grep<cr>", opts)
+
+--- Commenter
+vim.keymap.set("n", "<c-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Comment toggle linewise current line" })
+vim.keymap.set("x", "<c-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment toggle linewise (visual)" })
+vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)", { desc = "Comment toggle linewise current line" })
+vim.keymap.set("x", "<leader>/", "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment toggle linewise (visual)" })
