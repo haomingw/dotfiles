@@ -735,8 +735,6 @@ install_github_cli() {
 }
 
 install_jq() {
-  is_arm && return 0
-
   local repo="stedolan/jq"
   local url
   local filename
