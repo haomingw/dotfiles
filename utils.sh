@@ -810,10 +810,6 @@ install_utils() {
   install_jq
   optional_downloads
   config_terminal
-
-  if is_personal; then
-    install_vagrant
-  fi
 }
 
 compile_tree() {
@@ -921,10 +917,9 @@ install_miniforge() {
   local init_pip_packages="$HOME/.pip_packages"
   local python_packages=(
     "pip"
-    "jedi"
     "flake8"
     "mypy"
-    "yapf"
+    "black"
     "virtualenv"
   )
 
