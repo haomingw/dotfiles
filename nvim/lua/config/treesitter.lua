@@ -5,23 +5,7 @@ if not ok then
 end
 
 treesitter.setup {
-  auto_install = true,
-  indent = { enable = false },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<cr>',
-      node_incremental = '<tab>',
-      scope_incremental = '<cr>',
-      scope_decremental = '<s-cr>',
-      node_decremental = '<s-tab>',
-    },
-  },
-  textsubjects = {
-    enable = true,
-    keymaps = {
-      ["."] = "textsubjects-smart",
-      [";"] = "textsubjects-container-outer",
-    },
-  },
+  ensure_installed = { "c", "cpp", "python", "lua", "vim"},
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
 }
