@@ -28,7 +28,7 @@ program_exists nnn && {
 is_wsl && export WINHOME="/mnt/c/Users/$(whoami.exe | cut -d'\' -f2 | head -c -2)"
 
 export RBENV_VERSION=3.2.0
-
 export ANSIBLE_PYTHON_INTERPRETER=auto_silent
+export PYRS_DISABLE_MAGIC_WARNING=1
 
 # }} // namespace env
