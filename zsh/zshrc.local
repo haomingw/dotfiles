@@ -394,6 +394,7 @@ alias grhm='git reset --hard origin/$(git_main_branch)'
 alias grhc='git reset --hard origin/$(git_current_branch)'
 alias gupd='git remote set-head origin -a'
 alias gsf='git commit --amend --signoff'
+alias gbf='git branch | fzf | xargs git checkout'
 
 ghcl() {
   local user=${GH_USER:-haomingw}
