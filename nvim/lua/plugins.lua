@@ -44,6 +44,32 @@ return packer.startup(function(use)
   use "lewis6991/impatient.nvim"
   use "romainl/vim-cool"
   use "rhysd/clever-f.vim"
+  use "haomingw/vim-startscreen"
+  use {
+    "kana/vim-textobj-user",
+    config = function()
+      vim.cmd[[
+        call textobj#user#plugin('line', {
+        \ '-': {
+        \   'select-i-function': 'CurrentLineI',
+        \   'select-i': 'il',
+        \ },
+        \})
+
+        function! CurrentLineI()
+          normal! ^
+          let head_pos = getpos('.')
+          normal! g_
+          let tail_pos = getpos('.')
+          let non_blank_char_exists_p = getline('.')[head_pos[2] - 1] !~# '\s'
+          return
+          \ non_blank_char_exists_p
+          \ ? ['v', head_pos, tail_pos]
+          \ : 0
+        endfunction
+      ]]
+    end
+  }
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "kyazdani42/nvim-web-devicons", opt = true },

@@ -41,14 +41,11 @@ keymap("i", "jj", "<c-o>O", opts)
 
 -- set emacs keybindings
 --- insert mode
-keymap("i", "<c-p>", "<Up>", opts)
-keymap("i", "<c-n>", "<Down>", opts)
 keymap("i", "<c-b>", "<Left>", opts)
 keymap("i", "<c-f>", "<Right>", opts)
 keymap("i", "<c-a>", "<Home>", opts)
 keymap("i", "<c-e>", "<End>", opts)
 keymap("i", "<c-d>", "<Del>", opts)
-keymap("i", "<c-h>", "<BS>", opts)
 keymap("i", "<c-k>", "<c-o>D", opts)
 keymap("i", "<a-f>", "<c-o>w", opts)
 keymap("i", "<a-b>", "<c-o>b", opts)
