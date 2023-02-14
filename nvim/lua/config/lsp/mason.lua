@@ -6,7 +6,6 @@ end
 
 local servers = {
   "clangd",
-  "sumneko_lua",
   "pyright",
   "jsonls",
   "rust_analyzer",

@@ -102,7 +102,7 @@ lnif() {
   if [[ ! -f "$1" ]] && [[ ! -d "$1" ]]; then
     warning "No such file or directory: $1"
   elif [[ ! -d "$(dirname "$2")" ]]; then
-    warning "Parent folder not exists: $2"
+    warning "Parent folder does not exist: $2"
   else
     ln -svfn "$1" "$2" || doit sudo ln -svfn "$1" "$2"
   fi
