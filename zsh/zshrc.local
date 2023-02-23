@@ -516,16 +516,6 @@ gclip() {
   git clone "$url" && cd "$repo"
 }
 
-gitgpg() {
-  local key_id=$(gpgkid "$@")
-  local email=$(gpgmail "$@")
-  msg "Setting git email to $email, with signing key $key_id"
-  git config user.signingkey "$key_id"
-  git config user.email "$email"
-  git config gpg.program gpg
-  git config commit.gpgsign true
-}
-
 gprc() {
   local url="https://github.com/cli/cli"
   program_exists gh && url=$(gh pr create --draft --fill)

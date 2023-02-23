@@ -1,6 +1,5 @@
 [user]
 	name = Haoming Wang
-	signingkey = CCFF6597AE72D4FB
 	email = haoming.exe@gmail.com
 [gpg]
 	program = gpg
