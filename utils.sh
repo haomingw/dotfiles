@@ -1046,12 +1046,12 @@ install_java() {
   safe_mkdir "$jdk"
 
   if is_linux; then
-    url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/19/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
     if [ -f "$jdk/bin/javac" ]; then
       current=$("$jdk/bin/javac" -version | getv)
     fi
   else
-    url=$(download_stdout https://jdk.java.net/18/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    url=$(download_stdout https://jdk.java.net/19/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
     if [ -f "$jdk/Contents/Home/bin/javac" ]; then
       current=$("$jdk/Contents/Home/bin/javac" -version | getv)
     fi
