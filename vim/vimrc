@@ -189,7 +189,6 @@ try
     set termguicolors           " enable true colors support
   endif
 catch
-  color desert
 endtry
 
 set background=dark

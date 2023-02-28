@@ -1338,7 +1338,7 @@ function! s:update_finish()
       return
     endtry
     call s:finish(s:update.pull)
-    call setline(1, 'Updated. Elapsed time: ' . split(reltimestr(reltime(s:update.start)))[0] . ' sec.')
+    " call setline(1, 'Updated. Elapsed time: ' . split(reltimestr(reltime(s:update.start)))[0] . ' sec.')
     call s:switch_out('normal! gg')
   endif
 endfunction
