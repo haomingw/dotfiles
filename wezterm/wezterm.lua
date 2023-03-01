@@ -1,4 +1,5 @@
-local wezterm = require 'wezterm';
+local wezterm = require 'wezterm'
+local act = wezterm.action
 
 return {
   color_scheme = "Dracula",
@@ -13,5 +14,20 @@ return {
   keys = {
     {key="LeftArrow", mods="CMD", action=wezterm.action{ActivateTabRelative=-1}},
     {key="RightArrow", mods="CMD", action=wezterm.action{ActivateTabRelative=1}},
-  }
+  },
+  mouse_bindings = {
+    -- Change the default click behavior so that it only selects
+    -- text and doesn't open hyperlinks
+    {
+      event = { Up = { streak = 1, button = 'Left' } },
+      mods = 'NONE',
+      action = act.CompleteSelection 'ClipboardAndPrimarySelection',
+    },
+    -- and make CTRL-Click open hyperlinks
+    {
+      event = { Up = { streak = 1, button = 'Left' } },
+      mods = 'CMD',
+      action = act.OpenLinkAtMouseCursor,
+    },
+  },
 }
