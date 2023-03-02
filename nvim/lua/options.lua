@@ -25,8 +25,7 @@ local options = {
   softtabstop = 2,                         -- let backspace delete indent
   cursorline = true,                       -- highlight the current line
   number = true,                           -- set numbered lines
-  -- relativenumber = true,                   -- set relative numbered lines
-  signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
+  relativenumber = true,                   -- set relative numbered lines
   wrap = false,                            -- display lines as one long line
   scrolloff = 8,                           -- lines to scroll when cursor leaves screen
   sidescrolloff = 8,
@@ -46,3 +45,5 @@ end
 
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
+-- vim.cmd.colorscheme "gruvbox"
+-- vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })

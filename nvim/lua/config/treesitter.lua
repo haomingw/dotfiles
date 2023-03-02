@@ -5,7 +5,7 @@ if not ok then
 end
 
 treesitter.setup {
-  ensure_installed = { "c", "cpp", "python", "lua", "vim"},
+  ensure_installed = { "c", "cpp", "python", "lua", "vim", "bash" },
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
 }

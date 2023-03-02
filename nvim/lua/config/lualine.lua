@@ -6,8 +6,9 @@ end
 
 lualine.setup {
   options = {
-    theme = 'gruvbox-material',
-    component_separators = '|',
-    section_separators = { left = '', right = '' },
+    theme = "gruvbox-material",
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+    disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
   },
 }

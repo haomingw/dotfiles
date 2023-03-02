@@ -72,7 +72,7 @@ return packer.startup(function(use)
   }
   use {
     "nvim-lualine/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    requires = { "kyazdani42/nvim-web-devicons" },
   }
   use {
     "nvim-tree/nvim-tree.lua",
@@ -91,6 +91,10 @@ return packer.startup(function(use)
       ]]
     end
   }
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup({}) end
+  }
 
   -- Development
   use "lewis6991/gitsigns.nvim"
@@ -101,7 +105,7 @@ return packer.startup(function(use)
   use "nathangrigg/vim-beancount"
   use "numToStr/Comment.nvim"
 
-  -- Colorschemes
+  -- UI & theme
   use {
     "ellisonleao/gruvbox.nvim",
     config = function()
@@ -109,9 +113,9 @@ return packer.startup(function(use)
         transparent_mode = true,
       })
       vim.cmd("colorscheme gruvbox")
-      -- vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
     end
   }
+  use "lukas-reineke/indent-blankline.nvim"
 
   -- Completion
   use {
