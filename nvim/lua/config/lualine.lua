@@ -6,9 +6,8 @@ end
 
 lualine.setup {
   options = {
-    -- Disable sections and component separators
-    component_separators = "",
-    section_separators = "",
-    theme = 'gruvbox',
+    theme = 'gruvbox-material',
+    component_separators = '|',
+    section_separators = { left = '', right = '' },
   },
 }
