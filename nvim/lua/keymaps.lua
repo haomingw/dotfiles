@@ -35,9 +35,14 @@ keymap("n", "N", "Nzzzv", opts)
 
 -- Editting
 keymap("n", "cl", "ggdG", opts)
-keymap("n", "<leader>Y", ":%y<cr>", opts)
 keymap("i", "<c-j>", "<c-o>o", opts)
 keymap("i", "jj", "<c-o>O", opts)
+keymap("n", "<leader>Y", ":%y<cr>", opts)
+
+-- Files
+keymap("n", "<leader>p", ":echo expand('%:p')<cr>", opts)
+keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
+keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
 -- set emacs keybindings
 --- insert mode
