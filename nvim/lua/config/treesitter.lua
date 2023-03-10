@@ -8,4 +8,7 @@ treesitter.setup {
   ensure_installed = { "c", "cpp", "python", "lua", "vim", "bash" },
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
+  highlight = {
+    enable = true,
+  },
 }

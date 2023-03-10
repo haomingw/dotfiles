@@ -130,7 +130,10 @@ return packer.startup(function(use)
   }
 
   -- Syntax
-  use "nvim-treesitter/nvim-treesitter"
+  use {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  }
 
   -- LSP
   use "williamboman/mason.nvim" -- simple to use language server installer
