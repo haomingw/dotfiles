@@ -25,6 +25,20 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   command = "set filetype=json",
 })
 
+-- Insert mode
+vim.api.nvim_create_autocmd({"InsertEnter"}, {
+  command = "set norelativenumber",
+})
+
+vim.api.nvim_create_autocmd({"InsertLeave"}, {
+  command = "set relativenumber",
+})
+
+-- Restore cursor style
+vim.api.nvim_create_autocmd({"VimLeave", "VimSuspend"}, {
+  command = "set guicursor=a:hor20",
+})
+
 -- User commands
 vim.api.nvim_create_user_command(
   "Enc",

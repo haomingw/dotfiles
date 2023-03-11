@@ -9,6 +9,7 @@ treesitter.setup {
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   highlight = {
-    enable = true,
+    enable = false,
+    disable = { "beancount" }
   },
 }
