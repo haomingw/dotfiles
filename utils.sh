@@ -950,7 +950,6 @@ install_miniforge() {
 
   # this is personal
   local personal_packages=(
-    "beancount"
     "fava"
     "yt-dlp"
   )

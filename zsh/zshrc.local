@@ -390,11 +390,18 @@ alias gtcl='git tag -l | xargs git tag -d'
 alias gtu='gtcl && git fetch --tags'
 alias gcfix='git commit -m "fixup!"'
 alias grbim='git rebase -i $(git_main_branch)'
-alias grhm='git reset --hard origin/$(git_main_branch)'
-alias grhc='git reset --hard origin/$(git_current_branch)'
 alias gupd='git remote set-head origin -a'
 alias gsf='git commit --amend --signoff'
 alias gbf='git branch | fzf | xargs git checkout'
+
+grhm() {
+  if confirm "hard reset to main branch?"; then
+    git reset --hard origin/$(git_main_branch)
+  fi
+}
+grhc() {
+  git reset --hard origin/$(git_current_branch)
+}
 
 ghcl() {
   local user=${GH_USER:-haomingw}

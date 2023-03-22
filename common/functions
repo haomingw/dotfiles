@@ -354,9 +354,7 @@ is_personal() {
 }
 
 is_pro() {
-  local domain
-  domain=$(gpgls | grep "@" | grep -v gmail | cut -d'@' -f2 | cut -d'.' -f1)
-  program_exists gpg && [[ $(gpgkid "$domain") == "F7ECF5AA6AF345C8" ]]
+  program_exists sw_vers && [[ "$(sw_vers -ReleaseType)" == "Internal" ]]
 }
 
 make_sound() {
