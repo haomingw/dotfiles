@@ -4,6 +4,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = "*",
   command = [[%s/\s\+$//e]],
 })
+local vimrc = vim.api.nvim_create_augroup("vimrc", { clear = true })
 
 -- Highlight on yank
 local yankGrp = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -15,28 +16,34 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = "*",
-  command = [[if line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
-})
-
+-- Filetypes
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  group = vimrc,
   pattern = {"*.ptest"},
   command = "set filetype=json",
 })
 
 -- Insert mode
 vim.api.nvim_create_autocmd({"InsertEnter"}, {
+  group = vimrc,
   command = "set norelativenumber",
 })
 
 vim.api.nvim_create_autocmd({"InsertLeave"}, {
+  group = vimrc,
   command = "set relativenumber",
 })
 
--- Restore cursor style
+-- Restore cursor style & position
 vim.api.nvim_create_autocmd({"VimLeave", "VimSuspend"}, {
+  group = vimrc,
   command = "set guicursor=a:hor20",
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = vimrc,
+  pattern = "*",
+  command = [[if line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
 })
 
 -- User commands
