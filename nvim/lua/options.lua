@@ -45,13 +45,20 @@ end
 
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
--- vim.cmd.colorscheme "gruvbox"
--- vim.api.nvim_set_hl(0, "Normal", { ctermbg=NONE })
-
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- vim compatible
 vim.cmd [[
+  iabbrev #! #!/usr/bin/env
   iabbrev tab2 vim: set sw=2 ts=2 sts=2 et
   iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
-  iabbrev #! #!/usr/bin/env
 ]]
+
+-- User commands
+vim.api.nvim_create_user_command(
+  "Enc",
+  "!cat % | gpgenc > %.gpg",
+  {}
+)
