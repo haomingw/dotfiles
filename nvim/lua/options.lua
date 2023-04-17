@@ -43,6 +43,9 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
+-- non native options
+vim.api.nvim_set_option_value("colorcolumn", "80", {})
+
 vim.opt.shortmess:append "c"
 vim.opt.whichwrap:append("<,>,[,],h,l,b,s")
 -- disable netrw at the very start of your init.lua (strongly advised)
