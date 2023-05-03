@@ -243,7 +243,7 @@ program_exists vim && alias vi=vim
 
 alias vimrc='vim ~/.vimrc'
 alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
-alias upnvim='nvim +PackerSync'
+alias upnvim='nvim --headless "+Lazy! sync" +qa'
 
 rmvim() {
   setopt localoptions nonomatch
