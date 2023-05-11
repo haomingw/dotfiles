@@ -712,7 +712,6 @@ install_swiftformat() {
 
 install_github_cli() {
   is_macos || return 0
-  is_arm && return 0
 
   local repo="cli/cli"
   local url
@@ -720,15 +719,19 @@ install_github_cli() {
   local version current=
 
   version=$(get_tag "$repo")
-  url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_amd64.tar.gz
+  if is_arm; then
+    url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_arm64.zip
+  else
+    url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_amd64.zip
+  fi
   filename=$(parse "$url")
   program_exists gh && current=$(gh --version | getv)
 
   check_update "$current" "$version" "gh" || {
     local dir
     download_to "github.com/$url" /tmp
-    tar xzf "/tmp/$filename" -C /tmp
-    dir="$(basename "$filename" .tar.gz)"
+    unzip "/tmp/$filename" -d /tmp
+    dir="$(basename "$filename" .zip)"
     cpif "/tmp/$dir/bin/gh" /usr/local/bin
     rm -rf "/tmp/$dir" "/tmp/$filename"
   }
