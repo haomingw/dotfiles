@@ -243,7 +243,10 @@ program_exists vim && alias vi=vim
 
 alias vimrc='vim ~/.vimrc'
 alias upvim='vim +PlugClean! +qall && vim +PlugUpdate'
-alias upnvim='nvim --headless "+Lazy! sync" +qa'
+
+upnvim() {
+  nvim +"lua require('lazy').sync({wait=true})" +qa
+}
 
 rmvim() {
   setopt localoptions nonomatch
