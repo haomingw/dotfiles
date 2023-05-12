@@ -77,7 +77,27 @@ require("lazy").setup({
   "numToStr/Comment.nvim",
 
   -- UI & theme
-  "lukas-reineke/indent-blankline.nvim",
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("indent_blankline").setup({
+        show_first_indent_level = false,
+        show_trailing_blankline_indent = false,
+        filetype_exclude = {
+          "help",
+          "terminal",
+          "alpha",
+          "packer",
+          "lspinfo",
+          "startscreen",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "mason",
+          "",
+        },
+      })
+    end
+  },
   {
       "ellisonleao/gruvbox.nvim",
       config = function()
