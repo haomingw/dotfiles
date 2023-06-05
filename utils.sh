@@ -738,7 +738,7 @@ install_github_cli() {
 }
 
 install_jq() {
-  local repo="stedolan/jq"
+  local repo="jqlang/jq"
   local url
   local filename
   local version current=

@@ -257,7 +257,7 @@ getdate() {
 get_tag() {
   local user=$(echo "$1" | cut -d/ -f1)
   local repo=$(echo "$1" | cut -d/ -f2)
-  curl -sSL "https://github.com/$user/$repo/tags" | grep -o "$user.*.zip" | grep -vE "\-rc|nightly|pre" | head -n1 | getv
+  curl -sSL "https://github.com/$user/$repo/tags" | grep -o "$user.*.zip" | grep -vE "\-rc|nightly|pre|snapshot" | head -n1 | getv
 }
 
 reverse() {
