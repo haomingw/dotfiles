@@ -73,7 +73,7 @@ if [[ -n "$WINHOME" ]]; then
   cdd() { local dir="$WINHOME/Documents/code/$1"; [[ -d "$dir" ]] && cd "$dir" }
 else
   alias cdl='cd ~/Downloads'
-  cdd() { local dir=~/Documents/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
+  cdd() { local dir=~/code/"$1"; [[ -d "$dir" ]] && cd "$dir" }
 fi
 
 add-head() {

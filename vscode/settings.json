@@ -37,5 +37,6 @@
     "editor.inlineSuggest.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
     "editor.fontSize": 16,
-    "security.workspace.trust.enabled": false
+    "security.workspace.trust.enabled": false,
+    "git.openRepositoryInParentFolders": "never"
 }

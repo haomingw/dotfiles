@@ -530,7 +530,7 @@ config_hhkb() {
 
 config_services() {
   is_personal || return 0
-  lnif "$HOME/Documents/code/compta/main.bean" /opt/main.bean
+  lnif "$HOME/code/compta/main.bean" /opt/main.bean
 
   if is_macos; then
     msg "Setting launchd services"
