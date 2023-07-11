@@ -136,7 +136,10 @@ require("lazy").setup({
   },
 
   -- LSP
-  "williamboman/mason.nvim",  -- simple to use language server installer
+  {
+    "williamboman/mason.nvim", -- simple to use language server installer
+    build = ":MasonUpdate" -- :MasonUpdate updates registry contents
+  },
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig", --- enable LSP
   "jose-elias-alvarez/null-ls.nvim", --- LSP diagnostics and code actions
