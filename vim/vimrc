@@ -101,6 +101,7 @@ if count(g:plug_groups, 'programming')
   Plug 'haomingw/vim-snippets'
   Plug 'junegunn/rainbow_parentheses.vim'
   Plug 'sbdchd/neoformat'
+  Plug 'michaeljsmith/vim-indent-object'
   Plug 'nathangrigg/vim-beancount', { 'for': 'beancount' }
   Plug 'SirVer/ultisnips', { 'on': [] }
   Plug 'neoclide/coc.nvim',

@@ -16,6 +16,7 @@ require("lazy").setup({
   "romainl/vim-cool",
   "rhysd/clever-f.vim",
   "haomingw/vim-startscreen",
+  "michaeljsmith/vim-indent-object",
   {
     "kana/vim-textobj-user",
     config = function()
