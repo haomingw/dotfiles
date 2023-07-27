@@ -13,3 +13,4 @@ wallet.json
 license.txt
 nvim/plugin/
 lazy-lock.json
+netrc
