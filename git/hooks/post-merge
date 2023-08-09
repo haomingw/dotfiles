@@ -25,20 +25,13 @@ should_ignore() {
 main() {
   program_exists gpg || return 0
 
-  local repo
-  local f target
-
-  repo=$(git rev-parse --show-toplevel)
+  local change changes target
 
   exec < /dev/tty
   # shellcheck disable=SC2044
-  for f in $(find "$repo" -type f -name "*.gpg"); do
-    target=${f%.gpg}
-
-    if should_ignore "$f" && [ -f "$target" ]; then
-      msg "Ignoring $f"
-      continue
-    fi
+  changes=$(git diff --name-only HEAD@{0} HEAD@{1} | grep .gpg)
+  for change in $changes; do
+    target=${change%.gpg}
 
     if [ -f "$target" ]; then
       confirm "File $target exists, overwrite?" || {
@@ -46,8 +39,8 @@ main() {
         continue
       }
     fi
-    msg "Decrypting $f"
-    gpg --decrypt "$f" > "$target"
+    msg "Decrypting $change"
+    gpg --decrypt "$change" > "$target"
   done
 }
 
