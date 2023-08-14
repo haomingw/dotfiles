@@ -98,7 +98,7 @@ config_programming_langs() {
 
   for f in "$APP_PATH"/python/*; do
     if [ -f "$f" ]; then
-      lnif "$f" "$HOME/.$(parse "$f")"
+      lnif "$f" "$HOME/.$(basename "$f")"
     fi
   done
 

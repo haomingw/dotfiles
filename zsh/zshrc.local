@@ -521,7 +521,7 @@ gclip() {
   url="$(getclip)"
   [[ -z "$url" ]] && return 1
 
-  repo="$(parse $url | cut -d. -f1)"
+  repo="$(basename $url | cut -d. -f1)"
 
   git clone "$url" && cd "$repo"
 }

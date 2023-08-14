@@ -103,6 +103,8 @@ lnif() {
     warning "No such file or directory: $1"
   elif [[ ! -d "$(dirname "$2")" ]]; then
     warning "Parent folder does not exist: $2"
+  elif [[ -L "$2" ]] && [[ "$1" == $(readlink "$2") ]]; then
+    msg "$2: target location not changed"
   else
     ln -svfn "$1" "$2" || doit sudo ln -svfn "$1" "$2"
   fi
@@ -120,12 +122,6 @@ rmif() {
   if [[ -f "$1" ]]; then
     rm "$1" || doit sudo rm "$1"
   fi
-}
-
-parse() {
-  local data
-  [[ $# -eq 0 ]] && read data || data="$1"
-  echo $data | rev | cut -d'/' -f1 | rev
 }
 
 confirm() {

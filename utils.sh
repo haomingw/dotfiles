@@ -28,7 +28,7 @@ file_must_exist() {
 
 download_to() {
   local name
-  name=${3:-$(parse "$1")}
+  name=${3:-$(basename "$1")}
   if [ -z "$name" ]; then
     error "No filename parsed."
     return 1
@@ -220,7 +220,7 @@ install_neovim() {
   else
     url="https://github.com/neovim/neovim/releases/download/v$version/nvim-macos.tar.gz"
   fi
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   if [ -z "$version" ]; then
     error "Can't parse version from url"
@@ -240,7 +240,7 @@ install_neovim() {
       fi
     done
     rm "/tmp/$filename"
-    lnif ~/.neovim/bin/nvim /usr/local/bin
+    lnif ~/.neovim/bin/nvim /usr/local/bin/nvim
   }
 }
 
@@ -248,7 +248,7 @@ create_vim_symlinks() {
   safe_mkdir "$HOME/.vim/undo"
   local ff
   for ff in "$app_path"/vim/vim/*; do
-    lnif "$ff" "$HOME/.vim/$(parse "$ff")"
+    lnif "$ff" "$HOME/.vim/$(basename "$ff")"
   done
 
   lnif "$app_path/vim/vimrc"                   "$HOME/.vimrc"
@@ -324,7 +324,7 @@ zsh_plug() {
     msg "Now installing zsh plugin $plugin."
     if [[ "$plugin" == */* ]]; then
       local name
-      name=$(parse "$plugin")
+      name=$(basename "$plugin")
       use_zsh_plugin "$name"
       if [ ! -d "$custom_plugins/$name" ]; then
         git_clone_to https://github.com/"$plugin".git "$custom_plugins"
@@ -498,7 +498,7 @@ install_git_lfs() {
 
   check_update "$current" "$version" "git-lfs" || {
     download_to "github.com/$url" /tmp
-    filename=$(parse "$url")
+    filename=$(basename "$url")
     unzip "/tmp/$filename" -d /tmp
     cpif /tmp/git-lfs-"$version"/git-lfs /usr/local/bin
     rm -rf "/tmp/$filename" /tmp/git-lfs
@@ -531,17 +531,24 @@ config_hhkb() {
 config_services() {
   is_personal || return 0
   lnif "$HOME/code/compta/main.bean" /opt/main.bean
+  local service filename
 
   if is_macos; then
     msg "Setting launchd services"
 
     [ -d ~/Library/LaunchAgents ] || mkdir "$HOME/Library/LaunchAgents"
-    lnif "$app_path/service/launchd/com.beancount.fava.plist" "$HOME/Library/LaunchAgents"
+    for service in "$app_path"/service/launchd/*; do
+      filename=$(basename "$service")
+      lnif "$service" "$HOME/Library/LaunchAgents/$filename"
+    done
   fi
 
   if is_linux; then
     msg "Setting systemd services"
-    lnif "$app_path/service/systemd/fava.service" /etc/systemd/system/
+    for service in "$app_path"/service/systemd/*; do
+      filename=$(basename "$service")
+      lnif "$service" "/etc/systemd/system/$filename"
+    done
   fi
 }
 
@@ -560,7 +567,7 @@ install_shellcheck() {
   program_exists shellcheck && current=$(shellcheck --version | grep version | getv)
 
   check_update "$current" "$version" "shellcheck" || {
-    filename=$(parse "$url")
+    filename=$(basename "$url")
     if is_linux; then
       foldername=$(basename "$filename" .linux.x86_64.tar.xz)
     else
@@ -586,7 +593,7 @@ install_clangd() {
   [ -f /usr/local/bin/clangd ] && current=$(/usr/local/bin/clangd --version | getv)
 
   check_update "$current" "$version" "clangd" || {
-    filename=$(parse "$url")
+    filename=$(basename "$url")
     download_to "github.com/$url" /tmp
     unzip "/tmp/$filename" -d /tmp >/dev/null
     cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
@@ -643,7 +650,7 @@ install_vagrant() {
   local version current=
 
   url=$(download_stdout https://www.vagrantup.com/downloads | grep -oE 'https://releases.hashicorp.com/vagrant/[0-9.]+/vagrant_[0-9.]+_x86_64.dmg' | head -n1)
-  filename=$(parse "$url")
+  filename=$(basename "$url")
   version=$(echo "$url" | getv)
   program_exists vagrant && current=$(vagrant --version | getv)
 
@@ -672,7 +679,7 @@ install_swiftlint() {
 
   version=$(get_tag "$repo")
   url="$repo/releases/download/$version/portable_swiftlint.zip"
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   program_exists swiftlint && current=$(swiftlint --version | getv)
 
@@ -694,7 +701,7 @@ install_swiftformat() {
 
   version=$(get_tag "$repo")
   url="$repo/releases/download/$version/swiftformat.zip"
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   program_exists swiftformat && current=$(swiftformat --version | getv)
 
@@ -724,7 +731,7 @@ install_github_cli() {
   else
     url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_amd64.zip
   fi
-  filename=$(parse "$url")
+  filename=$(basename "$url")
   program_exists gh && current=$(gh --version | getv)
 
   check_update "$current" "$version" "gh" || {
@@ -749,7 +756,7 @@ install_jq() {
   else
     url="$repo/releases/download/jq-$version/jq-linux64"
   fi
-  filename=$(parse "$url")
+  filename=$(basename "$url")
   program_exists jq && current=$(jq --version | getv)
 
   check_update "$current" "$version" "jq" || {
@@ -844,15 +851,16 @@ config_binary() {
       echo "ignore folder $ff in bin"
       continue
     fi
-    if [[ "$ff" != *.* ]]; then
-      lnif "$ff" /usr/local/bin
-    elif [[ "$ff" == *.c ]]; then
+
+    if [[ "$ff" == *.c ]]; then
       target=$(basename "$ff" .c)
       if [ ! -f "/usr/local/bin/$target" ] && program_exists clang; then
         echo "compiling $ff -> /usr/local/bin/$target"
         clang "$ff" -o "/tmp/$target"
         cpif "/tmp/$target" /usr/local/bin
       fi
+    else
+      lnif "$ff" "/usr/local/bin/$(basename "$ff")"
     fi
   done
 
@@ -884,7 +892,7 @@ common_config_zsh() {
 
   for ff in "$app_path"/zsh/*; do
     if [[ "$ff" != *zinit* ]] && [[ "$ff" != *.gpg ]]; then
-      lnif "$ff" "$HOME/.$(parse "$ff")"
+      lnif "$ff" "$HOME/.$(basename "$ff")"
     fi
   done
 
@@ -932,7 +940,7 @@ install_miniforge() {
     # shellcheck disable=SC2236
     if [ ! -z "$url" ]; then
       local miniforge target="/tmp"
-      miniforge=$(parse "$url")
+      miniforge=$(basename "$url")
       [ -f "$target/$miniforge" ] || download_to "$url" "$target"
       bash "$target/$miniforge" -b
       success "Miniforge successfully installed."
@@ -984,7 +992,7 @@ install_golang() {
     url=$(download_stdout https://golang.org/dl/ | grep -oE '/dl/go[0-9.]+.darwin-amd64.tar.gz' | head -n1)
   fi
   version=$(echo "$url" | getv)
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   if program_exists go; then
     current=$(go version | getv)
@@ -1016,7 +1024,7 @@ install_node() {
     fi
   fi
   version=$(echo "$url" | getv)
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   if program_exists node; then
     current=$(node -v | getv)
@@ -1059,7 +1067,7 @@ install_java() {
     fi
   fi
   version=$(echo "$url" | getv)
-  filename=$(parse "$url")
+  filename=$(basename "$url")
 
   check_update "$current" "$version" "openjdk" || {
     download_to "$url" /tmp
@@ -1152,7 +1160,7 @@ install_go_tools() {
 
   if [ -n "$go_bin" ]; then
     for url in "${go_tools[@]}"; do
-      prog=$(parse "$url")
+      prog=$(basename "$url")
       msg "Installing/Updating $prog"
       CGO_ENABLED=0 "$go_bin" install "$url@latest" >/dev/null 2>&1 || {
         error "Error installing $url"
