@@ -318,9 +318,9 @@ check_version() {
     2) op='=';;
     3) op='>';;
   esac
-  [[ $2 == $op ]] && return 0
-  [[ $2 == ">=" ]] && [[ $ret -ge 2 ]] && return 0
-  [[ $2 == "<=" ]] && [[ $ret -le 2 ]] && return 0
+  [[ "$2" == "$op" ]] && return 0
+  [[ "$2" == ">=" ]] && [[ "$ret" -ge 2 ]] && return 0
+  [[ "$2" == "<=" ]] && [[ "$ret" -le 2 ]] && return 0
   return 1
 }
 

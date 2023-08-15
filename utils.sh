@@ -200,13 +200,12 @@ do_backup() {
 }
 
 install_vim() {
-  if is_ubuntu; then
-    local release
-    release=$(lsb_release -r | getv)
-    check_version "$release" ">=" "22.04" || {
-      safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
-    }
-  fi
+  is_ubuntu || return 0
+  # local release
+  # release=$(lsb_release -r | getv)
+  # check_version "$release" ">=" "22.04" || {
+  # }
+  safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
   safe_install vim
 }
 
