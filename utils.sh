@@ -201,10 +201,6 @@ do_backup() {
 
 install_vim() {
   is_ubuntu || return 0
-  # local release
-  # release=$(lsb_release -r | getv)
-  # check_version "$release" ">=" "22.04" || {
-  # }
   safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
   safe_install vim
 }
@@ -266,6 +262,9 @@ create_vim_symlinks() {
 }
 
 setup_neovim() {
+  # needed by nvim clangd LSP
+  safe_install unzip
+
   if is_linux; then
     if [ -f /usr/bin/pip3 ]; then
       /usr/bin/pip3 install -U pynvim
