@@ -446,13 +446,14 @@ config_ssh() {
   safe_mkdir ~/.ssh
 
   if is_personal; then
-    for ff in "$app_path"/ssh/*.gpg; do
-      target=$(basename "$ff" .gpg)
-      safe_gpgdec "$ff" "$HOME/.ssh/$target"
+    local key
+    for key in "$app_path"/ssh/*.gpg; do
+      target=$(basename "$key" .gpg)
+      safe_gpgdec "$key" "$HOME/.ssh/$target"
     done
-    local ff
-    for ff in "$app_path"/ssh/*.pub; do
-      cpif "$ff" ~/.ssh
+
+    for key in "$app_path"/ssh/*.pub; do
+      cpif "$key" ~/.ssh
     done
   fi
 
@@ -473,7 +474,7 @@ config_gpg() {
     local gpg_home="$HOME/.gnupg"
     safe_mkdir "$gpg_home"
     chmod 700 "$gpg_home"
-    lnif "$app_path/gpg/gpg.conf" "$gpg_home"
+    lnif "$app_path/gpg/gpg.conf" "$gpg_home/gpg.conf"
 
     success "Now configuring gpg."
   fi
@@ -783,11 +784,11 @@ optional_downloads() {
 
 config_terminal() {
   msg "Setting up Alacritty"
-  lnif "$app_path/alacritty" "$HOME/.config"
+  lnif "$app_path/alacritty" "$HOME/.config/alacritty"
 
   msg "Setting up WezTerm"
-  [ -d "$HOME/.config/wezterm" ] && rm -rf "$HOME/.config/wezterm"
-  lnif "$app_path/wezterm" "$HOME/.config"
+  [ -L "$HOME/.config/wezterm" ] || rm -rf "$HOME/.config/wezterm"
+  lnif "$app_path/wezterm" "$HOME/.config/wezterm"
 
   is_macos || return 0
 
