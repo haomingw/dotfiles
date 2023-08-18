@@ -66,7 +66,7 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup({}) end
+    config = function() require("nvim-autopairs").setup() end
   },
 
   -- Development
@@ -89,7 +89,6 @@ require("lazy").setup({
           "help",
           "terminal",
           "alpha",
-          "packer",
           "lspinfo",
           "startscreen",
           "TelescopePrompt",

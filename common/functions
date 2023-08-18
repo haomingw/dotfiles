@@ -91,6 +91,13 @@ safe_mkdir() {
   [[ -d "$1" ]] || mkdir -p "$1" || sudo mkdir -p "$1"
 }
 
+safe_rm() {
+  # test if the file exists, regardless of type
+  if [[ -e "$1" ]]; then
+    confirm "remove $1?" && rm -rf "$1"
+  fi
+}
+
 safe_touch() {
   if [[ ! -f "$1" ]]; then
     mkdir -p $(dirname "$1")

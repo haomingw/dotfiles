@@ -209,6 +209,7 @@ install_neovim() {
   local url filename
   local version current=
 
+  safe_rm ~/.local/share/nvim/site/pack
   version=$(get_tag "neovim/neovim")
   if is_linux; then
     url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
