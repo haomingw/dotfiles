@@ -44,6 +44,15 @@ keymap("n", "<leader>p", ":echo expand('%:p')<cr>", opts)
 keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
 keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
+-- Terminal
+keymap("t", "<Esc>", "<c-\\><c-n>", opts)
+keymap("t", "<c-h>", "<c-\\><c-n><c-w>h", opts)
+keymap("t", "<c-j>", "<c-\\><c-n><c-w>j", opts)
+keymap("t", "<c-k>", "<c-\\><c-n><c-w>k", opts)
+keymap("t", "<c-l>", "<c-\\><c-n><c-w>l", opts)
+keymap("n", "<leader>ts", ":split +terminal<cr>", opts)
+keymap("n", "<leader>tv", ":vsplit +terminal<cr>", opts)
+
 -- set emacs keybindings
 --- insert mode
 keymap("i", "<c-b>", "<Left>", opts)
@@ -103,7 +112,7 @@ keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
 keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
 -- Plugins
-keymap("n", "<leader>t", ":NvimTreeToggle<cr>", opts)
+keymap("n", "<leader>tt", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<leader>gg", ":LazyGit<cr>", opts)
 
 -- LSP

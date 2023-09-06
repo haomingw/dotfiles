@@ -48,7 +48,6 @@ require("lazy").setup({
   },
   {
     "nvim-tree/nvim-tree.lua",
-    lazy = true,
     config = function()
       require("nvim-tree").setup({
         disable_netrw = true,
