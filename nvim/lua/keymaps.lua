@@ -112,6 +112,7 @@ keymap("n", "<leader>yf", ":let @*=expand('%')<cr>", opts)
 keymap("n", "<leader>yp", ":let @*=expand('%:p')<cr>", opts)
 
 -- Plugins
+keymap("n", "<leader>tf", ":FloatermToggle<cr>", opts)
 keymap("n", "<leader>tt", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<leader>gg", ":LazyGit<cr>", opts)
 
