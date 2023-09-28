@@ -40,6 +40,8 @@ treesitter.setup({
         -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
+        ['ab'] = '@block.outer',
+        ['ib'] = '@block.inner',
         ["ac"] = "@class.outer",
         -- You can optionally set descriptions to the mappings (used in the desc parameter of
         -- nvim_buf_set_keymap) which plugins like which-key display
