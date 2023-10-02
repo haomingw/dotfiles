@@ -49,7 +49,7 @@ targets=(
 
 # for large repos
 clang_format="vim/vim/static/clang-format.py"
-alacritty_theme="alacritty/dracula.yml"
+alacritty_theme="alacritty/dracula.toml"
 
 declare -A files=(
   ["$clang_format"]="https://raw.githubusercontent.com/llvm/llvm-project/\
