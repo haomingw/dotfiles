@@ -614,8 +614,8 @@ install_gpg() {
   is_macos || return 0
   if is_arm; then
     program_exists gpg && return 0
-    if program_exists brew; then
-      brew install gpg
+    if [ -f /opt/homebrew/bin/brew ]; then
+      /opt/homebrew/bin/brew install gpg
     else
       warning "gpg should be installed with homebrew."
     fi
