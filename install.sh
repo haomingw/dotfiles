@@ -24,12 +24,15 @@ zsh_plugins=(
   "zdharma-continuum/history-search-multi-word"
 )
 
+safe_source() { if [[ -s "$1" ]]; then source "$1"; fi }
+
 for ff in "$APP_PATH"/common/*; do
   # shellcheck disable=SC1090
   source "$ff"
 done
 # shellcheck disable=SC1090
 source "$APP_PATH/utils.sh"
+safe_source ~/.work.zsh
 
 ############################ SETUP FUNCTIONS
 
@@ -178,14 +181,8 @@ config_sublime_vscode() {
     if [[ -n "$code_home" ]]; then
       $link "$APP_PATH/vscode/settings.json" "$code_home"
       $link "$APP_PATH/vscode/keybindings.json" "$code_home"
-      if is_linux; then
-        rm -rf "$code_home/snippets"
-        $link "$APP_PATH/vscode/snippets" "$code_home"
-      else
-        for ff in "$APP_PATH"/vscode/snippets/*; do
-          $link "$ff" "$code_home/snippets"
-        done
-      fi
+      rm -rf "$code_home/snippets"
+      $link "$APP_PATH/vscode/snippets" "$code_home"
 
       if is_macos && xattr -l "/Applications/Visual Studio Code.app" | grep -q quarantine; then
         xattr -dr com.apple.quarantine "/Applications/Visual Studio Code.app"

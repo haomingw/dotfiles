@@ -807,6 +807,11 @@ config_terminal() {
       download_to "github.com/$url" ~/Downloads
     }
   fi
+
+  if program_exists tcc-grant-app; then
+    tcc-grant-app Terminal
+    tcc-grant-app WezTerm
+  fi
 }
 
 install_utils() {
