@@ -141,9 +141,9 @@ config_tmux_docker() {
 
 config_sublime_vscode() {
   is_macos && {
-    local dest="/usr/local/bin"
-    lnif /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl "$dest"
-    lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$dest"
+    local bin="/usr/local/bin"
+    lnif /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl "$bin/subl"
+    lnif /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$bin/code"
   }
 
   local sublime_home sublime_keymap
