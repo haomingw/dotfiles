@@ -1057,16 +1057,19 @@ install_java() {
   local filename ff
   local jdk="$HOME/.jdk"
   local version current=
+  local stable
 
   safe_mkdir "$jdk"
 
   if is_linux; then
-    url=$(download_stdout https://jdk.java.net/19/ | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
+    stable=$(download_stdout https://jdk.java.net | grep -oP "JDK [0-9]+" | getv)
+    url=$(download_stdout https://jdk.java.net/"$stable" | grep -o 'https.*linux-x64_bin.tar.gz' | head -n1)
     if [ -f "$jdk/bin/javac" ]; then
       current=$("$jdk/bin/javac" -version | getv)
     fi
   else
-    url=$(download_stdout https://jdk.java.net/19/ | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    stable=$(download_stdout https://jdk.java.net | grep -oE "JDK [0-9]+" | getv)
+    url=$(download_stdout https://jdk.java.net/"$stable" | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
     if [ -f "$jdk/Contents/Home/bin/javac" ]; then
       current=$("$jdk/Contents/Home/bin/javac" -version | getv)
     fi

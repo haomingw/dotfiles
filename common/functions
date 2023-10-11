@@ -241,9 +241,9 @@ getv() {
   local data
   read data
   if is_linux; then
-    echo "$data" | grep -oP '\d+(\.\d+)+' | head -n1
+    echo "$data" | grep -oP '\d+(\.\d+)*' | head -n1
   else
-    echo "$data" | grep -oE '\d+(\.\d+)+' | head -n1
+    echo "$data" | grep -oE '\d+(\.\d+)*' | head -n1
   fi
 }
 
