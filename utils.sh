@@ -1069,7 +1069,11 @@ install_java() {
     fi
   else
     stable=$(download_stdout https://jdk.java.net | grep -oE "JDK [0-9]+" | getv)
-    url=$(download_stdout https://jdk.java.net/"$stable" | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    if is_arm; then
+      url=$(download_stdout https://jdk.java.net/"$stable" | grep -o 'https.*macos-aarch64_bin.tar.gz' | head -n1)
+    else
+      url=$(download_stdout https://jdk.java.net/"$stable" | grep -o 'https.*macos-x64_bin.tar.gz' | head -n1)
+    fi
     if [ -f "$jdk/Contents/Home/bin/javac" ]; then
       current=$("$jdk/Contents/Home/bin/javac" -version | getv)
     fi
