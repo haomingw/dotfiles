@@ -603,11 +603,18 @@ install_clangd() {
 
 install_homebrew() {
   is_macos || return 0
-  # only install homebrew for Apple Silicon
-  is_arm || return 0
   program_exists brew && return 0
   confirm "Do you want to install Homebrew?" || return 0
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if is_pro; then
+    program_exists liv || {
+      msg "Installing liv"
+      /usr/bin/curl -Lg 'https://artifacts.apple.com/sdp/g/liv/liv-[RELEASE].macos' -o /tmp/liv && chmod +x /tmp/liv
+      sudo mv /tmp/liv /usr/local/bin/liv
+    }
+    /usr/local/bin/liv brew install
+  else
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
 }
 
 install_gpg() {
