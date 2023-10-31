@@ -238,7 +238,8 @@ myip() {
 }
 
 backup_zsh_history() {
-  cp -v ~/.zsh_history "$LMD/personal/credentials/zsh_history_bak"
+  local backup="${1:-zsh_history}"
+  cp -v ~/.zsh_history "$LMD/personal/credentials/$backup"
 }
 
 restore_zsh_history() {
