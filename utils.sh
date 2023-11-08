@@ -779,7 +779,9 @@ optional_downloads() {
   local url
 
   url=$(download_stdout https://github.com/p0deje/Maccy/releases | grep -o 'p0deje/.*Maccy.app.zip' | head -n1)
-  download_app Maccy "github.com/$url"
+  version=$(download_stdout "https://github.com/p0deje/Maccy/tags" | grep -oE "releases/tag/[0-9.]+" | getv)
+  url="https://github.com/p0deje/Maccy/releases/download/$version/Maccy.app.zip"
+  download_app Maccy "$url"
 
   url=$(download_stdout https://freemacsoft.net/appcleaner/ | grep -o 'https.*AppCleaner.*.zip' | head -n1)
   download_app AppCleaner "$url"
