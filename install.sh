@@ -184,9 +184,9 @@ config_sublime_vscode() {
       rm -rf "$code_home/snippets"
       $link "$APP_PATH/vscode/snippets" "$code_home"
 
-      if is_macos && xattr -l "/Applications/Visual Studio Code.app" | grep -q quarantine; then
-        xattr -dr com.apple.quarantine "/Applications/Visual Studio Code.app"
-      fi
+      # if is_macos && xattr -l "/Applications/Visual Studio Code.app" | grep -q quarantine; then
+      #   xattr -dr com.apple.quarantine "/Applications/Visual Studio Code.app"
+      # fi
 
       success "Now configuring vscode."
     fi
