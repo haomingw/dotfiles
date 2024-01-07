@@ -4,11 +4,6 @@ local term_opts = { noremap = true, silent = true }
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
 
--- Functions
-function is_macos()
-  return vim.fn.has("macunix")
-end
-
 -- Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
@@ -92,7 +87,7 @@ keymap("n", "<c-k>", "<c-w>k", opts)
 keymap("n", "<c-l>", "<c-w>l", opts)
 
 -- Switch between tabs
-if is_macos then
+if vim.g.is_mac then
   keymap("n", "˙", "gT", opts)
   keymap("n", "¬", "gt", opts)
 else

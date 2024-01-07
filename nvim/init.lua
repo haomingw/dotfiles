@@ -1,7 +1,7 @@
 require "options"
 require "keymaps"
 require "plugins"
-require "autocmds"
+require "commands"
 
 require "config.cmp"
 require "config.commenter"

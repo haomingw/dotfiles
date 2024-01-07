@@ -59,9 +59,6 @@ vim.cmd [[
   iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
 ]]
 
--- User commands
-vim.api.nvim_create_user_command(
-  "Enc",
-  "!cat % | gpgenc > %.gpg",
-  {}
-)
+vim.g.is_win = vim.fn.has('win32')
+vim.g.is_linux = vim.fn.has('unix') and not vim.fn.has('macunix') and not vim.fn.has('win32unix')
+vim.g.is_mac = vim.fn.has('macunix')

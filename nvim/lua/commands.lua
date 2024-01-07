@@ -45,3 +45,10 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
   command = [[if line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
 })
+
+-- User commands
+vim.api.nvim_create_user_command(
+  "Enc",
+  "!cat % | gpgenc > %.gpg",
+  {}
+)
