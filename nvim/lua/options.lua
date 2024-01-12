@@ -59,6 +59,7 @@ vim.cmd [[
   iabbrev tab4 vim: set sw=4 ts=4 sts=4 et
 ]]
 
-vim.g.is_win = vim.fn.has('win32')
-vim.g.is_linux = vim.fn.has('unix') and not vim.fn.has('macunix') and not vim.fn.has('win32unix')
-vim.g.is_mac = vim.fn.has('macunix')
+local function has(f) return vim.fn.has(f) > 0 end
+vim.g.is_win = has('win32')
+vim.g.is_linux = has('unix') and not has('macunix') and not has('win32unix')
+vim.g.is_mac = has('macunix')
