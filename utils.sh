@@ -148,8 +148,8 @@ insert_after_matching() {
 }
 
 check_update() {
-  local current="$1"
-  local version="$2"
+  local current=$(echo "$1" | getv)
+  local version=$(echo "$2" | getv)
   local prog="$3"
 
   if [ "$current" = "$version" ] && [ "$current" != "nightly" ]; then
@@ -210,7 +210,7 @@ install_neovim() {
   local version current=
 
   safe_rm ~/.local/share/nvim/site/pack
-  version=$(get_tag "neovim/neovim")
+  version=$(get_tag "neovim/neovim" | getv)
   if is_linux; then
     url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
   else
@@ -558,7 +558,7 @@ install_shellcheck() {
   local filename foldername
   local version current=
 
-  version=$(get_tag "$repo")
+  version=$(get_tag "$repo" | getv)
   if is_linux; then
     url="$repo/releases/download/v$version/shellcheck-v$version.linux.x86_64.tar.xz"
   else
@@ -589,6 +589,10 @@ install_clangd() {
   local version current=
 
   version=$(get_tag "$repo")
+  [[ "$version" == *.* ]] || {
+    warning "ignoring unknown clangd version: $version"
+    return 0
+  }
   url="$repo/releases/download/$version/clangd-mac-$version.zip"
   [ -f /usr/local/bin/clangd ] && current=$(/usr/local/bin/clangd --version | getv)
 
@@ -732,7 +736,7 @@ install_github_cli() {
   local filename
   local version current=
 
-  version=$(get_tag "$repo")
+  version=$(get_tag "$repo" | getv)
   if is_arm; then
     url="$repo"/releases/download/v"$version"/gh_"$version"_macOS_arm64.zip
   else
@@ -824,6 +828,7 @@ config_terminal() {
 }
 
 install_utils() {
+  install_jq
   install_shellcheck
   install_clangd
   install_homebrew
@@ -831,7 +836,6 @@ install_utils() {
   install_swiftlint
   install_swiftformat
   install_github_cli
-  install_jq
   optional_downloads
   config_terminal
 }

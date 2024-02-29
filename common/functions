@@ -259,11 +259,16 @@ getdate() {
 
 get_tag() {
   local user=$(echo "$1" | cut -d/ -f1)
-  local repo=$(echo "$1" | cut -d/ -f2)
-  if is_linux; then
-    curl -sSL "https://github.com/$user/$repo/tags" | grep -o "$user.*.zip" | grep -vP "\-rc|\drc|nightly|pre|snapshot" | head -n1 | getv
+  if [[ -z "${GITHUB_TOKEN:-}" ]]; then
+    curl -sSL "https://github.com/$1/tags" | grep -o "$user.*.zip" | grep -vE "\-rc|nightly|pre" | head -n1 | getv
   else
-    curl -sSL "https://github.com/$user/$repo/tags" | grep -o "$user.*.zip" | grep -vE "\-rc|\drc|nightly|pre|snapshot" | head -n1 | getv
+    local token="Authorization: Bearer $GITHUB_TOKEN"
+    local tag=$(curl --silent --header "$token" "https://api.github.com/repos/$1/releases/latest" | jq -r .tag_name)
+    if [[ "$tag" == null ]]; then
+      curl --silent --header "$token" "https://api.github.com/repos/$1/tags" | jq -r '.[0].name'
+    else
+      echo "$tag"
+    fi
   fi
 }
 
