@@ -896,7 +896,7 @@ common_config_zsh() {
   if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
       if [[ "$ff" == *work* ]]; then
-        gpgdec "$ff"
+        is_pro && gpgdec "$ff" || true
       else
         safe_gpgdec "$ff"
       fi

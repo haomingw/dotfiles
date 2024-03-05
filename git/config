@@ -12,4 +12,6 @@
 	required = true
 [pull]
 	ff = only
-	rebase = false
+	rebase = true
+[rebase]
+	autoStash = true

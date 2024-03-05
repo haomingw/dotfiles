@@ -463,7 +463,7 @@ gpa() {
   read -A remotes <<< "$(git remote | xargs)"
 
   for remote in "${remotes[@]}"; do
-    git push "$remote" $(gbcu)
+    git push "$remote" $(gbcu) "$@"
   done
 }
 
