@@ -78,7 +78,7 @@ map <c-p> $lf -remote "send $id select '$(fzf)'"
 
 # goto
 map gd cd ~/Documents
-map gc cd ~/Documents/code
+map gc cd ~/code
 map gl cd ~/Downloads
 map go push :cd<space>
 
