@@ -598,9 +598,12 @@ install_clangd() {
 
   check_update "$current" "$version" "clangd" || {
     filename=$(basename "$url")
-    download_to "github.com/$url" /tmp
-    unzip "/tmp/$filename" -d /tmp >/dev/null
-    cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
+    if download_to "github.com/$url" /tmp; then
+      unzip "/tmp/$filename" -d /tmp >/dev/null
+      cpif "/tmp/clangd_$version/bin/clangd" /usr/local/bin
+    else
+      warning "failed to download clangd $version"
+    fi
     rm -rf /tmp/clangd*
   }
 }
@@ -906,6 +909,8 @@ common_config_zsh() {
     for ff in "$app_path"/zsh/kaggle/*.gpg; do
       safe_gpgdec "$ff"
     done
+
+    program_exists restore-config && restore-config || true
   fi
 
   for ff in "$app_path"/zsh/*; do
