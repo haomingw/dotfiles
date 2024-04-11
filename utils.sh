@@ -148,8 +148,9 @@ insert_after_matching() {
 }
 
 check_update() {
-  local current=$(echo "$1" | getv)
-  local version=$(echo "$2" | getv)
+  local current version
+  current=$(echo "$1" | getv)
+  version=$(echo "$2" | getv)
   local prog="$3"
 
   if [ "$current" = "$version" ] && [ "$current" != "nightly" ]; then
@@ -903,7 +904,7 @@ common_config_zsh() {
   if is_personal; then
     for ff in "$app_path"/zsh/*.gpg; do
       if [[ "$ff" == *work* ]]; then
-        is_pro && gpgdec "$ff" || true
+        if is_pro; then gpgdec "$ff"; fi
       else
         safe_gpgdec "$ff"
       fi
@@ -914,7 +915,7 @@ common_config_zsh() {
       safe_gpgdec "$ff"
     done
 
-    program_exists restore-config && restore-config || true
+    if program_exists restore-config; then restore-config; fi
   fi
 
   for ff in "$app_path"/zsh/*; do
@@ -1037,20 +1038,21 @@ install_golang() {
 
 install_node() {
   local node_home="$HOME/.node"
-  local url
+  local url arch
   local version current=
   local filename
 
+  version=$(download_stdout https://nodejs.org/en/download | mgrep 'https://nodejs.org/dist/v[0-9.]+' | getv)
   if is_linux; then
-    url=$(download_stdout https://nodejs.org/en/download/ | grep -oP 'https:\/\/nodejs\.org\/dist\/v([0-9\.]+)/node-v([0-9\.]+)-linux-x64\.tar\.xz')
+    arch="linux-x64.tar.xz"
   else
     if is_arm; then
-      url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-arm64.tar.gz')
+      arch="darwin-arm64.tar.xz"
     else
-      url=$(download_stdout https://nodejs.org/en/download/ | grep -oE 'https://nodejs.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-x64.tar.gz')
+      arch="darwin-x64.tar.gz"
     fi
   fi
-  version=$(echo "$url" | getv)
+  url="https://nodejs.org/dist/v$version/node-v$version-$arch"
   filename=$(basename "$url")
 
   if program_exists node; then
@@ -1062,12 +1064,12 @@ install_node() {
   check_update "$current" "$version" "Node.js" || {
     [ -f "/tmp/$filename" ] || download_to "$url" "/tmp"
     local node
-    if is_linux; then
-      tar xJf "/tmp/$filename" -C /tmp
-      node="$(basename "$filename" .tar.xz)"
-    else
+    if is_macos && is_intel; then
       tar xzf "/tmp/$filename" -C /tmp
       node="$(basename "$filename" .tar.gz)"
+    else
+      tar xJf "/tmp/$filename" -C /tmp
+      node="$(basename "$filename" .tar.xz)"
     fi
     rm -rf "$node_home" "/tmp/$filename"
     mv "/tmp/$node" "$node_home"

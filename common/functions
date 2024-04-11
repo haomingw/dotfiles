@@ -247,14 +247,21 @@ getv() {
   fi
 }
 
+mgrep() {
+  local data
+  read data
+
+  if is_linux; then
+    echo "$data" | grep -oP "$1"
+  else
+    echo "$data" | grep -oE "$1"
+  fi
+}
+
 getdate() {
   local data
   read data
-  if is_linux; then
-    echo "$data" | grep -oP '\d+(\-\d+)+' | head -n1
-  else
-    echo "$data" | grep -oE '\d+(\-\d+)+' | head -n1
-  fi
+  echo "$data" | mgrep '\d+(\-\d+)+' | head -n1
 }
 
 get_tag() {
