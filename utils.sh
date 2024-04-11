@@ -187,6 +187,10 @@ download_app() {
   }
 }
 
+has_xcode() {
+  is_macos && [[ -d /Applications/Xcode.app ]]
+}
+
 ############################ SETUP FUNCTIONS
 
 do_backup() {
@@ -873,7 +877,7 @@ config_binary() {
       continue
     fi
 
-    if [[ "$ff" == *.c ]]; then
+    if has_xcode && [[ "$ff" == *.c ]]; then
       target=$(basename "$ff" .c)
       if [ ! -f "/usr/local/bin/$target" ] && program_exists clang; then
         echo "compiling $ff -> /usr/local/bin/$target"

@@ -13,6 +13,7 @@ zinit wait lucid for \
 
 zinit light-mode for \
   zsh-users/zsh-autosuggestions \
+  OMZ::lib/async_prompt.zsh \
   OMZ::lib/git.zsh \
   OMZ::lib/history.zsh \
   OMZ::lib/key-bindings.zsh \
