@@ -125,6 +125,10 @@ safe_add_repo() {
   fi
 }
 
+safe_run() {
+  if program_exists "$1"; then eval "$1"; fi
+}
+
 append_if_not_exists() {
   local target="$1"
   local content="$2"
@@ -915,7 +919,7 @@ common_config_zsh() {
       safe_gpgdec "$ff"
     done
 
-    if program_exists restore-config; then restore-config; fi
+    safe_run build-restore-config
   fi
 
   for ff in "$app_path"/zsh/*; do
