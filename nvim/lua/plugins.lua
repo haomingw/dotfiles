@@ -78,6 +78,7 @@ require("lazy").setup({
   "nathangrigg/vim-beancount",
   "numToStr/Comment.nvim",
   "voldikss/vim-floaterm",
+  "tpope/vim-unimpaired",
 
   -- UI & theme
   {

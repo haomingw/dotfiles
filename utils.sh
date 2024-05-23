@@ -223,7 +223,9 @@ install_neovim() {
   if is_linux; then
     url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
   else
-    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-macos.tar.gz"
+    local arch="x86_64"
+    if is_arm; then arch="arm64"; fi
+    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-macos-$arch.tar.gz"
   fi
   filename=$(basename "$url")
 
