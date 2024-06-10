@@ -239,14 +239,18 @@ myip() {
 
 backup_zsh_history() {
   local backup="${1:-zsh_history}"
-  cp -v ~/.zsh_history "$LMD/personal/credentials/$backup"
+  cp -v ~/.zsh_history "$ICD/personal/credentials/$backup"
 }
 
 restore_zsh_history() {
   if [[ -f ~/.zsh_history ]]; then
     confirm "Are you sure to overwrite zsh_history?" || return 0
   fi
-  cp -v "$LMD/personal/credentials/zsh_history" ~/.zsh_history
+  cp -v "$ICD/personal/credentials/zsh_history" ~/.zsh_history
+}
+
+price() {
+  bean-price -d $(date +"%Y-%m-%d") -e USD:yahoo/${1:=AAPL}
 }
 
 # }} // namespace utils

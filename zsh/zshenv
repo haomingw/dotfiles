@@ -24,7 +24,8 @@ export LANG=en_US.UTF-8
 program_exists nnn && {
   export NNN_BMS='d:~/Documents;c:~/Documents/code;l:~/Downloads'
 }
-export LMD="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+export LMD="$HOME/Library/Mobile Documents"
+export ICD="$LMD/com~apple~CloudDocs"
 
 is_wsl && export WINHOME="/mnt/c/Users/$(whoami.exe | cut -d'\' -f2 | head -c -2)"
 
