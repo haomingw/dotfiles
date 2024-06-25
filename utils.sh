@@ -1048,7 +1048,7 @@ install_node() {
   local version current=
   local filename
 
-  version=$(download_stdout https://nodejs.org/en/download | mgrep 'https://nodejs.org/dist/v[0-9.]+' | getv)
+  version=$(download_stdout https://nodejs.org/en/download/prebuilt-binaries | mgrep 'https://nodejs.org/dist/v[0-9.]+' | getv)
   if is_linux; then
     arch="linux-x64.tar.xz"
   else
