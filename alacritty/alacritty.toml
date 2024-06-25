@@ -1,0 +1,20 @@
+import = ["~/.config/alacritty/monokai_pro.toml"]
+
+[cursor]
+style = "Underline"
+
+[font]
+size = 20.0
+
+[font.normal]
+family = "JetBrains Mono"
+
+[window]
+opacity = 0.9
+option_as_alt = "OnlyRight"
+padding.x = 10
+padding.y = 10
+
+[window.dimensions]
+columns = 110
+lines = 35
