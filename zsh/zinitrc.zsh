@@ -1,5 +1,4 @@
-start=$(now)
-setopt prompt_subst
+# setopt prompt_subst
 
 source ~/.zinit/zinit.zsh
 
@@ -23,8 +22,3 @@ zinit light-mode for \
 safe_source ~/.zsh/themes/xpure.zsh
 
 safe_source ~/.zshrc.local
-
-if [[ -n "$start" ]]; then
-  dur=$(echo "$(now) - $start" | bc)
-  printf "Execution time: %.6f seconds\n" "$dur"
-fi

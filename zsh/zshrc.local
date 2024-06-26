@@ -150,6 +150,7 @@ is_macos && {
   alias xct='xcodebuild test -scheme all -testplan'
 
   alias wezterm='/Applications/WezTerm.app/Contents/MacOS/wezterm'
+  alias alacritty='/Applications/Alacritty.app/Contents/MacOS/alacritty'
 
   xcb() {
     local target=${1:=all}

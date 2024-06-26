@@ -835,9 +835,21 @@ config_terminal() {
     }
   fi
 
+  repo="alacritty/alacritty"
+  version=$(download_stdout "https://github.com/$repo/tags" | grep -oE "releases/tag/v[0-9.]+" | head -n1 | getv)
+  url="$repo/releases/download/v$version/Alacritty-v$version.dmg"
+  if macos_has Alacritty; then
+    # check update and download without confirmation
+    current="$(/Applications/Alacritty.app/Contents/MacOS/alacritty --version | getv)"
+    check_update "$current" "$version" "Alacritty" || {
+      download_to "github.com/$url" ~/Downloads
+    }
+  fi
+
   if program_exists tcc-grant-app; then
     tcc-grant-app Terminal
     tcc-grant-app WezTerm
+    tcc-grant-app Alacritty
   fi
 }
 
