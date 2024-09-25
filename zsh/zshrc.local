@@ -364,21 +364,17 @@ gpgrvk() {
 }
 
 gpgcmp() {
-  local filename
+  local source=$(basename "$1" .gpg)
   local target="/tmp/content"
 
-  if [[ "$1" == *.gpg ]]; then
-    filename=$(basename $1 .gpg)
-    cat "$1" | gpgdec > "$target"
-  else
-    filename="$1"
-    cat "$1.gpg" | gpgdec > "$target"
+  if [[ ! -f "$source" ]]; then
+    warning "$source not found"
+    return 1
   fi
-
-  msg "Comparing $filename and $target"
-  diff "$target" "$filename"
-  msg "Removing $target"
-  rm "$target"
+  cat "$source.gpg" | gpgdec > "$target"
+  msg "Comparing $source and $target"
+  diff "$target" "$source"
+  msg "Removing $target" && rm "$target"
 }
 
 gpgpk() {
