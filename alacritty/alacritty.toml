@@ -1,4 +1,3 @@
-import = ["~/.config/alacritty/monokai_pro.toml"]
 
 [cursor]
 style = "Underline"
@@ -18,3 +17,6 @@ padding.y = 10
 [window.dimensions]
 columns = 110
 lines = 35
+
+[general]
+import = ["~/.config/alacritty/monokai_pro.toml"]

@@ -43,7 +43,10 @@ download_to() {
   if program_exists wget; then
     wget "$1" -P "$2"
   else
-    curl -fsSL "$1" > "$2/$name"
+    curl -fsSL "$1" > "$2/$name" || {
+      error "error downloading from $1"
+      return 1
+    }
   fi
 }
 
@@ -836,7 +839,7 @@ config_terminal() {
   fi
 
   repo="alacritty/alacritty"
-  version=$(download_stdout "https://github.com/$repo/tags" | grep -oE "releases/tag/v[0-9.]+" | head -n1 | getv)
+  version=$(get_tag "$repo" | grep -oE '[0-9\.]+')
   url="$repo/releases/download/v$version/Alacritty-v$version.dmg"
   if macos_has Alacritty; then
     # check update and download without confirmation
