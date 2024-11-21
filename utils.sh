@@ -515,7 +515,7 @@ install_git_lfs() {
     filename=$(basename "$url")
     unzip "/tmp/$filename" -d /tmp
     cpif /tmp/git-lfs-"$version"/git-lfs /usr/local/bin
-    rm -rf "/tmp/$filename" /tmp/git-lfs
+    rm -rf "/tmp/$filename" "/tmp/git-lfs-$version"
   }
 }
 
