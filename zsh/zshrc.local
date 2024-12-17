@@ -201,7 +201,7 @@ bak() {
     if [[ -d "$name" ]] || [[ -f "$name" ]]; then
       warning "$name already exists"
     else
-      mv "$1" "$name"
+      mv "$1" "$(dirname $1)/$name"
     fi
   else
     mv "$1" "$1.bak"
