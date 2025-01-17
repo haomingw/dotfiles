@@ -213,7 +213,7 @@ do_backup() {
 
 install_vim() {
   is_ubuntu || return 0
-  safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
+  # safe_add_repo "jonathonf-ubuntu-vim" "ppa:jonathonf/vim"
   safe_install vim
 }
 
