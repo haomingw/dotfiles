@@ -224,7 +224,7 @@ install_neovim() {
   safe_rm ~/.local/share/nvim/site/pack
   version=$(get_tag "neovim/neovim" | getv)
   if is_linux; then
-    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
+    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux-x86_64.tar.gz"
   else
     local arch="x86_64"
     if is_arm; then arch="arm64"; fi
