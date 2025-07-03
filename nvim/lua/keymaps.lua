@@ -112,7 +112,7 @@ keymap("n", "<leader>tt", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<leader>gg", ":LazyGit<cr>", opts)
 
 -- LSP
-vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format { async = true } end, term_opts)
+vim.keymap.set("n", "<leader>f", ":Neoformat<cr>", opts)
 
 --- Telescope
 keymap("n", "<C-p>", ":Telescope find_files<cr>", opts)

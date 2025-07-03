@@ -38,5 +38,6 @@
     "security.workspace.trust.untrustedFiles": "open",
     "editor.fontSize": 16,
     "security.workspace.trust.enabled": false,
-    "git.openRepositoryInParentFolders": "never"
+    "git.openRepositoryInParentFolders": "never",
+    "go.toolsManagement.autoUpdate": true
 }

@@ -149,7 +149,7 @@ require("lazy").setup({
   },
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig", --- enable LSP
-  "jose-elias-alvarez/null-ls.nvim", --- LSP diagnostics and code actions
+  "sbdchd/neoformat", --- LSP diagnostics and code actions
 
   -- Fuzzy finder
   "nvim-lua/popup.nvim",
