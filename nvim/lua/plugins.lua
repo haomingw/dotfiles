@@ -144,11 +144,13 @@ require("lazy").setup({
 
   -- LSP
   {
-    "williamboman/mason.nvim", -- simple to use language server installer
-    build = ":MasonUpdate", -- :MasonUpdate updates registry contents
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
   },
-  "williamboman/mason-lspconfig.nvim",
-  "neovim/nvim-lspconfig", --- enable LSP
   "sbdchd/neoformat", --- LSP diagnostics and code actions
 
   -- Fuzzy finder

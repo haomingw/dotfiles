@@ -26,12 +26,6 @@ require("mason-lspconfig").setup({
   automatic_installation = true,
 })
 
-local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_ok then
-  vim.notify("lspconfig not found!")
-  return
-end
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -55,8 +49,8 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 for _, server in pairs(servers) do
-  lspconfig[server].setup({
+  vim.lsp.config[server] = {
     on_attach = on_attach,
     capabilities = capabilities,
-  })
+  }
 end
