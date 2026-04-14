@@ -522,8 +522,6 @@ install_git_lfs() {
 config_git() {
   lnif "$app_path/git/hooks" ~/.githooks
 
-  install_git_lfs
-
   # this is personal
   if is_personal; then
     msg "Setting personal git config."
@@ -625,8 +623,8 @@ install_clangd() {
 install_homebrew() {
   is_macos || return 0
   program_exists brew && return 0
-  confirm "Do you want to install Homebrew?" || return 0
   if is_pro; then
+    confirm "Do you want to install internal Homebrew?" || return 0
     program_exists liv || {
       msg "Installing liv"
       /usr/bin/curl -Lg 'https://artifacts.apple.com/sdp/g/liv/liv-[RELEASE].macos' -o /tmp/liv && chmod +x /tmp/liv
@@ -634,6 +632,7 @@ install_homebrew() {
     }
     /usr/local/bin/liv brew install
   else
+    confirm "Do you want to install Homebrew?" || return 0
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }
@@ -849,10 +848,14 @@ config_terminal() {
     }
   fi
 
+  msg "Setting up Ghostty"
+  lnif "$app_path/ghostty" "$HOME/.config/ghostty"
+
   if program_exists tcc-grant-app; then
     tcc-grant-app Terminal
     tcc-grant-app WezTerm
     tcc-grant-app Alacritty
+    tcc-grant-app Ghostty
   fi
 }
 
@@ -911,7 +914,7 @@ config_binary() {
     fi
   done
 
-  compile_tree
+  # compile_tree
 }
 
 common_config_zsh() {

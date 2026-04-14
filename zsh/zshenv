@@ -34,3 +34,4 @@ export ANSIBLE_PYTHON_INTERPRETER=auto_silent
 export PYRS_DISABLE_MAGIC_WARNING=1
 
 # }} // namespace env
+. "$HOME/.cargo/env"

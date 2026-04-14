@@ -733,7 +733,7 @@ program_exists conda && {
       error "missing operand: uc env_name [python_version]"
       return 1
     }
-    doit conda create -n $1 python=${2:=3.10}
+    doit conda create -n $1 python=${2:=3.13}
     ucl
     u $1
   }
