@@ -1,7 +1,7 @@
 source $HOME/.zsh/async.zsh
 
 git_has_upstream() {
-  command git rev-parse --abbrev-ref @{upstream} &>/dev/null
+  command git rev-parse --abbrev-ref "@{upstream}" &>/dev/null
 }
 
 update_git_arrow() {
@@ -14,7 +14,7 @@ update_git_arrow() {
 }
 
 prompt_update_git_arrow() {
-  local output=$(command git rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
+  local output=$(command git rev-list --left-right --count HEAD..."@{upstream}" 2>/dev/null)
   local tab=$(printf '\t')
   [[ $output == *$tab* ]] && update_git_arrow ${(ps:\t:)output} || reply=
 }
@@ -47,8 +47,9 @@ prompt_callback() {
     \[async])
       # handle all the errors
       if (( code == 2 )) || (( code == 3 )) || (( code == 130 )); then
+        typeset -g prompt_async_inited=0
         async_stop_worker 'prompt'
-        prompt_async_inited=0 && prompt_async_init
+        prompt_async_init # reinit the worker.
       fi
       ;;
     prompt_git_fetch)
@@ -68,6 +69,7 @@ prompt_precmd() {
 }
 
 prompt_async_init() {
+  typeset -g prompt_async_inited
   if ((${prompt_async_inited:-0})); then
     return
   fi
@@ -79,17 +81,17 @@ prompt_async_init() {
 }
 
 prompt_setup() {
-  zmodload zsh/zle
-  autoload -Uz add-zsh-hook
-  add-zsh-hook precmd prompt_precmd
+  # zmodload zsh/zle
+  # autoload -Uz add-zsh-hook
+  # add-zsh-hook precmd prompt_precmd
 
-  typeset -g prompt_async_inited
-  typeset -g prompt_git_arrows
-  typeset -g reply
+  # typeset -g prompt_git_arrows
+  # typeset -g reply
 
-  prompt_async_init
+  # prompt_async_init
 
-  PROMPT='%B%F{cyan}%c%f%b$(git_prompt_info)%B%F{blue}$(arrow_prompt_info)%f%b %(?.%F{green}.%F{red})❯%f '
+  # PROMPT='%B%F{cyan}%c%f%b$(git_prompt_info)%B%F{blue}$(arrow_prompt_info)%f%b %(?.%F{green}.%F{red})❯%f '
+  PROMPT='%B%F{cyan}%c%f%b$(git_prompt_info) %(?.%F{green}.%F{red})❯%f '
 
   ZSH_THEME_GIT_PROMPT_PREFIX=" %F{magenta}"
   ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
