@@ -18,6 +18,10 @@ if [[ -d "$java_home" ]]; then
   prepend_path "$java_home/bin"
 fi
 
+precmd() {
+  printf '\e[6 q'
+}
+
 prepend_path "$HOME/.golang/bin"
 [[ -z "$GOPATH" ]] && export GOPATH=$HOME/go
 prepend_path "$GOPATH/bin"
