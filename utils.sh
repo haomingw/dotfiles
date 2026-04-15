@@ -827,7 +827,7 @@ config_terminal() {
   version=$(download_stdout "https://github.com/$repo/tags" | grep -o "wez.*.zip" | grep -oE "20[a-z0-9\-]+" | head -n1)
   url="$repo/releases/download/$version/WezTerm-macos-$version.zip"
 
-  download_app WezTerm "github.com/$url" "$version"
+  # download_app WezTerm "github.com/$url" "$version"
 
   if macos_has WezTerm; then
     # check update and download without confirmation
@@ -887,7 +887,6 @@ compile_tree() {
   fi
 
   git clone "https://github.com/$repo.git" /tmp/tree
-  cp "$app_path/bin/tree/Makefile" /tmp/tree/
   make_install_it /tmp/tree
   rm -rf /tmp/tree
 }
@@ -914,7 +913,7 @@ config_binary() {
     fi
   done
 
-  # compile_tree
+  compile_tree
 }
 
 common_config_zsh() {
