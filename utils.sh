@@ -711,6 +711,7 @@ install_swiftlint() {
   program_exists swiftlint && current=$(swiftlint --version | getv)
 
   check_update "$current" "$version" "swiftlint" || {
+    confirm "Upgrade swiftlint?" || return 0
     download_to "github.com/$url" /tmp
     unzip "/tmp/$filename" -d /tmp/swiftlint
     cpif /tmp/swiftlint/swiftlint /usr/local/bin
@@ -1209,7 +1210,6 @@ install_go_tools() {
     "github.com/gokcehan/lf"
     "github.com/jesseduffield/lazygit"
     "github.com/jesseduffield/lazydocker"
-    # "github.com/prasmussen/gdrive"
   )
   local prog go_bin
   local goroot="$HOME/.golang"
