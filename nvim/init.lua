@@ -4,7 +4,6 @@ require "plugins"
 require "commands"
 
 require "config.cmp"
-require "config.commenter"
 require "config.gitsigns"
 require "config.lualine"
 require "config.telescope"

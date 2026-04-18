@@ -118,8 +118,6 @@ vim.keymap.set("n", "<leader>f", ":Neoformat<cr>", opts)
 keymap("n", "<C-p>", ":Telescope find_files<cr>", opts)
 keymap("n", "<leader>rg", ":Telescope live_grep<cr>", opts)
 
---- Commenter
-vim.keymap.set("n", "<c-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Comment toggle linewise current line" })
-vim.keymap.set("x", "<c-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment toggle linewise (visual)" })
-vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)", { desc = "Comment toggle linewise current line" })
-vim.keymap.set("x", "<leader>/", "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment toggle linewise (visual)" })
+--- Comment
+vim.keymap.set('n', '<leader>/', 'gcc', { remap = true, desc = "Toggle comment line" })
+vim.keymap.set('x', '<leader>/', 'gc', { remap = true, desc = "Toggle comment selection" })

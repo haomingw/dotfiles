@@ -76,7 +76,6 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   "junegunn/gv.vim",
   "nathangrigg/vim-beancount",
-  "numToStr/Comment.nvim",
   "voldikss/vim-floaterm",
   "tpope/vim-unimpaired",
 
