@@ -12,10 +12,10 @@ zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/async_prompt.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
+zinit snippet OMZ::lib/completion.zsh
 
 # Optional: only if you really need them
 # zinit snippet OMZ::lib/history.zsh
-# zinit snippet OMZ::lib/completion.zsh
 
 zinit light-mode for \
   zsh-users/zsh-autosuggestions \
