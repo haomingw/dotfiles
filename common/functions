@@ -35,6 +35,10 @@ doit() {
   "$@"
 }
 
+dryrun() {
+  echo "${REV}$*${RESET}"
+}
+
 admin() {
   if [[ "$EUID" -ne 0 ]]; then
     sudo "$@"
@@ -267,7 +271,7 @@ getdate() {
 get_tag() {
   local user=$(echo "$1" | cut -d/ -f1)
   if [[ -z "${TOKEN:-}" ]]; then
-    curl -sSL "https://github.com/$1/tags" | grep -o "$user.*.zip" | grep -vE "\-rc|nightly|pre|beta" | head -n1 | getv
+    curl -sSL "https://github.com/$1/tags" | grep -o "$user.*.zip" | grep -vE "([0-9]|\-)rc|nightly|pre|beta" | head -n1 | getv
   else
     local auth="Authorization: Bearer $TOKEN"
     local tag=$(curl --silent --header "$auth" "https://api.github.com/repos/$1/releases/latest" | jq -r .tag_name)
