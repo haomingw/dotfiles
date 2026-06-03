@@ -15,7 +15,7 @@ zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::lib/completion.zsh
 
 # Optional: only if you really need them
-# zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/history.zsh
 
 zinit light-mode for \
   zsh-users/zsh-autosuggestions \

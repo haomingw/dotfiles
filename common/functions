@@ -30,6 +30,12 @@ else
   RESET=""
 fi
 
+_log_info()    { echo -e "${BLUE}[info]${RESET} $*"; }
+_log_success() { echo -e "${GREEN}[  ok]${RESET} $*"; }
+_log_warn()    { echo -e "${YELLOW}[warn]${RESET} $*"; }
+_log_error()   { echo -e "${RED}[fail]${RESET} $*" >&2; }
+_header()      { echo -e "\n${BOLD}── $* ──${RESET}\n"; }
+
 doit() {
   echo "${REV}$*${RESET}"
   "$@"
@@ -48,19 +54,23 @@ admin() {
 }
 
 msg() {
-  echo "${BLUE}➜${RESET} $*"
+  # echo "${BLUE}➜${RESET} $*"
+  _log_info "$*"
 }
 
 warning() {
-  echo "${YELLOW}! $*${RESET}"
+  # echo "${YELLOW}! $*${RESET}"
+  _log_warn "$*"
 }
 
 error() {
-  echo "${RED}✗ $*${RESET}" >&2
+  # echo "${RED}✗ $*${RESET}" >&2
+  _log_error "$*"
 }
 
 success() {
-  echo "${GREEN}✓${RESET} $*"
+  # echo "${GREEN}✓${RESET} $*"
+  _log_success "$*"
 }
 
 is_linux() {
