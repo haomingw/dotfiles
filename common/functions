@@ -145,12 +145,21 @@ rmif() {
   fi
 }
 
-confirm() {
+confirm_default_no() {
   printf "$1 (y/N) "
   read
   case $REPLY in
     [yY][eE][sS]|[yY]) return 0 ;;
     *) return 1 ;;
+  esac
+}
+
+confirm() {
+  printf "$1 (Y/n) "
+  read
+  case $REPLY in
+    [nN][oO]|[nN]) return 1 ;;
+    *) return 0 ;;
   esac
 }
 

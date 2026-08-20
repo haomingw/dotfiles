@@ -187,7 +187,7 @@ download_app() {
   local version="${3:-}"
 
   macos_has "$app" || {
-    if confirm "Do you want to download $app?"; then
+    if confirm_default_no "Do you want to download $app?"; then
       [ -n "$version" ] || version=$(echo "$url" | getv)
       msg "Downloading $app $version"
       download_to "$url" ~/Downloads
