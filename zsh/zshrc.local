@@ -34,6 +34,7 @@ prepend_path "/opt/homebrew/bin"
 prepend_path "/opt/homebrew/sbin"
 
 append_path "$HOME/.local/bin"
+append_path "$HOME/.optimus/bin"
 
 safe_use_cuda() {
   if [[ -d "$1/lib64" ]]; then
